@@ -1,0 +1,19 @@
+@media only screen and (max-width: 600px) {
+    .p-mo{
+        padding: 0px 0px;
+    }
+    section{
+        padding: 40px 0px;
+    }
+    html,body{
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+   
+}
+@media only screen and (max-width: 800px) {
+    
+}
+
+

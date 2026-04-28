@@ -1,0 +1,389 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sen:wght@400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@font-face {
+  font-family: 'LEMON MILK';
+  src: url('../fonts/LEMONMILK-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LEMON MILK';
+  src: url('../fonts/LEMONMILK-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LEMON MILK';
+  src: url('../fonts/LEMONMILK-Light.otf') format('opentype');
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LEMON MILK';
+  src: url('../fonts/LEMONMILK-Bold.otf') format('opentype');
+  font-weight: 700; /* better than 800 */
+  font-display: swap;
+}
+
+
+body {
+  font-family: 'LEMON MILK', sans-serif;
+}
+
+@media (min-width: 576px){
+  .container, .container-sm {
+      max-width: 540px;
+  }
+}
+@media (min-width: 768px){
+  .container, .container-md, .container-sm {
+      max-width: 750px;
+  }
+}
+@media (min-width: 992px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 970px;
+  }
+}
+@media (min-width: 1080px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 1030px;
+  }
+}
+@media (min-width: 1100px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 1100px;
+  }
+}
+@media (min-width: 1200px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 1200px;
+  }
+}
+@media (min-width: 1400px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+       max-width: 1420px;
+  }
+}
+@media (min-width: 1500px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 1440px;
+  }
+}
+@media only screen and (min-width: 1600px) and (max-width: 1700px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 1440px;
+  }
+}
+@media only screen and (min-width: 1701px) and (max-width: 1800px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 1440px;
+  }
+}
+@media only screen and (min-width: 1801px) and (max-width: 1920px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+     max-width: 1440px;
+  }
+}
+@media only screen and (min-width: 1921px) and (max-width: 2880px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 1440px;
+  } 
+}
+.bg-image {
+  object-fit: cover;
+}
+.bg-image {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.bg-image:not([class*=absolute]) {
+  position: absolute;
+}
+section {
+  padding: 80px  0;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+html {
+  scroll-behavior: smooth;
+}
+html,body{
+  overflow-x:hidden;
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+header .nav-link{
+  color: var(--Core-Secondary-Nav-Brown, #4A311A);
+  text-align: center;
+  font-family: "LEMON MILK";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: 0.96px;
+}
+header .navbar{
+  background: url(../img/header-bg.png) no-repeat;
+  background-position: center center;
+  background-size: cover;
+  width: 1511px;
+  margin: auto;
+  max-width: 100%;
+  margin-top: 24px;
+}
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-nav {
+        flex-direction: row;
+        gap: 40px;
+        align-items: center;
+    }
+  }
+
+.navbar-nav  .login-btn{
+    background: var(--Core-Main-Blue, #030527);
+    display: flex;
+    height: 56px;
+    padding: 16px 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: var(--Base-White, #FFF);
+    text-align: center;
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    border-radius: 0px;
+    width: 215px;
+    max-width: 100%;
+
+}
+
+
+
+/* --------------------------------footer--------------------------------- */
+.footer{
+  padding: 64px 0px;
+}
+.footer-row {
+    display: flex;
+    gap: 56px;
+    justify-content: flex-end;
+}
+.footer-menu li{
+  margin-bottom: 16px;
+}
+ .footer-menu h6{
+    color: var(--Core-yellow, #FFC760);
+    font-family: "LEMON MILK";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: 0.96px;
+    margin-bottom: 24px;
+}
+.footer-logo p{
+    color: #BDBDBD;
+    font-family: Urbanist;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 160%;
+    letter-spacing: 0.42px;
+    margin: 16px 0px;
+}
+.footer-menu p{
+  color: var(--Grayscale-25, #FCFCFD);
+  font-family: Sen;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 30px */
+}
+.footer-menu li a{
+  color: var(--Grayscale-25, #FCFCFD);
+  font-family: Sen;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 30px */
+  text-decoration: none;
+}
+.footer-menu ul{
+  list-style: none;
+  padding-left: 0px;
+
+}
+.footer-menu-third ul{
+  column-count: 2;
+}
+.footer-bg-top p{
+    color: var(--Base-Off-White, #FAFAFA);
+    text-align: left;
+    font-family: "LEMON MILK";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: 0.96px;
+    margin-bottom: 0px;
+}
+.footer-bg-top{
+    padding: 50px 0px;
+}
+.footer-bg-top.btn{
+    color: #4A311A;
+    font-family: 'LEMON MILK';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+}
+
+@media only screen and (min-width: 850px)   and (max-width: 999px){
+    .navbar-expand-lg .navbar-nav {
+        flex-direction: row;
+        gap: 9px;
+        align-items: center;
+    }
+    .footer-menu-third ul {
+        column-count: 1;
+    }
+    .footer-row {
+      display: flex;
+      gap: 36px;
+      justify-content: flex-end;
+  }
+  header .nav-link {
+    font-size: 11px;
+  }
+  .navbar-nav .login-btn {
+        width: 163px;
+  }
+  .footer-bg-top p {
+    color: var(--Base-Off-White, #FAFAFA);
+    text-align: left;
+    font-family: "LEMON MILK";
+    font-size: 16px;
+  }
+
+}
+
+@media only screen and (min-width: 1000px)   and (max-width: 1080px){
+    .navbar-expand-lg .navbar-nav {
+        flex-direction: row;
+        gap: 9px;
+        align-items: center;
+    }
+    .footer-menu-third ul {
+        column-count: 2;
+    }
+    .footer-row {
+      display: flex;
+      gap: 36px;
+      justify-content: flex-end;
+  }
+  header .nav-link {
+    font-size: 11px;
+  }
+  .navbar-nav .login-btn {
+        width: 163px;
+  }
+  .footer-bg-top p {
+    color: var(--Base-Off-White, #FAFAFA);
+    text-align: left;
+    font-family: "LEMON MILK";
+    font-size: 16px;
+  }
+  .footer-menu li a {
+    color: var(--Grayscale-25, #FCFCFD);
+    font-family: Sen;
+    font-size: 14px;
+  }
+  .footer-menu p {
+    color: var(--Grayscale-25, #FCFCFD);
+    font-family: Sen;
+    font-size: 16px;
+  }
+}
+@media only screen and (min-width: 1100px)   and (max-width: 1190px){
+    .navbar-expand-lg .navbar-nav {
+        flex-direction: row;
+        gap: 9px;
+        align-items: center;
+    }
+    .footer-menu-third ul {
+        column-count: 2;
+    }
+    .footer-row {
+      display: flex;
+      gap: 36px;
+      justify-content: flex-end;
+  }
+  header .nav-link {
+    font-size: 14px;
+  }
+  .navbar-nav .login-btn {
+        width: 183px;
+  }
+  .footer-bg-top p {
+    color: var(--Base-Off-White, #FAFAFA);
+    text-align: left;
+    font-family: "LEMON MILK";
+    font-size: 16px;
+  }
+  .footer-menu li a {
+    color: var(--Grayscale-25, #FCFCFD);
+    font-family: Sen;
+    font-size: 16px;
+  }
+  .footer-menu p {
+    color: var(--Grayscale-25, #FCFCFD);
+    font-family: Sen;
+    font-size: 16px;
+  }
+
+}
+@media only screen and (min-width: 1200px)   and (max-width: 1290px){
+    .navbar-expand-lg .navbar-nav {
+        flex-direction: row;
+        gap: 9px;
+        align-items: center;
+    }
+    .footer-menu-third ul {
+        column-count: 2;
+    }
+    .footer-row {
+      display: flex;
+      gap: 36px;
+      justify-content: flex-end;
+  }
+  header .nav-link {
+    font-size: 14px;
+  }
+  .navbar-nav .login-btn {
+        width: 183px;
+  }
+  .footer-bg-top p {
+    color: var(--Base-Off-White, #FAFAFA);
+    text-align: left;
+    font-family: "LEMON MILK";
+    font-size: 16px;
+  }
+
+}
