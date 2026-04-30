@@ -242,6 +242,109 @@
             <div class="dashboard_1">
               <h1 class="dashboard_tt">Hello Tirthak!</h1>
             </div>
+            <div class="home_sectionnn">
+              <div class="same_boxes1">
+                <div>
+                  <h1 class="many_tt">Balance:</h1>
+                  <p class="many_pp">4,862 tokens</p>
+                </div>
+                <div class="w-100"> <button class="btn dash_btn w-100">Top up</button></div>
+
+              </div>
+
+              <div>
+
+
+                <div style="padding: 24px; padding-right: 0px;">
+                  <div class="owl-carousel owl-theme" id="owl_car">
+                    <div class="item">
+                      <div class="dash_box diff_width">
+                        <img src="./img/svg111.svg" class="img-fluid svg111">
+                        <div class="under_box">
+                          <h1>Daily rewards1</h1>
+                          <p>Login each day and earn daily
+                            tokens for keeping your streak!</p>
+                          <button class="btn dash_btn">Claim Now</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <div class="dash_box diff_width">
+                        <img src="./img/svg111.svg" class="img-fluid svg111">
+                        <div class="under_box">
+                          <h1>Daily rewards2</h1>
+                          <p>Login each day and earn daily
+                            tokens for keeping your streak!</p>
+                          <button class="btn dash_btn">Claim Now</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <div class="dash_box diff_width">
+                        <img src="./img/svg111.svg" class="img-fluid svg111">
+                        <div class="under_box">
+                          <h1>Daily reward3</h1>
+                          <p>Login each day and earn daily
+                            tokens for keeping your streak!</p>
+                          <button class="btn dash_btn">Claim Now</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="dash_box">
+                <img src="./img/svg111.svg" class="img-fluid svg111">
+                <div class="under_box">
+                  <h1>Get more stories</h1>
+                  <p>Login each day and earn daily
+                    tokens for keeping your streak!</p>
+                  <button class="btn yellowdash_btn">Explore catalogue</button>
+                  <button class="btn dash_btn">Claim Now</button>
+                </div>
+              </div>
+              <div class="under_box">
+                <h1>My library</h1>
+                <div class="owl_Section">
+
+                  <div style="">
+                    <div class="owl-carousel owl-theme" id="owl_book">
+                      <div class="item">
+                        <div class="book_cover">
+
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="book_cover">
+
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="book_cover">
+
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="book_cover">
+
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="book_cover">
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+
+                <button class="btn dash_btn">Claim Now</button>
+              </div>
+
+            </div>
           </div>
           <div class="tab-pane fade " id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"
             tabindex="0">
@@ -422,38 +525,7 @@
 
 
 
-      <!-- <div style="padding: 24px; padding-right: 0px;" >
-        <div class="owl-carousel owl-theme" id="owl_car">
-          <div class="item"><div class="dash_box">
-            <img src="./img/svg111.svg" class="img-fluid svg111">
-            <div class="under_box">
-              <h1>Daily rewards1</h1>
-              <p>Login each day and earn daily
-                tokens for keeping your streak!</p>
-              <button class="btn dash_btn">Claim Now</button>
-            </div>
-          </div></div>
-          <div class="item"><div class="dash_box">
-            <img src="./img/svg111.svg" class="img-fluid svg111">
-            <div class="under_box">
-              <h1>Daily rewards2</h1>
-              <p>Login each day and earn daily
-                tokens for keeping your streak!</p>
-              <button class="btn dash_btn">Claim Now</button>
-            </div>
-          </div></div>
-          <div class="item"><div class="dash_box">
-            <img src="./img/svg111.svg" class="img-fluid svg111">
-            <div class="under_box">
-              <h1>Daily reward3</h1>
-              <p>Login each day and earn daily
-                tokens for keeping your streak!</p>
-              <button class="btn dash_btn">Claim Now</button>
-            </div>
-          </div></div>
-         
-      </div>
-      </div> -->
+
 
     </section>
 
@@ -603,7 +675,30 @@
         dotsEach: 1,
         responsive: {
           0: {
-            items: 1.2
+            items: 1
+          },
+          600: {
+            items: 3
+          },
+          1000: {
+            items: 5
+          }
+        }
+      })
+    })
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      $('#owl_book.owl-carousel').owlCarousel({
+        loop: true,
+        margin: 24,
+        nav: false,
+        dots: false,
+        dotsEach: 1,
+        responsive: {
+          0: {
+            items: 2.8
           },
           600: {
             items: 3
