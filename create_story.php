@@ -4,6 +4,11 @@
     section{
         padding: 0px;
     }
+    @media only screen and (max-width: 600px) {
+    header {
+        background-color: transparent;
+    }
+}
 </style>
 
 <section id="tab0" class="tab-content">
