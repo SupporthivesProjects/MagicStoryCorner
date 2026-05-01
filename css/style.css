@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sen:wght@400..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
 @font-face {
   font-family: 'LEMON MILK';
   src: url('../fonts/LEMONMILK-Regular.otf') format('opentype');
@@ -28,6 +29,38 @@
   font-display: swap;
 }
 
+
+@font-face {
+  font-family: 'Satoshi Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Regular'), url('../fonts/Satoshi-Regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'Satoshi Light';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Light'), url('../fonts/Satoshi-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Satoshi Medium';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Medium'), url('../fonts/Satoshi-Medium.woff') format('woff');
+}
+@font-face {
+  font-family: 'Satoshi Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Bold'), url('../fonts/Satoshi-Bold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Satoshi Black';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Black'), url('../fonts/Satoshi-Black.woff') format('woff');
+}
 
 body {
   font-family: 'LEMON MILK', sans-serif;
@@ -175,8 +208,370 @@ header .navbar{
 
 }
 
+/* --------------------------------core--------------------------------- */
 
 
+.img-detials{
+    display: flex;
+    padding: 16px 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    align-self: stretch;
+    border: 2px solid var(--Base-04, #E9E9E9);
+    background: var(--Base-White, #FFF);
+    width: 234px;
+    max-width: 100%;
+    margin: auto;
+}
+.row-card-book .card{
+    width: 250px;
+    height: 360px;
+    max-width: 100%;
+    margin: auto;
+    position: relative;
+    margin-bottom: 56px;
+    border: 0px;
+}
+.card-img p{
+    color: var(--Base-Info-Blue, #54A8FF);
+    text-align: center;
+    font-family: Sen;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+    margin-bottom: 0px;
+}
+.img-detials h6{
+  color: var(--Charcoal, #242323);
+  text-align: center;
+  font-family: "LEMON MILK";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 21px */
+  letter-spacing: 0.84px;
+  margin-bottom: 4px;
+}
+.row-card-book .img-detials {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: -43px;
+}
+.row-card-book {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    width: 1170px;
+    max-width: 100%;
+    margin: auto;
+}
+.core-main-ing {
+    height: 469px;
+    max-width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.core-main-ing h2{
+    color: var(--Base-Off-White, #FAFAFA);
+    text-align: center;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #000;
+    font-family: "LEMON MILK";
+    font-size: 80px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 110%;
+    letter-spacing: 4.8px;
+
+}
+.pagination-prod .pagination{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+}
+.pagination-prod .pagination .page-item{
+    display: flex;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    align-items: center;
+}
+.pagination-prod .pagination .page-link{
+    display: flex;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--Grayscale-400---Lighter, #E4E4E4);
+    color: var(--Core-Main-Blue, #030527);
+    text-align: center;
+    font-family: Satoshi Black;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+}
+.page-item:first-child .page-link, .page-item:last-child .page-link{
+    border-radius: 8px;
+    background: var(--Core-Main-Blue, #030527);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pagination-prod{
+  margin-top: 32px;
+}
+.filter-div{
+  display: flex;
+  gap: 24px;
+}
+.filter-div{
+  width: 1158px;
+  max-width: 100%;
+  margin: auto;
+}
+.filter-box-menu-category{
+  width: 1190px;
+  max-width: 100%;
+  margin: auto;
+  border: 1px solid #F2F2F2;
+  background: var(--Base-White, #FFF);
+  padding: 32px;
+}
+.filter-div .form-control{
+    border: 1px solid #F2F2F2;
+    background: var(--Base-White, #FFF);
+    background: url(../img/search-sm.svg) #fff no-repeat 98% 14px;
+    display: flex;
+    padding: 16px 24px;
+    align-items: center;
+    flex: 1 0 0;
+    align-self: stretch;
+    color: var(--Base-02, #727272);
+    font-family: Sen;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%;
+    border-radius: 0px;
+    height: 56px;
+    position: relative;
+}
+
+.btn-fliter{
+    display: flex;
+    height: 56px;
+    padding: 16px 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background: var(--Core-Main-Blue, #030527);
+    color: var(--Base-White, #FFF);
+    text-align: center;
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    border-radius: 0px;
+}
+.filter-div select{
+    display: flex;
+    height: 56px;
+    padding: 16px 32px 16px 16px;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+    background: var(--Core-yellow, #FFC760);
+    background: url(../img/select-icon.svg) #FFC760 no-repeat 95% 12px;
+    color: var(--Core-Main-Blue, #030527);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    border-radius: 0px;
+    width: 211px;
+    max-width: 100%;
+}
+.filter-box-main p{
+    color: var(--Base-03, #BDBDBD);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    margin-bottom: 0px;
+    text-align: center;
+    margin: 32px 0px;
+}
+.btn-fliter:hover{
+    border: 1px solid #030527;
+}
+.filter-box-product{
+  background: url(../img/Story-catalogue-bg.png) no-repeat;
+  background-position: center center;
+  background-size: cover;
+  padding: 64px 0px;
+
+}
+.filter-box-main p span{
+    color: var(--Core-Main-Blue, #030527);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+}
+.ul-filter-menu .form-check {
+    display: flex;
+    min-height: 1.5rem;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: center;
+}
+.ul-filter-menu label{
+  color: var(--Base-Off-Black, #0F0F0F);
+  font-family: Sen;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 180%; /* 28.8px */
+}
+.ul-filter-menu .form-check-input{
+    width: 24px;
+    height: 24px;
+    border: 1px solid #BDBDBD;
+    /* background: var(--Base-White, #FFF); */
+}
+.ul-filter-menu ul{
+  list-style: none;
+  padding-left: 0px;
+}
+.ul-filter-menu .form-check{
+  margin-bottom: 8px; 
+}
+.ul-filter-menu .form-check-input:checked[type=checkbox] {
+  background: url(../img/check.svg) no-repeat;
+  background-position: center center;
+  background-size: cover;
+  border: 0px;
+}
+.ul-filter-menu h3{
+    color: var(--Base-Off-Black, #0F0F0F);
+    font-family: "LEMON MILK";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: 0.96px;
+    margin-bottom: 24px;
+}
+.ul-filter-menu input[type="checkbox"]:checked + label {
+  font-weight: bold;
+}
+.filter-box-menu {
+    display: flex;
+    width: 1190px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 24px;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 32px;
+    max-width: 100%;
+}
+.filter-box-menu ul{
+  width: 202px;
+  max-width: 100%;
+}
+.pagination-prod .page-link.active{
+    border-radius: 8px;
+    border: 2px solid var(--Core-Main-Blue, #030527);
+    background: transparent;
+}
+.filter-box-menu-category {
+    display: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    top: 12rem;
+    z-index: 1;
+}
+.btn-close-filter{
+    background: var(--Core-yellow, #FFC760);
+    display: flex;
+    height: 56px;
+    padding: 16px 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    color: var(--Core-Main-Blue, #030527);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    border-radius: 0px;
+    width: 200px;
+    max-width: 100%;
+}
+.filter-close-apply{
+    display: flex;
+    gap: 20px;
+    justify-content: end;
+    align-items: center;
+}
+.btn-apply{
+    background: var(--Core-Main-Blue, #030527);
+    display: flex;
+    height: 56px;
+    padding: 16px 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    color: var(--Core-Main-Blue, #fff);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    border-radius: 0px;
+    width: 200px;
+    max-width: 100%;
+}
+.btn-close-filter:hover{
+    border: 4px solid #E3AA00;
+    background: var(--Core-yellow, #FFC760);
+}
+.btn-apply:hover {
+    border: 1px solid #030527;
+}
 /* --------------------------------footer--------------------------------- */
 .footer{
   padding: 64px 0px;
