@@ -166,6 +166,157 @@
 
 }
 @media only screen and (max-width: 600px) {
+    .core-main-ing h2{
+        color: var(--Base-White, #FFF);
+        text-align: center;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: #000;
+        font-family: "LEMON MILK";
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 1.12px;
+        transform: translate(0px, -16px);
+    }
+    .core-main-ing {
+        height: 365px;
+        max-width: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .row-card-book .card {
+        width: 327px;
+        height: 360px;
+        max-width: 100%;
+        margin-bottom: 40px;
+        margin: auto;
+        margin-bottom: 40px;
+        position: relative;
+        border: 0px;
+    }
+    .card-img img{
+        width: 327px;
+        max-width: 100%;
+        margin: auto;
+        object-fit: cover;
+        height: 360px;
+    }
+    .img-detials {
+        display: flex;
+        padding: 16px 0;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        align-self: stretch;
+        border: 2px solid var(--Base-04, #E9E9E9);
+        background: var(--Base-White, #FFF);
+        width: 311px;
+        max-width: 100%;
+        margin: auto;
+    }
+    .navbar-toggler:focus {
+        text-decoration: none;
+        outline: 0;
+        box-shadow: none;
+    }
+    .filter-div {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+        flex-direction: column;
+        border-radius: 8px;
+        width: 327px;
+        max-width: 100%;
+        margin: auto;
+    }
+    .filter-div select {
+        width: 327px;
+        max-width: 100%;
+    }
+    .filter-box-menu-category {
+        width: 327px;
+        max-width: 100%;
+        margin: auto;
+        border: 1px solid #F2F2F2;
+        background: var(--Base-White, #FFF);
+        padding: 23px;
+    }
+    .filter-box-menu-category {
+        display: none;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        left: 0px;
+        top: 19rem;
+        z-index: 1;
+    }
+    .filter-close-apply {
+        display: flex;
+        gap: 20px;
+        justify-content: end;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .btn-close-filter, .btn-apply{
+        width: 100%;
+    }
+    .filter-box-product {
+        background: url(../img/Story-catalogue-bg.png) no-repeat;
+        background-position: center center;
+        background-size: cover;
+        padding: 29px 0px;
+    }
+    .pagination-prod .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+        margin-bottom: 0px;
+    }
+    .arrow{
+        background: url(../img/down-arrow.svg) no-repeat;
+        background-position: center center;
+        background-size: cover;
+        width: 24px;
+        height: 24px;
+        float: right;
+    }
+    .filter-box-menu ul {
+        width: 238px;
+        max-width: 100%;
+    }
+    .ul-filter-menu h3 {
+        width: 238px;
+    }
+    .ul-filter-menu ul{
+        display: none;
+    }
+    .ul-filter-menu ul.open{
+        display: block;
+    }
+    .ul-filter-menu .active span{
+       transform: rotate(180deg);   
+    }
+    .ul-filter-menu h3 {
+        color: var(--Base-Off-Black, #0F0F0F);
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%;
+        letter-spacing: 0.96px;
+        margin-bottom: 16px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
     .footer-row {
         display: flex;
         gap: 32px;

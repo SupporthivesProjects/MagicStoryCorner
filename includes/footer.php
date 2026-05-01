@@ -109,6 +109,26 @@
       });
     </script>
     <script>
+      $('#filterid').on('click', function(event) {
+          $('#filterBox').slideToggle(300);
+          $('#filterBox').toggleClass('open');
+          event.preventDefault();
+      });
+      $(document).ready(function(){
+        $("#filter-close").click(function(){
+          $("#filterBox").slideUp("slow");
+        });
+      });
+      document.querySelectorAll(".ul-filter-menu h3").forEach(header => {
+        header.addEventListener("click", () => {
+          const body = header.nextElementSibling;
+
+          body.classList.toggle("open");     // toggle body
+          header.classList.toggle("active"); // toggle class on h3
+        });
+      });
+    </script>
+    <script>
       function selectCurrency(currency, flagSrc) {
           const btn = document.getElementById("currencyBtn");
           const flag = document.getElementById("currencyFlag");
