@@ -306,10 +306,54 @@
                     <div class="style_mid">
                         <p class="textarea_label">Visual Image style<img src="./img/question_icon.svg"></p>
                         <div class="cards-container" id="styleCardsContainer">
-                                <div class="card-item" data-cost="{{ style.cost }}" data-id="{{ style.id }}">
-                                    <img src="./img/story_style1" alt="">
-                                    <p class="card-title">3D cartoon</p>
-                                </div>
+                            <div class="card-item">
+                                <img src="./img/story_style1.png" alt="">
+                                <p class="card-title">3D cartoon</p>
+                            </div>
+                            <div class="card-item">
+                                <img src="./img/story_style2.png" alt="">
+                                <p class="card-title">Watercolor</p>
+                            </div>
+                            <div class="card-item">
+                                <img src="./img/story_style3.png" alt="">
+                                <p class="card-title">Comic book</p>
+                            </div>
+                            <div class="card-item">
+                                <img src="./img/story_style4.png" alt="">
+                                <p class="card-title">Photorealistic</p>
+                            </div>
+                            <div class="card-item">
+                                <img src="./img/story_style5.png" alt="">
+                                <p class="card-title">Sketch</p>
+                            </div>
+                            <div class="card-item">
+                                <img src="./img/story_style6.png" alt="">
+                                <p class="card-title">Oil painting</p>
+                            </div>
+                            <div class="card-item">
+                                <img src="./img/story_style7.png" alt="">
+                                <p class="card-title">Flat color</p>
+                            </div>
+                            <div class="card-item">
+                                <img src="./img/story_style8.png" alt="">
+                                <p class="card-title">Pixel Art</p>
+                            </div>
+                            <div class="card-item">
+                                <img src="./img/story_style9.png" alt="">
+                                <p class="card-title">Crayon color</p>
+                            </div>
+                            <div class="card-item">
+                                <img src="./img/story_style10.png" alt="">
+                                <p class="card-title">Vintage&nbsp;illustration</p>
+                            </div>
+                            <div class="card-item">
+                                <img src="./img/story_style11.png" alt="">
+                                <p class="card-title">paper cutout</p>
+                            </div>
+                            <div class="card-item">
+                                <img src="./img/story_style12.png" alt="">
+                                <p class="card-title">Embroidery</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -324,57 +368,67 @@
 
         <div class="tab-content tab_content" id="tab4">
             <div class="tab_c4">
-                <img class="voice_ani1" src="{% static 'media/voice_ani1.svg' %}">
-                    <div class="tab3top_card">
+                <div class="tab_c4inner">
+                    <img class="voice_ani1" src="{% static 'media/voice_ani1.svg' %}">
+                    <div class="tab3top_card tab4top_card">
                         <p class="textarea_label">Output Language<img src="./img/question_icon.svg"></p>
                         <div class="setting-options tab3_options" id="langOptions">
-                            {% for lang in languages|slice:":4" %}
                             <label class="option">
                                 <input type="radio" data-cost="{{ lang.cost }}" name="selected_language" value="{{ lang.id }}">
-                                <span>{{ lang.emoji }} {{ lang.name }}</span>
+                                <span>🇬🇧 English</span>
                             </label>
-                            {% endfor %}
+                            <label class="option">
+                                <input type="radio" data-cost="{{ lang.cost }}" name="selected_language" value="{{ lang.id }}">
+                                <span>🇨🇳 Mandarin Chinese</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" data-cost="{{ lang.cost }}" name="selected_language" value="{{ lang.id }}">
+                                <span>🇫🇷 French</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" data-cost="{{ lang.cost }}" name="selected_language" value="{{ lang.id }}">
+                                <span>🇪🇸 Spanish</span>
+                            </label>
+                            <label class="option">
+                                <input type="radio" data-cost="{{ lang.cost }}" name="selected_language" value="{{ lang.id }}">
+                                <span>🇮🇳 Hindi</span>
+                            </label>
                         </div>
-                    
                         <div class="custom-dropdown drop_btn2 other-dropdown">
                             <button class="dropdown-btn" id="otherLangBtn">
                                 <span class="dropdown-text" id="otherLangText">Other</span>
-                                <img src="{% static 'media/age_dropicon.svg' %}" alt="Dropdown" class="dropdown-icon">
+                                <img src="./img/age_dropicon.svg" alt="Dropdown" class="dropdown-icon">
                             </button>
                             <ul class="dropdown-list" id="otherLangList">
                                 <input type="hidden" id="selectedLangInput" name="selected_language">
-                                {% for lang in languages|slice:"4:" %}
-                                <li data-cost="{{ lang.cost }}" data-value="{{ lang.id }}">{{ lang.emoji }} {{ lang.name }}</li>
-                                {% endfor %}
+                                <li>🇮🇳 Maharashtra</li>
+                                <li>🇮🇳 Gujarat</li>
+                                <li>🇮🇳 Punjab</li>
+                                <li>🇮🇳 Odisha</li>
                             </ul>
                         </div>
                     </div>
-                <div class="tab4_mid">
-                    <p class="textarea_label">Narrator Voice<img src="./img/question_icon.svg"></p>
-                    <div class="speaker_main">
-                        <div class="custom-dropdown lang-dropdown">
-                            <button class="dropdown-btn" id="narratorBtn">
-                                <span class="dropdown-text" id="narratorText">Choose Narrator Voice</span>
-                                <img src="{% static 'media/age_dropicon.svg' %}" alt="Dropdown" class="dropdown-icon">
-                            </button>
-                            <ul class="dropdown-list" id="narratorList">
-                                <li data-cost="0" data-value="" data-voice_url="" class="no-selection">
-                                    No narrator
-                                </li>
-                            
-                                {% for narrator in narrators %}
-                                <li data-cost="{{ narrator.cost }}" data-value="{{ narrator.id }}" data-voice_url="{{ narrator.voice }}">
-                                    {{ narrator.name }}
-                                </li>
-                                {% endfor %}
-                            </ul>
+                    <div class="tab4_mid">
+                        <p class="textarea_label">Narrator Voice<img src="./img/question_icon.svg"></p>
+                        <div class="speaker_main">
+                            <div class="custom-dropdown lang-dropdown">
+                                <button class="dropdown-btn" id="narratorBtn">
+                                    <span class="dropdown-text" id="narratorText">Choose Narrator Voice</span>
+                                    <img src="./img/age_dropicon.svg" alt="Dropdown" class="dropdown-icon">
+                                </button>
+                                <ul class="dropdown-list" id="narratorList">
+                                    <li data-cost="0" data-value="" data-voice_url="" class="no-selection">English</li>
+                                    <li data-cost="0" data-value="" data-voice_url="" class="no-selection">Hindi</li>
+                                    <li data-cost="0" data-value="" data-voice_url="" class="no-selection">Marathi</li>
+                                </ul>
+                            </div>
+                            <button class="speaker-btn speaker_btn" id="speakBtn"><img src="./img/speaker.svg" alt="Speak"></button>
                         </div>
-                        <button class="speaker-btn speaker_btn" id="speakBtn"><img src="{% static 'media/speaker.svg' %}" alt="Speak"></button>
                     </div>
-                </div>
-                <div class="char_btnbar">
-                    <button type="button" class="btn char_btn1 back-btn" id="tab4Back">Back</button>
-                    <button type="button" id="tab4Next" class="btn char_btn2">Create book (-100 tokens)</button>
+                    <div class="char_btnbar">
+                        <button type="button" class="btn char_btn1 back-btn" id="tab4Back">Back</button>
+                        <button type="button" id="tab4Next" class="btn char_btn2" data-bs-toggle="modal" data-bs-target="#storyGenerationConfirmationModal">Create book (-100 tokens)</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -384,16 +438,15 @@
 <!-- Modal Start -->
 <div class="modal fade" id="storyGenerationConfirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content story_mcontent" style="min-height: 400px !important; padding: 162px 24px 64px 24px;">
+        <div class="modal-content story_mcontent" style="min-height: 400px !important;">
             <div class="modal-body story_mbody">
                 <div class="story_mtitlebar">
                     <h3 class="story_mtitle">Confirm token transaction</h3>
                     <p class="story_msubtitle">Creating your storybook costs <span id="show_total_tokens_on_modal" class="story_msubtitlebold">100 tokens.</span>Confirm to continue your adventure!</p>
                 </div>
                 <form class="story_mbtnbar"  method="POST" action="{% url 'story_book_create' %}" id="storyForm" onsubmit="return validateStoryForm()">
-                    {% csrf_token %}
                     <button type="button" class="btn smodal_btn1 w-100" data-bs-dismiss="modal" aria-label="Close">Back</button>
-                    <button type="submit" id="generate_story" class="btn smodal_btn2 w-100">Confirm</button>
+                    <button type="submit" id="generate_story" class="btn smodal_btn2 w-100">Close</button>
                 </form>
             </div>
         </div>
