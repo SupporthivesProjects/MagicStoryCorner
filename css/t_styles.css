@@ -91,7 +91,6 @@
   background-size: cover;
 }
 .modal_pp {
-    margin-top: -16px;
     color: var(--Base-01, #383838);
     text-align: center;
     leading-trim: both;
@@ -135,6 +134,7 @@
     margin-top: 34px;
 }
 .modal_tt {
+    width: 100%;
     color: var(--Base-Off-Black, #0F0F0F);
     text-align: center;
     
@@ -1030,11 +1030,69 @@ margin-bottom: 0px;
     align-items: flex-start;
     align-self: stretch;
 }
-.modal_tt {
+
+.modal_sign_t {
+    background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+display: flex;
+width: 100%;
+flex-direction: column;
+align-items: center;
+background-color: unset;
+}
+.sing_modal_main_t {
+background: linear-gradient(180deg, #FDF4DB 0.03%, #FCF0D8 36.28%, #EAD4B4 99.97%), linear-gradient(180deg, #BDEEFC 0%, #E5F9FF 100%);
+display: flex;
+width: 327px;
+padding: 32px 16px 48px 16px;
+flex-direction: column;
+align-items: center;
+gap: 32px;
+margin-top: -23px;
+}
+.modal_sign_inner1_t {
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 16px;
+align-self: stretch;
+}
+
+.sign_modal_btn_out_t {
+padding: 0px;
+height: 62px;
+}
+.sign_modal_btn_inn_t {
+width: 173px;
+display: flex;
+justify-content: space-between;
+margin-top: -19px;
+align-items: center;
+}
+.sing_modal_btn_main_t{
+    background: #FAB536;
+width: 100px;
+height: 27px;
+color: #4A311A;
+font-family: "LEMON MILK";
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: 150%; /* 21px */
+letter-spacing: 0.84px;
+}
+
+.sign_modal_btn_out_t:hover,
+.sign_modal_btn_out_t:focus-visible {
+transform: translateY(-6px);
+box-shadow: 0 14px 24px rgba(0,0,0,0.22);
+}
+/* .modal_tt {
     background-color: transparent!important;
     padding: 0px!important;
     border: 0px;
-}
+} */
 .upper_library {
     display: flex;
     justify-content: space-between;

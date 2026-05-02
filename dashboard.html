@@ -91,7 +91,8 @@
                     <h1>Daily rewards</h1>
                     <p>Login each day and earn daily
                       tokens for keeping your streak!</p>
-                    <button class="btn dash_btn">Claim Now</button>
+                    <button class="btn dash_btn" data-bs-toggle="modal" data-bs-target="#exampleModal4">Claim Now</button>
+                  
                   </div>
                 </div>
                 <div class="dash_box">
@@ -109,7 +110,7 @@
                     <h1>Get more stories</h1>
                     <p>Login each day and earn daily
                       tokens for keeping your streak!</p>
-                    <button class="btn dash_btn">Claim Now</button>
+                    <button class="btn dash_btn" >Claim Now</button>
                   </div>
                 </div>
               </div>
@@ -559,61 +560,106 @@
 
     </section>
 
+  
+
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal_tt">
-          <div class="modal_tirthak">
-            <div class="inn_modal">
-              <h1 class="modal_tt">Details updated!</h1>
-              <button class="btn btn_logint">
-                Close
-            </button>
-            </div>
-            
-          </div>
-        </div>
-          
-        
-      </div>
-    </div>
-
-    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal_tt">
-          <div class="modal_tirthak">
-            <div class="inn_modal">
-              <h1 class="modal_tt">Password updated!</h1>
-              <button class="btn btn_logint">
-                Close
-            </button>
-            </div>
-            
-          </div>
-        </div>
-        
-      </div>
-    </div>
-
-
-    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal_tt">
-          <div class="modal_tirthak2">
-            <div class="inn_modal2">
-              <h1 class="modal_tt">Share link copied!</h1>
-              <p class="modal_pp">Paste this to your friends and tell them to use it on checkout for a discount! Upon their purchase, you’ll get extra tokens.</p>
-              <div class="button_wala_div">
-                <button class="btn yellowdash_btn w-100">Close</button>
-                <button class="btn dash_btn w-100">Close</button>
+      <div class="modal-dialog">
+          <div class="modal-content modal_sign_t">
+              <img src="./img/modal_Sign_up.png" alt="" style="z-index: 1;">
+              <div class="sing_modal_main_t">
+                  <div class="modal_sign_inner1_t">
+                    <h1 class="modal_tt">Details updated!</h1>
+                  </div>
+                  <button type="button" class="btn sign_modal_btn_out_t" data-bs-dismiss="modal">
+                      <img src="./img/sign_btn_upper.png" alt="">
+                      <div class="sign_modal_btn_inn_t">
+                          <img src="./img/sign_btn_L.png" alt="">
+                              <div class="sing_modal_btn_main_t">Close</div>
+                          <img src="./img/sign_btn_R.png" alt="">
+                      </div>
+                      <img src="./img/sign_btn_lower.png" alt="" style="margin-top: -39px;">
+                      
+                  </button>
               </div>
-             
-            </div>
-            
+              <img src="./img/modal_sign_down.png" alt="" style="margin-top: -24px;">
           </div>
-        </div>
-        
       </div>
-    </div>
+      </div>
+
+      <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content modal_sign_t">
+                <img src="./img/modal_Sign_up.png" alt="" style="z-index: 1;">
+                <div class="sing_modal_main_t">
+                    <div class="modal_sign_inner1_t">
+                      <h1 class="modal_tt">Password updated!</h1>
+                    </div>
+                    <button type="button" class="btn sign_modal_btn_out_t" data-bs-dismiss="modal">
+                        <img src="./img/sign_btn_upper.png" alt="">
+                        <div class="sign_modal_btn_inn_t">
+                            <img src="./img/sign_btn_L.png" alt="">
+                                <div class="sing_modal_btn_main_t">Close</div>
+                            <img src="./img/sign_btn_R.png" alt="">
+                        </div>
+                        <img src="./img/sign_btn_lower.png" alt="" style="margin-top: -39px;">
+                        
+                    </button>
+                </div>
+                <img src="./img/modal_sign_down.png" alt="" style="margin-top: -24px;">
+            </div>
+        </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content modal_sign_t">
+                  <img src="./img/modal_Sign_up.png" alt="" style="z-index: 1;">
+                  <div class="sing_modal_main_t">
+                      <div class="modal_sign_inner1_t">
+                        <h1 class="modal_tt">Share link copied!</h1>
+              <p class="modal_pp">Paste this to your friends and tell them to use it on checkout for a discount! Upon their purchase, you’ll get extra tokens.</p>
+                      </div>
+                      <div class="button_wala_div">
+                        <button class="btn yellowdash_btn w-100">Close</button>
+                        <button class="btn dash_btn w-100">Close</button>
+                      </div>
+                  </div>
+                  <img src="./img/modal_sign_down.png" alt="" style="margin-top: -24px;">
+              </div>
+          </div>
+          </div>
+  
+
+          <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content modal_sign_t">
+                    <img src="./img/modal_Sign_up.png" alt="" style="z-index: 1;">
+                    <div class="sing_modal_main_t">
+                        <div class="modal_sign_inner1_t">
+                          <h1 class="modal_tt">Claim reward</h1>
+                <p class="modal_pp">Welcome back! Click below to get your daily rewards as a loyal customer.</p>
+                        </div>
+                        <button type="button" class="btn sign_modal_btn_out_t" data-bs-dismiss="modal">
+                          <img src="./img/sign_btn_upper.png" alt="">
+                          <div class="sign_modal_btn_inn_t">
+                              <img src="./img/sign_btn_L.png" alt="">
+                                  <div class="sing_modal_btn_main_t">Close</div>
+                              <img src="./img/sign_btn_R.png" alt="">
+                          </div>
+                          <img src="./img/sign_btn_lower.png" alt="" style="margin-top: -39px;">
+                          
+                      </button>
+                    </div>
+                    <img src="./img/modal_sign_down.png" alt="" style="margin-top: -24px;">
+                </div>
+            </div>
+            </div>
+
+
+        
+   
+
+
 
 
 
