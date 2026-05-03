@@ -340,31 +340,26 @@
                 <div class="owl_Section">
 
                   <div >
-                    <div class="owl-carousel owl-theme" id="owl_book">
+                    <div class="owl-carousel owl-theme" id="book_card">
                       <div class="item">
-                        <div class="book_cover">
-
-                        </div>
+                        <img src="./img/book_Cover.png" alt="" class="img-fluid">
+                        
                       </div>
                       <div class="item">
-                        <div class="book_cover">
-
-                        </div>
+                        <img src="./img/book_Cover.png" alt="" class="img-fluid">
+                        
                       </div>
                       <div class="item">
-                        <div class="book_cover">
-
-                        </div>
+                        <img src="./img/book_Cover.png" alt="" class="img-fluid">
+                        
                       </div>
                       <div class="item">
-                        <div class="book_cover">
-
-                        </div>
+                        <img src="./img/book_Cover.png" alt="" class="img-fluid">
+                        
                       </div>
                       <div class="item">
-                        <div class="book_cover">
-
-                        </div>
+                        <img src="./img/book_Cover.png" alt="" class="img-fluid">
+                        
                       </div>
 
                     </div>
@@ -800,14 +795,15 @@
   </script>
   <script>
     $(document).ready(function () {
-      $('#owl_car.owl-carousel').owlCarousel({
-        loop: true,
+      $('#owl_car').owlCarousel({
+        loop: false,
         margin: 24,
         nav: false,
-        dotsEach: 1,
+        center: false,
+        startPosition: 0,
         responsive: {
           0: {
-            items: 1
+            items: 1,
           },
           600: {
             items: 3
@@ -818,13 +814,11 @@
         }
       })
     })
-  </script>
 
-  <script>
     $(document).ready(function () {
-      $('#owl_book.owl-carousel').owlCarousel({
+      $('#book_card').owlCarousel({
         loop: true,
-        margin: 24,
+        margin: 8,
         nav: false,
         dots: false,
         dotsEach: 1,
