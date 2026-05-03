@@ -749,6 +749,8 @@ background: var(--Base-Off-Black, #0F0F0F);
   display: flex;
   gap: 8px;
   width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 .speaker_btn{
   padding: 0px;
@@ -756,6 +758,10 @@ background: var(--Base-Off-Black, #0F0F0F);
   border-radius: 0px;
   background: none;
 }
+.dropdown-btn{
+    padding: 12px 16px;
+}
+
 .other-dropdown button span , .lang-dropdown button span{
   color: var(--Base-Off-Black, #0F0F0F);
     font-family: Sen;
@@ -960,8 +966,11 @@ background: var(--Base-Off-Black, #0F0F0F);
     /**********************/
     /* Age Start */
     .age_title{
-        font-size: 40px;
-        letter-spacing: -2px;
+        font-size: 28px;
+        letter-spacing: 1.12px;
+    }
+    .drop_label{
+        font-size: 14px;
     }
     .age_div{
         width: 100%;
@@ -969,11 +978,26 @@ background: var(--Base-Off-Black, #0F0F0F);
     }
     .age_bottom{
         width: 100%;
+        padding: 16px;
     }
     .age_section{
-        background-image: url('/static/media/Age_bgmob.png');
+        background-image: url('../img/Age_bgmob.png');
         padding: 190px 0px 323px 0px;
         margin: 0px;
+        background-size: 100% 100%;
+    }
+    .tab_c2inner{
+        padding: 8px;
+        gap: 16px;
+    }
+    .tab2_contbar{
+        padding: 16px;
+    }
+    .setting-options .option span{
+        padding: 4px 8px;
+    }
+    .textarea_label{
+        font-size: 14px;
     }
     .age_div form{
       width: 100%;
@@ -1014,14 +1038,29 @@ background: var(--Base-Off-Black, #0F0F0F);
       height: 151px;
     }
     .char_btnbar{
-      flex-direction: column-reverse;
+      flex-direction: column;
     }
-
+    .char_btnbar2{
+        padding: 8px;
+    }
     .bg-1{
       background: url(../img/tab1_bgmob.png);
       background-position: center top;
       background-repeat: no-repeat;
       background-size: 100% 100%;
+    }
+    .tab_c4inner{
+        padding: 8px 8px 16px 8px;
+        gap: 16px;
+    }
+    .tab4_mid{
+        padding: 16px;
+    }
+    .speaker_btn{
+        height: 39px;
+    }
+    .speaker_btn img{
+        height: 39px;
     }
     .story-page{
       padding: 188px 0px 0px 0px;
@@ -1057,9 +1096,11 @@ background: var(--Base-Off-Black, #0F0F0F);
     }
     .tab_c3{
       padding: 56px 0px 298px 0px;
+      gap: 16px;
     }
     .style_top{
       width: 100%;
+      gap: 16px;
     }
     .bg-3{
       background: url(../img/tab3_bgmob.png);
@@ -1071,7 +1112,7 @@ background: var(--Base-Off-Black, #0F0F0F);
       padding: 0px 24px;
     }
     .tab3top_card{
-      padding: 24px 22px;
+      padding: 16px;
     }
     .setting-options{
       column-gap: 8px;
@@ -1087,6 +1128,7 @@ background: var(--Base-Off-Black, #0F0F0F);
     .style_mid{
       gap: 0px;
       padding: 24px 24px 0px 24px;
+      border-radius: 0px;
     }
     .cards-container {
       display: flex;
