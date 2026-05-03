@@ -1148,6 +1148,20 @@ line-height: 180%; /* 28.8px */
     .desktop_none {
         display: block;
     }
+    .book_covert {
+            width: 327px;
+            height: 360px;
+    }
+    .bottom_card_div {
+        width: 311px;
+    }
+    .library_2 {
+        padding: 0px;
+    }
+    .upper_library ,.right_up_lib{
+        flex-direction: column;
+        width: 100%;
+    }
     .each_seection_big_card_section {
         display: flex;
         gap: 32px;
