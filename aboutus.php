@@ -12,7 +12,7 @@
 </style>
 <!-- About Section 1 Start -->
 <section class="about_s1">
-     <video autoplay muted loop playsinline class="about_s1video">
+     <video autoplay muted loop playsinline class="about_s1video mobile_none">
         <source src="./img/about_s1video.mp4" type="video/mp4">
     </video>
     <div class="about_c1outter">

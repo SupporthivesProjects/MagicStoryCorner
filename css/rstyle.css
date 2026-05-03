@@ -1321,7 +1321,54 @@ background: var(--Base-Off-Black, #0F0F0F);
 /* Story End */
 
 /* AboutUs Css Start */
-
+.about_s2{
+    background-image: url(../img/about_s2bgmob.png);
+}
+.about_s2a{
+    min-height: 786px;
+    padding: 32px 24px;
+}
+.about_s2b{
+    min-height: 535px;
+    padding: 32px 24px;
+}
+.about_s2c{
+    min-height: 861px;
+    padding: 32px 24px;
+}
+.about_c1outter{
+    position: relative;
+    background-image: url(../img/about_s1bgmob.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    padding: 105px 0px 102px 0px;
+}
+.about_s1title{
+    font-size: 28px;
+    letter-spacing: 1.12px;
+}
+.about_c1{
+    padding: 32px 24px;
+}
+.about_s2title{
+    font-size: 24px;
+}
+.about_s2subtitle{
+    font-weight: 400;
+}
+.home_c2{
+    padding: 0px;
+}
+.home_s2ccontentbar{
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+.about_s2atitlebarother{
+    align-items: center !important;
+    text-align: center;
+}
 /* AboutUs Css End */
 
 }
