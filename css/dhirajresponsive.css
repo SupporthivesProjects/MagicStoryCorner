@@ -1,0 +1,275 @@
+@media only screen and (max-device-width: 600px) {
+
+    /* Contact US */
+    .contact-scroll-section {
+        min-height: 1125px;
+        background: #5b0f1a url(../img/mob_diino.png) no-repeat center center;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        padding: 88px 0px 207px;
+
+    }
+
+    .contact-scroll-wrapper {
+        background-image: url(../img/mob_scroll.png);
+        height: 1038px;
+        padding-top: 100px !important;
+
+    }
+
+    .contact-title {
+        color: var(--Base-Off-Black, #0F0F0F);
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.8px;
+        text-transform: capitalize;
+    }
+
+    .contact-info-box {
+        border-radius: 4px;
+        background: #F6DBB4;
+        box-shadow: 0 3px 3px 0 rgba(255, 255, 255, 0.60), 0 4px 4px 0 #EECAA2 inset;
+    }
+
+    .contact-info-box p {
+        color: var(--Base-01, #383838);
+        text-align: center;
+        leading-trim: both;
+        text-edge: cap;
+        font-family: "Poppins";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 160%;
+        /* 22.4px */
+    }
+
+    .contact-heading {
+        color: var(--Base-Off-Black, #0F0F0F);
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%;
+        /* 28.8px */
+        letter-spacing: 0.96px;
+        margin-top: 32px;
+    }
+
+    .contact-row {
+        flex-direction: column;
+    }
+
+    .contact-input {
+        width: 100%;
+    }
+
+    .contact-textarea {
+        width: 100%;
+    }
+
+    .custom-checkbox label {
+        color: var(--Base-01, #383838);
+
+        /* P/Small */
+        font-family: "Sen";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 180%;
+        margin-top: 10px;
+    }
+
+    .custom-checkbox a {
+        color: var(--Base-Info-Blue, #54A8FF);
+        font-family: "Sen";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 180%;
+        text-decoration-line: underline;
+        text-decoration-style: solid;
+        text-decoration-skip-ink: auto;
+        text-decoration-thickness: auto;
+        text-underline-offset: auto;
+        text-underline-position: from-font;
+    }
+
+    .custom-checkbox .termms {
+        color: var(--Base-01, #383838);
+        font-family: "Sen";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 180%;
+    }
+
+    .custom-checkbox {
+        gap: 8px;
+        margin: 8px 0px;
+        align-items: center;
+        text-align: left;
+        padding-right: 115px;
+    }
+
+    .contact-btn-wrap {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+
+    /* Product View */
+
+    .product_view_flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .product_view_left_img {
+        padding: 11.715px 56.017px 11.715px 56.016px;
+    }
+
+    .img_boxx {
+        width: 100%;
+        height: 100%;
+    }
+
+
+    .product_view_left_img img {
+        width: 263px;
+        height: 376px;
+        margin: auto;
+    }
+
+    .product_view_right_box {
+        width: 100%;
+        max-width: 327px;
+        margin-top: 24px;
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    .product_view_title {
+        color: var(--Base-Off-Black, #0F0F0F);
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 1.12px;
+    }
+
+    .product_view_redeem {
+        color: var(--Core-Secondary-blue-body, #51648C);
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 100%;
+        /* 16px */
+        letter-spacing: 0.96px;
+    }
+
+    .product_view_tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 24px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product_view_tags a {
+        padding: 8px 15px;
+        ;
+    }
+
+    .product_view_btn_group {
+        display: flex;
+        gap: 16px;
+        flex-direction: column;
+        margin-top: 40px;
+    }
+
+    .product_view_back_btn {
+        width: 100% !important;
+        max-width: 100%;
+
+    }
+
+    .product_view_cart_btn {
+        width: 100% !important;
+        max-width: 100%;
+    }
+
+    
+    /* Add To Cart Modal */
+
+    .add_to_cart_btn_group {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    align-self: stretch;
+    max-width: 453px;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+}
+
+.add_to_cart_body {
+    background: url(../img/addtocart.png) no-repeat center;
+    background-size: 100% 100%;
+    padding: 90px 30px 70px;
+    position: relative;
+    width: 100%;
+    height: 765px;
+}
+
+
+
+
+
+
+
+}
+
+@media only screen and (min-device-width: 1200px) and (max-device-width: 1348px) {
+    .product_view_left_img {
+        padding: 74px 168.846px 74px 0;
+    }
+}
+
+@media only screen and (min-device-width: 1349px) and (max-device-width: 1439px) {
+    .product_view_left_img {
+        padding: 74px 111.846px 74px 0;
+    }
+}
+
+@media only screen and (min-device-width: 1440px) and (max-device-width: 1499px) {
+    .product_view_left_img {
+        padding: 74px 111.846px 74px 0;
+    }
+}
+
+@media only screen and (min-device-width: 1500px) and (max-device-width: 1599px) {}
+
+@media only screen and (min-device-width: 1600px) and (max-device-width: 1799px) {}
+
+@media only screen and (min-device-width: 1800px) and (max-device-width: 1919px) {}
+
+@media only screen and (min-device-width: 1920px) and (max-device-width: 2040px) {
+}
+
+@media only screen and (min-device-width: 2040px) and (max-device-width: 2240px) {}
+
+@media only screen and (min-device-width: 2240px) and (max-device-width: 2560px) {}
