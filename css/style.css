@@ -28,7 +28,11 @@
   font-weight: 700; /* better than 800 */
   font-display: swap;
 }
-
+@font-face {
+  font-family: 'Quicksand';
+  src: url('../fonts/Quicksand-VariableFont_wght.ttf') format('opentype');
+  font-display: swap;
+}
 
 @font-face {
   font-family: 'Satoshi Regular';
@@ -60,6 +64,11 @@
   font-style: normal;
   font-weight: normal;
   src: local('Satoshi Black'), url('../fonts/Satoshi-Black.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: local('Quicksand'), url('../fonts/Quicksand-VariableFont_wght.ttf') format('ttf');
 }
 
 body {
