@@ -232,7 +232,7 @@
                         <textarea class="form-control story_textarea" id="themeTextarea" rows="3" maxlength="400" placeholder="And now the theme."></textarea>
                     </div>
 
-                    <div class="char_btnbar">
+                    <div class="char_btnbar char_btnbar2">
                         <button type="button" class="btn char_btn1 back-btn" id="tab2Back">Back</button>
                         <button type="button" class="btn char_btn2 next-btn" id="tab2Next">Next</button>
                     </div>
@@ -418,7 +418,7 @@
                         <div class="speaker_main">
                             <div class="custom-dropdown lang-dropdown">
                                 <button class="dropdown-btn" id="narratorBtn">
-                                    <span class="dropdown-text" id="narratorText">Choose Narrator Voice</span>
+                                    <span class="dropdown-text" id="narratorText">George (Male,British)</span>
                                     <img src="./img/age_dropicon.svg" alt="Dropdown" class="dropdown-icon">
                                 </button>
                                 <ul class="dropdown-list" id="narratorList">
@@ -432,7 +432,7 @@
                     </div>
                     <div class="char_btnbar">
                         <button type="button" class="btn char_btn1 back-btn" id="tab4Back">Back</button>
-                        <button type="button" id="tab4Next" class="btn char_btn2" data-bs-toggle="modal" data-bs-target="#storyGenerationConfirmationModal">Create book (-100 tokens)</button>
+                        <button type="button" id="tab4Next" class="btn char_btn2" data-bs-toggle="modal" data-bs-target="#storyGenerationConfirmationModal">Create&nbsp;book&nbsp;(-100&nbsp;tokens)</button>
                     </div>
                 </div>
             </div>
