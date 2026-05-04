@@ -756,7 +756,7 @@
     background-size: cover;
     padding: 62px 0 120px;
     color: #fff;
-    background-color: #FFE6BC;
+    background-color: #FFE6BC !important;
     height: 1310px;
 }
 
@@ -903,6 +903,7 @@
     flex-wrap: wrap;
 }
 
+
 .home_sec_2_card {
     display: flex;
     padding: 40px 24px 24px 24px;
@@ -917,7 +918,7 @@
 }
 
 .home_sec_2_card_icon {
-    width: 90px;
+    width: 90px !important;
     position: absolute;
     top: -60px;
     margin: auto;
@@ -937,7 +938,7 @@
     line-height: 120%;
     /* 28.8px */
     letter-spacing: 0.96px;
-    margin-bottom: 8px;
+    margin-bottom: 0px;
 }
 
 .home_sec_2_card p {
@@ -1262,7 +1263,7 @@
     padding-bottom: 40px;
     justify-content: center;
     align-items: center;
-    gap: 24px;
+    gap: 0px;
 }
 
 /* Card with BG IMAGE (SCROLL DESIGN) */
@@ -1301,9 +1302,6 @@
     position: relative;
 
 }
-
-/* Pack image */
-.home_sec_6_pack {}
 
 /* Tokens */
 .home_sec_6_tokens {
@@ -1614,7 +1612,7 @@
     color: var(--Base-White, #FFF);
     text-align: center;
     -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #000;
+    -webkit-text-stroke-color: #CDA538;
     font-family: "LEMON MILK";
     font-size: 55px;
     font-style: normal;
