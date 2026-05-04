@@ -451,7 +451,35 @@ font-weight: 500;
 line-height: 160%; /* 22.4px */
 margin-bottom: 0%;
 }
+.sign_modal_btn_out {
+    padding: 0px;
+    height: 62px;
+}
+.sign_modal_btn_inn {
+    width: 173px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: -19px;
+    align-items: center;
+}
+.sing_modal_btn_main{
+        background: #FAB536;
+    width: 100px;
+    height: 27px;
+    color: #4A311A;
+font-family: "LEMON MILK";
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: 150%; /* 21px */
+letter-spacing: 0.84px;
+}
 
+.sign_modal_btn_out:hover,
+.sign_modal_btn_out:focus-visible {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 24px rgba(0,0,0,0.22);
+}
 
 
 
