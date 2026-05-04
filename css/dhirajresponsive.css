@@ -39,8 +39,6 @@
     .contact-info-box p {
         color: var(--Base-01, #383838);
         text-align: center;
-        leading-trim: both;
-        text-edge: cap;
         font-family: "Poppins";
         font-size: 14px;
         font-style: normal;
