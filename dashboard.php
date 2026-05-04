@@ -1,78 +1,6 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magicstorycorner</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="./img/tg-icon.svg">
-    <link rel="stylesheet" href="uiframe/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.css">
-    <link rel="stylesheet" href="css/swiper-bundle.min.css">
-    <link rel="stylesheet" href="uiframe/css/slick.css">
-    <link rel="stylesheet" href="uiframe/css/slick-theme.css">
-    <link rel="stylesheet" href="css/t_styles.css">
-    <link rel="stylesheet" href="css/rstyle.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="uiframe/css/font-awesome.min.css">
-    <link rel="stylesheet" href="uiframe/css/animate.min.css">
-    <link href="uiframe/css/aos.css" rel="stylesheet">
-</head>
-
-<body>
-
-
-
-    <div class="main-div">
-        <header class="header-top fixed-top" id="header-top">
-            <nav class="navbar navbar-expand-lg">
-                <div class="container">
-                    <div class="brand-box-toggle">
-                        <a class="navbar-brand" href="#">
-                            <img src="./img/logo.svg" alt="Simseekr Logo" id="logo" class="img-fluid ">
-                        </a>
-                        <div class="btn-menu-balance">
-                            <p>Balance 3,410</p>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">Stories</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Create</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="#">About us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="#">How it works</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="#">Price</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="#">contact</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn login-btn" href="#">Login/Register</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-
-
+<?php include 'includes/header.php'; ?>
+        <section style="padding: 0px;">
+     
         <div class="mobile_none">
             <div class="dashboard_1">
                 <h1 class="dashboard_tt">Hello Micheal!</h1>
@@ -94,7 +22,7 @@
                                 </div>
                             </div>
                             <div class="dash_box">
-                                <img src="./img/svg111.svg" class="img-fluid svg111">
+                                <img src="./img/svg123.svg" class="img-fluid svg111">
                                 <div class="under_box">
                                     <h1>Share and earn</h1>
                                     <p>Receive 100 referral tokens
@@ -104,7 +32,7 @@
                                 </div>
                             </div>
                             <div class="dash_box">
-                                <img src="./img/svg111.svg" class="img-fluid svg111">
+                                <img src="./img/svg1234.svg" class="img-fluid svg111">
                                 <div class="under_box">
                                     <h1>Get more stories</h1>
                                     <p>Login each day and earn daily
@@ -305,7 +233,7 @@
                             </div>
                             <div class="item">
                                 <div class="dash_box diff_width">
-                                    <img src="./img/svg111.svg" class="img-fluid svg111">
+                                    <img src="./img/svg123.svg" class="img-fluid svg111">
                                     <div class="under_box">
                                         <h1>Share and earn</h1>
                                         <p>Receive 100 referral tokens
@@ -316,7 +244,7 @@
                             </div>
                             <div class="item">
                                 <div class="dash_box diff_width">
-                                    <img src="./img/svg111.svg" class="img-fluid svg111">
+                                    <img src="./img/svg1234.svg" class="img-fluid svg111">
                                     <div class="under_box">
                                         <h1>Get&nbsp;more&nbsp;stories</h1>
                                         <p>Login each day and earn daily
@@ -564,7 +492,8 @@
 
             </div>
         </div>
-    </div>
+    </section>
+
 
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -666,183 +595,51 @@
 
 
 
-    <section class="footer-bg-top d-lg-block d-md-block d-none">
-        <img src="./img/footer-top-bg.png" class="bg-image">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-9 col-md-12 col-sm-12 col-12 ">
-                    <p>To enjoy the ultimate experience, give our web app a try!</p>
-                </div>
-                <div class="col-lg-3 col-md-12 col-sm-12 col-12 ">
-                    <a href="#" class="btn btn-design">Scan QR code</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <footer class="footer position-relative">
-        <img src="./img/footer-bg.png" class="bg-image img-fluid d-lg-block d-md-block d-none">
-        <img src="./img/footer-img-mo.png" class="img-fluid d-lg-none d-md-none d-block">
-        <img src="./img/footer-mo.png" class="bg-image img-fluid d-lg-none d-md-none d-block">
-        <div class="container">
-            <div class="col">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-                        <div class="footer-logo">
-                            <img src="./img/footer-logo.svg" alt="" class="img-fluid f-logo">
-                            <p>© 2025 Magicstorycorner. All rights reserved.</p>
-                            <img src="./img/Mastercard.svg" alt="" class="img-fluid">
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-12 col-sm-12 col-12">
-                        <div class="footer-right">
-                            <div class="footer-row">
-                                <div class="footer-menu">
-                                    <h6>information</h6>
-                                    <p>
-                                        info@magicstorycorner.com<br>
-                                        123-00-0000<br>
-                                        Company name, 123 place,<br>
-                                        City, Country, Post code
-                                    </p>
-                                </div>
-                                <div class="footer-right-row">
-                                    <div class="footer-menu footer-menu-1 footer-menu-third">
-                                        <h6>Links</h6>
-                                        <ul>
-                                            <li>
-                                                <a href="#">Stories</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Create</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Pricing</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">About us</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">How it works</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Contact us</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="footer-menu footer-menu-2">
-                                        <h6>Policies</h6>
-                                        <ul>
-                                            <li>
-                                                <a href="#">Terms & conditions</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Privacy policy</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Cookie Policy</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    </div>
+    <?php include 'includes/footer.php'; ?>
 
 
 
-    <script src="uiframe/js/jquery.min.js"></script>
-    <script src="uiframe/js/bootstrap.bundle.min.js"></script>
-    <script src="uiframe/js/popper.min.js"></script>
-    <script src="uiframe/js/slick.js"></script>
-    <script src="uiframe/js/owl.carousel.js"></script>
-    <script src="uiframe/js/swiper-bundle.min.js"></script>
-    <script src="uiframe/js/flickity.pkgd.min.js"></script>
-    <script src="uiframe/js/aos.js"></script>
-    <script src="./uiframe/js/home-js.js"></script>
-    <script>
-        $(document).ready(function () {
-            $(".navbar-toggler").click(function () {
-                $(this).toggleClass("is-active");
-                $(".navbar-expand-lg").toggleClass("header-is-active");
 
-                let logo = $("#logo");
-                if (logo.attr("src") === "./img/logo.svg") {
-                    logo.attr("src", "./img/logo.svg");
-                } else {
-                    logo.attr("src", "./img/logo.svg");
+
+
+<script>
+    $(document).ready(function () {
+        $('#owl_car.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 24,
+            nav: false,
+            dotsEach: 1,
+            // staggedpadding: 24,
+            responsive: {
+                0: {
+                    items: 1.18
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 5
                 }
-            });
-        });
-    </script>
-    <script>
-        function selectCurrency(currency, flagSrc) {
-            const btn = document.getElementById("currencyBtn");
-            const flag = document.getElementById("currencyFlag");
-            btn.innerHTML = `${currency} <img id="currencyFlag" src="${flagSrc}" class="img-fluid">`;
-        }
-    </script>
-    <script>
-        window.addEventListener('scroll', function () {
-            var content = document.querySelector('header');
-            var scrollPosition = window.scrollY;
-            if (scrollPosition > 10) {
-                content.classList.add("header-scroll")
-            } else {
-                content.classList.remove("header-scroll")
             }
-        });
-    </script>
-    <script>
-        AOS.init();
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('#owl_car.owl-carousel').owlCarousel({
-                loop: true,
-                margin: 24,
-                nav: false,
-                dotsEach: 1,
-                // staggedpadding: 24,
-                responsive: {
-                    0: {
-                        items: 1.18
-                    },
-                    600: {
-                        items: 3
-                    },
-                    1000: {
-                        items: 5
-                    }
-                }
-            })
-
-            $('#book_card.owl-carousel').owlCarousel({
-                loop: true,
-                margin: 8,
-                nav: false,
-                dots: false,
-                dotsEach: 1,
-                responsive: {
-                    0: {
-                        items: 2.77
-                    },
-                    600: {
-                        items: 3
-                    },
-                    1000: {
-                        items: 5
-                    }
-                }
-            })
         })
-    </script>
 
-</body>
-
-</html>
+        $('#book_card.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 8,
+            nav: false,
+            dots: false,
+            dotsEach: 1,
+            responsive: {
+                0: {
+                    items: 2.77
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 5
+                }
+            }
+        })
+    })
+</script>
