@@ -579,7 +579,7 @@ letter-spacing: 0.84px;
     align-items: center;
     gap: 24px;
     align-self: stretch;
-    background: var(--Base-Off-White, #FAFAFA);
+    /* background: var(--Base-Off-White, #FAFAFA); */
 }
 
 .library_2 {
@@ -1192,6 +1192,7 @@ margin-bottom: 0px;
 }
 
 .modal_sign_t {
+    border: 0;
     background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
@@ -1246,7 +1247,6 @@ letter-spacing: 0.84px;
 .sign_modal_btn_out_t:hover,
 .sign_modal_btn_out_t:focus-visible {
 transform: translateY(-6px);
-box-shadow: 0 14px 24px rgba(0,0,0,0.22);
 }
 /* .modal_tt {
     background-color: transparent!important;
@@ -1757,10 +1757,13 @@ line-height: 180%; /* 28.8px */
     .bottom_input {
         flex-direction: column;
     }
+    /* #owl_car .owl-stage {
+        padding-left: 16px !important;
+      } */
 
     .home_sectionnn {
         display: flex;
-        padding: 16px;
+        padding:  16px 0px 16px 16px;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -1804,7 +1807,8 @@ line-height: 180%; /* 28.8px */
     }
 
     .diff_width {
-        width: 300px;
+        width: 100%;
+        max-width: unset;
     }
 
     .book_Cover {
