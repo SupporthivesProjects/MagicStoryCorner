@@ -193,6 +193,63 @@ letter-spacing: 0.84px;
   background-position: center center;
   background-size: cover;
 }
+.hiw_btn_outer {
+    position: relative;
+    padding: 0px;
+    border: none;
+    background: none;
+    height: 56px;
+}
+.hiw_btn_inn {
+          width: 337px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: -18px;
+    align-items: center;
+}
+.btn_hiw_downs {
+      position: absolute;
+      top: 49px;
+    left: 57px;
+}
+
+.hiw_button_down {
+    color: #4A311A;
+font-family: "LEMON MILK";
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: 150%; /* 21px */
+letter-spacing: 0.84px;
+    border: 0;
+    background: url(../img/button_hiw_bg.png) no-repeat;
+  background-position: center center;
+  background-size: cover;
+        width: 339px;
+        height: 64px;
+}
+#owl_car.owl-theme .owl-nav.disabled + .owl-dots {
+    margin-top: 16px;
+}
+.hiw_button_down:hover {
+    transform: translateY(-6px);
+}
+.hiw_btn_main {
+       background: #FAB536;
+    width: 100%;
+    height: 27px;
+    color: #4A311A;
+font-family: "LEMON MILK";
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: 150%; /* 21px */
+letter-spacing: 0.84px;
+}
+
+.hiw_btn_inn:hover, .hiw_btn_inn:focus-visible ,.hiw_btn_inn,.btn_hiw_downs,.hiw_btn_main{
+    transform: translateY(-6px);
+}
 
 .modal_tirthak2 {
     margin-left: auto;
@@ -210,8 +267,6 @@ letter-spacing: 0.84px;
 .modal_pp {
     color: var(--Base-01, #383838);
     text-align: center;
-    leading-trim: both;
-    text-edge: cap;
     
     /* P/Std */
     font-family: Poppins;
