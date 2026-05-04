@@ -115,6 +115,20 @@ margin-bottom: 0px;
     line-height: 180%; /* 28.8px */
     margin-bottom: 0px;
   }
+  
+
+.to_select.active {
+    color: var(--Base-Off-Black, #0F0F0F);
+
+/* P/Button */
+font-family: "LEMON MILK";
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: 150%; /* 21px */
+letter-spacing: 0.84px;
+    text-transform: uppercase;
+}
   .single_single {
     display: flex;
     align-items: center;
@@ -571,9 +585,9 @@ margin-bottom: 0px;
 }
 
 .library_2 {
-    /* background: url(../img/dash_bg.png) no-repeat;
+    background: url(../img/libraray_bg.png) no-repeat;
     background-position: top center;
-    background-size: cover; */
+    background-size: cover;
     display: flex;
     padding: 40px 0px 64px 0px;
     flex-direction: column;
@@ -581,7 +595,7 @@ margin-bottom: 0px;
     align-items: center;
     gap: 24px;
     align-self: stretch;
-    background: var(--Base-Off-White, #FAFAFA);
+    /* background: var(--Base-Off-White, #FAFAFA); */
 }
 .showing_pp {
     text-align: center;
@@ -1288,6 +1302,25 @@ line-height: 180%; /* 28.8px */
     .desktop_none {
         display: block;
     }
+
+    .dropdownt {
+        width: 100%;
+    }
+
+
+
+    .select-wrapper {
+        width: 100%;
+    }
+    .dropdown-menut {
+        max-width: calc(100vw - 24px);
+        transform: translateX(-50%);
+    }
+    .inside_drop_down {
+        border-radius: 8px;
+        width: min(327px, 95vw);
+        flex-direction: column;
+    }
     .diff_width_for_all {
         width: 100%;
     }
@@ -1300,6 +1333,7 @@ line-height: 180%; /* 28.8px */
     }
     .library_2 {
         padding: 0px;
+         background: var(--Base-Off-White, #FAFAFA);
     }
     .upper_library ,.right_up_lib{
         flex-direction: column;
