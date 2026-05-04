@@ -44,7 +44,16 @@
                         <h3 class="head_sign_modal">Confirmation email sent!</h3>
                         <p class="para_modal_sign">All that’s left is to check your inbox or junk email in order to verify your account.</p>
                     </div>
-                    <button type="button" class="btn btn_login" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn sign_modal_btn_out" data-bs-dismiss="modal">
+                        <img src="./img/sign_btn_upper.png" alt="">
+                        <div class="sign_modal_btn_inn">
+                            <img src="./img/sign_btn_L.png" alt="">
+                                <div class="sing_modal_btn_main">Close</div>
+                            <img src="./img/sign_btn_R.png" alt="">
+                        </div>
+                        <img src="./img/sign_btn_lower.png" alt="" style="margin-top: -39px;">
+                        
+                    </button>
                 </div>
                 <img src="./img/modal_sign_down.png" alt="" style="margin-top: -24px;">
             </div>
