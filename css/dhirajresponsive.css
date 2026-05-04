@@ -1,0 +1,874 @@
+@media only screen and (max-device-width: 600px) {
+
+    /* Contact US */
+    .contact-scroll-section {
+        min-height: 1125px;
+        background: #5b0f1a url(../img/mob_diino.png) no-repeat center center;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        padding: 88px 0px 207px;
+
+    }
+
+    .contact-scroll-wrapper {
+        background-image: url(../img/mob_scroll.png);
+        height: 1038px;
+        padding-top: 100px !important;
+
+    }
+
+    .contact-title {
+        color: var(--Base-Off-Black, #0F0F0F);
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.8px;
+        text-transform: capitalize;
+    }
+
+    .contact-info-box {
+        border-radius: 4px;
+        background: #F6DBB4;
+        box-shadow: 0 3px 3px 0 rgba(255, 255, 255, 0.60), 0 4px 4px 0 #EECAA2 inset;
+    }
+
+    .contact-info-box p {
+        color: var(--Base-01, #383838);
+        text-align: center;
+        font-family: "Poppins";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 160%;
+        /* 22.4px */
+    }
+
+    .contact-heading {
+        color: var(--Base-Off-Black, #0F0F0F);
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%;
+        /* 28.8px */
+        letter-spacing: 0.96px;
+        margin-top: 32px;
+    }
+
+    .contact-row {
+        flex-direction: column;
+    }
+
+    .contact-input {
+        width: 100%;
+    }
+
+    .contact-textarea {
+        width: 100%;
+    }
+
+    .custom-checkbox label {
+        color: var(--Base-01, #383838);
+
+        /* P/Small */
+        font-family: "Sen";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 180%;
+        margin-top: 10px;
+    }
+
+    .custom-checkbox a {
+        color: var(--Base-Info-Blue, #54A8FF);
+        font-family: "Sen";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 180%;
+        text-decoration-line: underline;
+        text-decoration-style: solid;
+        text-decoration-skip-ink: auto;
+        text-decoration-thickness: auto;
+        text-underline-offset: auto;
+        text-underline-position: from-font;
+    }
+
+    .custom-checkbox .termms {
+        color: var(--Base-01, #383838);
+        font-family: "Sen";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 180%;
+    }
+
+    .custom-checkbox {
+        gap: 8px;
+        margin: 8px 0px;
+        align-items: center;
+        text-align: left;
+        padding-right: 115px;
+    }
+
+    .contact-btn-wrap {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+
+    /* Product View */
+
+    .product_view_flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .product_view_left_img {
+        padding: 11.715px 56.017px 11.715px 56.016px;
+    }
+
+    .img_boxx {
+        width: 100%;
+        height: 100%;
+    }
+
+
+    .product_view_left_img img {
+        width: 263px;
+        height: 376px;
+        margin: auto;
+    }
+
+    .product_view_right_box {
+        width: 100%;
+        max-width: 327px;
+        margin-top: 24px;
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    .product_view_title {
+        color: var(--Base-Off-Black, #0F0F0F);
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 1.12px;
+    }
+
+    .product_view_redeem {
+        color: var(--Core-Secondary-blue-body, #51648C);
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 100%;
+        /* 16px */
+        letter-spacing: 0.96px;
+    }
+
+    .product_view_tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 24px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product_view_tags a {
+        padding: 8px 15px;
+        ;
+    }
+
+    .product_view_btn_group {
+        display: flex;
+        gap: 16px;
+        flex-direction: column;
+        margin-top: 40px;
+    }
+
+    .product_view_back_btn {
+        width: 100% !important;
+        max-width: 100%;
+
+    }
+
+    .product_view_cart_btn {
+        width: 100% !important;
+        max-width: 100%;
+    }
+
+
+    /* Add To Cart Modal */
+
+    .add_to_cart_btn_group {
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+        align-self: stretch;
+        max-width: 453px;
+        margin-left: auto;
+        margin-right: auto;
+        flex-direction: column;
+    }
+
+    .add_to_cart_body {
+        background: url(../img/addtocart.png) no-repeat center;
+        background-size: 100% 100%;
+        padding: 90px 30px 70px;
+        position: relative;
+        width: 100%;
+        height: 765px;
+    }
+
+
+
+    /* Home PAge */
+
+    /* Navigation buttons (like your design) */
+    .owl-nav {
+        position: absolute;
+        bottom: -35px;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+        align-self: stretch;
+    }
+
+    .nav_btn {
+        height: 32px;
+        display: flex;
+        align-items: center;
+    }
+
+
+    .owl-nav button {
+        display: flex;
+        width: 32px !important;
+        height: 32px !important;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        border-radius: 8px;
+        background: var(--Core-Main-Blue, #030527) !important;
+    }
+
+    .home_sec_2_cards_slider {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        align-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+
+    .home_sec_2_cards_slider .owl-stage-outer {
+        overflow: visible;
+        padding-top: 60px;
+        margin-bottom: 24px;
+    }
+
+    .home_sec_2_card {
+        position: relative;
+        overflow: visible;
+    }
+
+
+
+
+    .home_sec_2_section {
+        padding: 0px 0 32px;
+        background: none;
+        height: 100%;
+
+    }
+
+    .home_sec_2_top_content {
+        margin-bottom: 0px;
+        background: url('../img/home_sec_2_1.png') no-repeat center;
+        background-size: 100% 100%;
+        padding: 32px 24px;
+
+    }
+
+    .home_sec_2_bottom_content {
+        margin-bottom: 0px;
+        background: url('../img/home_sec_2.png') no-repeat center;
+        background-size: 100% 100%;
+        padding: 126px 24px 32px;
+        height: 737px;
+    }
+
+    .home_sec_2_title {
+        color: var(--Base-White, #FFF);
+        text-align: center;
+        -webkit-text-stroke-width: 0.2px;
+        -webkit-text-stroke-color: #000;
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%;
+        /* 28.8px */
+        letter-spacing: 0.96px;
+        margin-bottom: 8px;
+        max-width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .home_sec_2_subtitle {
+        color: var(--Core-yellow, #FFC760);
+        text-align: center;
+        font-family: "Sen";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 180%;
+        /* 28.8px */
+        margin-bottom: 32px;
+    }
+
+    .home_sec_2_steps {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        gap: 32px;
+        align-self: stretch;
+        flex-wrap: nowrap;
+        width: 100%;
+        margin-bottom: 32px;
+        flex-direction: column;
+        max-width: 327px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .home_sec_2_step h4 {
+        color: var(--Base-White, #FFF);
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.8px;
+        text-transform: capitalize;
+    }
+
+    .home_sec_2_bottom_title {
+        color: var(--Base-Off-Black, #0F0F0F);
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%;
+        /* 28.8px */
+        letter-spacing: 0.96px;
+        margin-bottom: 16px;
+    }
+
+    .home_sec_2_bottom_subtitle {
+        margin-bottom: 32px;
+    }
+
+    .home_sec_3_section {
+        background: none;
+        background-color: #FFE6BC !important;
+        padding: 0px 0px 32px;
+        height: 735px;
+    }
+
+    .home_sec_3_wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0px;
+    }
+
+    .home_sec_3_title {
+        color: var(--Base-Off-Black, #0F0F0F);
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%;
+        /* 28.8px */
+        letter-spacing: 0.96px;
+        max-width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .home_sec_3_content {
+        max-width: 327px;
+        margin: auto;
+        text-align: center;
+    }
+
+    .home_sec_3_btn {
+        position: absolute;
+        margin: auto;
+        left: 0;
+        right: 0;
+
+    }
+
+    .home_sec_4_section::before {
+        background: none;
+        width: 0;
+        height: 0;
+    }
+
+    .home_sec_4_section {
+        background: url(../img/home_sec_4.png) no-repeat center;
+        background-size: cover;
+        padding: 0 0;
+        background-color: #FFE6BC;
+        position: relative;
+        height: 100%;
+        z-index: 12;
+        overflow: visible;
+    }
+
+    .home_sec_4_wrapper {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0;
+        position: relative;
+        max-width: 327px;
+        margin: auto;
+    }
+
+    .home_sec_4_image img {
+        max-width: 375px;
+        height: 373px;
+        position: static;
+        margin-top: 24px;
+    }
+
+    .home_sec_4_content {
+        max-width: 566px;
+        margin-top: 0;
+        margin-left: 0;
+    }
+
+    .home_sec_3_text {
+        text-align: center;
+    }
+
+    .home_sec_4_content h3 {
+        max-width: 327px !important;
+    }
+
+    .home_sec_5_title {
+        color: var(--Base-Off-Black, #0F0F0F);
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%;
+        /* 28.8px */
+        letter-spacing: 0.96px;
+    }
+
+    .home_sec_5_content {
+        max-width: 327px;
+        margin-left: auto;
+        margin-top: 0px;
+        margin-right: auto;
+    }
+
+    .home_sec_5_text {
+        text-align: center;
+    }
+
+    .home_sec_5_section {
+        padding-top: 24px !important;
+        background: var(--Core-Secondary-Wall-Beige, #FFE6BC);
+        height: 691px;
+    }
+
+    .home_sec_5_btn {
+        position: absolute;
+        margin: auto;
+        left: 0;
+        right: 0;
+        background: url(../img/exoloreed.png) no-repeat center;
+    }
+
+
+    .home_sec_5_wrapper {
+        flex-direction: column;
+        position: relative;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+    }
+
+    .mobb {
+        margin-top: 80px;
+    }
+
+    .home_sec_6_title {
+        color: var(--Base-Off-White, #FAFAFA);
+        text-align: center;
+
+        /* Headings/03 */
+        -webkit-text-stroke-width: 0.2px;
+        -webkit-text-stroke-color: #000;
+        font-family: "LEMON MILK";
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 1.12px;
+    }
+
+    .home_sec_6_section {
+        padding: 32px 0px 40px;
+        height: 100%;
+        background: url('../img/SEC_6_BG.png') no-repeat center !important;
+        background-size: 100% 100%;
+        padding: 40px 20px 30px;
+    }
+
+    .home_sec_6_wrapper {
+        max-width: 327px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .home_sec_6_video {
+        background: none;
+        width: 0;
+        height: 0;
+    }
+
+    /* Center Card Highlight */
+    .home_sec_6_card_center {
+        width: 100% !important;
+        max-width: 340px !important;
+        background: url('../img/mob_scroll_bigg.png') no-repeat center !important;
+        background-size: 100% 100%;
+        padding: 60px 20px 30px;
+        position: relative;
+        height: 571px !important;
+        margin: 0px auto;
+
+    }
+
+    .home_sec_6_card {
+        width: 100%;
+        max-width: 340px;
+        height: 500px;
+        background: url('../img/mob_scroll_ssmall.png') no-repeat center;
+        background-size: 100% 100%;
+        padding: 60px 20px 60px;
+        position: relative;
+        margin: 0px auto;
+
+    }
+
+    .home_sec_6_pack {
+        width: 204px !important;
+    }
+
+    .inner_brown {
+        max-width: 204px;
+        margin: 16px 0px;
+    }
+
+    .home_sec_6_card_inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100%;
+        text-align: center;
+        max-width: 204px;
+        margin: 0 auto;
+    }
+
+
+
+    .inner_brown2 {
+        max-width: 204px;
+        margin: 16px 0px;
+    }
+
+    .inner_brown_gold {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        height: 122px;
+        text-align: center;
+        max-width: 204px;
+        margin: 16px auto;
+    }
+
+    .home_sec_6_tokens {
+        color: var(--Core-Secondary-Mute-Red, #DF514E);
+        text-align: center;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: #000;
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%;
+        /* 28.8px */
+        letter-spacing: 0.96px;
+    }
+
+    .home_sec_6_desc {
+        display: none;
+    }
+
+    .home_sec_6_btn_dark {
+        max-width: 200px;
+        margin: 0px auto;
+    }
+
+
+    .home_sec_6_card_inner2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        height: 100%;
+        text-align: center;
+        max-width: 290px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .home_sec_6_card_inner2 img {
+        width: 184px !important;
+    }
+
+    .home_sec_6_badge {
+        top: 0;
+    }
+
+    .home_sec_6_section .owl-nav button {
+        display: flex;
+        width: 32px !important;
+        height: 32px !important;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        border-radius: 8px;
+        background: var(--Base-White, #FFF) !important;
+    }
+
+    .home_sec_6_section .owl-nav {
+        bottom: -46px;
+    }
+
+    .home_sec_6_subtitle {
+        color: var(--Core-yellow, #FFC760);
+        text-align: center;
+        font-family: "Sen";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 180%;
+        margin-bottom: 24px;
+        max-width: 1055px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .home_sec_6_btn_img {
+        margin-top: 70px;
+    }
+
+    .hero_sec_1 {
+        padding-top: 235px;
+        position: relative;
+        background-image: url(../img/home_sec_tp_1.png);
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: #020c2c;
+        padding-bottom: 0px;
+    }
+
+    .hero_sec_1_heading {
+        color: var(--Base-White, #FFF);
+        text-align: center;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: #000;
+        font-family: "LEMON MILK";
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 1.12px;
+        padding-top: 30px;
+    }
+
+
+    .hero_sec_1_text_block {
+        text-align: center;
+        max-width: 294px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 100px;
+        margin-bottom: 20px;
+
+    }
+
+    .hero_tab {
+        width: 52.981px;
+        height: 55.554px;
+    }
+
+.hero_sec_1_tabs {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 375px;
+    height: 150px;
+}
+
+    .hero_sec_1_video video {
+        object-fit: cover;
+        object-position: center top; /* 👈 adjust crop focus */
+        transform: scale(1.9);       /* 👈 zoom effect */
+    }
+
+    .hero_tab:nth-child(1) {
+    left: 29px;
+    bottom: 75px;
+}
+
+.hero_tab:nth-child(2) {
+    left: 108px;
+    bottom: 55px;
+}
+
+
+.hero_tab:nth-child(3) {
+    right: 108px;
+    bottom: 55px;
+}
+
+    .hero_tab:nth-child(4) {
+    right: 32px;
+    bottom: 75px;
+}
+
+.hero_tab img {
+    width: 8.575px;
+height: 11.05px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+@media only screen and (min-device-width: 1200px) and (max-device-width: 1348px) {
+    .product_view_left_img {
+        padding: 74px 168.846px 74px 0;
+    }
+}
+
+@media only screen and (min-device-width: 1349px) and (max-device-width: 1439px) {
+    .product_view_left_img {
+        padding: 74px 111.846px 74px 0;
+    }
+}
+
+@media only screen and (min-device-width: 1440px) and (max-device-width: 1499px) {
+    .product_view_left_img {
+        padding: 74px 111.846px 74px 0;
+    }
+}
+
+@media only screen and (min-device-width: 1500px) and (max-device-width: 1599px) {}
+
+@media only screen and (min-device-width: 1600px) and (max-device-width: 1799px) {}
+
+@media only screen and (min-device-width: 1800px) and (max-device-width: 1919px) {}
+
+@media only screen and (min-device-width: 1920px) and (max-device-width: 2040px) {}
+
+@media only screen and (min-device-width: 2040px) and (max-device-width: 2240px) {}
+
+@media only screen and (min-device-width: 2240px) and (max-device-width: 2560px) {}
