@@ -11,7 +11,7 @@ Project Report : Jeet <br>
 Team Lead : Vijay<br>
 
 Vijay:Header,Footer,core page,same page (pop)<br>
-Dhiraj:Home, contactus page,product view ,same page (pop)<br>
+Dhiraj:Home, contactus page,product view ,same page (pop)<br> 
 Rahul: Aboutus,create Age, create characher,create world,create style,create voice,create Stoy <br>
 Trithak: HowItworks,dashboard landing,account library, same page (pop)<br>
 Medhnash:Privacy,Terms,error page, same page (pop)<br>

@@ -271,6 +271,7 @@
         background-position: center center;
         background-size: cover;
         padding: 29px 0px;
+         background: var(--Base-Off-White, #FAFAFA);
     }
     .pagination-prod .pagination {
         display: flex;
