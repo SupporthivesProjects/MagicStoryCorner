@@ -23,11 +23,11 @@
                         </div>
                         <div class="btn_div_sign w-100">
                             <img src="./img/not_robo.png" alt="" width="222.273px" height="56.41px">
-                            <button type="button" class="btn btn_login" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <button class="btn btn_login" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Create account
                             </button>
                         </div>
-                        <p class="para_login2">Already have an account? <a href="sign_in.html">Sign in</a></p>
+                        <p class="para_login2">Already have an account? <a href="sign_in.php">Sign in</a></p>
                     </div>
                 </div>
             </div>

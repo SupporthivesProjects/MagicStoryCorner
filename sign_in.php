@@ -9,11 +9,11 @@
                             <input type="text" class="login_input" placeholder="Enter your email">
                             <input type="text" class="login_input" placeholder="Password">
                         </div>
-                        <a href="set_password.html" class="para_login">Forgot password?</a>
+                        <a href="set_password.php" class="para_login">Forgot password?</a>
                         <button class="btn btn_login">
                             Sign in
                         </button>
-                        <p class="para_login2">Don’t have an account? <a href="sign_up.html">Sign up</a></p>
+                        <p class="para_login2">Don’t have an account? <a href="sign_up.php">Sign up</a></p>
                     </div>
                 </div>
             </div>
