@@ -1,0 +1,125 @@
+{% extends "includes/layout.html" %}
+
+{% block title %} Home | {{ site_name }} {% endblock %}
+
+{% block content %}
+{% load static %}
+<section class="add-devices-section d-block d-lg-none d-md-none" style="background:#E5F9FF">
+    <div class="container p-0">
+        <div class="col">
+            <h2>Add to homescreen</h2>
+            <p>No download. Just 2 taps and I'll live next to all your other apps</p>
+            <img src="{% static 'media/Graphics.png' %}" class="img-fluid" style="margin-bottom: 27px;">
+            <div style="margin-top: -74px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="374" height="48" viewBox="0 0 374 48" fill="none">
+                   <path d="M375.157 47.9307C375.234 46.3419 375.109 44.7998 374.776 43.1983V43.1915C373.68 37.9253 370.395 33.4172 366.161 30.2433C356.866 23.2736 343.948 25.2948 335.115 31.9796C334.91 31.7594 334.705 31.5384 334.487 31.3312C330.702 27.652 325.564 25.9418 320.375 26.7384C316.629 27.3149 313.133 29.2654 310.695 32.1544C309.925 29.5763 308.213 27.2698 305.904 25.8966C302.85 24.0894 298.905 24.0307 295.736 25.5724C294.357 23.6618 292.067 22.6128 289.739 22.7423C289.258 19.0371 287.936 15.4612 285.89 12.339C281.528 5.6608 274.325 1.25601 266.346 1.04214C258.995 0.84782 251.413 4.10598 246.576 9.74136C242.208 7.81106 237.756 6.06902 233.112 4.94839C224.876 2.95331 215.857 3.16652 208.743 8.29019C203.579 12.0083 199.757 17.8061 199.827 24.2189C197.357 23.5323 194.599 24.0502 192.36 25.3263C190.859 26.1813 189.551 27.4058 188.627 28.8761C188.435 29.1805 188.274 29.4857 188.133 29.7901C187.075 28.6112 185.805 27.6199 184.425 26.8556C179.762 24.2776 173.771 24.4587 169.473 27.7169C169.384 27.7817 169.301 27.8533 169.217 27.9181C167.678 25.34 165.727 22.9943 163.489 21.0187C157.985 16.1542 150.814 13.356 143.463 13.6281C136.612 13.8807 129.877 16.4203 124.688 20.9415C121.019 16.051 116.631 11.7689 111.609 8.2775C101.865 1.50201 89.6775 -1.80803 78.0096 1.00308C72.5252 2.32451 67.3806 4.85132 63.0509 8.4982C59.2791 11.6787 56.4305 15.6558 54.333 20.0929C53.0309 19.2574 51.6646 18.6413 50.0354 18.3693C47.8162 18.0001 45.5839 18.1167 43.4223 18.7579C39.7404 19.8591 36.5583 22.276 34.7943 25.6573C27.7898 22.6972 19.6887 22.8199 12.6714 25.7736C5.57695 28.7597 -1.27428 35.8394 -3.82084 43.1915C-4.52479 45.2205 -3.58538 45.7993 -3.82084 47.9307H375.157Z" fill="white"/>
+                </svg>
+            </div>
+            <div class="add-devices-section-content">
+                <p style="font-family: Quicksand;">Open in your 
+                    <a href="javascript:void(0)" id="chrome-link" style="text-decoration: none; color: inherit;font-family: Quicksand;">
+                        Chrome <img src="{% static 'media/Google-Chrome.svg' %}" class="img-fluid">
+                    </a>
+                    or 
+                    <a href="javascript:void(0)" id="safari-link" style="text-decoration: none; color: inherit;font-family: Quicksand;">
+                        Safari.<img src="{% static 'media/Safari.svg' %}" class="img-fluid">
+                    </a>
+                    tap <img src="{% static 'media/Icon-Container.svg' %}" class="img-fluid"> in the toolbar and scroll down Then hit
+                    <button id="add-to-home-btn">Add to home screen <img src="{% static 'media/pluse.svg' %}" class="img-fluid"> </button>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    {% comment %} .header {
+        display: none !important;
+    }
+    .footer {
+        display: none !important;
+    } {% endcomment %}
+</style>
+
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script>
+    const homeURL = "{{ base_url }}";
+    let deferredPrompt;
+
+    function showSweetAlert(title, message, type) {
+        Swal.fire({
+            title: title,
+            html: message,
+            icon: type,
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#00A8E8'
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const userAgent = navigator.userAgent.toLowerCase();
+        
+        const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+        const screenWidth = window.innerWidth;
+        const isDesktop = !isMobile && screenWidth > 1024;
+        
+        if (isDesktop) {
+            window.location.href = homeURL;
+            return;
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        document.getElementById('chrome-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = homeURL;
+        });
+        
+        document.getElementById('safari-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = homeURL;
+        });
+        
+        document.getElementById('add-to-home-btn').addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            if (window.matchMedia('(display-mode: standalone)').matches || 
+                window.navigator.standalone === true) {
+                window.location.href = homeURL;
+                return;
+            }
+
+            if (deferredPrompt) {
+                try {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    
+                    if (outcome === 'accepted') {
+                        deferredPrompt = null;
+                        setTimeout(() => {
+                            window.location.href = homeURL;
+                        }, 1000);
+                    }
+                } catch (err) {
+                    showSweetAlert('Installation Error', 'Unable to install. Please try using your browser menu.', 'error');
+                }
+            } else if (userAgent.indexOf('safari') > -1 && userAgent.indexOf('chrome') === -1) {
+                showSweetAlert('Add to Home Screen', '<strong>Safari Instructions:</strong><br>1. Tap the Share button (square with arrow) at the bottom<br>2. Scroll down and tap "Add to Home Screen"<br>3. Tap "Add" to confirm', 'info');
+            } else if (userAgent.indexOf('chrome') > -1) {
+                showSweetAlert('Add to Home Screen', '<strong>Chrome Instructions:</strong><br>1. Tap the menu (three dots) at the top right<br>2. Tap "Add to Home screen"<br>3. Tap "Install" to confirm', 'info');
+            } else {
+                showSweetAlert('Browser Not Supported', 'Please open this page in Chrome or Safari to add to home screen', 'warning');
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredPrompt = null;
+        });
+    });
+</script>
+
+{% endblock %}

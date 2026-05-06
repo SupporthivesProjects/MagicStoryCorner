@@ -1,0 +1,295 @@
+{% extends "includes/layout.html" %}
+{% load static %}
+{% block title %} {{ story.title }} | {{ site_name }} {% endblock %}
+
+{% block content %}
+
+<section class="indi_page">
+    <div class="container-fluid px-0">
+      <div class="row">
+        <div class="col-md-6 left_img">
+          <div class="imgg_box" style="width: 100%;">
+            {% if story.image %}
+              <img src="{{ story.image.url }}" alt="{{ story.title }}" style="border-radius: 8px; width: 100%;"
+                  class="ragon_img img-fluid d-lg-block d-md-block d-block">
+            {% elif story.char_img %}
+                <img src="{{ story.char_img.url }}" alt="{{ story.title }}" style="border-radius: 8px; width: 100%;"
+                    class="ragon_img img-fluid d-lg-block d-md-block d-block">
+            {% elif story.pages.all|length > 0 and story.pages.all.0.image %}
+                <img src="{{ story.pages.all.0.image.url }}" alt="{{ story.title }}" style="border-radius: 8px; width: 100%;"
+                    class="ragon_img img-fluid d-lg-block d-md-block d-block">
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-md-6 right_content">
+          <div class="inner_cont_box">
+            <div class="in_upper_bx">
+              <div class="indi_tt">
+                <h1 class="indi_title">{{ story.title }}</h1>
+                <h4 class="joint_tit">redeem for {{ story.tokens }} tokens</h4>
+              </div>
+              <div class="three_btns">
+                {% if story.agegroup %}
+                  <button class="btn btn_grey">{{ story.agegroup.name }}</button>
+                {% endif %}
+                {% if story.plot %}
+                  <button class="btn btn_grey">{{ story.plot.name }}</button>
+                {% endif %}
+                {% if story.theme %}
+                  <button class="btn btn_grey">{{ story.theme.name }}</button>
+                {% endif %}
+                {% if story.narrator %}
+                  <button class="btn btn_grey">{{ story.narrator.name }}</button>
+                {% endif %}
+                {% if story.imagestyle %}
+                  <button class="btn btn_grey">{{ story.imagestyle.name }}</button>
+                {% endif %}
+                 {% if story.length %}
+                  <button class="btn btn_grey">{{ story.length.name }}</button>
+                {% endif %}
+              </div>
+              <p class="subit" style="font-weight: 500;font-style: normal;font-family: 'Poppins', sans-serif !important;">
+                {{ story.description|safe|linebreaksbr }} 
+            </p>
+            </div>
+            <div class="in_lower_bx">
+              <div class="btn_two_bx">
+                <a href="{% url 'product_book_list' %}" class="btn btn_back">
+                  back
+                </a>
+                {% if is_purchased %}
+                  <a href="{% url 'product_book_view_purchased' story.slug %}" class="btn btn_log">
+                    View Story
+                  </a>
+                {% else %}
+                  <button class="btn btn_log" id="add-to-cart-btn">
+                    Purchase
+                  </button>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="black_line d-lg-block d-md-block d-none">
+      </div>
+    </div>
+</section>
+
+<div class="modal fade" id="purchaseConfirmModal" tabindex="-1" aria-labelledby="purchaseConfirmLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content modal-dialog-scan-main">
+      <div class="modal-body modal-dialog-scan">
+        <div class="contactus-modal text-center">
+          <h2 id="modal-title">Confirm Purchase</h2>
+          <p id="modal-message" class="mb-4">Review your purchase details</p>
+          
+          <div id="purchase-content" style="width: 220px;">
+            <div class="row mb-2">
+              <div class="col-6 text-start">
+                <span class="fw-bold">Balance:</span>
+              </div>
+              <div class="col-6 text-end">
+                <span id="current-balance" class="text-success fw-bold">{{ logged_in_user.profile.wallet }} Tokens</span>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-6 text-start">
+                <span class="fw-bold">Cost:</span>
+              </div>
+              <div class="col-6 text-end">
+                <span id="story-cost" class="text-danger fw-bold">{{ story.tokens }} Tokens</span>
+              </div>
+            </div>
+            
+            <div class="row mb-3 pt-3 border-top">
+              <div class="col-6 text-start" id="balance_after-lable">
+                <span class="fw-bold">After:</span>
+              </div>
+              <div class="col-6 text-end">
+                <span id="balance-after" class="text-primary fw-bold"></span>
+              </div>
+            </div>
+
+            <div id="insufficient-balance-warning" class="alert alert-danger d-none mb-3">
+              Insufficient token balance!
+            </div>
+          </div>
+
+          <div id="success-content" class="d-none">
+            <div class="mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-check-circle-fill text-success" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </svg>
+            </div>
+          </div>
+
+          <div id="modal-buttons" class="mt-4">
+            <button type="button" class="btn btn-yellow" id="confirm-purchase-btn">Confirm</button>
+          </div>
+
+          <div id="success-buttons" class="mt-4 d-none">
+            <button type="button" id="close-success-btn" class="btn btn-yellow" data-bs-dismiss="modal">Close</button>
+          </div>
+
+          <img src="{% static 'media/btm-slice.png' %}" class="img-fluid w-100 mt-3" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var addToCartBtn = document.getElementById('add-to-cart-btn');
+
+    if (!addToCartBtn) return;
+    
+    var confirmPurchaseBtn = document.getElementById('confirm-purchase-btn');
+    var storyCost = parseInt('{{ story.tokens }}') || 0;
+    var userBalance = parseInt('{{ logged_in_user.profile.wallet|default:0 }}') || 0;
+    var storyId = parseInt('{{ story.id }}') || 0;
+    var purchaseUrl = "{% url 'purchase_story' %}";
+    var packagePricingUrl = "{% url 'package_pricing' %}";
+    var loginUrl = "{% url 'user_login' %}";
+    var logged_in_user = '{{ logged_in_user.id }}';
+
+    addToCartBtn.addEventListener('click', function() {
+        if(!logged_in_user){
+            window.notyf.open({ type: "error", message: "You must be logged in to make a purchase" });
+            return;
+        }
+        document.getElementById('modal-title').textContent = 'Confirm Purchase';
+        document.getElementById('modal-message').textContent = 'Review your purchase details';
+        document.getElementById('purchase-content').classList.remove('d-none');
+        document.getElementById('success-content').classList.add('d-none');
+        document.getElementById('modal-buttons').classList.remove('d-none');
+        document.getElementById('success-buttons').classList.add('d-none');
+        
+        var balanceAfter = userBalance - storyCost;
+        document.getElementById('balance-after').textContent = balanceAfter + ' Tokens';
+        
+        var confirmBtn = document.getElementById('confirm-purchase-btn');
+        var warningDiv = document.getElementById('insufficient-balance-warning');
+        var balance_after = document.getElementById('balance-after');
+        var balance_after_lable = document.getElementById('balance_after-lable');
+
+        
+        
+        if (balanceAfter < 0) {
+            warningDiv.classList.remove('d-none');
+            confirmBtn.disabled = false;
+            confirmBtn.classList.remove('disabled');
+            confirmBtn.textContent = 'Purchase Tokens';
+            balance_after.classList.add('d-none');
+            balance_after_lable.classList.add('d-none');
+            confirmBtn.onclick = function(e) {
+                e.preventDefault();
+                window.location.href = packagePricingUrl;
+            };
+        } else {
+            warningDiv.classList.add('d-none');
+            confirmBtn.disabled = false;
+            confirmBtn.classList.remove('disabled');
+            balance_after.classList.remove('d-none');
+            balance_after_lable.classList.remove('d-none');
+            confirmBtn.textContent = 'Confirm';
+            confirmBtn.onclick = null;
+        }
+        
+        var modal = new bootstrap.Modal(document.getElementById('purchaseConfirmModal'));
+        modal.show();
+    });
+
+    confirmPurchaseBtn.addEventListener('click', function(e) {
+        var self = this;
+        
+        var balanceAfter = userBalance - storyCost;
+        if (balanceAfter < 0) {
+            return;
+        }
+        
+        e.preventDefault();
+        self.disabled = true;
+        universalLoader("Processing", "Completing your purchase...");
+        
+        fetch(purchaseUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                story_id: storyId
+            })
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            universalLoader(false);
+            
+            if (data.success) {
+                window.notyf.open({ type: "success", message: "Purchase successful!" });
+                
+                document.getElementById('modal-title').textContent = 'Success!';
+                document.getElementById('modal-message').textContent = 'Story added to your Purchase History !';
+                document.getElementById('purchase-content').classList.add('d-none');
+                document.getElementById('success-content').classList.remove('d-none');
+                document.getElementById('modal-buttons').classList.add('d-none');
+                document.getElementById('success-buttons').classList.remove('d-none');
+                
+                document.getElementById('close-success-btn').addEventListener('click', function () {
+                    window.location.href = `/users/books/view/{{ story.slug }}/`;
+                });
+
+                // setTimeout(function() {
+                //     location.reload();
+                // }, 2000);
+            } else {
+                window.notyf.open({ type: "error", message: data.message });
+                self.disabled = false;
+            }
+        })
+        .catch(function(error) {
+            universalLoader(false);
+            console.error('Error:', error);
+            window.notyf.open({ type: "error", message: "An error occurred" });
+            self.disabled = false;
+        });
+    });
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+<script>
+  function toggleText(btn) {
+      const parent = btn.closest('.subit');
+      const shortText = parent.querySelector('.short-text');
+      const fullText = parent.querySelector('.full-text');
+      
+      if (fullText.style.display === 'none') {
+          shortText.style.display = 'none';
+          fullText.style.display = 'block';
+      } else {
+          shortText.style.display = 'block';
+          fullText.style.display = 'none';
+      }
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,444 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Legal Content{% endblock %}
+
+{% block content %}
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-file-text"></i> Legal Content</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#legalModal" onclick="resetLegalForm()">
+            <i class="bi bi-plus-circle"></i> Add New Legal Content
+        </button>
+    </div>
+
+    <div class="log-table-card table-responsive">
+        <table id="legalTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Title</th>
+                    <th>Content Preview</th>
+                    <th>Status</th>
+                    <th>Updated At</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for legal in legal_contents %}
+                    <tr class="log-table-row">
+                        <td data-order="{{ legal.id }}"><span class="log-id-badge">#{{ legal.id }}</span></td>
+                        <td><span class="badge bg-primary">{{ legal.get_type_display }}</span></td>
+                        <td>{{ legal.title|default:"-" }}</td>
+                        <td>{{ legal.content|striptags|truncatewords:10 }}</td>
+                        <td>
+                            {% if legal.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ legal.updated_at|date:"M d, Y H:i" }}</td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-sm btn-primary me-1"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        data-legal-id="{{ legal.id }}"
+                                        onclick="editLegal(this)"
+                                        title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-info text-white me-1"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        data-legal-id="{{ legal.id }}"
+                                        onclick="previewLegal(this)"
+                                        title="Preview">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        data-legal-id="{{ legal.id }}"
+                                        onclick="prepareDelete(this)"
+                                        title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="legalModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-file-text"></i> <span id="modalTitle">Add Legal Content</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="legalForm">
+                    {% csrf_token %}
+                    <input type="hidden" id="legalId">
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Type <span class="text-danger">*</span></label>
+                            <select class="form-select" id="legalType" required>
+                                <option value="">Select Type</option>
+                                <option value="terms">Terms & Conditions</option>
+                                <option value="privacy">Privacy Policy</option>
+                                <option value="cookies">Cookie Policy</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="legalTitle" placeholder="e.g., Terms of Service" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="legalIsActive" checked>
+                            <label class="form-check-label" for="legalIsActive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Content <span class="text-danger">*</span></label>
+                        <div id="legalContentWrapper">
+                            <div id="legalContent" style="height: 400px; background: white;"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-primary" onclick="saveLegal()">
+                    <i class="bi bi-check-circle"></i> <span id="saveButtonText">Save Legal Content</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="previewModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-eye"></i> Preview: <span id="previewTitle"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="previewContent" class="p-3" style="max-height: 70vh; overflow-y: auto;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h6 class="modal-title"><i class="bi bi-exclamation-triangle"></i> Confirm Delete</h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Are you sure you want to delete this legal content? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete()">
+                    <i class="bi bi-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+        const routes = {
+    legalGet: "{% url 'legal_get' 0 %}",
+    legalCreate: "{% url 'legal_create' %}",
+    legalUpdate: "{% url 'legal_update' 0 %}",
+    legalDelete: "{% url 'legal_delete' 0 %}"
+};
+
+let deleteTargetId = null;
+let quillEditor = null;
+let editorInitialized = false;
+
+function initQuillEditor() {
+    if (editorInitialized && quillEditor) {
+        return;
+    }
+    
+    const editorContainer = document.getElementById('legalContent');
+    if (!editorContainer) {
+        return;
+    }
+    
+    editorContainer.innerHTML = '';
+    
+    if (quillEditor) {
+        quillEditor = null;
+    }
+    
+    quillEditor = new Quill('#legalContent', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'align': [] }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],
+                ['link', 'image'],
+                ['blockquote', 'code-block'],
+                ['clean']
+            ]
+        },
+        placeholder: 'Enter legal content here...'
+    });
+    
+    editorInitialized = true;
+}
+
+function prepareDelete(button) {
+    deleteTargetId = button.getAttribute('data-legal-id');
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    deleteModal.show();
+}
+
+function confirmDelete() {
+    if (!deleteTargetId) return;
+
+    const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+    deleteModal.hide();
+
+    universalLoader("Please wait", "Deleting legal content...");
+    fetch(routes.legalDelete.replace('/0/', '/' + deleteTargetId + '/'), {
+        method: 'POST',
+        headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
+    })
+    .then(res => res.json())
+    .then(data => { 
+        universalLoader(false);
+        if (data.success) { 
+            window.notyf.open({ type: "success", message: data.message || "Legal content deleted successfully!" });
+            setTimeout(() => location.reload(), 500);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Failed to delete legal content." });
+        }
+    })
+    .catch(err => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Error deleting legal content." });
+    });
+}
+
+function resetLegalForm() {
+    document.getElementById('legalForm').reset();
+    document.getElementById('legalId').value = '';
+    document.getElementById('modalTitle').textContent = 'Add Legal Content';
+    document.getElementById('saveButtonText').textContent = 'Save Legal Content';
+    document.getElementById('legalType').disabled = false;
+    document.getElementById('legalIsActive').checked = true;
+    
+    if (quillEditor && editorInitialized) {
+        quillEditor.setText('');
+    }
+}
+
+function previewLegal(button) {
+    const legalId = button.getAttribute('data-legal-id');
+
+    const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+    
+    universalLoader("Please wait", "Loading preview...");
+    fetch(routes.legalGet.replace('/0/', '/' + legalId + '/'))
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('previewTitle').textContent = data.title;
+            document.getElementById('previewContent').innerHTML = data.content;
+            universalLoader(false);
+            previewModal.show();
+        })
+        .catch(err => { 
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Failed to load preview." }); 
+        });
+}
+
+function editLegal(button) {
+    const legalId = button.getAttribute('data-legal-id');
+    
+    document.getElementById('modalTitle').textContent = 'Edit Legal Content';
+    document.getElementById('saveButtonText').textContent = 'Update Legal Content';
+
+    const legalModal = new bootstrap.Modal(document.getElementById('legalModal'));
+
+    universalLoader("Please wait", "Loading legal content...");
+    fetch(routes.legalGet.replace('/0/', '/' + legalId + '/'))
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('legalId').value = data.id;
+            document.getElementById('legalType').value = data.type || '';
+            document.getElementById('legalType').disabled = true;
+            document.getElementById('legalTitle').value = data.title || '';
+            document.getElementById('legalIsActive').checked = data.is_active !== false;
+            
+            universalLoader(false);
+            legalModal.show();
+            
+            setTimeout(() => {
+                const checkEditor = setInterval(() => {
+                    if (quillEditor && editorInitialized) {
+                        clearInterval(checkEditor);
+                        const delta = quillEditor.clipboard.convert(data.content || '');
+                        quillEditor.setContents(delta, 'silent');
+                    }
+                }, 100);
+                
+                setTimeout(() => clearInterval(checkEditor), 3000);
+            }, 200);
+        })
+        .catch(err => { 
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Failed to load legal content." }); 
+        });
+}
+
+function saveLegal() {
+    const legalId = document.getElementById('legalId').value;
+    const type = document.getElementById('legalType').value;
+    const title = document.getElementById('legalTitle').value;
+    const content = (quillEditor && editorInitialized) ? quillEditor.root.innerHTML : '';
+    const isActive = document.getElementById('legalIsActive').checked;
+
+    if (!type) {
+        window.notyf.open({ type: "error", message: "Type is required!" });
+        return;
+    }
+
+    if (!title) {
+        window.notyf.open({ type: "error", message: "Title is required!" });
+        return;
+    }
+
+    if (!content || content.trim() === '' || content === '<p><br></p>') {
+        window.notyf.open({ type: "error", message: "Content is required!" });
+        return;
+    }
+
+    const jsonData = JSON.stringify({
+        type: type,
+        title: title,
+        content: content,
+        is_active: isActive
+    });
+
+    const url = legalId ? routes.legalUpdate.replace('/0/', '/' + legalId + '/') : routes.legalCreate;
+
+    universalLoader("Please wait", legalId ? "Updating legal content..." : "Creating new legal content...");
+    fetch(url, {
+        method: 'POST',
+        headers: { 
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'Content-Type': 'application/json'
+        },
+        body: jsonData
+    })
+    .then(res => res.json())
+    .then(data => { 
+        universalLoader(false);
+        if (data.success) { 
+            window.notyf.open({ type: "success", message: data.message || "Legal content saved successfully!" });
+            setTimeout(() => location.reload(), 500);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Failed to save legal content." });
+        }
+    })
+    .catch(err => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Error saving legal content." });
+    });
+}
+
+document.getElementById('legalModal').addEventListener('shown.bs.modal', function () {
+    if (!editorInitialized) {
+        setTimeout(() => {
+            initQuillEditor();
+        }, 150);
+    }
+});
+
+document.getElementById('legalModal').addEventListener('hidden.bs.modal', function () {
+    const toolbars = document.querySelectorAll('.ql-toolbar');
+    toolbars.forEach(toolbar => toolbar.remove());
+    
+    const editorContainer = document.getElementById('legalContentWrapper');
+    if (editorContainer) {
+        editorContainer.innerHTML = '<div id="legalContent" style="height: 400px; background: white;"></div>';
+    }
+    
+    editorInitialized = false;
+    quillEditor = null;
+});
+
+$(document).ready(function() {
+    $('#legalTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search legal content...",
+            emptyTable: "No legal content found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ items",
+            paginate: { previous: '<i class="bi bi-chevron-left"></i>', next: '<i class="bi bi-chevron-right"></i>' }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { type: 'num', targets: 0 },
+            { orderable: false, targets: [6] },
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 },
+            { responsivePriority: 3, targets: 2 },
+            { responsivePriority: 4, targets: 6 }
+        ]
+    });
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice - #{{ order.id }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px 0;
+            min-height: 100vh;
+        }
+        
+        .main-container {
+            width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+            min-height: 1122px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .content-section {
+            flex: 1;
+        }
+        
+        .header-bg {
+            background: url("{{ website.website }}/static/emails/static/header.png") no-repeat;
+            background-position: center;
+            background-size: cover;
+            text-align: center;
+            height: 150px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .header-bg img {
+            height: 24px;
+        }
+        
+        .content-section {
+            padding: 40px;
+            padding-top: 0px;
+        }
+        
+        .invoice-header {
+            width: 520px;
+            text-align: center;
+            margin: 0 auto;
+        }
+        
+        .invoice-number {
+            font-weight: bold;
+            color: #241b33;
+            text-align: center;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 20px;
+            line-height: 30px;
+        }
+        
+        .invoice-date {
+            color: #e3aa00;
+            text-align: center;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 12px;
+            line-height: 20px;
+        }
+        
+        .main-content {
+            display: table;
+            width: 100%;
+            border: none;
+            border-collapse: collapse;
+        }
+        
+        .left-column {
+            display: table-cell;
+            width: 30%;
+            padding: 20px 0px;
+            vertical-align: top;
+        }
+        
+        .right-column {
+            display: table-cell;
+            width: 70%;
+            vertical-align: top;
+        }
+        
+        .total-label {
+            color: #241b33;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 10px;
+            line-height: 14px;
+        }
+        
+        .total-amount {
+            color: #e3aa00;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 24px;
+            line-height: 30px;
+        }
+        
+        .section-label {
+            color: #241b33;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 9px;
+            line-height: 12px;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            color: #241b33;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 12px;
+            line-height: 18px;
+        }
+        
+        .section-text {
+            color: #9e99af;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 8px;
+            line-height: 12px;
+        }
+        
+        .email-highlight {
+            color: #e3aa00;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 8px;
+            line-height: 12px;
+            font-weight: bold;
+        }
+        
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none;
+        }
+        
+        .table-header {
+            font-weight: bold;
+            color: #241b33;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 12px;
+            line-height: 18px;
+        }
+        
+        .header-desc {
+            width: 60%;
+            border-bottom: 1px solid black;
+            padding: 10px 5px;
+        }
+        
+        .header-qty {
+            width: 20%;
+            border-bottom: 3px solid #e3aa00;
+            padding: 10px 5px;
+            text-align: center;
+        }
+        
+        .header-price {
+            width: 20%;
+            border-bottom: 3px solid #e3aa00;
+            padding: 10px 5px;
+            text-align: center;
+        }
+        
+        .item-desc {
+            width: 60%;
+            border-bottom: 1px solid black;
+            padding: 10px 5px;
+        }
+        
+        .item-name {
+            font-weight: bold;
+            color: #241b33;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 9px;
+            line-height: 16px;
+        }
+        
+        .item-tokens {
+            color: #9e99af;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 8px;
+            line-height: 16px;
+        }
+        
+        .item-qty {
+            width: 20%;
+            border-bottom: 1px solid black;
+            padding: 10px 5px;
+            background: #f8f8f8;
+            text-align: center;
+        }
+        
+        .item-price {
+            width: 20%;
+            border-bottom: 1px solid black;
+            padding: 10px 5px;
+            background: #f8f8f8;
+            text-align: center;
+        }
+        
+        .item-value {
+            color: #9e99af;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 8px;
+            line-height: 12px;
+        }
+        
+        .summary-label {
+            width: 60%;
+            padding: 10px 10px 0px 5px;
+            text-align: right;
+        }
+        
+        .summary-value {
+            width: 20%;
+            padding: 10px 10px 0px 5px;
+            padding-right: 20px;
+            background: #f8f8f8;
+            text-align: right;
+        }
+        
+        .summary-text {
+            color: #9e99af;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 10px;
+            line-height: 16px;
+            text-align: right;
+        }
+        
+        .summary-amount {
+            color: #9e99af;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 10px;
+            line-height: 12px;
+        }
+        
+        .discount-label {
+            width: 60%;
+            border-bottom: 1px solid black;
+            padding: 0px 10px 10px 5px;
+            text-align: right;
+        }
+        
+        .discount-value {
+            width: 20%;
+            border-bottom: 3px solid #e3aa00;
+            padding: 0px 10px 10px 5px;
+            padding-right: 20px;
+            background: #f8f8f8;
+            text-align: right;
+        }
+        
+        .total-label-row {
+            width: 60%;
+            padding: 10px 5px;
+            text-align: right;
+        }
+        
+        .total-value-row {
+            width: 20%;
+            padding: 10px 5px;
+            padding-right: 20px;
+            text-align: right;
+        }
+        
+        .grand-total-text {
+            color: #241b33;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 12px;
+            line-height: 16px;
+            text-align: right;
+            font-weight: bold;
+        }
+        
+        .grand-total-amount {
+            color: #241b33;
+            margin: 0px;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 12px;
+            line-height: 16px;
+            font-weight: bold;
+        }
+        
+        .footer-bg {
+            background: url("{{ website.website }}/static/emails/static/footer.png") no-repeat;
+            background-position: center;
+            background-size: cover;
+            height: 230px;
+            width: 100%;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            
+            .main-container {
+                box-shadow: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-bg">
+            <img src="{{ website.website }}/static/emails/static/logo.png" alt="Logo">
+        </div>
+        <!-- Header End -->
+
+        <!-- Content -->
+        <div class="content-section">
+            <div class="invoice-header">
+                <h1 class="invoice-number">
+                    Invoice No. {{ order.id|stringformat:"06d" }}
+                </h1>
+                <p class="invoice-date">
+                    {{ order.created_at|date:"d/m/Y" }}
+                </p>
+            </div>
+            
+            <div class="main-content">
+                <div class="left-column">
+                    <h1 class="total-label">TOTAL</h1>
+                    <p class="total-amount">
+                        {{ order.currency }}{{ order.total|floatformat:2 }}
+                    </p>
+                    <br><br>
+                    
+                    <p class="section-label">Invoice To:</p>
+                    <h1 class="section-title">
+                        {{ order.user.first_name|default:"" }} {{ order.user.last_name|default:"" }}
+                    </h1>
+                    <br><br><br><br>
+                    
+                    <p class="section-label">Invoice From:</p>
+                    <h1 class="section-title">
+                        {{ website.company|default:"TBC" }}
+                    </h1>
+                    <p class="section-text">
+                        <br>
+                        <!-- {{ website.address|default:"TBC"|safe }} -->
+                        DUNEWELL  SERVICES  LTD<br>
+                        3 Swan Avenue<br>
+                        Wallsend<br>
+                        United Kingdom<br>
+                        NE28 7JH<br>
+                        Company Number: 17135763<br>
+                    </p>
+                    <br>
+                    <p class="section-text">
+                        <span class="email-highlight">Email:</span> {{ website.email|default:"support@littlestorybox.com" }}
+                    </p>
+                </div>
+                
+                <div class="right-column">
+                    <table class="items-table">
+                        <tr>
+                            <td class="header-desc">
+                                <h1 class="table-header">DESCRIPTION</h1>
+                            </td>
+                            <td class="header-qty">
+                                <h1 class="table-header">QTY.</h1>
+                            </td>
+                            <td class="header-price">
+                                <h1 class="table-header">PRICE</h1>
+                            </td>
+                        </tr>
+                        
+                        {% for item in items %}
+                        <tr>
+                            <td class="item-desc">
+                                <h1 class="item-name">
+                                    {{ item.package.packagetype.name }}
+                                </h1>
+                                <p class="item-tokens">
+                                    {{ item.tokens }}
+                                </p>
+                            </td>
+                            <td class="item-qty">
+                                <p class="item-value">
+                                    {{ item.quantity }}
+                                </p>
+                            </td>
+                            <td class="item-price">
+                                <p class="item-value">
+                                    {{ item.currency }}{{ item.subtotal|floatformat:2 }}
+                                </p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        
+                        <tr>
+                            <td class="summary-label">
+                                <p class="summary-text">Sub Total</p>
+                            </td>
+                            <td class="summary-value" colspan="2">
+                                <p class="summary-amount">
+                                    {{ order.currency }}{{ order.total|add:order.discount|floatformat:2 }}
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="discount-label">
+                                <p class="summary-text">Discount</p>
+                            </td>
+                            <td class="discount-value" colspan="2">
+                                <p class="summary-amount">
+                                    {{ order.currency }}{{ order.discount|floatformat:2 }}
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="total-label-row">
+                                <p class="grand-total-text">GRAND TOTAL</p>
+                            </td>
+                            <td class="total-value-row" colspan="2">
+                                <p class="grand-total-amount">
+                                    {{ order.currency }}{{ order.total|floatformat:2 }}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Content End-->
+
+        <!-----------Footer----------->
+        <div class="footer-bg"></div>
+        <!-----------Footer End----------->
+    </div>
+</body>
+</html>

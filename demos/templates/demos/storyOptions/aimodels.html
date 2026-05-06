@@ -1,0 +1,273 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}AI Models{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-robot"></i> AI Models</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modelModal" onclick="resetModelForm()">
+            <i class="bi bi-plus-circle"></i> Add New Model
+        </button>
+    </div>
+
+    <div class="log-table-card">
+        <table id="modelTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Emoji</th>
+                    <th>Type</th>
+                    <th>Family</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for model in models %}
+                    <tr data-id="{{ model.id }}">
+                        <td><span class="log-id-badge">#{{ model.id }}</span></td>
+                        <td class="model-name">{{ model.name }}</td>
+                        <td class="model-emoji">{{ model.emoji }}</td>
+                        <td class="model-type">{{ model.type }}</td>
+                        <td class="model-family">{{ model.family }}</td>
+                        <td class="text-center">
+                            {% if model.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modelModal"
+                                    data-id="{{ model.id }}"
+                                    data-name="{{ model.name }}"
+                                    data-emoji="{{ model.emoji }}"
+                                    data-alias="{{ model.alias }}"
+                                    data-type="{{ model.type }}"
+                                    data-family="{{ model.family }}"
+                                    data-temperature="{{ model.temperature }}"
+                                    data-apikey="{{ model.apikey }}"
+                                    data-endpoint="{{ model.endpoint }}"
+                                    data-parameters="{{ model.parameters|escapejs }}"
+                                    data-is-active="{{ model.is_active }}"
+                                    onclick="editModel(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modelModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-robot"></i> AI Model</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="modelForm">
+                    {% csrf_token %}
+                    <input type="hidden" id="modelId">
+
+                    <div class="mb-3">
+                        <label class="form-label">Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="modelName" name="name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Emoji</label>
+                        <input type="text" class="form-control" id="modelEmoji" name="emoji" maxlength="5">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Alias</label>
+                        <input type="text" class="form-control" id="modelAlias" name="alias">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Type</label>
+                        <select class="form-control" id="modelType" name="type">
+                            <option value="">Select Type</option>
+                            {% for value, label in types %}
+                                <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Family</label>
+                        <input type="text" class="form-control" id="modelFamily" name="family">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Temperature</label>
+                        <input type="number" class="form-control" id="modelTemperature" name="temperature" step="0.01" min="0" max="2" value="0.7">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">API Key</label>
+                        <input type="text" class="form-control" id="modelApiKey" name="apikey">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Endpoint</label>
+                        <input type="text" class="form-control" id="modelEndpoint" name="endpoint">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Parameters (JSON)</label>
+                        <textarea class="form-control" id="modelParameters" name="parameters" rows="3" placeholder='{"key": "value"}'></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="modelIsActive" name="is_active">
+                            <label class="form-check-label" for="modelIsActive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveModel()">Save Model</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+    $('#modelTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search models...",
+            emptyTable: "No models found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ models",
+            infoEmpty: "Showing 0 to 0 of 0 models",
+            infoFiltered: "(filtered from _MAX_ total models)",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"row mt-3"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+        columnDefs: [
+            { orderable: false, targets: -1 },
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 }
+        ]
+    });
+});
+</script>
+<script>
+const routes = {
+    create: "{% url 'model_create' %}",
+    update: (id) => "{% url 'model_update' 0 %}".replace("/0/", `/${id}/`)
+};
+
+function getCsrfToken() {
+    return document.querySelector('#modelForm input[name=csrfmiddlewaretoken]').value;
+}
+
+function resetModelForm() {
+    document.getElementById('modelForm').reset();
+    document.getElementById('modelId').value = '';
+    document.getElementById('modelTemperature').value = '0.7';
+    document.getElementById('modelIsActive').checked = false;
+}
+
+function editModel(button) {
+    const id = button.getAttribute('data-id');
+    document.getElementById('modelId').value = id;
+    document.getElementById('modelName').value = button.getAttribute('data-name') || '';
+    document.getElementById('modelEmoji').value = button.getAttribute('data-emoji') || '';
+    document.getElementById('modelAlias').value = button.getAttribute('data-alias') || '';
+    document.getElementById('modelType').value = button.getAttribute('data-type') || '';
+    document.getElementById('modelFamily').value = button.getAttribute('data-family') || '';
+    document.getElementById('modelTemperature').value = button.getAttribute('data-temperature') || '0.7';
+    document.getElementById('modelApiKey').value = button.getAttribute('data-apikey') || '';
+    document.getElementById('modelEndpoint').value = button.getAttribute('data-endpoint') || '';
+    document.getElementById('modelIsActive').checked = button.getAttribute('data-is-active') === 'True';
+    
+    const params = button.getAttribute('data-parameters') || '';
+    if (params && params !== '{}' && params !== 'None') {
+        try {
+            const parsed = JSON.parse(params);
+            document.getElementById('modelParameters').value = JSON.stringify(parsed, null, 2);
+        } catch (e) {
+            document.getElementById('modelParameters').value = params;
+        }
+    } else {
+        document.getElementById('modelParameters').value = '';
+    }
+}
+
+function saveModel() {
+    const id = document.getElementById('modelId').value;
+    const form = document.getElementById('modelForm');
+    
+    const name = document.getElementById('modelName').value.trim();
+    if (!name) {
+        window.notyf.open({ type: "error", message: "Name is required!" });
+        return;
+    }
+    
+    const parametersText = document.getElementById('modelParameters').value.trim();
+    if (parametersText) {
+        try {
+            JSON.parse(parametersText);
+        } catch (e) {
+            window.notyf.open({ type: "error", message: "Invalid JSON in parameters!" });
+            return;
+        }
+    }
+    
+    const formData = new FormData(form);
+    formData.set('parameters', parametersText || '{}');
+    formData.append('is_active', document.getElementById('modelIsActive').checked);
+    const url = id ? routes.update(id) : routes.create;
+
+    universalLoader('Saving Model', 'Please wait...');
+
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': getCsrfToken()
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        universalLoader(false);
+        if (data.success) {
+            window.notyf.open({ type: "success", message: data.message || "Model saved successfully!" });
+            setTimeout(() => location.reload(), 500);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Something went wrong!" });
+        }
+    })
+    .catch(err => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Error saving model!" });
+        console.error(err);
+    });
+}
+</script>
+{% endblock %}

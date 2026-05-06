@@ -1,0 +1,475 @@
+{% extends "includes/layout.html" %}
+{% load static %}
+{% block title %} {{ book.title }} | {{ site_name }} {% endblock %}
+{% block content %}
+
+<div class="create-story-main">
+    <section class="create-header-section">
+        <img src="{% static 'media/module-dashboard-header.png' %}" alt="" class="img-fluid bg-image d-lg-block d-md-block d-none">
+        <img src="{% static 'media/module-dashboard-header-mo.png' %}" alt="" class="img-fluid bg-image d-lg-none d-md-none d-block">
+        <div class="container">
+            <div class="col">
+                <div class="create-header-title">
+                    <h2>{{ book.title }}</h2>
+                    <a href="{% url 'library_list' %}" class="btn btn-yellow">Go to library</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="create-backgrpound-book">
+        <div class="container">
+            <div class="col">
+                <div class="main-book-slider">
+                    <div class="create-story-slider d-lg-block d-md-none d-none">
+                        <div class="book-section">
+                            <div class="container" id="book">
+
+                                <!-- First page: Cover image on front, first page image on back -->
+                                <div class="right cover-page" data-page-index="0">
+                                    <figure class="back">
+                                        {% with book.pages.all|first as first_page %}
+                                            {% if first_page.image %}
+                                                <img src="{{ first_page.image.url }}" alt="" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                                            {% endif %}
+                                        {% endwith %}
+                                    </figure>
+                                    {% if book.image %}
+                                    <figure class="front" style="padding: 0 !important; margin: 0 !important; overflow: hidden !important; position: relative !important; background: transparent !important; width: 100% !important; height: 100% !important;">
+                                        <img src="{{ book.image.url }}" alt="{{ book.title }}" style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;">
+                                    </figure>
+                                    {% else %}
+                                    <figure class="front">
+                                        <div class="fron-content play-content title-page">
+                                            <p style="font-size:28px; font-weight:bold; text-align:center; margin-top: 50%;">{{ book.title }}</p>
+                                        </div>
+                                    </figure>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Subsequent pages: Text on front, next page's image on back -->
+                                {% for page in book.pages.all %}
+                                    <div class="right" data-page-index="{{ forloop.counter }}" data-has-audio="{% if page.audio %}true{% else %}false{% endif %}">
+                                        <figure class="back">
+                                            {% if not forloop.last %}
+                                                {% for next_page in book.pages.all %}
+                                                    {% if forloop.counter0 == forloop.parentloop.counter %}
+                                                        {% if next_page.image %}
+                                                            <img src="{{ next_page.image.url }}" alt="" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </figure>
+                                        <figure class="front">
+                                            <div class="fron-content play-content page-content">
+                                                <p>{{ page.text|linebreaksbr }}</p>
+                                            </div>
+                                        </figure>
+                                        {% if page.audio %}
+                                            <audio class="page-audio" src="{{ page.audio.url }}"></audio>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+
+                            <div class="btn-page-count-play" style="background: transparent !important;">
+                                <div class="btn-page-count" style="background: transparent !important;">
+                                    <button id="btnLeft" type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                            <rect width="32" height="32" rx="16" transform="matrix(-1.19249e-08 1 1 1.19249e-08 3.81595e-07 0)" fill="#FFCE3C"/>
+                                            <path d="M19 10L13 16L19 22" stroke="#5A3384" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+                                    <p id="pageCount" style="color: white !important;">Page 1 of {{ book.pages.count|add:"1" }}</p>
+                                    <button id="btnRight" type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                            <rect x="32" width="32" height="32" rx="16" transform="rotate(90 32 0)" fill="#FFCE3C"/>
+                                            <path d="M13 10L19 16L13 22" stroke="#5A3384" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <button class="btn btn-yellow play-btn" id="playDesktop" type="button" style="display: none;">
+                                    Play audio
+                                    <img src="{% static 'media/Volume.svg' %}" class="img-fluid">
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="main-book-slider-mo d-block d-md-block d-lg-none">
+                    <div class="owl-carousel owl-theme owl-carousel-genarate">
+                        <div class="item cover-slide" data-slide-index="0" data-has-audio="false">
+                            {% if book.image %}
+                            <div class="card" style="padding: 0; overflow: hidden; position: relative;">
+                                <img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                            </div>
+                            {% else %}
+                            <div class="card">
+                                <div class="genrate-card" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+                                    <p style="text-align:center; font-weight:bold; font-size:24px;">{{ book.title }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% for page in book.pages.all %}
+                            <div class="item" data-slide-index="{{ forloop.counter }}" data-has-audio="{% if page.audio %}true{% else %}false{% endif %}">
+                                <div class="card">
+                                    {% if page.image %}
+                                        <img src="{{ page.image.url }}" alt="" class="img-fluid">
+                                    {% else %}
+                                        <img src="{% static 'media/grenetr-img.png' %}" alt="" class="img-fluid">
+                                    {% endif %}
+                                    <div class="genrate-card">
+                                        <p>{{ page.text|linebreaksbr }}</p>
+                                    </div>
+                                    {% if page.audio %}
+                                        <audio class="page-audio-mobile" src="{{ page.audio.url }}"></audio>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <p id="owlpageCount">Page 1 of {{ book.pages.count|add:"1" }}</p>
+                </div>
+            </div>
+            <div class="btn-warp">
+                <button class="btn btn-yellow play-btn d-block d-lg-none d-md-none" id="playmo" type="button" style="display: none;">
+                    Play audio <img src="{% static 'media/Volume.svg' %}" class="img-fluid">
+                </button>
+                <a href="{% url 'productbook_download' book.slug %}" class="btn btn-yellow btn-download productbook_download">
+                    Download PDF
+                </a>             
+            </div>
+        </div>
+    </section>
+
+    <div class="cloude-bottom d-none d-lg-block d-md-block">
+        <img src="{% static 'media/sectionclouds.png' %}" alt="" class="img-fluid w-100" style="margin-bottom: -1px;">
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+if(typeof AOS !== 'undefined') {
+    AOS.init({ duration: 1000 });
+}
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const downloadBtn = document.querySelector('.productbook_download');
+    
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            const downloadUrl = this.getAttribute('href');
+            universalLoader("Please wait", "Preparing PDF for download...");
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', downloadUrl, true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.responseType = 'blob';
+            
+            xhr.timeout = 120000;
+            
+            xhr.onload = function() {
+                universalLoader(false);
+                
+                if (xhr.status === 200) {
+                    const contentDisposition = xhr.getResponseHeader('Content-Disposition');
+                    let filename = 'Story.pdf';
+                    
+                    if (contentDisposition) {
+                        const filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
+                        if (filenameMatch && filenameMatch[1]) {
+                            filename = filenameMatch[1];
+                        }
+                    }
+                    
+                    window.notyf.open({ type: "success", message: "PDF ready! Starting download..." });
+                    
+                    const blob = xhr.response;
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    setTimeout(() => {
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+                    }, 100);
+                } else {
+                    const reader = new FileReader();
+                    reader.onload = function() {
+                        try {
+                            const errorData = JSON.parse(reader.result);
+                            window.notyf.open({ type: "error", message: errorData.error || 'Download failed' });
+                        } catch (e) {
+                            window.notyf.open({ type: "error", message: 'Download failed' });
+                        }
+                    };
+                    reader.readAsText(xhr.response);
+                }
+            };
+            
+            xhr.onerror = function() {
+                universalLoader(false);
+                window.notyf.open({ type: "error", message: 'Network error occurred' });
+            };
+            
+            xhr.ontimeout = function() {
+                universalLoader(false);
+                window.notyf.open({ type: "error", message: 'Request timeout' });
+            };
+            
+            xhr.send();
+        });
+    }
+});
+</script>
+
+<script>
+    (function() {
+        window.addEventListener('DOMContentLoaded', function() {
+            var pages = document.querySelectorAll('#book .right');
+            if(!pages.length) return;
+    
+            var totalPages = pages.length - 1; // Exclude cover from total count
+            var currentPage = 0; // Start at 0 (cover page)
+            var z = pages.length;
+            var pageCountDisplay = document.getElementById("pageCount");
+            var audioPlayer = new Audio();
+            var isPlaying = false;
+            var playBtn = document.getElementById('playDesktop');
+            var btnLeft = document.getElementById('btnLeft');
+            var btnRight = document.getElementById('btnRight');
+    
+            for(var i=0; i<pages.length; i++){
+                pages[i].classList.remove('flip');
+                pages[i].style.zIndex = z - i;
+            }
+    
+            function updatePageCount(){
+                if(pageCountDisplay){
+                    pageCountDisplay.textContent = "Page " + currentPage + " of " + totalPages;
+                    // Change text color to white only on first page (cover page)
+                    if(currentPage === 0){
+                        pageCountDisplay.style.color = "white";
+                    } else {
+                        pageCountDisplay.style.color = "";
+                    }
+                }
+                if(btnLeft){
+                    if(currentPage === 0 || currentPage === 1){
+                        btnLeft.disabled = true;
+                        btnLeft.style.opacity = "0.5";
+                        btnLeft.style.cursor = "not-allowed";
+                    } else {
+                        btnLeft.disabled = false;
+                        btnLeft.style.opacity = "1";
+                        btnLeft.style.cursor = "pointer";
+                    }
+                }
+                
+                if(btnRight){
+                    if(currentPage >= pages.length - 1){
+                        btnRight.disabled = true;
+                        btnRight.style.opacity = "0.5";
+                        btnRight.style.cursor = "not-allowed";
+                    } else {
+                        btnRight.disabled = false;
+                        btnRight.style.opacity = "1";
+                        btnRight.style.cursor = "pointer";
+                    }
+                }
+
+                // Show/hide play button based on current page audio availability
+                if(playBtn){
+                    var currentPageHasAudio = pages[currentPage].getAttribute('data-has-audio') === 'true';
+                    playBtn.style.display = currentPageHasAudio ? 'block' : 'none';
+                }
+            }
+    
+            function stopAudio(){
+                if(audioPlayer){
+                    audioPlayer.pause();
+                    audioPlayer.currentTime = 0;
+                    isPlaying = false;
+                    if(playBtn) playBtn.innerHTML = 'Play audio <img src="{% static "media/Volume.svg" %}" class="img-fluid">';
+                }
+            }
+    
+            function turnRight(){
+                stopAudio();
+                if(currentPage < pages.length - 1){
+                    pages[currentPage].classList.add('flip');
+                    pages[currentPage].style.zIndex = currentPage;
+                    currentPage++;
+                    updatePageCount();
+                }
+            }
+            turnRight();
+            function turnLeft(){
+                stopAudio();
+                if(currentPage > 0){
+                    currentPage--;
+                    pages[currentPage].classList.remove('flip');
+                    pages[currentPage].style.zIndex = z - currentPage;
+                    updatePageCount();
+                }
+            }
+    
+            if(btnRight) btnRight.addEventListener('click', turnRight);
+            if(btnLeft) btnLeft.addEventListener('click', turnLeft);
+    
+            if(playBtn){
+                playBtn.addEventListener('click', function(){
+                    if(currentPage === 0) return;
+                    var activeAudio = pages[currentPage].querySelector('.page-audio');
+                    if(!activeAudio) return;
+    
+                    if(isPlaying){
+                        audioPlayer.pause();
+                        audioPlayer.currentTime = 0;
+                        isPlaying = false;
+                        playBtn.innerHTML = 'Play audio <img src="{% static "media/Volume.svg" %}" class="img-fluid">';
+                    } else {
+                        audioPlayer.src = activeAudio.src;
+                        audioPlayer.play();
+                        isPlaying = true;
+                        playBtn.innerHTML = 'Stop audio <img src="{% static "media/Volume.svg" %}" class="img-fluid">';
+                    }
+    
+                    audioPlayer.onended = function(){
+                        isPlaying = false;
+                        playBtn.innerHTML = 'Play audio <img src="{% static "media/Volume.svg" %}" class="img-fluid">';
+                    };
+                });
+            }
+    
+            // Initialize page count display
+            updatePageCount();
+        });
+    })();
+    </script>
+<script>
+    (function() {
+        if(typeof jQuery === 'undefined') return;
+        $(document).ready(function(){
+            var owl = $('.owl-carousel-genarate');
+            if(owl.length === 0) return;
+    
+            var totalSlides = $('.owl-carousel-genarate .item').length - 1; // Exclude cover from total
+            var pageCount = $('#owlpageCount');
+            var playMoBtn = document.getElementById("playmo");
+            var mobileAudioPlayer = new Audio();
+            var isMobilePlaying = false;
+            var currentSlideIndex = 0;
+    
+            owl.owlCarousel({
+                items: 1,
+                loop: false,
+                nav: true,
+                dots: false,
+                margin: 20,
+                startPosition: 0,
+                navText: [
+                    '<img src="{% static "media/left-icon-arrow.svg" %}" class="nav-icon img-fluid" alt="prev">',
+                    '<img src="{% static "media/right-icon-arrow.svg" %}" class="nav-icon img-fluid" alt="next">'
+                ],
+                responsive:{ 0:{ items:1 }, 600:{ items:1 }, 1000:{ items:1 } }
+            });
+    
+            if(pageCount.length) pageCount.text('Page 0 of ' + totalSlides);
+    
+            function updateMobileAudioButton(){
+                if(playMoBtn){
+                    var activeItem = $('.owl-carousel-genarate .owl-item').eq(currentSlideIndex);
+                    var hasAudio = activeItem.find('.item').attr('data-has-audio') === 'true';
+                    playMoBtn.style.display = hasAudio ? 'block' : 'none';
+                }
+            }
+    
+            function updateNavigationButtons(){
+                var prevBtn = $('.owl-carousel-genarate .owl-prev');
+                var nextBtn = $('.owl-carousel-genarate .owl-next');
+                
+                // Disable prev button on page 0 or page 1
+                if(currentSlideIndex === 0 || currentSlideIndex === 1){
+                    prevBtn.addClass('disabled');
+                    prevBtn.css({'opacity': '0.5', 'cursor': 'not-allowed', 'pointer-events': 'none'});
+                } else {
+                    prevBtn.removeClass('disabled');
+                    prevBtn.css({'opacity': '1', 'cursor': 'pointer', 'pointer-events': 'auto'});
+                }
+                
+                // Disable next button on last page
+                if(currentSlideIndex >= totalSlides){
+                    nextBtn.addClass('disabled');
+                    nextBtn.css({'opacity': '0.5', 'cursor': 'not-allowed', 'pointer-events': 'none'});
+                } else {
+                    nextBtn.removeClass('disabled');
+                    nextBtn.css({'opacity': '1', 'cursor': 'pointer', 'pointer-events': 'auto'});
+                }
+            }
+    
+            owl.on('changed.owl.carousel', function(event) {
+                currentSlideIndex = event.item.index;
+                if(pageCount.length) pageCount.text('Page ' + currentSlideIndex + ' of ' + totalSlides);
+                stopMobileAudio();
+                updateMobileAudioButton();
+                updateNavigationButtons();
+            });
+    
+            function stopMobileAudio(){
+                if(mobileAudioPlayer){
+                    mobileAudioPlayer.pause();
+                    mobileAudioPlayer.currentTime = 0;
+                    isMobilePlaying = false;
+                    if(playMoBtn) playMoBtn.innerHTML = 'Play audio <img src="{% static "media/Volume.svg" %}" class="img-fluid">';
+                }
+            }
+    
+            if(playMoBtn){
+                playMoBtn.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if(currentSlideIndex === 0) return;
+                    var activeItems = $('.owl-carousel-genarate .owl-item.active');
+                    var audioElement = activeItems.find('.page-audio-mobile')[0];
+                    if(!audioElement) return;
+    
+                    if(isMobilePlaying){
+                        mobileAudioPlayer.pause();
+                        mobileAudioPlayer.currentTime = 0;
+                        isMobilePlaying = false;
+                        playMoBtn.innerHTML = 'Play audio <img src="{% static "media/Volume.svg" %}" class="img-fluid">';
+                    } else {
+                        mobileAudioPlayer.src = audioElement.src;
+                        mobileAudioPlayer.play();
+                        isMobilePlaying = true;
+                        playMoBtn.innerHTML = 'Stop audio <img src="{% static "media/Volume.svg" %}" class="img-fluid">';
+                    }
+    
+                    mobileAudioPlayer.onended = function(){
+                        isMobilePlaying = false;
+                        playMoBtn.innerHTML = 'Play audio <img src="{% static "media/Volume.svg" %}" class="img-fluid">';
+                    };
+                });
+            }
+    
+            // Initialize button visibility on load
+            updateMobileAudioButton();
+            updateNavigationButtons();
+        });
+    })();
+    </script>
+{% endblock %}

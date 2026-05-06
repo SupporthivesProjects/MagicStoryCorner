@@ -1,0 +1,23 @@
+.header{
+    background: #fff;
+}
+.header .nav-link{
+    color:#5A3384
+}
+
+.hearbalence p{
+    color: #5A3384;
+}
+
+#currency-select
+{
+    background: transparent;
+    color: black;
+    border: 0px;
+    font-family: "Poppins";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: -1.44px;
+}

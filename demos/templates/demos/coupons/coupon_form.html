@@ -1,0 +1,182 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}{{ action }} Coupon{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3>
+            <i class="bi bi-tag"></i> {{ action }} Coupon
+        </h3>
+        <a href="{% url 'admin_coupon_list' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </a>
+    </div>
+
+    <div class="log-table-card">
+        <form method="POST" class="p-4">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label">Coupon Name <span class="text-danger">*</span></label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="name" 
+                           name="name" 
+                           value="{% if coupon %}{{ coupon.name }}{% endif %}"
+                           placeholder="e.g., New Year Discount"
+                           required>
+                    <small class="text-muted">Enter a descriptive name for the coupon</small>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="code" class="form-label">Coupon Code <span class="text-danger">*</span></label>
+                    <input type="text" 
+                           class="form-control text-uppercase" 
+                           id="code" 
+                           name="code" 
+                           value="{% if coupon %}{{ coupon.code }}{% endif %}"
+                           placeholder="e.g., NEWYEAR2025"
+                           style="text-transform: uppercase;"
+                           required>
+                    <small class="text-muted">Enter a unique code users will apply at checkout</small>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label for="discount" class="form-label">Discount Percentage <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <input type="number" 
+                               class="form-control" 
+                               id="discount" 
+                               name="discount" 
+                               value="{% if coupon %}{{ coupon.discount }}{% endif %}"
+                               placeholder="e.g., 10"
+                               min="0"
+                               max="100"
+                               step="0.01"
+                               required>
+                        <span class="input-group-text">%</span>
+                    </div>
+                    <small class="text-muted">Enter the discount percentage (0-100)</small>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="startdate" class="form-label">Start Date & Time <span class="text-danger">*</span></label>
+                    <input type="datetime-local" 
+                           class="form-control" 
+                           id="startdate" 
+                           name="startdate" 
+                           value="{% if coupon %}{{ coupon.startdate|date:'Y-m-d\TH:i' }}{% endif %}"
+                           required>
+                    <small class="text-muted">When the coupon becomes active</small>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="enddate" class="form-label">End Date & Time</label>
+                    <input type="datetime-local" 
+                           class="form-control" 
+                           id="enddate" 
+                           name="enddate" 
+                           value="{% if coupon.enddate %}{{ coupon.enddate|date:'Y-m-d\TH:i' }}{% endif %}">
+                    <small class="text-muted">When the coupon expires (leave blank for no expiry)</small>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" 
+                               type="checkbox" 
+                               id="is_active" 
+                               name="is_active"
+                               {% if coupon %}
+                                   {% if coupon.is_active %}checked{% endif %}
+                               {% else %}
+                                   checked
+                               {% endif %}>
+                        <label class="form-check-label" for="is_active">
+                            Active Status
+                        </label>
+                    </div>
+                    <small class="text-muted">Toggle to activate or deactivate this coupon</small>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle"></i> {{ action }} Coupon
+                    </button>
+                    <a href="{% url 'admin_coupon_list' %}" class="btn btn-secondary ms-2">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if not coupon %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var codeInput = document.getElementById('code');
+    if (codeInput) {
+        codeInput.addEventListener('input', function(e) {
+            this.value = this.value.toUpperCase();
+        });
+    }
+
+    var startDateInput = document.getElementById('startdate');
+    if (startDateInput && !startDateInput.value) {
+        var now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        startDateInput.value = now.toISOString().slice(0, 16);
+    }
+
+    var endDateInput = document.getElementById('enddate');
+    if (endDateInput) {
+        endDateInput.addEventListener('change', function() {
+            var startDateInput = document.getElementById('startdate');
+            var startDate = new Date(startDateInput.value);
+            var endDate = new Date(this.value);
+            
+            if (this.value && endDate <= startDate) {
+                window.notyf.open({ type: "error", message: "End date must be after start date" });
+                this.value = '';
+            }
+        });
+    }
+});
+</script>
+{% else %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var codeInput = document.getElementById('code');
+    if (codeInput) {
+        codeInput.addEventListener('input', function(e) {
+            this.value = this.value.toUpperCase();
+        });
+    }
+
+    var endDateInput = document.getElementById('enddate');
+    if (endDateInput) {
+        endDateInput.addEventListener('change', function() {
+            var startDateInput = document.getElementById('startdate');
+            var startDate = new Date(startDateInput.value);
+            var endDate = new Date(this.value);
+            
+            if (this.value && endDate <= startDate) {
+                window.notyf.open({ type: "error", message: "End date must be after start date" });
+                this.value = '';
+            }
+        });
+    }
+});
+</script>
+{% endif %}
+{% endblock %}

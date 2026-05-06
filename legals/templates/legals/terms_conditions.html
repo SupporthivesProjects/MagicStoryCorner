@@ -1,0 +1,14 @@
+{% extends "includes/layout.html" %}
+{% load static %}
+{% block title %}Terms and Conditions |{{ site_name }} {% endblock %}
+{% block content %}
+
+<section class="pp-section">
+    <div class="container">
+        <div class="col pp-content">
+            {{ legal.content|safe }}
+        </div>
+    </div>
+</section>
+<section class="last d-lg-block d-md-block d-none"></section>
+{% endblock %}

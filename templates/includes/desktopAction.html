@@ -1,0 +1,22 @@
+<div class="d-none d-lg-block">
+    {% load static %}
+    {% load humanize %}
+    {% if logged_in_user %}
+        <div class="d-flex align-items-center">
+            {% if request.resolver_match.url_name == 'package_pricing' %}
+                <a class="btn btn-yellow" href="{% url 'order_summary' %}">View Cart</a>
+            {% elif request.resolver_match.url_name == 'product_books_details' %}
+                <a class="btn btn-yellow" href="{% url 'order_summary' %}">View Cart</a>
+                <a class="btn btn-yellow" href="{% url 'user_dashboard' %}">
+                    Balance :{{ logged_in_user.profile.wallet|default:0|intcomma }}
+                </a>
+            {% else %}
+                <a class="btn btn-yellow" href="{% url 'user_dashboard' %}">
+                    Balance :{{ logged_in_user.profile.wallet|default:0|intcomma }}
+                </a>
+            {% endif %}
+        </div>
+    {% else %}
+        <a class="btn btn-yellow" href="{% url 'user_login' %}">Login/Register</a>
+    {% endif %}
+</div>

@@ -1,0 +1,519 @@
+.storybook-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    min-height: 100vh;
+    padding-bottom: 4rem;
+    overflow-y: auto;
+}
+
+.storybook-header {
+    background: white;
+    padding: 0.5rem 0;
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    border-bottom: 3px solid transparent;
+}
+
+.storybook-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+}
+
+.storybook-header::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    position: relative;
+    z-index: 1;
+}
+
+.book-title-wrapper {
+    flex: 1;
+}
+
+.book-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.book-subtitle {
+    font-size: 15px;
+    color: #64748b;
+    margin: 0.5rem 0 0 0;
+    font-weight: 500;
+}
+
+.btn-download-pdf {
+    background: linear-gradient(135deg, #f43f5e 0%, #dc2626 100%);
+    color: white;
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    box-shadow: 0 4px 12px rgba(244, 63, 94, 0.2);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-download-pdf:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(244, 63, 94, 0.3);
+    color: white;
+}
+
+.btn-download-pdf i {
+    font-size: 0.75rem;
+}
+
+.btn-edit-book {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-edit-book:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+    color: white;
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, #f43f5e 0%, #dc2626 100%);
+    color: white;
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    box-shadow: 0 4px 12px rgba(244, 63, 94, 0.2);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(244, 63, 94, 0.3);
+    color: white;
+}
+
+.btn-delete i {
+    font-size: 0.9rem;
+}
+
+.storybook-container {
+    max-width: 1200px;
+    padding: 0 1rem;
+}
+
+.story-page {
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3rem;
+    overflow: hidden;
+    position: relative;
+    animation: fadeInUp 0.6s ease backwards;
+    transition: all 0.3s ease;
+}
+
+.story-page:hover {
+    box-shadow: 0 15px 50px rgba(102, 126, 234, 0.15);
+}
+
+.page-number {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 10;
+}
+
+.page-number span {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.page-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 500px;
+}
+
+.page-image-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
+    pointer-events: none;
+}
+
+.page-text-wrapper {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.text-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.text-content p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #1e293b;
+    margin: 0;
+    white-space: pre-wrap;
+    font-weight: 500;
+}
+
+.audio-player {
+    margin-top: 2rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.audio-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.audio-btn {
+    width: 60px;
+    height: 60px;
+    border: none;
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    flex-shrink: 0;
+}
+
+.audio-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.audio-btn i {
+    font-size: 2rem;
+}
+
+.audio-info {
+    flex: 1;
+}
+
+.audio-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #667eea;
+    margin-bottom: 0.5rem;
+}
+
+.audio-progress {
+    width: 100%;
+    height: 6px;
+    background: rgba(102, 126, 234, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--primary-gradient);
+    width: 0%;
+    transition: width 0.1s ease;
+    border-radius: 10px;
+}
+
+audio {
+    display: none;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 991px) {
+    .page-content {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+
+    .page-image-wrapper {
+        min-height: 400px;
+    }
+
+    .page-text-wrapper {
+        padding: 2rem;
+    }
+
+    .text-content p {
+        font-size: 1.05rem;
+    }
+
+    .book-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .storybook-header {
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .book-title {
+        font-size: 1.75rem;
+    }
+
+    .book-subtitle {
+        font-size: 1rem;
+    }
+
+    .btn-download-pdf {
+        width: 100%;
+        justify-content: center;
+        padding: 0.35rem 0.75rem;
+    }
+
+    .btn-edit-book {
+        width: 100%;
+        justify-content: center;
+        padding: 0.35rem 0.75rem;
+    }
+
+    .btn-delete {
+        width: 100%;
+        justify-content: center;
+        padding: 0.35rem 0.75rem;
+    }
+
+    .story-page {
+        border-radius: 16px;
+        margin-bottom: 2rem;
+    }
+
+    .page-number {
+        top: 1rem;
+        right: 1rem;
+    }
+
+    .page-number span {
+        padding: 0.4rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .page-image-wrapper {
+        min-height: 300px;
+    }
+
+    .page-text-wrapper {
+        padding: 1.5rem;
+    }
+
+    .text-content p {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .audio-player {
+        padding: 1.2rem;
+    }
+
+    .audio-btn {
+        width: 55px;
+        height: 55px;
+    }
+
+    .audio-btn i {
+        font-size: 1.8rem;
+    }
+
+    .audio-label {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 575px) {
+    .storybook-section {
+        padding-bottom: 2rem;
+    }
+
+    .storybook-header {
+        padding: 1.5rem 0;
+    }
+
+    .book-title {
+        font-size: 1.5rem;
+    }
+
+    .book-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .btn-download-pdf {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .btn-edit-book {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .btn-delete {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .page-image-wrapper {
+        min-height: 250px;
+    }
+
+    .page-text-wrapper {
+        padding: 1.2rem;
+    }
+
+    .text-content p {
+        font-size: 0.95rem;
+        line-height: 1.65;
+    }
+
+    .audio-player {
+        padding: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .audio-controls {
+        gap: 0.8rem;
+    }
+
+    .audio-btn {
+        width: 50px;
+        height: 50px;
+    }
+
+    .audio-btn i {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .book-title {
+        font-size: 1.3rem;
+    }
+
+    .btn-download-pdf {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.75rem;
+    }
+
+    .btn-edit-book {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.75rem;
+    }
+
+    .btn-delete {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.75rem;
+    }
+
+    .page-image-wrapper {
+        min-height: 220px;
+    }
+
+    .text-content p {
+        font-size: 0.9rem;
+    }
+}

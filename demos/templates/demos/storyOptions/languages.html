@@ -1,0 +1,215 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Languages{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-globe"></i> Languages</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#languageModal" onclick="resetLanguageForm()">
+            <i class="bi bi-plus-circle"></i> Add New Language
+        </button>
+    </div>
+
+    <div class="log-table-card">
+        <table id="languagesTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Emoji</th>
+                    <th>Token Cost</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for language in languages %}
+                    <tr class="log-table-row">
+                        <td><span class="log-id-badge">#{{ language.id }}</span></td>
+                        <td>{{ language.name }}</td>
+                        <td>{{ language.emoji }}</td>
+                        <td>
+                            <span class="badge bg-info">{{ language.cost }} tokens</span>
+                        </td>
+                        <td class="text-center">
+                            {% if language.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#languageModal"
+                                    data-language-id="{{ language.id }}"
+                                    onclick="editLanguage(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="languageModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-globe"></i> Language</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="languageForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="languageId">
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Language Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="languageName" placeholder="e.g., English" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Emoji</label>
+                            <input type="text" class="form-control" id="languageEmoji" placeholder="e.g., 🇬🇧" maxlength="10">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="languageContent" rows="3" placeholder="Description about this language option e.g. English" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Token Cost</label>
+                        <input type="number" class="form-control" id="languageCost" value="0" min="0">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="languageIsActive" name="is_active">
+                            <label class="form-check-label" for="languageIsActive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveLanguage()">Save Language</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const routes = {
+    languageGet: "{% url 'language_get' 0 %}",
+    languageCreate: "{% url 'language_create' %}",
+    languageUpdate: "{% url 'language_update' 0 %}"
+};
+
+function resetLanguageForm() {
+    document.getElementById('languageForm').reset();
+    document.getElementById('languageId').value = '';
+    document.getElementById('languageIsActive').checked = false;
+}
+
+function editLanguage(button) {
+    const languageId = button.getAttribute('data-language-id');
+    
+    fetch(routes.languageGet.replace('/0/', '/' + languageId + '/'))
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('languageId').value = data.id;
+            document.getElementById('languageName').value = data.name || '';
+            document.getElementById('languageEmoji').value = data.emoji || '';
+            document.getElementById('languageContent').value = data.content || '';
+            document.getElementById('languageCost').value = data.cost || 0;
+            document.getElementById('languageIsActive').checked = data.is_active || false;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            window.notyf.open({ type: "error", message: "Error loading language data" });
+        });
+}
+
+function saveLanguage() {
+    const languageId = document.getElementById('languageId').value;
+    const name = document.getElementById('languageName').value.trim();
+    const content = document.getElementById('languageContent').value.trim();
+    
+    if (!name || !content) {
+        window.notyf.open({ type: "error", message: "Language Name and Description are required!" });
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('emoji', document.getElementById('languageEmoji').value);
+    formData.append('content', content);
+    formData.append('cost', document.getElementById('languageCost').value);
+    formData.append('is_active', document.getElementById('languageIsActive').checked);
+
+    const url = languageId ? routes.languageUpdate.replace('/0/', '/' + languageId + '/') : routes.languageCreate;
+    const method = 'POST';
+
+    universalLoader('Saving Language', 'Please wait...');
+
+    fetch(url, {
+        method: method,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        universalLoader(false);
+        if (data.success) {
+            window.notyf.open({ type: "success", message: data.message || "Language saved successfully!" });
+            setTimeout(() => location.reload(), 400);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Error saving language" });
+        }
+    })
+    .catch(error => {
+        universalLoader(false);
+        console.error('Error:', error);
+        window.notyf.open({ type: "error", message: "Error saving language: " + error.message });
+    });
+}
+
+$(document).ready(function() {
+    $('#languagesTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search languages...",
+            emptyTable: "No languages found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ languages",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: -1 },
+            { orderable: false, targets: -1 }
+        ]
+    });
+});
+</script>
+{% endblock %}

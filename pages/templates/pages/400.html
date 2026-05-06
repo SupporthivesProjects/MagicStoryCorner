@@ -1,0 +1,22 @@
+{% extends "includes/layout.html" %}
+{% load static %}
+
+{% block title %}Page Not Found | {{ site_name }} {% endblock %}
+
+{% block content %}
+
+    <section class="error-section">
+        <div class="container">
+            <div class="col">
+                <div class="error-content">
+                    <h2>400 error</h2>
+                    <p>The page you are looking for doesn't exist. Please try again later.</p>
+                    <img src="{% static 'media/error-image.png' %}" alt="" class="img-fluid">
+                    <a href="{% url 'home' %}" class="btn btn-yellow">Back home</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="last_white d-lg-block d-md-block d-none"></section>
+
+{% endblock %}

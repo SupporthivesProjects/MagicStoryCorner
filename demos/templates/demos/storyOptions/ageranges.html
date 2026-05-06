@@ -1,0 +1,222 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Age Ranges{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-calendar"></i> Age Ranges</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ageModal" onclick="resetAgeForm()">
+            <i class="bi bi-plus-circle"></i> Add New Age Range
+        </button>
+    </div>
+
+    <div class="log-table-card">
+        <table id="ageTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Emoji</th>
+                    <th>Token Cost</th>
+                    <th>Status</th>
+                    <th class="text-center">Edit</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for age in age_ranges %}
+                    <tr data-id="{{ age.id }}">
+                        <td><span class="log-id-badge">#{{ age.id }}</span></td>
+                        <td class="age-name">{{ age.name }}</td>
+                        <td class="age-emoji">{{ age.emoji }}</td>
+                        <td>
+                            <span class="badge bg-info">{{ age.cost }} tokens</span>
+                        </td>
+
+                        <td class="text-center">
+                            {% if age.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#ageModal" 
+                                    data-id="{{ age.id }}"
+                                    data-name="{{ age.name }}"
+                                    data-emoji="{{ age.emoji }}"
+                                    data-content="{{ age.content|escapejs }}"
+                                    data-cost="{{ age.cost }}"
+                                    data-is-active="{{ age.is_active }}"
+                                    onclick="editAge(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="ageModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-calendar"></i> Age Range</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="ageForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="ageId">
+
+                    <div class="mb-3">
+                        <label class="form-label">Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="ageName" name="name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Emoji</label>
+                        <input type="text" class="form-control" id="ageEmoji" name="emoji" maxlength="5">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Content</label>
+                        <textarea class="form-control" id="ageContent" name="content" rows="3"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Cost</label>
+                        <input type="number" class="form-control" id="ageCost" name="cost" min="0" value="0">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="ageIsActive" name="is_active">
+                            <label class="form-check-label" for="ageIsActive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+
+                </form>
+                <input type="hidden" id="ageIcon">
+            </div>
+
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveAge()">Save Age Range</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+    $('#ageTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search age ranges...",
+            emptyTable: "No age ranges found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ age ranges",
+            infoEmpty: "Showing 0 to 0 of 0 age ranges",
+            infoFiltered: "(filtered from _MAX_ total age ranges)",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"row mt-3"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+        columnDefs: [
+            { orderable: false, targets: -1 },
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 }
+        ]
+    });
+});
+</script>
+<script>
+const routes = {
+    create: "{% url 'age_range_create' %}",
+    update: (id) => "{% url 'age_range_update' 0 %}".replace("/0/", `/${id}/`)
+};
+
+function getCsrfToken() {
+    return document.querySelector('#ageForm input[name=csrfmiddlewaretoken]').value;
+}
+
+function resetAgeForm() {
+    document.getElementById('ageForm').reset();
+    document.getElementById('ageId').value = '';
+    document.getElementById('ageCost').value = '0';
+    document.getElementById('ageIsActive').checked = false;
+}
+
+function editAge(button) {
+    const id = button.dataset.id;
+    document.getElementById('ageId').value = id;
+    document.getElementById('ageName').value = button.dataset.name || '';
+    document.getElementById('ageEmoji').value = button.dataset.emoji || '';
+    document.getElementById('ageContent').value = button.dataset.content || '';
+    document.getElementById('ageCost').value = button.dataset.cost || '0';
+    document.getElementById('ageIsActive').checked = button.dataset.isActive === 'True';
+}
+
+function saveAge() {
+    const id = document.getElementById('ageId').value;
+    const form = document.getElementById('ageForm');
+
+    const name = document.getElementById('ageName').value.trim();
+    if (!name) {
+        window.notyf.open({ type: "error", message: "Name is required!" });
+        return;
+    }
+
+    const cost = document.getElementById('ageCost').value;
+    if (cost < 0) {
+        window.notyf.open({ type: "error", message: "Cost cannot be negative!" });
+        return;
+    }
+
+    const formData = new FormData(form);
+    formData.append('is_active', document.getElementById('ageIsActive').checked);
+    
+    const url = id ? routes.update(id) : routes.create;
+    universalLoader('Saving Age Range', 'Please wait...');
+
+    fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCsrfToken() },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        universalLoader(false);
+        if (data.success) {
+            window.notyf.open({ type: "success", message: data.message });
+            setTimeout(() => location.reload(), 400);
+        } else {
+            window.notyf.open({ type: "error", message: data.error });
+        }
+    })
+    .catch(err => {
+        universalLoader(false);
+        console.error(err);
+        window.notyf.open({ type: "error", message: "An error occurred!" });
+    });
+}
+</script>
+
+{% endblock %}

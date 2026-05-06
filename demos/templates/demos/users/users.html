@@ -1,0 +1,294 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}User List{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4">
+        <h3><i class="bi bi-people"></i> User List</h3>
+    </div>
+
+    <div class="log-table-card table-responsive">
+        <table id="usersTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Verification</th>
+                    <th>Status</th>
+                    <th>Date Joined</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for user in users %}
+                    <tr class="log-table-row" id="user-row-{{ user.id }}">
+                        <td data-order="{{ user.id }}">
+                            <span class="log-id-badge">#{{ user.id }}</span>
+                        </td>
+
+                        <td>{{ user.first_name }} {{ user.last_name }}</td>
+
+                        <td><span>{{ user.email }}</span></td>
+
+                        <td class="text-center user-verification">
+                            <span class="log-badge {% if user.profile.email_verified %}log-badge-success{% else %}log-badge-warning{% endif %}">
+                                {% if user.profile.email_verified %}Verified{% else %}Pending{% endif %}
+                            </span>
+                        </td>
+                        
+                        <td class="text-center user-status">
+                            <span class="log-badge {% if user.is_active %}log-badge-info{% else %}log-badge-warning{% endif %}">
+                                {% if user.is_active %}Active{% else %}Inactive{% endif %}
+                            </span>
+                        </td>
+
+                        <td>{{ user.date_joined|date:"M d, Y h:i A" }}</td>
+
+                        <td class="text-center">
+                            <div class="btn-group btn-group-sm" role="group">
+                        
+                                <button class="btn btn-sm btn-warning text-dark me-1"
+                                    onclick="openEditModal(this)"
+                                    data-user-id="{{ user.id }}"
+                                    data-first-name="{{ user.first_name }}"
+                                    data-last-name="{{ user.last_name }}"
+                                    data-username="{{ user.username }}"
+                                    data-email="{{ user.email }}"
+                                    data-mobile="{{ user.profile.mobile }}"
+                                    data-email-verified="{{ user.profile.email_verified }}"
+                                    data-is-active="{{ user.is_active }}"
+                                    data-wallet="{{ user.profile.wallet }}"
+                                    data-bs-toggle="tooltip"
+                                    title="Edit User">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                        
+                                <a class="btn btn-sm btn-secondary text-white me-1"
+                                    href="{% url 'get_user_profile' user.id %}"
+                                    data-bs-toggle="tooltip"
+                                    title="View User">
+                                    <i class="bi bi-eye-fill"></i>
+                                </a>
+                        
+                            </div>
+                        </td>
+                        
+                    </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">
+                    <i class="bi bi-pencil-square"></i> Edit User
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editUserForm">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" id="editUserId" name="user_id">
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="editFirstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="editFirstName" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editLastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="editLastName" readonly>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="editUsername" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="editEmail" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editMobile" class="form-label">Mobile</label>
+                        <input type="text" class="form-control" id="editMobile" readonly>
+                    </div>
+
+                    <hr class="my-2">
+                   
+                    <div class="mb-3">
+                        <label for="editWallet" class="form-label">Token Balance</label>
+                        <input type="text" class="form-control" id="editWallet" name="wallet">
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="editEmailVerified" name="email_verified">
+                            <label class="form-check-label" for="editEmailVerified">
+                                Email Verified
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="editIsActive" name="is_active">
+                            <label class="form-check-label" for="editIsActive">
+                                Active Status
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveBtn">
+                        <i class="bi bi-check-lg"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function openEditModal(button) {
+    const userId = button.getAttribute('data-user-id');
+    const firstName = button.getAttribute('data-first-name');
+    const lastName = button.getAttribute('data-last-name');
+    const username = button.getAttribute('data-username');
+    const email = button.getAttribute('data-email');
+    const mobile = button.getAttribute('data-mobile');
+    const emailVerified = button.getAttribute('data-email-verified') === 'True';
+    const isActive = button.getAttribute('data-is-active') === 'True';
+    const wallet = button.getAttribute('data-wallet');
+    
+    document.getElementById('editUserId').value = userId;
+    document.getElementById('editFirstName').value = firstName;
+    document.getElementById('editLastName').value = lastName;
+    document.getElementById('editUsername').value = username;
+    document.getElementById('editEmail').value = email;
+    document.getElementById('editMobile').value = mobile;
+    document.getElementById('editWallet').value = wallet;
+    document.getElementById('editEmailVerified').checked = emailVerified;
+    document.getElementById('editIsActive').checked = isActive;
+    
+    var modal = new bootstrap.Modal(document.getElementById('editUserModal'));
+    modal.show();
+}
+
+function updateTableRow(userId, data) {
+    const row = document.getElementById(`user-row-${userId}`);
+    if (row) {
+        const verificationBadge = row.querySelector('.user-verification .log-badge');
+        if (data.email_verified) {
+            verificationBadge.className = 'log-badge log-badge-success';
+            verificationBadge.textContent = 'Verified';
+        } else {
+            verificationBadge.className = 'log-badge log-badge-warning';
+            verificationBadge.textContent = 'Pending';
+        }
+        
+        const statusBadge = row.querySelector('.user-status .log-badge');
+        if (data.is_active) {
+            statusBadge.className = 'log-badge log-badge-info';
+            statusBadge.textContent = 'Active';
+        } else {
+            statusBadge.className = 'log-badge log-badge-warning';
+            statusBadge.textContent = 'Inactive';
+        }
+        
+        const button = row.querySelector('button');
+        button.setAttribute('data-email-verified', data.email_verified ? 'True' : 'False');
+        button.setAttribute('data-is-active', data.is_active ? 'True' : 'False');
+        button.setAttribute('data-wallet', data.wallet || '');
+    }
+}
+
+$(document).ready(function() {
+    $('#usersTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search users...",
+            emptyTable: "No users found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ users",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { type: 'num', targets: 0 },
+            { orderable: false, targets: [6] },
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 },
+            { responsivePriority: 3, targets: 2 },
+            { responsivePriority: 4, targets: 5 },
+            { responsivePriority: 5, targets: 6 }
+        ]
+    });
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function(el) { return new bootstrap.Tooltip(el) });
+
+    $('#editUserForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        const userId = $('#editUserId').val();
+        
+        universalLoader("Updating User", "Please wait while we update the user information...");
+        
+        const formData = {
+            user_id: userId,
+            wallet: $('#editWallet').val(),
+            email_verified: $('#editEmailVerified').is(':checked'),
+            is_active: $('#editIsActive').is(':checked')
+        };
+        
+        $.ajax({
+            url: "{% url 'update_user' %}",
+            type: 'POST',
+            data: JSON.stringify(formData),
+            contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(response) {
+                universalLoader(false);
+                
+                if (response.success) {
+                    window.notyf.open({ type: "success", message: response.message });
+                    updateTableRow(userId, formData);
+                    
+                    setTimeout(function() {
+                        bootstrap.Modal.getInstance(document.getElementById('editUserModal')).hide();
+                    }, 1500);
+                } else {
+                    window.notyf.open({ type: "error", message: response.message || 'Error updating user' });
+                }
+            },
+            error: function(xhr) {
+                universalLoader(false);
+                const errorMsg = xhr.responseJSON?.message || 'An error occurred while updating the user';
+                window.notyf.open({ type: "error", message: errorMsg });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

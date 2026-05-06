@@ -1,0 +1,214 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Story Tones{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-stars"></i> Story Tones</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#toneModal" onclick="resetToneForm()">
+            <i class="bi bi-plus-circle"></i> Add New Tone
+        </button>
+    </div>
+
+    <div class="log-table-card">
+        <table id="tonesTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Emoji</th>
+                    <th>Token Cost</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for tone in tones %}
+                    <tr class="log-table-row">
+                        <td><span class="log-id-badge">#{{ tone.id }}</span></td>
+                        <td>{{ tone.name }}</td>
+                        <td>{{ tone.emoji }}</td>
+                        <td>
+                            <span class="badge bg-info">{{ tone.cost }} tokens</span>
+                        </td>
+                        <td class="text-center">
+                            {% if tone.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#toneModal"
+                                    data-tone-id="{{ tone.id }}"
+                                    onclick="editTone(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="toneModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-stars"></i>Story Tone</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="toneForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="toneId">
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tone Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="toneName" placeholder="e.g., Playful" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Emoji</label>
+                            <input type="text" class="form-control" id="toneEmoji" placeholder="e.g., 🎉" maxlength="10">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="toneContent" rows="3" placeholder="Optional description for this tone"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Token Cost</label>
+                        <input type="number" class="form-control" id="toneCost" value="0" min="0">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="toneIsActive" name="is_active">
+                            <label class="form-check-label" for="toneIsActive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveTone()">Save Tone</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const routes = {
+    toneGet: "{% url 'tone_get' 0 %}",
+    toneCreate: "{% url 'tone_create' %}",
+    toneUpdate: "{% url 'tone_update' 0 %}"
+};
+
+function resetToneForm() {
+    document.getElementById('toneForm').reset();
+    document.getElementById('toneId').value = '';
+    document.getElementById('toneIsActive').checked = false;
+}
+
+function editTone(button) {
+    const toneId = button.getAttribute('data-tone-id');
+    universalLoader("Please wait", "Loading tone details...");
+
+    fetch(routes.toneGet.replace('/0/', '/' + toneId + '/'))
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('toneId').value = data.id;
+            document.getElementById('toneName').value = data.name || '';
+            document.getElementById('toneEmoji').value = data.emoji || '';
+            document.getElementById('toneContent').value = data.content || '';
+            document.getElementById('toneCost').value = data.cost || 0;
+            document.getElementById('toneIsActive').checked = data.is_active || false;
+            universalLoader(false);
+        })
+        .catch(error => {
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Failed to load tone details." });
+        });
+}
+
+function saveTone() {
+    const toneId = document.getElementById('toneId').value;
+    const name = document.getElementById('toneName').value.trim();
+    
+    if (!name) {
+        window.notyf.open({ type: "error", message: "Name is required!" });
+        return;
+    }
+
+    const cost = document.getElementById('toneCost').value;
+    if (cost < 0) {
+        window.notyf.open({ type: "error", message: "Cost cannot be negative!" });
+        return;
+    }
+
+    universalLoader("Please wait", toneId ? "Updating tone..." : "Creating new tone...");
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('emoji', document.getElementById('toneEmoji').value);
+    formData.append('content', document.getElementById('toneContent').value);
+    formData.append('cost', cost);
+    formData.append('is_active', document.getElementById('toneIsActive').checked);
+
+    const url = toneId ? routes.toneUpdate.replace('/0/', '/' + toneId + '/') : routes.toneCreate;
+
+    fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        universalLoader(false);
+        if (data.success) {
+            window.notyf.open({ type: "success", message: data.message || (toneId ? "Tone updated successfully!" : "Tone created successfully!") });
+            setTimeout(() => location.reload(), 500);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Failed to save tone." });
+        }
+    })
+    .catch(error => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Error saving tone." });
+    });
+}
+
+$(document).ready(function() {
+    $('#tonesTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search tones...",
+            emptyTable: "No tones found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ tones",
+            paginate: { previous: '<i class="bi bi-chevron-left"></i>', next: '<i class="bi bi-chevron-right"></i>' }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: -1 },
+            { orderable: false, targets: -1 }
+        ]
+    });
+});
+</script>
+{% endblock %}

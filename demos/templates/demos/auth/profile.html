@@ -1,0 +1,585 @@
+{% extends "demos/layout.html" %}
+{% load static %}
+{% block title %}{{ user.first_name }}'s Admin Profile | StoryBook{% endblock %}
+
+{% block content %}
+<div class="lsb-admin-profile-container">
+    <div class="lsb-admin-hero-section">
+        <div class="container-lg">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-auto mb-3 mb-md-0">
+                    <div class="lsb-admin-avatar">
+                        <span class="lsb-avatar-initials">{{ user.first_name.0 }}{{ user.last_name.0 }}</span>
+                        <div class="lsb-admin-crown-badge">
+                            {% if user.is_superuser %}
+                            <i class="fas fa-crown"></i>
+                            {% elif user.is_staff %}
+                                <i class="fas fa-user-shield"></i>
+                            {% else %}
+                                <i class="fas fa-user"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md">
+                    <h1 class="lsb-admin-fullname mb-2">{{ user.first_name }} {{ user.last_name }}</h1>
+                    <p class="lsb-admin-email-display mb-3">
+                        <i class="fas fa-envelope"></i> {{ user.email }}
+                        {% if user.profile.email_verified %}
+                        <span class="lsb-verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
+                        {% endif %}
+                    </p>
+                    <div class="lsb-admin-meta-info">
+                        <span class="lsb-meta-item me-3">
+                            <i class="fas fa-phone-alt"></i> {{ user.profile.mobile }}
+                        </span>
+                        <span class="lsb-meta-divider me-3">•</span>
+                        <span class="lsb-meta-item me-3">
+                            <i class="fas fa-calendar"></i> Member since {{ user.date_joined|date:"M Y" }}
+                        </span>
+                        <span class="lsb-meta-divider me-3">•</span>
+                        <span class="lsb-meta-item">
+                            {% if user.is_superuser %}
+                                <i class="fas fa-crown"></i> Super Admin
+                            {% elif user.is_staff %}
+                                <i class="fas fa-user-shield"></i> Admin
+                            {% else %}
+                                <i class="fas fa-user"></i> Staff
+                            {% endif %}
+                        </span>
+                        
+                    </div>
+                </div>
+                {% if is_editable and request.user.is_superuser and request.user.is_staff %}
+                <div class="col-12 col-md-auto mt-3 mt-md-0">
+                    <button type="button" class="btn btn-primary" id="lsbAddAdminBtn">
+                        <i class="fas fa-user-plus"></i> Add Admin
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container-lg mt-5">
+        <div class="row g-4">
+            <div class="col-12 col-lg-6 col-xl-4">
+                <div class="lsb-admin-info-panel">
+                    <div class="lsb-info-panel-header">
+                        <h2 class="lsb-info-panel-title"><i class="fas fa-shield-alt"></i> Admin Information</h2>
+                    </div>
+                    <div class="lsb-info-panel-body">
+                        {% if is_editable %}
+                        <form id="lsbAdminInfoForm" class="lsb-admin-edit-form">
+                            {% csrf_token %}
+                            <div class="lsb-form-row">
+                                <label class="lsb-form-label">Full Name</label>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <input type="text" class="lsb-form-input form-control" id="lsbFirstNameInput" placeholder="First Name" value="{{ user.first_name }}">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="lsb-form-input form-control" id="lsbLastNameInput" placeholder="Last Name" value="{{ user.last_name }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lsb-form-row">
+                                <label class="lsb-form-label">Username</label>
+                                <input type="text" class="lsb-form-input form-control" id="lsbUsernameInput" value="@{{ user.username }}" disabled>
+                            </div>
+                            <div class="lsb-form-row">
+                                <label class="lsb-form-label">Email Address</label>
+                                <input type="email" class="lsb-form-input form-control" id="lsbEmailInput" value="{{ user.email }}" disabled>
+                            </div>
+                            <div class="lsb-form-row">
+                                <label class="lsb-form-label">Mobile Number</label>
+                                <input type="text" class="lsb-form-input form-control" id="lsbMobileInput" value="{{ user.profile.mobile }}">
+                            </div>
+                            <div class="lsb-form-row">
+                                <label class="lsb-form-label">Account Type</label>
+                                <span class="lsb-static-value">
+                                    {% if user.is_superuser %}
+                                        <span class="lsb-admin-badge">
+                                            <i class="fas fa-crown"></i> Super Admin
+                                        </span>
+                                    {% elif user.is_staff %}
+                                        <span class="lsb-admin-badge">
+                                            <i class="fas fa-user-shield"></i> Admin
+                                        </span>
+                                    {% else %}
+                                        <span class="lsb-staff-badge">
+                                            <i class="fas fa-user"></i> Staff
+                                        </span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            
+                            <div class="lsb-form-row">
+                                <label class="lsb-form-label">Account Status</label>
+                                <span class="lsb-static-value">
+                                    {% if user.is_active %}
+                                    <span class="lsb-status-active"><i class="fas fa-check-circle"></i> Active</span>
+                                    {% else %}
+                                    <span class="lsb-status-inactive"><i class="fas fa-times-circle"></i> Inactive</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="lsb-form-row">
+                                <label class="lsb-form-label">Email Verified</label>
+                                <span class="lsb-static-value">
+                                    {% if user.profile.email_verified %}
+                                    <span class="lsb-status-verified"><i class="fas fa-shield-alt"></i> Verified</span>
+                                    {% else %}
+                                    <span class="lsb-status-pending"><i class="fas fa-exclamation-circle"></i> Pending</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="row g-2 mt-2">
+                                <div class="col-12">
+                                    <button type="submit" class="lsb-btn lsb-btn-save w-100">
+                                        <i class="fas fa-save"></i> Save Changes
+                                    </button>
+                                </div>
+                               
+                            </div>
+                        </form>
+                        {% else %}
+                        <div class="lsb-info-display">
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Full Name</span>
+                                <span class="lsb-info-value">{{ user.first_name }} {{ user.last_name }}</span>
+                            </div>
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Username</span>
+                                <span class="lsb-info-value">@{{ user.username }}</span>
+                            </div>
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Email Address</span>
+                                <span class="lsb-info-value">{{ user.email }}</span>
+                            </div>
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Mobile Number</span>
+                                <span class="lsb-info-value">{{ user.profile.mobile }}</span>
+                            </div>
+                            <div class="lsb-form-row">
+                                <label class="lsb-form-label">Account Type</label>
+                                <span class="lsb-static-value">
+                                    {% if user.is_superuser %}
+                                        <span class="lsb-admin-badge">
+                                            <i class="fas fa-crown"></i> Super Admin
+                                        </span>
+                                    {% elif user.is_staff %}
+                                        <span class="lsb-admin-badge">
+                                            <i class="fas fa-user-shield"></i> Admin
+                                        </span>
+                                    {% else %}
+                                        <span class="lsb-staff-badge">
+                                            <i class="fas fa-user"></i> Staff
+                                        </span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Account Status</span>
+                                <span class="lsb-info-value">
+                                    {% if user.is_active %}
+                                    <span class="lsb-status-active"><i class="fas fa-check-circle"></i> Active</span>
+                                    {% else %}
+                                    <span class="lsb-status-inactive"><i class="fas fa-times-circle"></i> Inactive</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Email Verified</span>
+                                <span class="lsb-info-value">
+                                    {% if user.profile.email_verified %}
+                                    <span class="lsb-status-verified"><i class="fas fa-shield-alt"></i> Verified</span>
+                                    {% else %}
+                                    <span class="lsb-status-pending"><i class="fas fa-exclamation-circle"></i> Pending</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if request.user.is_superuser and request.user.is_staff %}
+                <div class="lsb-password-panel mt-4">
+                    <div class="lsb-password-panel-header">
+                        <h2 class="lsb-password-panel-title"><i class="fas fa-lock"></i> Password & Security</h2>
+                    </div>
+                    <div class="lsb-password-panel-body">
+                        <form id="lsbPasswordForm" class="lsb-password-form">
+                            {% csrf_token %}
+                            <div class="lsb-form-row">
+                                <label class="lsb-form-label">New Password</label>
+                                <input type="text" class="lsb-form-input form-control" id="lsbNewPasswordInput" placeholder="Enter new password" required>
+                                <small class="lsb-password-hint">Minimum 8 characters, mix of letters, numbers, and symbols</small>
+                            </div>
+                            <div class="lsb-form-row">
+                                <label class="lsb-form-label">Confirm Password</label>
+                                <input type="text" class="lsb-form-input form-control" id="lsbConfirmPasswordInput" placeholder="Confirm new password" required>
+                            </div>
+                            <div class="row g-2 mt-3">
+                                <div class="col-12">
+                                    <button type="submit" class="lsb-btn lsb-btn-save w-100">
+                                        <i class="fas fa-check"></i> Update Password
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-12 col-lg-6 col-xl-8">
+                <div class="lsb-admin-info-panel">
+                    <div class="lsb-info-panel-header">
+                        <h2 class="lsb-info-panel-title"><i class="fas fa-user"></i> Account Information</h2>
+                    </div>
+                    <div class="lsb-info-panel-body">
+                        <div class="lsb-info-display">
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Full Name</span>
+                                <span class="lsb-info-value">{{ user.first_name }} {{ user.last_name }}</span>
+                            </div>
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Username</span>
+                                <span class="lsb-info-value">@{{ user.username }}</span>
+                            </div>
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Email Address</span>
+                                <span class="lsb-info-value">{{ user.email }}</span>
+                            </div>
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Mobile Number</span>
+                                <span class="lsb-info-value">{{ user.profile.mobile }}</span>
+                            </div>
+                            <div class="lsb-form-row">
+                                <label class="lsb-form-label">Account Type</label>
+                                <span class="lsb-static-value">
+                                    {% if user.is_superuser %}
+                                        <span class="lsb-admin-badge">
+                                            <i class="fas fa-crown"></i> Super Admin
+                                        </span>
+                                    {% elif user.is_staff %}
+                                        <span class="lsb-admin-badge">
+                                            <i class="fas fa-user-shield"></i> Admin
+                                        </span>
+                                    {% else %}
+                                        <span class="lsb-staff-badge">
+                                            <i class="fas fa-user"></i> Staff
+                                        </span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Account Status</span>
+                                <span class="lsb-info-value">
+                                    {% if user.is_active %}
+                                    <span class="lsb-status-active"><i class="fas fa-check-circle"></i> Active</span>
+                                    {% else %}
+                                    <span class="lsb-status-inactive"><i class="fas fa-times-circle"></i> Inactive</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Email Verified</span>
+                                <span class="lsb-info-value">
+                                    {% if user.profile.email_verified %}
+                                    <span class="lsb-status-verified"><i class="fas fa-shield-alt"></i> Verified</span>
+                                    {% else %}
+                                    <span class="lsb-status-pending"><i class="fas fa-exclamation-circle"></i> Pending</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Account Created</span>
+                                <span class="lsb-info-value">{{ user.date_joined|date:"M d, Y" }}</span>
+                            </div>
+                            <div class="lsb-info-item">
+                                <span class="lsb-info-label">Last Login</span>
+                                <span class="lsb-info-value">
+                                    {% if user.last_login %}
+                                        {{ user.last_login|date:"M d, Y H:i" }}
+                                    {% else %}
+                                        Never
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="lsbAddAdminModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header lsb-modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-user-plus"></i> Add New Admin
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="lsbAddAdminForm" class="lsb-add-admin-form">
+                {% csrf_token %}
+
+                <div class="modal-body">
+                    <div class="lsb-form-row">
+                        <label class="lsb-form-label">First Name</label>
+                        <input type="text" class="lsb-form-input form-control" id="lsbAdminFirstName" placeholder="First Name" required>
+                    </div>
+
+                    <div class="lsb-form-row">
+                        <label class="lsb-form-label">Last Name</label>
+                        <input type="text" class="lsb-form-input form-control" id="lsbAdminLastName" placeholder="Last Name" required>
+                    </div>
+
+                    <div class="lsb-form-row">
+                        <label class="lsb-form-label">Username</label>
+                        <input type="text" class="lsb-form-input form-control" id="lsbAdminUsername" placeholder="Username" required>
+                    </div>
+
+                    <div class="lsb-form-row">
+                        <label class="lsb-form-label">Email Address</label>
+                        <input type="email" class="lsb-form-input form-control" id="lsbAdminEmail" placeholder="Email Address" required>
+                    </div>
+
+                    <div class="lsb-form-row">
+                        <label class="lsb-form-label">Mobile Number</label>
+                        <input type="text" class="lsb-form-input form-control" id="lsbAdminMobile" placeholder="Mobile Number">
+                    </div>
+
+                    <!-- Admin Role Selection -->
+                    <div class="lsb-form-row">
+                        <label class="lsb-form-label d-block">Admin Role</label>
+                        <div class="d-flex gap-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="admin_role" id="roleAdmin" value="admin" checked>
+                                <label class="form-check-label" for="roleAdmin">
+                                    Admin
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="admin_role" id="roleSuperAdmin" value="super_admin">
+                                <label class="form-check-label" for="roleSuperAdmin">
+                                    Super Admin
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lsb-form-row">
+                        <label class="lsb-form-label">Password</label>
+                        <input type="text" class="lsb-form-input form-control" id="lsbAdminPassword" placeholder="Enter password" required>
+                        <small class="lsb-password-hint">
+                            Minimum 8 characters, mix of letters, numbers, and symbols
+                        </small>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Create Admin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const adminInfoForm = document.getElementById('lsbAdminInfoForm');
+        const passwordForm = document.getElementById('lsbPasswordForm');
+        const addAdminBtn = document.getElementById('lsbAddAdminBtn');
+        const addAdminForm = document.getElementById('lsbAddAdminForm');
+        const adminId = window.location.pathname.split('/').filter(x => x).pop();
+        const addAdminModal = new bootstrap.Modal(document.getElementById('lsbAddAdminModal'));
+    
+        if (addAdminBtn) {
+            addAdminBtn.addEventListener('click', function() {
+                addAdminModal.show();
+            });
+        }
+    
+        if (adminInfoForm) {
+            adminInfoForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+    
+                const formData = {
+                    first_name: document.getElementById('lsbFirstNameInput').value.trim(),
+                    last_name: document.getElementById('lsbLastNameInput').value.trim(),
+                    email: document.getElementById('lsbEmailInput').value.trim(),
+                    mobile: document.getElementById('lsbMobileInput').value.trim()
+                };
+    
+                if (!formData.first_name || !formData.last_name || !formData.email) {
+                    window.notyf.open({ type: "error", message: "Please fill in all required fields." });
+                    return;
+                }
+    
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(formData.email)) {
+                    window.notyf.open({ type: "error", message: "Please enter a valid email address." });
+                    return;
+                }
+    
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const updateInfoUrl = `{% url 'update_admin_info' admin_id=0 %}`.replace('0', adminId);
+    
+                fetch(updateInfoUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    window.notyf.open({
+                        type: data.success ? "success" : "error",
+                        message: data.message || "Failed to update information."
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                    window.notyf.open({ type: "error", message: "An error occurred while updating information." });
+                });
+            });
+        }
+    
+        if (passwordForm) {
+            passwordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+    
+                const newPassword = document.getElementById('lsbNewPasswordInput').value.trim();
+                const confirmPassword = document.getElementById('lsbConfirmPasswordInput').value.trim();
+    
+                if (!newPassword || !confirmPassword) {
+                    window.notyf.open({ type: "error", message: "Please fill in all password fields." });
+                    return;
+                }
+    
+                if (newPassword !== confirmPassword) {
+                    window.notyf.open({ type: "error", message: "Passwords do not match." });
+                    return;
+                }
+    
+                if (
+                    newPassword.length < 8 ||
+                    !/[a-zA-Z]/.test(newPassword) ||
+                    !/[0-9]/.test(newPassword) ||
+                    !/[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]/.test(newPassword)
+                ) {
+                    window.notyf.open({
+                        type: "error",
+                        message: "Password must contain letters, numbers, and special characters."
+                    });
+                    return;
+                }
+    
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const updatePasswordUrl = `{% url 'update_admin_password' admin_id=0 %}`.replace('0', adminId);
+    
+                fetch(updatePasswordUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: JSON.stringify({
+                        new_password: newPassword,
+                        confirm_password: confirmPassword
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    window.notyf.open({
+                        type: data.success ? "success" : "error",
+                        message: data.message
+                    });
+                    if (data.success) passwordForm.reset();
+                })
+                .catch(error => {
+                    console.error(error);
+                    window.notyf.open({ type: "error", message: "An error occurred while updating password." });
+                });
+            });
+        }
+    
+        if (addAdminForm) {
+            addAdminForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+    
+                const adminPassword = document.getElementById('lsbAdminPassword').value.trim();
+    
+                if (
+                    adminPassword.length < 8 ||
+                    !/[a-zA-Z]/.test(adminPassword) ||
+                    !/[0-9]/.test(adminPassword) ||
+                    !/[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]/.test(adminPassword)
+                ) {
+                    window.notyf.open({
+                        type: "error",
+                        message: "Password must contain letters, numbers, and special characters."
+                    });
+                    return;
+                }
+    
+                const selectedRole = document.querySelector('input[name="admin_role"]:checked');
+    
+                const adminData = {
+                    first_name: document.getElementById('lsbAdminFirstName').value.trim(),
+                    last_name: document.getElementById('lsbAdminLastName').value.trim(),
+                    username: document.getElementById('lsbAdminUsername').value.trim(),
+                    email: document.getElementById('lsbAdminEmail').value.trim(),
+                    mobile: document.getElementById('lsbAdminMobile').value.trim(),
+                    password: adminPassword,
+                    role: selectedRole ? selectedRole.value : "admin"
+                };
+    
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+                fetch(`{% url 'create_admin' %}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: JSON.stringify(adminData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    window.notyf.open({
+                        type: data.success ? "success" : "error",
+                        message: data.message || "Failed to create admin."
+                    });
+                    if (data.success) {
+                        addAdminModal.hide();
+                        addAdminForm.reset();
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    window.notyf.open({ type: "error", message: "An error occurred while creating admin." });
+                });
+            });
+        }
+    });
+    </script>
+    
+{% endblock %}

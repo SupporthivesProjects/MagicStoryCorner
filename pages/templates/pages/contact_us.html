@@ -1,0 +1,152 @@
+{% extends "includes/layout.html" %}
+{% load static %}
+{% block title %}Contact Us | Little Story Book {% endblock %}
+{% block content %}
+
+    <div class="contactmain">
+        <section class="contacus-section">
+            <img src="{% static 'media/owl-animate.gif' %}" alt="" class="owl-animat img-fluid d-none d-lg-block d-md-block">
+            <img src="{% static 'media/owl-animate.gif' %}" alt="" class="owl-animat img-fluid  d-block d-lg-none d-md-none">
+            <img src="{% static 'media/scientist-gift.gif' %}" alt="" class="scientist-animat img-fluid  d-none d-lg-block d-md-block">
+            <img src="{% static 'media/scientist-gift.gif' %}" alt="" class="scientist-animat img-fluid  d-block d-lg-none d-md-none">
+            <div class="container">
+                <div class="col">
+                    <div class="contactus-title">
+                        <img src="{% static 'media/con-icon.svg' %}" alt="" class="img-fluid">
+                        <h3>Contact information</h3>
+                        <p>
+                            {{ website.address|cut:", "|linebreaksbr }}<br>
+                            {{ website.email }}<br>
+                            <!-- {{ website.mobile }} -->
+                        </p>
+                    </div>
+                    <div class="get-in-touch">
+                        <h4>Get in touch</h4>
+                        <form id="contactForm">
+                            {% csrf_token %}
+                            <input type="text" class="form-control" placeholder="Full name" name="name" required>
+                            <input type="email" class="form-control" placeholder="Email Address" name="email" required>
+                            <input type="number" class="form-control" placeholder="Phone number" name="mobile" required>
+                            <textarea class="form-control-text" placeholder="Additional comments" name="message" required></textarea>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" data-bs-toggle="modal" data-bs-target="#exampleModal" name="flexRadioDefault" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    <p>I have read and agree to the <a href="{% url 'terms_conditions' %}">Terms of Use</a>.</p> 
+                                </label>
+                            </div>
+                            <div class="recapcha-btn">
+                                <div class="recaptcha-wrapper">
+                                    <div class="g-recaptcha" data-sitekey="{{ RECAPTCHA_PUBLIC_KEY }}" data-size="normal">
+                                    </div>
+                                </div>
+                                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                                <button type="submit" class="btn btn-yellow">Submit request</button> 
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <img src="{% static 'media/white-section-clouds.png' %}" style="margin-bottom: -1px;" class="img-fluid w-100 d-lg-block d-md-block d-none">
+        <img src="{% static 'media/contact-clouds-mo.png' %}" style="margin-bottom: -1px;" class="img-fluid w-100 d-lg-none d-md-none d-none">
+    </div>
+
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-dialog-contactus">
+                <div class="modal-body">
+                    <div class="contactus-modal">
+                        <h2>Contact request submitted</h2>
+                        <p>
+                            We will get back to you shortly, make 
+                            sure to check your junk mail just incase.
+                        </p>
+                        <button type="button" class="btn btn-yellow" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("contactForm"); 
+            const agreeRadio = document.getElementById("flexRadioDefault1");
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+
+            form.addEventListener("submit", function(e) {
+                e.preventDefault();
+
+                if (!agreeRadio.checked) {
+                    window.notyf.open({
+                        type: "warning",
+                        message: "You must agree to the Terms of Use before submitting."
+                    });
+                    return;
+                }
+
+                var recaptcha = grecaptcha.getResponse();
+                if (!recaptcha) {
+                    window.notyf.open({
+                        type: "warning",
+                        message: "Please complete the reCAPTCHA verification."
+                    });
+                    return;
+                }
+
+                universalLoader("Submitting", "Submitting your request...");
+
+                const formData = new FormData(form);
+                formData.append('g-recaptcha-response', recaptcha);
+
+                fetch("{% url 'contactUs' %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    universalLoader(false);
+                    
+                    if (data.success) {
+                        form.reset();
+                        grecaptcha.reset();
+                        successModal.show();
+                    } else {
+                        window.notyf.open({
+                            type: "error",
+                            message: data.message || "Something went wrong. Please try again."
+                        });
+                    }
+                })
+                .catch(error => {
+                    universalLoader(false);
+                    window.notyf.open({
+                        type: "error",
+                        message: "An error occurred while processing your request."
+                    });
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

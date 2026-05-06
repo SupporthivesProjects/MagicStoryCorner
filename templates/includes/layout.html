@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="{% block description %}Discover AI-generated stories for kids and adults on StoryBook. Read, create, and share imaginative tales.{% endblock %}">
+    <meta name="keywords" content="storybook, ai stories, kids stories, short stories, read online, ai story generator">
+    <meta name="author" content="StoryBook Team">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="LittleStoryBox - AI Stories for Kids">
+    <meta property="og:description" content="Create magical child stories with AI, listen with audio, and flip through beautiful interactive books">
+    <meta property="og:image" content="{% static 'media/og-image.png' %}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'favicons/favicon.ico' %}" type="image/x-icon" sizes="192x192 256x256 512x512">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script type="module" async data-framer-bundle="mainf" fetchpriority="low" src="https://framerusercontent.com/sites/6uu0pjU1V8q22e99eQhSQV/script_main.nf7_0sHQ.mjs"></script>
+
+    <!-- Local Vendor CSS -->
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.css' %}">
+    <link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+
+    <!-- Custom Styles (load last to override defaults) -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/saakshi.css' %}">
+    <link rel="stylesheet" href="{% static 'css/rahul.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dhirajstyle.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/dhirajresponsive.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/mainStyle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mainResponsive.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Josephine+Cosy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/narayan.css' %}">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% include "includes/notify.html" %}
+    {% if request.resolver_match.url_name in header_white_pages %}
+        <link rel="stylesheet" href="{% static 'css/white_header.css' %}">
+    {% endif %}
+    {% if request.resolver_match.url_name in story_header_pages %}
+    <link rel="stylesheet" href="{% static 'css/story_header.css' %}">
+    {% endif %}
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5CWGKSTMDZ"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-5CWGKSTMDZ');
+    </script>
+    
+</head>
+
+<body >
+    {% include "includes/header.html" %}
+  
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% include "includes/footer.html" %}
+    {% include "includes/loaders/generationLoader.html" %}
+    {% include "includes/loaders/universalLoader.html" %}
+    {% block extra_js %}{% endblock %}
+
+
+
+    
+
+
+</body>
+</html>

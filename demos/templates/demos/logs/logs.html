@@ -1,0 +1,254 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Admin Logs{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+        <h3 class="mb-0"><i class="bi bi-card-list"></i> System Logs</h3>
+        <button id="deleteSelectedBtn" class="btn btn-danger" style="display: none;">
+            <i class="bi bi-trash"></i> Delete Selected (<span id="selectedCount">0</span>)
+        </button>
+    </div>
+
+    <div class="log-table-card table-responsive">
+        <table id="systemErrorTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th style="width: 50px;" class="text-center">
+                        <input type="checkbox" id="selectAll" class="form-check-input">
+                    </th>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                    <th style="width: 100px;" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for log in logs %}
+                <tr class="log-table-row" data-log-id="{{ log.id }}">
+                    <td class="text-center align-middle">
+                        <input type="checkbox" class="form-check-input log-checkbox" value="{{ log.id }}">
+                    </td>
+                    <td class="align-middle" data-order="{{ log.id }}">
+                        <div class="d-flex align-items-center">
+                            <span class="log-id-badge me-2">#{{ log.id }}</span>
+                            <span class="text-truncate">{{ log.title }}</span>
+                        </div>
+                    </td>
+                    <td class="align-middle">
+                        <span class="log-badge 
+                            {% if log.type == 'info' %}log-badge-info
+                            {% elif log.type == 'warning' %}log-badge-warning
+                            {% elif log.type == 'error' %}log-badge-danger
+                            {% elif log.type == 'debug' %}log-badge-debug
+                            {% elif log.type == 'critical' %}log-badge-critical
+                            {% endif %}">
+                            {{ log.get_type_display }}
+                        </span>
+                    </td>
+                    <td class="align-middle">
+                        <span style="max-width: 300px;">
+                            {{ log.message }}
+                        </span>
+                    </td>
+                    <td class="align-middle">
+                        <span class="text-nowrap">{{ log.created_at|date:"M d, Y h:i A" }}</span>
+                    </td>
+                    <td class="text-center align-middle">
+                        <button class="btn btn-sm btn-danger delete-single-btn" data-log-id="{{ log.id }}" title="Delete Log">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteLogsModal" tabindex="-1" aria-labelledby="deleteLogsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-danger">
+        <div class="modal-header bg-danger bg-opacity-10 border-danger">
+          <h5 class="modal-title" id="deleteLogsModalLabel">
+            <i class="bi bi-exclamation-triangle text-danger me-2"></i>Delete Logs
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-2"><strong>Are you sure?</strong></p>
+          <p class="mb-3 text-muted" id="deleteLogsMessage"></p>
+          <div class="alert alert-warning alert-sm py-2 mb-0" role="alert">
+            <small><i class="bi bi-exclamation-circle me-2"></i>This action cannot be undone!</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>Cancel
+          </button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteLogsBtn">
+            <i class="bi bi-trash me-1"></i>Delete
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    const table = $('#systemErrorTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[1, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search logs...",
+            emptyTable: "No logs found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ logs",
+            infoEmpty: "Showing 0 to 0 of 0 logs",
+            infoFiltered: "(filtered from _MAX_ total logs)",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"row mt-3"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+        columnDefs: [
+            { orderable: false, targets: [0, 5] },
+            { responsivePriority: 1, targets: 1 },
+            { responsivePriority: 2, targets: 4 },
+            { responsivePriority: 3, targets: 5 }
+        ]
+    });
+
+    let logIdsToDelete = [];
+    let deleteModal = null;
+
+    $('#selectAll').on('change', function() {
+        const isChecked = $(this).is(':checked');
+        $('.log-checkbox:visible').prop('checked', isChecked);
+        updateDeleteButton();
+    });
+
+    $(document).on('change', '.log-checkbox', function() {
+        updateSelectAllState();
+        updateDeleteButton();
+    });
+
+    function updateSelectAllState() {
+        const totalCheckboxes = $('.log-checkbox:visible').length;
+        const checkedCheckboxes = $('.log-checkbox:visible:checked').length;
+        $('#selectAll').prop('checked', totalCheckboxes > 0 && totalCheckboxes === checkedCheckboxes);
+    }
+
+    function updateDeleteButton() {
+        const checkedCount = $('.log-checkbox:checked').length;
+        $('#selectedCount').text(checkedCount);
+        
+        if (checkedCount > 0) {
+            $('#deleteSelectedBtn').fadeIn(200);
+        } else {
+            $('#deleteSelectedBtn').fadeOut(200);
+        }
+    }
+
+    function showDeleteModal(count, isSingleDelete = false) {
+        const message = isSingleDelete 
+            ? 'You are about to delete this log.'
+            : `You are about to delete <strong>${count}</strong> log${count > 1 ? 's' : ''}.`;
+        
+        document.getElementById('deleteLogsMessage').innerHTML = message;
+        
+        if (!deleteModal) {
+            deleteModal = new bootstrap.Modal(document.getElementById('deleteLogsModal'), {
+                backdrop: 'static',
+                keyboard: false
+            });
+        }
+        deleteModal.show();
+    }
+
+    $('#deleteSelectedBtn').on('click', function() {
+        logIdsToDelete = [];
+        $('.log-checkbox:checked').each(function() {
+            logIdsToDelete.push($(this).val());
+        });
+        
+        const count = logIdsToDelete.length;
+        showDeleteModal(count, false);
+    });
+
+    $(document).on('click', '.delete-single-btn', function() {
+        const logId = $(this).data('log-id');
+        logIdsToDelete = [logId];
+        showDeleteModal(1, true);
+    });
+
+    $('#confirmDeleteLogsBtn').on('click', function() {
+        const $btn = $(this);
+        const originalHtml = $btn.html();
+        $btn.html('<span class="spinner-border spinner-border-sm me-1"></span>Deleting...').prop('disabled', true);
+
+        const csrfToken = $('[name=csrfmiddlewaretoken]').val() || '{{ csrf_token }}';
+        
+        $.ajax({
+            url: '{% url "delete_logs" %}',
+            method: 'POST',
+            data: {
+                log_ids: JSON.stringify(logIdsToDelete),
+                csrfmiddlewaretoken: csrfToken
+            },
+            success: function(response) {
+                if (response.success) {
+                    logIdsToDelete.forEach(function(logId) {
+                        const row = table.row($(`tr[data-log-id="${logId}"]`));
+                        row.remove();
+                    });
+                    table.draw();
+                    
+                    $('#selectAll').prop('checked', false);
+                    updateDeleteButton();
+                    
+                    if (deleteModal) deleteModal.hide();
+                    
+                    window.notyf.open({ 
+                        type: "success", 
+                        message: response.message || "Logs deleted successfully!" 
+                    });
+                } else {
+                    window.notyf.open({ 
+                        type: "error", 
+                        message: response.message || "Failed to delete logs" 
+                    });
+                }
+            },
+            error: function(error) {
+                window.notyf.open({ 
+                    type: "error", 
+                    message: "Request failed. Please try again." 
+                });
+            },
+            complete: function() {
+                $btn.html(originalHtml).prop('disabled', false);
+            }
+        });
+    });
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function(el) { return new bootstrap.Tooltip(el) });
+    
+    table.on('draw', function() {
+        updateSelectAllState();
+    });
+
+    $(window).on('resize', function() {
+        table.responsive.recalc();
+    });
+});
+</script>
+{% endblock %}

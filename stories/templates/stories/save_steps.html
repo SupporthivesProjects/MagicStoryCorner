@@ -1,0 +1,464 @@
+<script>
+    const csrf_token = "{{ csrf_token }}";
+
+    const baseToken = 100;
+    const tokenData = {
+        age: 0,
+        char: 0,
+        setting: 0,
+        plot: 0,
+        theme: 0,
+        style: 0,
+        tone: 0,
+        length: 0,
+        language: 0,
+        narrator: 0
+    };
+
+    function getWordAddonTokens(text) {
+        if (!text.trim()) return 0;
+        const wordCount = text.trim().split(/\s+/).length;
+        if (wordCount < 100) return 20;
+        if (wordCount <= 200) return 40;
+        return 60;
+    }
+
+    function updateTotalTokens() {
+        const total =
+                baseToken +
+                Number(tokenData.age) +
+                Number(tokenData.char) +
+                Number(tokenData.setting) +
+                Number(tokenData.plot) +
+                Number(tokenData.theme) +
+                Number(tokenData.style) +
+                Number(tokenData.tone) +
+                Number(tokenData.length) +
+                Number(tokenData.language) +
+                Number(tokenData.narrator);
+
+            const $createBookBtn = $("#tab4Next");
+            const $totalTokensDisplay = $("#show_total_tokens_on_modal");
+
+            $totalTokensDisplay.text(`${total} tokens.`);
+            $createBookBtn.text(`Create book (-${total} tokens)`);
+            console.log("Total Tokens:", total);
+            return total;
+    }
+
+    function debounce(func, delay) {
+        let timer;
+        return function(...args) {
+            clearTimeout(timer);
+            timer = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    const ageList = document.getElementById("ageList");
+    if (ageList) {
+        ageList.querySelectorAll("li").forEach(item => {
+            item.addEventListener("click", () => {
+                tokenData.age = Number(item.dataset.cost || 0);
+                ageList.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
+                item.classList.add("selected");
+                updateTotalTokens();
+            });
+        });
+    }
+
+    document.querySelectorAll("#settingOptions input[name='selected_setting']").forEach(radio => {
+        radio.addEventListener("change", () => {
+            const text = document.getElementById("settingTextarea")?.value || "";
+            tokenData.setting = Number(radio.dataset.cost || 0) + getWordAddonTokens(text);
+            updateTotalTokens();
+        });
+    });
+
+    const settingTextarea = document.getElementById("settingTextarea");
+    if (settingTextarea) {
+        const updateSettingToken = debounce(() => {
+            const selectedRadio = document.querySelector("#settingOptions input[name='selected_setting']:checked");
+            if (!selectedRadio) return;
+            tokenData.setting = Number(selectedRadio.dataset.cost || 0) + getWordAddonTokens(settingTextarea.value);
+            updateTotalTokens();
+        }, 2000);
+        settingTextarea.addEventListener("input", updateSettingToken);
+    }
+
+    document.querySelectorAll("#plotOptions input[name='selected_plot']").forEach(radio => {
+        radio.addEventListener("change", () => {
+            const text = document.getElementById("plotTextarea")?.value || "";
+            tokenData.plot = Number(radio.dataset.cost || 0) + getWordAddonTokens(text);
+            updateTotalTokens();
+        });
+    });
+
+    const plotTextarea = document.getElementById("plotTextarea");
+    if (plotTextarea) {
+        const updatePlotToken = debounce(() => {
+            const selectedRadio = document.querySelector("#plotOptions input[name='selected_plot']:checked");
+            if (!selectedRadio) return;
+            tokenData.plot = Number(selectedRadio.dataset.cost || 0) + getWordAddonTokens(plotTextarea.value);
+            updateTotalTokens();
+        }, 2000);
+        plotTextarea.addEventListener("input", updatePlotToken);
+    }
+
+    document.querySelectorAll("#themeOptions input[name='selected_theme']").forEach(radio => {
+        radio.addEventListener("change", () => {
+            const text = document.getElementById("themeTextarea")?.value || "";
+            tokenData.theme = Number(radio.dataset.cost || 0) + getWordAddonTokens(text);
+            updateTotalTokens();
+        });
+    });
+
+    const themeTextarea = document.getElementById("themeTextarea");
+    if (themeTextarea) {
+        const updateThemeToken = debounce(() => {
+            const selectedRadio = document.querySelector("#themeOptions input[name='selected_theme']:checked");
+            if (!selectedRadio) return;
+            tokenData.theme = Number(selectedRadio.dataset.cost || 0) + getWordAddonTokens(themeTextarea.value);
+            updateTotalTokens();
+        }, 2000);
+        themeTextarea.addEventListener("input", updateThemeToken);
+    }
+
+    document.querySelectorAll("#toneOptions input[name='selected_tone']").forEach(radio => {
+        radio.addEventListener("change", () => {
+            tokenData.tone = Number(radio.dataset.cost || 0);
+            updateTotalTokens();
+        });
+    });
+
+    document.querySelectorAll("#lengthOptions input[name='selected_length']").forEach(radio => {
+        radio.addEventListener("change", () => {
+            tokenData.length = Number(radio.dataset.cost || 0);
+            updateTotalTokens();
+        });
+    });
+
+    const styleCards = document.querySelectorAll('#styleCardsContainer .card-item');
+    styleCards.forEach(card => {
+        card.addEventListener('click', () => {
+            styleCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            tokenData.style = Number(card.dataset.cost || 0);
+            updateTotalTokens();
+            card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        });
+    });
+
+    const langRadios = document.querySelectorAll("#langOptions input[name='selected_language']");
+    const otherLangBtn = document.getElementById("otherLangBtn");
+    const otherLangList = document.getElementById("otherLangList");
+    const otherLangText = document.getElementById("otherLangText");
+
+    if (langRadios.length > 0) {
+        langRadios.forEach(radio => {
+            radio.addEventListener("change", () => {
+                tokenData.language = Number(radio.dataset.cost) || 0;
+                if (otherLangBtn) {
+                    otherLangBtn.classList.remove("active");
+                    otherLangBtn.removeAttribute("data-value");
+                }
+
+                if (otherLangList) {
+                    otherLangList.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
+                }
+
+                if (otherLangText) {
+                    otherLangText.textContent = "Other";
+                }
+
+                updateTotalTokens();
+            });
+        });
+    }
+
+    if (otherLangBtn) {
+        otherLangBtn.addEventListener("click", () => {
+            langRadios.forEach(r => (r.checked = false));
+        });
+    }
+
+    if (otherLangList) {
+        otherLangList.querySelectorAll("li").forEach(li => {
+            li.addEventListener("click", () => {
+                const value = li.getAttribute("data-value");
+                const cost = Number(li.getAttribute("data-cost")) || 0;
+
+                tokenData.language = cost;
+                otherLangBtn.classList.add("active");
+                otherLangBtn.setAttribute("data-value", value);
+                otherLangText.textContent = li.textContent;
+
+                langRadios.forEach(r => (r.checked = false));
+
+                updateTotalTokens();
+            });
+        });
+    }
+
+
+    document.querySelectorAll("#narratorList li").forEach(li => {
+        li.addEventListener("click", () => {
+            const narratorBtn = document.getElementById("narratorBtn");
+            const cost = Number(li.dataset.cost) || 0;
+            const id = li.dataset.value || null;
+            const voiceUrl = li.dataset.voice_url || "";
+
+            tokenData.narrator = cost;
+
+            document.querySelectorAll("#narratorList li").forEach(item => {
+                item.classList.remove("selected");
+            });
+
+            li.classList.add("selected");
+
+            narratorBtn.setAttribute("data-value", id);
+            narratorBtn.setAttribute("data-cost", cost);
+            narratorBtn.setAttribute("data-voice_url", voiceUrl);
+
+            narratorBtn.querySelector(".dropdown-text").textContent = li.classList.contains("no-selection") ? "No narrator" : li.textContent.trim();
+
+            updateTotalTokens();
+        });
+    });
+
+
+    
+    async function saveAgeGroup() {
+        const age = document.getElementById('selectedAgeInput')?.value;
+        const ageCost = Number(document.querySelector("#ageList li.selected")?.dataset.cost || 0);
+        if (!age) {
+            window.notyf.open({ type: "error", message: "Please select an age first." });
+            return false;
+        }
+        tokenData.age = ageCost;
+        universalLoader("Please wait", "Hold on, picking your age range.");
+        try {
+            const res = await fetch("{% url 'save_age_group' %}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf_token },
+                body: JSON.stringify({ agegroup: age, age_cost: ageCost })
+            });
+            const result = await res.json();
+            universalLoader(false);
+            if (result.success) {
+                updateTotalTokens();
+                window.notyf.open({ type: "success", message: "Awesome! Got your age. Let's move on!" });
+            }
+            return result.success;
+        } catch (error) {
+            universalLoader(false);
+            return false;
+        }
+    }
+    
+    async function saveStepOne() {
+        const charName = document.getElementById("char_name")?.value;
+        const charLook = document.getElementById("charLook")?.value;
+        const charCost = 0;
+        if (!charName) {
+            window.notyf.open({ type: "error", message: "Please enter the character name." });
+            return false;
+        }
+        if (!charLook) {
+            window.notyf.open({ type: "error", message: "Please enter character description." });
+            return false;
+        }
+        tokenData.char = charCost;
+        universalLoader("Please wait", "Noting down your character details.");
+        try {
+            const res = await fetch("{% url 'story_save_step_one' %}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf_token },
+                body: JSON.stringify({ char_name: charName, char_look: charLook, char_cost: charCost })
+            });
+            const result = await res.json();
+            universalLoader(false);
+            if (result.success) {
+                updateTotalTokens();
+                window.notyf.open({ type: "success", message: "Awesome! Got your character. Next step!" });
+            }
+            return result.success;
+        } catch (error) {
+            universalLoader(false);
+            return false;
+        }
+    }
+    
+    async function saveStepTwo() {
+        const settingOption = document.querySelector('input[name="selected_setting"]:checked');
+        const plotOption = document.querySelector('input[name="selected_plot"]:checked');
+        const themeOption = document.querySelector('input[name="selected_theme"]:checked');
+    
+        if (!settingOption) {
+            window.notyf.open({ type: "error", message: "Please select a setting." });
+            return false;
+        }
+        if (!plotOption) {
+            window.notyf.open({ type: "error", message: "Please select a plot." });
+            return false;
+        }
+        if (!themeOption) {
+            window.notyf.open({ type: "error", message: "Please select a theme." });
+            return false;
+        }
+    
+        const settingId = settingOption.value;
+        const plotId = plotOption.value;
+        const themeId = themeOption.value;
+
+        const settingText = document.getElementById("settingTextarea")?.value || "";
+        const plotText = document.getElementById("plotTextarea")?.value || "";
+        const themeText = document.getElementById("themeTextarea")?.value || "";
+
+        const settingBase = Number(settingOption.dataset.cost || 0);
+        const plotBase = Number(plotOption.dataset.cost || 0);
+        const themeBase = Number(themeOption.dataset.cost || 0);
+
+        const settingAddon = getWordAddonTokens(settingText);
+        const plotAddon = getWordAddonTokens(plotText);
+        const themeAddon = getWordAddonTokens(themeText);
+
+        const settingCost = settingBase + settingAddon;
+        const plotCost = plotBase + plotAddon;
+        const themeCost = themeBase + themeAddon;
+    
+        universalLoader("Please wait", "Applying your chosen setting, plot & theme.");
+    
+        try {
+            const res = await fetch("{% url 'story_save_step_two' %}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf_token },
+                body: JSON.stringify({
+                    setting_id: settingId, setting_text: settingText,
+                    plot_id: plotId, plot_text: plotText,
+                    theme_id: themeId, theme_text: themeText,
+                    setting_cost: settingCost, plot_cost: plotCost, theme_cost: themeCost
+                })
+            });
+            const result = await res.json();
+            universalLoader(false);
+            if (result.success) {
+                updateTotalTokens();
+                window.notyf.open({ type: "success", message: "Great! setting, plot & theme are set. Let's continue!" });
+            }
+            return result.success;
+        } catch (error) {
+            universalLoader(false);
+            return false;
+        }
+    }
+    
+    async function saveStepThree() {
+        const styleItem = document.querySelector('#styleCardsContainer .card-item.selected');
+        const toneRadio = document.querySelector('input[name="selected_tone"]:checked');
+        const lengthRadio = document.querySelector('input[name="selected_length"]:checked');
+    
+        
+        if (!toneRadio) {
+            window.notyf.open({ type: "error", message: "Please select a tone." });
+            return false;
+        }
+        if (!lengthRadio) {
+            window.notyf.open({ type: "error", message: "Please select a length." });
+            return false;
+        }
+
+        if (!styleItem) {
+            window.notyf.open({ type: "error", message: "Please select an image style." });
+            return false;
+        }
+    
+        const styleId = styleItem.dataset.id;
+        const toneId = toneRadio.value;
+        const lengthId = lengthRadio.value;
+        const styleCost = Number(styleItem.dataset.cost || 0);
+        const toneCost = Number(toneRadio.dataset.cost || 0);
+        const lengthCost = Number(lengthRadio.dataset.cost || 0);
+    
+        tokenData.style = styleCost;
+        tokenData.tone = toneCost;
+        tokenData.length = lengthCost;
+    
+        universalLoader("Please wait", "Applying style, tone & length choices.");
+    
+        try {
+            const res = await fetch("{% url 'story_save_step_three' %}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf_token },
+                body: JSON.stringify({ style_id: styleId, tone_id: toneId, length_id: lengthId, style_cost: styleCost, tone_cost: toneCost, length_cost: lengthCost })
+            });
+            const result = await res.json();
+            universalLoader(false);
+            if (result.success) {
+                updateTotalTokens();
+                window.notyf.open({ type: "success", message: "Nice! Style, tone & length chosen. Keep going!" });
+            }
+            return result.success;
+        } catch (error) {
+            universalLoader(false);
+            return false;
+        }
+    }
+    
+    async function saveStepFour() {
+        const narratorBtn = document.getElementById("narratorBtn");
+        const narratorId = narratorBtn?.getAttribute("data-value") || null;
+        const narratorCost = Number(narratorBtn?.getAttribute("data-cost") || 0);
+
+        const selectedLangRadio = document.querySelector("#langOptions input[name='selected_language']:checked");
+        const otherLangBtn = document.getElementById("otherLangBtn");
+
+        const languageId = selectedLangRadio?.value || otherLangBtn?.getAttribute("data-value");
+        const languageCost = Number(selectedLangRadio?.dataset.cost || otherLangBtn?.dataset.cost || 0);
+
+        if (!languageId) {
+            return { success: false, error: "Please select a language." };
+        }
+
+        // narrator optional
+        // if (!narratorId) {
+        //     return { success: false, error: "Please select a narrator." };
+        // }
+
+        tokenData.narrator = narratorCost;
+        tokenData.language = languageCost;
+
+        universalLoader("Verifying Selections","Checking your selections before confirmation.");
+
+        try {
+            const res = await fetch("{% url 'story_save_step_four' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrf_token
+                },
+                body: JSON.stringify({
+                    narrator_id: narratorId,    
+                    language_id: languageId,
+                    narrator_cost: narratorCost,
+                    language_cost: languageCost
+                })
+            });
+
+            const result = await res.json();
+            universalLoader(false);
+
+            if (result.success) {
+                updateTotalTokens();
+                window.notyf.open({
+                    type: "success",
+                    message: "Everything looks good, ready to proceed!"
+                });
+            }
+            return result;
+        } catch (error) {
+            universalLoader(false);
+            return { success: false };
+        }
+    }
+    </script>
+    

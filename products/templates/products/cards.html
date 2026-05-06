@@ -1,0 +1,34 @@
+{% load static %}
+<div class="container">
+  <div class="row g-4 justify-content-center justify-content-md-start">
+    {% for story in stories %}
+    <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
+      <div class="outer_card" style="max-width: 100%;">
+        <div class="card border-0 h-100">
+          {% if story.thumbnail %}
+            <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}" class="card-img" loading="lazy" width="300" height="200">
+          {% elif story.image %}
+            <img src="{{ story.image.url }}" alt="{{ story.title }}" class="card-img" loading="lazy" width="300" height="200">
+          {% else %}
+            <img src="{{ story.pages.all.0.image.url }}" alt="Sample Story" class="card-img" loading="lazy" width="300" height="200">
+          {% endif %}
+          <div class="card-content">
+            <h3>
+              {% if story.title|length > 20 %}
+                {{ story.title|slice:":20" }}...
+              {% else %}
+                {{ story.title }}
+              {% endif %}
+            </h3>
+            <a href="{% url 'product_books_details' story.slug %}" class="card-link">Find out more</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center">
+      <p class="textt_pup">No stories found.</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>

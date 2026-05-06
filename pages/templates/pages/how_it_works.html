@@ -1,0 +1,86 @@
+{% extends "includes/layout.html" %}
+{% load static %}
+
+{% block title %}About Us | Little Story Book {% endblock %}
+
+{% block content %}
+   
+    <section class="how_works">
+        <div class="container">
+        <div class="text_box">
+            <h4 class="titt">How it works</h4>
+            <p class="subit text-start">
+            Every great story starts with a spark of imagination. Whether you’re
+            creating your own adventure or exploring our story library,
+            LittleStoryBox makes storytelling magical and effortless. Follow
+            these simple steps to bring your tale to life.
+            </p>
+        </div>
+        </div>
+    </section>
+    <section class="how_works2">
+        <div class="container">
+        <div class="text_box_odd">
+            <div class="step_1">
+            <h4 class="titt_1">Step 1</h4>
+            <p class="tit_desc">Pick your path</p>
+            </div>
+            <p class="subit">
+            Decide how you’d like to begin. If you want something quick and
+            ready, browse our catalogue of magical tales and jump straight in.
+            If you’d rather create something unique, choose the custom flow
+            where you can shape every part of the story from scratch.
+            </p>
+        </div>
+        </div>
+    </section>
+    <section class="how_works3">
+        <div class="container">
+        <div class="text_box_even">
+            <div class="step_1">
+            <h4 class="titt_1">Step 2</h4>
+            <p class="tit_desc">Choose your heroes</p>
+            </div>
+            <p class="subit">
+            If you opted for a custom story, then you’ll need a hero! Add your child, family, or friends as the main
+            characters with their names, roles, and traits. You can even upload an avatar or photo to make the adventure
+            feel even more personal.
+            </p>
+        </div>
+        </div>
+    </section>
+    <section class="how_works4">
+        <div class="container">
+        <div class="text_box_odd">
+            <div class="step_1">
+            <h4 class="titt_1">Step 3</h4>
+            <p class="tit_desc">Shape the world</p>
+            </div>
+            <p class="subit">
+            Build the stage for your adventure. Pick from enchanted forests, pirate seas, outer space, or cosy bedtime
+            settings. Decide the type of plot, whether it is a silly quest or a heartwarming tale, and set the mood that
+            makes it just right for the moment.
+            </p>
+        </div>
+        </div>
+    </section>
+    <section class="how_works5 p-0">
+        <div class="container contt_box">
+        <div class="text_box_even_w pt-0">
+            <div class="step_1">
+            <h4 class="titt_1_w">Step 4</h4>
+            <p class="tit_desc_w">Bring it to life</p>
+            </div>
+            <p class="subit_w">
+            Once your path is set, the magic begins. Add voices, pick styles, and let the story unfold with your unique
+            touches. Preview the final adventure, save it to your library, and share it with friends and family so the
+            tale lives on.
+            </p>
+            <a class="nav-link btn btn-yello" href="{% url 'user_register' %}">Get started</a>
+        </div>
+        <img src="{% static 'media/chest_d.png' %}" alt="" class="img_chest d-none d-lg-block d-md-block">
+        </div>
+    </section>
+
+
+{% endblock %}

@@ -1,0 +1,336 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Referral Codes{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-link-45deg"></i> Referral Codes</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#codeModal" onclick="resetCodeForm()">
+            <i class="bi bi-plus-circle"></i> Add Referral Code
+        </button>
+    </div>
+
+    <div class="log-table-card table-responsive">
+        <table id="codesTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Code</th>
+                    <th>Referral Count</th>
+                    <th>Tokens Earned</th>
+                    <th>Referral Link</th>
+                    <th>Created At</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for code in codes %}
+                    <tr class="log-table-row">
+                        <td data-order="{{ code.id }}"><span class="log-id-badge">#{{ code.id }}</span></td>
+                        <td>{{ code.user.username }}</td>
+                        <td><span class="badge bg-primary">{{ code.code }}</span></td>
+                        <td>{{ code.referral_count }}</td>
+                        <td>{{ code.tokens_earned }}</td>
+                        <td>
+                            <a href="{{ code.get_link }}" target="_blank" class="text-truncate d-inline-block" style="max-width: 200px;">
+                                {{ code.get_link }}
+                            </a>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('{{ code.get_link }}')">
+                                <i class="bi bi-clipboard"></i>
+                            </button>
+                        </td>
+                        <td>{{ code.created_at|date:"M d, Y H:i" }}</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-primary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#codeModal"
+                                    data-code-id="{{ code.id }}"
+                                    onclick="editCode(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <!-- <button class="btn btn-sm btn-danger" 
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal"
+                                    data-code-id="{{ code.id }}"
+                                    onclick="prepareDelete(this)">
+                                <i class="bi bi-trash"></i>
+                            </button> -->
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="codeModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-link-45deg"></i> <span id="modalTitle">Add Referral Code</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="codeForm">
+                    {% csrf_token %}
+                    <input type="hidden" id="codeId">
+                    
+                    <div class="mb-3">
+                        <label class="form-label">User <span class="text-danger">*</span></label>
+                        <select class="form-select" id="codeUserId" required>
+                            <option value="">Select User</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Referral Code</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="codeValue" placeholder="Leave empty to auto-generate">
+                            <button class="btn btn-outline-secondary" type="button" onclick="generateCode()">
+                                <i class="bi bi-arrow-clockwise"></i> Generate
+                            </button>
+                        </div>
+                        <small class="form-text text-muted">Leave empty to auto-generate a unique code</small>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Referral Count</label>
+                            <input type="number" class="form-control" id="codeReferralCount" min="0" value="0">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tokens Earned</label>
+                            <input type="number" class="form-control" id="codeTokensEarned" min="0" value="0">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3" id="referralLinkContainer" style="display: none;">
+                        <label class="form-label">Referral Link</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="referralLink" readonly>
+                            <button class="btn btn-outline-secondary" type="button" onclick="copyReferralLink()">
+                                <i class="bi bi-clipboard"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveCode()">
+                    <i class="bi bi-save"></i> Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title"><i class="bi bi-exclamation-triangle text-danger"></i> Confirm Delete</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Are you sure you want to delete this referral code?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const routes = {
+        codeGet: "{% url 'referral_code_get' 0 %}",
+        codeCreate: "{% url 'referral_code_create' %}",
+        codeUpdate: "{% url 'referral_code_update' 0 %}",
+        codeDelete: "{% url 'referral_code_delete' 0 %}"
+    };
+    
+    let deleteTargetId = null;
+    
+    function loadUsers() {
+        fetch("{% url 'get_all_users' %}")
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const select = document.getElementById('codeUserId');
+                    select.innerHTML = '<option value="">Select User</option>';
+                    
+                    data.users.forEach(user => {
+                        const option = document.createElement('option');
+                        option.value = user.id;
+                        option.textContent = user.username;
+                        select.appendChild(option);
+                    });
+                }
+            })
+            .catch(err => {
+                console.error('Error loading users:', err);
+                window.notyf.open({ type: "error", message: "Failed to load users." });
+            });
+    }
+    
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            window.notyf.open({ type: "success", message: "Link copied to clipboard!" });
+        }).catch(() => {
+            window.notyf.open({ type: "error", message: "Failed to copy link." });
+        });
+    }
+    
+    function copyReferralLink() {
+        const link = document.getElementById('referralLink').value;
+        copyToClipboard(link);
+    }
+    
+    function generateCode() {
+        const code = Math.random().toString(36).substring(2, 10).toUpperCase();
+        document.getElementById('codeValue').value = code;
+    }
+    
+    function prepareDelete(button) {
+        deleteTargetId = button.getAttribute('data-code-id');
+    }
+    
+    function confirmDelete() {
+        if (!deleteTargetId) return;
+    
+        const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+        deleteModal.hide();
+    
+        universalLoader("Please wait", "Deleting referral code...");
+        fetch(routes.codeDelete.replace('/0/', '/' + deleteTargetId + '/'), {
+            method: 'POST',
+            headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
+        })
+        .then(res => res.json())
+        .then(data => { 
+            universalLoader(false);
+            if (data.success) { 
+                window.notyf.open({ type: "success", message: data.message });
+                setTimeout(() => location.reload(), 500);
+            } else {
+                window.notyf.open({ type: "error", message: data.error });
+            }
+        })
+        .catch(err => {
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Error deleting referral code." });
+        });
+    }
+    
+    function resetCodeForm() {
+        document.getElementById('codeForm').reset();
+        document.getElementById('codeId').value = '';
+        document.getElementById('modalTitle').textContent = 'Add Referral Code';
+        document.getElementById('codeReferralCount').value = '0';
+        document.getElementById('codeTokensEarned').value = '0';
+        document.getElementById('referralLinkContainer').style.display = 'none';
+        document.getElementById('codeUserId').disabled = false;
+    }
+    
+    function editCode(button) {
+        const codeId = button.getAttribute('data-code-id');
+        document.getElementById('modalTitle').textContent = 'Edit Referral Code';
+    
+        universalLoader("Please wait", "Loading referral code data...");
+        fetch(routes.codeGet.replace('/0/', '/' + codeId + '/'))
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('codeId').value = data.id;
+                document.getElementById('codeUserId').value = data.user_id;
+                document.getElementById('codeValue').value = data.code;
+                document.getElementById('codeReferralCount').value = data.referral_count;
+                document.getElementById('codeTokensEarned').value = data.tokens_earned;
+                document.getElementById('referralLink').value = data.referral_link;
+                document.getElementById('referralLinkContainer').style.display = 'block';
+                document.getElementById('codeUserId').disabled = true;
+                universalLoader(false);
+            })
+            .catch(err => { 
+                universalLoader(false);
+                window.notyf.open({ type: "error", message: "Failed to load referral code data." }); 
+            });
+    }
+    
+    function saveCode() {
+        const codeId = document.getElementById('codeId').value;
+        const userId = document.getElementById('codeUserId').value;
+        const code = document.getElementById('codeValue').value.trim();
+    
+        if (!userId && !codeId) {
+            window.notyf.open({ type: "error", message: "User is required!" });
+            return;
+        }
+    
+        const formData = new FormData();
+        if (!codeId) {
+            formData.append('user_id', userId);
+        }
+        if (code) {
+            formData.append('code', code);
+        }
+        formData.append('referral_count', document.getElementById('codeReferralCount').value);
+        formData.append('tokens_earned', document.getElementById('codeTokensEarned').value);
+    
+        const url = codeId ? routes.codeUpdate.replace('/0/', '/' + codeId + '/') : routes.codeCreate;
+    
+        universalLoader("Please wait", codeId ? "Updating referral code..." : "Creating referral code...");
+        fetch(url, {
+            method: 'POST',
+            headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => { 
+            universalLoader(false);
+            if (data.success) { 
+                window.notyf.open({ type: "success", message: data.message });
+                const modal = bootstrap.Modal.getInstance(document.getElementById('codeModal'));
+                modal.hide();
+                setTimeout(() => location.reload(), 500);
+            } else {
+                window.notyf.open({ type: "error", message: data.error });
+            }
+        })
+        .catch(err => {
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Error saving referral code." });
+        });
+    }
+    
+    $(document).ready(function() {
+        loadUsers();
+        
+        $('#codesTable').DataTable({
+            responsive: true,
+            paging: true,
+            pageLength: 10,
+            autoWidth: false,
+            order: [[0, 'desc']],
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search referral codes...",
+                emptyTable: "No referral codes found",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ codes",
+                paginate: { 
+                    previous: '<i class="bi bi-chevron-left"></i>', 
+                    next: '<i class="bi bi-chevron-right"></i>' 
+                }
+            },
+            dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+            columnDefs: [
+                { type: 'num', targets: 0 },
+                { orderable: false, targets: [7] }
+            ]
+        });
+    });
+    </script>
+{% endblock %}

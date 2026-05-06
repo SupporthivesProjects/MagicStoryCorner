@@ -1,0 +1,88 @@
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+<style>
+    .notyf__toast {
+        font-family: 'Quicksand', sans-serif !important;
+    }
+    .notyf__message {
+        font-family: 'Quicksand', sans-serif !important;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (!window.notyf) {
+            window.notyf = new Notyf({
+                duration: 4000,
+                position: { x: "right", y: "top" },
+                dismissible: true,
+                types: [
+                        {
+                            type: 'success',
+                            background: 'linear-gradient(135deg, #38bdf8, #0ea5e9)', // light blue
+                            icon: { className: 'material-icons', tagName: 'i' }
+                        },
+                        {
+                            type: 'error',
+                            background: 'linear-gradient(135deg, #ef4444, #dc2626)', // red
+                            icon: { className: 'material-icons', tagName: 'i' }
+                        },
+                        {
+                            type: 'info',
+                            background: 'linear-gradient(135deg, #c084fc, #a855f7)', // light purple
+                            icon: { className: 'material-icons', tagName: 'i'}
+                        },
+                        {
+                            type: 'warning',
+                            background: 'linear-gradient(135deg, #fde047, #facc15)', // yellow
+                            icon: { className: 'material-icons', tagName: 'i'}
+                        }
+                    ]
+            });
+        }
+    
+        let currentNotification = null;
+    
+        window.showNotification = function(type, message) {
+            if (window.notyf) {
+                if (currentNotification) {
+                    currentNotification.dismiss();
+                }
+                currentNotification = window.notyf.open({ type: type, message: message });
+            } else {
+                console.warn("Notyf instance not found.");
+            }
+        };
+    });
+</script>
+{% if messages %}
+<script id="django-messages" type="application/json">
+[
+{% for message in messages %}
+    {"level": "{{ message.tags }}", "text": "{{ message|escapejs }}"}{% if not forloop.last %},{% endif %}
+{% endfor %}
+]
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const messagesElement = document.getElementById('django-messages');
+    if (messagesElement) {
+        try {
+            const messages = JSON.parse(messagesElement.textContent);
+            messages.forEach(msg => {
+                const level = msg.level.toLowerCase();
+                if (level.includes('success')) showNotification('success', msg.text);
+                else if (level.includes('error') || level.includes('danger')) showNotification('error', msg.text);
+                else if (level.includes('warning')) showNotification('warning', msg.text);
+                else showNotification('info', msg.text);
+            });
+        } catch (err) {
+            console.error("Failed to parse Django messages:", err);
+        }
+    }
+});
+</script>
+{% endif %}

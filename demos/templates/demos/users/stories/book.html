@@ -1,0 +1,202 @@
+{% extends "demos/layout.html" %}
+{% load static %}
+
+{% block title %}{{ story.title }} | My Story {% endblock %}
+
+{% block content %}
+<section class="productbook-view-section">
+    <div class="productbook-view-header">
+        <div class="container">
+          <div class="header-content">
+            <div class="row g-3 align-items-center">
+              <div class="col-12 col-lg-8">
+                <h1 class="productbook-view-title mb-2">{{ story.title }}</h1>
+                <p class="productbook-view-subtitle small text-muted mb-0">
+                  <i class="bi bi-calendar-check"></i> {{ story.created_at|date:"d M Y" }} | 
+                  Age: {{ story.agegroup.name }} | Setting: {{ story.setting.name }} | Plot: {{ story.plot.name }} | Theme: {{ story.theme.name }} | Tone: {{ story.tone.name }} | Length: {{ story.length.name }} | Style: {{ story.imagestyle.name }} | Language: {{ story.language.name }} | Narrator: {{ story.narrator.name }}
+                </p>
+              </div>
+      
+              <div class="col-12 col-lg-4">
+                <div class="d-flex flex-column gap-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center flex-shrink-0 fw-bold" style="width: 38px; height: 38px; min-width: 38px; font-size: 14px;">
+                      {{ story.user.first_name|first|default:story.user.username|first }}
+                    </div>
+                    <div class="lh-sm">
+                      <p class="mb-0 fw-bold small">{{ story.user.first_name }} {{ story.user.last_name }}</p>
+                      <p class="mb-0 text-muted" style="font-size: 11px;">{{ story.user.email }}</p>
+                    </div>
+                  </div>
+                  <a href="{% url 'storybook_download' story.slug %}" 
+                    class="productbook-view-btn-download storybook_download d-flex align-items-center justify-content-center w-50 btn text-bg-danger btn-sm mx-auto"
+                    title="Download PDF">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                    <span class="d-none d-sm-inline ms-1">PDF</span>
+                </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="container productbook-view-container">
+        {% for page in pages %}
+        <div class="productbook-view-page" data-page="{{ page.page }}">
+            <div class="productbook-view-page-number">
+                <span>Page {{ page.page }}</span>
+            </div>
+            
+            <div class="productbook-view-page-content">
+                <div class="productbook-view-image-wrapper">
+                    <div class="productbook-view-image-container">
+                        {% if page.image %}
+                            <img src="{{ page.image.url }}" alt="Story illustration for page {{ page.page }}">
+                        {% endif %}
+                        <div class="productbook-view-image-overlay"></div>
+                    </div>
+                </div>
+
+                <div class="productbook-view-text-wrapper">
+                    <div class="productbook-view-text-content">
+                        <p>{{ page.text }}</p>
+                    </div>
+
+                    {% if page.audio %}
+                    <div class="productbook-view-audio-player">
+                        <div class="productbook-view-audio-controls">
+                            <button class="productbook-view-audio-btn play-btn" data-audio-id="audio-{{ page.page }}">
+                                <i class="bi bi-play-circle-fill"></i>
+                            </button>
+                            <div class="productbook-view-audio-info">
+                                <span class="productbook-view-audio-label">Listen to this page</span>
+                                <div class="productbook-view-audio-progress">
+                                    <div class="productbook-view-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <audio id="audio-{{ page.page }}" preload="metadata">
+                            <source src="{{ page.audio.url }}" type="audio/mpeg">
+                        </audio>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const audioElements = document.querySelectorAll('audio');
+    audioElements.forEach(audio => {
+        const audioId = audio.id;
+        const playBtn = document.querySelector(`[data-audio-id="${audioId}"]`);
+        const progressBar = playBtn.closest('.productbook-view-audio-player').querySelector('.productbook-view-progress-bar');
+        playBtn.addEventListener('click', function() {
+            if (audio.paused) {
+                audioElements.forEach(a => {
+                    if (a !== audio) {
+                        a.pause();
+                        a.currentTime = 0;
+                        const otherBtn = document.querySelector(`[data-audio-id="${a.id}"]`);
+                        if (otherBtn) otherBtn.innerHTML = '<i class="bi bi-play-circle-fill"></i>';
+                    }
+                });
+                audio.play();
+                playBtn.innerHTML = '<i class="bi bi-pause-circle-fill"></i>';
+            } else {
+                audio.pause();
+                playBtn.innerHTML = '<i class="bi bi-play-circle-fill"></i>';
+            }
+        });
+        audio.addEventListener('timeupdate', function() {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = progress + '%';
+        });
+        audio.addEventListener('ended', function() {
+            playBtn.innerHTML = '<i class="bi bi-play-circle-fill"></i>';
+            progressBar.style.width = '0%';
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const downloadBtn = document.querySelector('.storybook_download');
+    
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            const downloadUrl = this.getAttribute('href');
+            universalLoader("Please wait", "Preparing PDF for download...");
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', downloadUrl, true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.responseType = 'blob';
+            
+            xhr.timeout = 120000;
+            
+            xhr.onload = function() {
+                universalLoader(false);
+                
+                if (xhr.status === 200) {
+                    const contentDisposition = xhr.getResponseHeader('Content-Disposition');
+                    let filename = 'storybook.pdf';
+                    
+                    if (contentDisposition) {
+                        const filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
+                        if (filenameMatch && filenameMatch[1]) {
+                            filename = filenameMatch[1];
+                        }
+                    }
+                    
+                    window.notyf.open({ type: "success", message: "PDF ready! Starting download..." });
+                    
+                    const blob = xhr.response;
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    setTimeout(() => {
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+                    }, 100);
+                } else {
+                    const reader = new FileReader();
+                    reader.onload = function() {
+                        try {
+                            const errorData = JSON.parse(reader.result);
+                            window.notyf.open({ type: "error", message: errorData.error || 'Download failed' });
+                        } catch (e) {
+                            window.notyf.open({ type: "error", message: 'Download failed' });
+                        }
+                    };
+                    reader.readAsText(xhr.response);
+                }
+            };
+            
+            xhr.onerror = function() {
+                universalLoader(false);
+                window.notyf.open({ type: "error", message: 'Network error occurred' });
+            };
+            
+            xhr.ontimeout = function() {
+                universalLoader(false);
+                window.notyf.open({ type: "error", message: 'Request timeout' });
+            };
+            
+            xhr.send();
+        });
+    }
+});
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,898 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="{% static 'favicons/favicon.ico' %}" type="image/x-icon" sizes="192x192 256x256 512x512">
+<title>{% block title %}Admin Panel{% endblock %}</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+<link rel="stylesheet" href="{% static 'leo/admin.css' %}">
+<link rel="stylesheet" href="{% static 'leo/create.css' %}">
+<link rel="stylesheet" href="{% static 'leo/view.css' %}">
+<link rel="stylesheet" href="{% static 'leo/list.css' %}">
+<link rel="stylesheet" href="{% static 'leo/login.css' %}">
+<link rel="stylesheet" href="{% static 'leo/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'leo/user_profile.css' %}">
+<link rel="stylesheet" href="{% static 'leo/admin_profile.css' %}">
+<link rel="stylesheet" href="{% static 'leo/logs.css' %}">
+<link rel="stylesheet" href="{% static 'leo/configuration.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+{% include "includes/loaders/generationLoader.html" %}
+{% include "includes/loaders/universalLoader.html" %}
+{% include "includes/notify.html" %}
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="search-modal" id="searchModal">
+    <div class="search-modal-content">
+        <div class="search-modal-header">
+            <div class="search-input-wrapper">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search pages..." autocomplete="off">
+                <button class="search-close-btn" id="closeSearchModal">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+        </div>
+        <div class="search-modal-body">
+            <div class="search-results" id="searchResults">
+                <div class="search-category">
+                    <h6 class="search-category-title">Main Menu</h6>
+                    <div class="search-items">
+                        <a href="{% url 'admin_dashboard' %}" class="search-item" data-keywords="dashboard home main overview">
+                            <i class="bi bi-speedometer2"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="search-category">
+                    <h6 class="search-category-title">Product Books</h6>
+                    <div class="search-items">
+                        <a href="{% url 'admin_books_list' %}" class="search-item" data-keywords="product books list all view">
+                            <i class="bi bi-book"></i>
+                            <span>Product Books</span>
+                        </a>
+                        <a href="{% url 'admin_books_create' %}" class="search-item" data-keywords="create new book add product">
+                            <i class="bi bi-plus-circle"></i>
+                            <span>Create Book</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="search-category">
+                    <h6 class="search-category-title">Users</h6>
+                    <div class="search-items">
+                        <a href="{% url 'admin_user_list' %}" class="search-item" data-keywords="users list all customers">
+                            <i class="bi bi-people"></i>
+                            <span>Users</span>
+                        </a>
+                        <a href="{% url 'admin_user_books' %}" class="search-item" data-keywords="user stories books customer content">
+                            <i class="bi bi-journal-text"></i>
+                            <span>User Stories</span>
+                        </a>
+                        <a href="{% url 'user_wallets' %}" class="search-item"
+                            data-keywords="wallet wallets balance credits tokens user wallet">
+                                <i class="bi bi-wallet2"></i>
+                                <span>Wallet Transactions</span>
+                        </a>
+
+                        <a href="{% url 'user_purchased_books' %}" class="search-item" data-keywords="purchases bought books orders customer">
+                            <i class="bi bi-bag-check"></i>
+                            <span>Purchased Books</span>
+                        </a>
+
+                    </div>
+                </div>
+                
+                <div class="search-category">
+                    <h6 class="search-category-title">Orders & Transactions</h6>
+                    <div class="search-items">
+                        <a href="{% url 'admin_order_list' %}" class="search-item" data-keywords="orders list payments sales">
+                            <i class="bi bi-cart-check"></i>
+                            <span>Orders</span>
+                        </a>
+                        <a href="{% url 'admin_transaction_list' %}" class="search-item" data-keywords="transactions payments history financial">
+                            <i class="bi bi-credit-card"></i>
+                            <span>Transactions</span>
+                        </a>
+                    </div>
+                </div>
+                
+               
+                
+                <div class="search-category">
+                    <h6 class="search-category-title">Coupons</h6>
+                    <div class="search-items">
+                        <a href="{% url 'admin_coupon_list' %}" class="search-item" data-keywords="coupons discounts promo codes">
+                            <i class="bi bi-tag"></i>
+                            <span>Coupons</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="search-category">
+                    <h6 class="search-category-title">Contacts</h6>
+                    <div class="search-items">
+                        <a href="{% url 'contact_list' %}" class="search-item" data-keywords="contacts messages inquiries">
+                            <i class="bi bi-envelope"></i>
+                            <span>Contacts</span>
+                        </a>
+                    </div>
+                </div>
+                
+                {% if request.user.is_superuser %}
+                <div class="search-category">
+                    <h6 class="search-category-title">Packages</h6>
+                    <div class="search-items">
+                        <a href="{% url 'packagetype_list' %}" class="search-item" data-keywords="package types categories">
+                            <i class="bi bi-box-seam"></i>
+                            <span>Package Types</span>
+                        </a>
+                        <a href="{% url 'package_list' %}" class="search-item" data-keywords="packages list all">
+                            <i class="bi bi-box2"></i>
+                            <span>Packages</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="search-category">
+                    <h6 class="search-category-title">Configuration</h6>
+                    <div class="search-items">
+                        <a href="{% url 'configurations' %}" class="search-item" data-keywords="configurations settings system">
+                            <i class="bi bi-gear-fill"></i>
+                            <span>Configurations</span>
+                        </a>
+                        <a href="{% url 'ai_models' %}" class="search-item" data-keywords="ai models artificial intelligence">
+                            <i class="bi bi-robot"></i>
+                            <span>AI Models</span>
+                        </a>
+                        <a href="{% url 'age_ranges' %}" class="search-item" data-keywords="age ranges groups categories">
+                            <i class="bi bi-people-fill"></i>
+                            <span>Age Ranges</span>
+                        </a>
+                        <a href="{% url 'imagestyles' %}" class="search-item" data-keywords="image styles visual art">
+                            <i class="bi bi-image"></i>
+                            <span>Image Styles</span>
+                        </a>
+                        <a href="{% url 'languages' %}" class="search-item" data-keywords="languages localization translation">
+                            <i class="bi bi-globe"></i>
+                            <span>Languages</span>
+                        </a>
+                        <a href="{% url 'lengths' %}" class="search-item" data-keywords="lengths story duration size">
+                            <i class="bi bi-rulers"></i>
+                            <span>Story Lengths</span>
+                        </a>
+                        <a href="{% url 'narrators' %}" class="search-item" data-keywords="narrators voices audio">
+                            <i class="bi bi-mic"></i>
+                            <span>Narrators</span>
+                        </a>
+                        <a href="{% url 'plots' %}" class="search-item" data-keywords="plots story storylines">
+                            <i class="bi bi-diagram-3"></i>
+                            <span>Plots</span>
+                        </a>
+                        <a href="{% url 'settings' %}" class="search-item" data-keywords="settings configuration options">
+                            <i class="bi bi-gear"></i>
+                            <span>Settings</span>
+                        </a>
+                        <a href="{% url 'themes' %}" class="search-item" data-keywords="themes topics subjects">
+                            <i class="bi bi-palette"></i>
+                            <span>Themes</span>
+                        </a>
+                        <a href="{% url 'tones' %}" class="search-item" data-keywords="tones moods atmosphere">
+                            <i class="bi bi-stars"></i>
+                            <span>Tones</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="search-category">
+                    <h6 class="search-category-title">System</h6>
+                    <div class="search-items">
+                        <a href="{% url 'admin_list' %}" class="search-item" data-keywords="administrators admins staff">
+                            <i class="bi bi-shield-lock"></i>
+                            <span>Administrators</span>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+        <div class="search-modal-footer">
+            <div class="search-tips">
+                <span class="search-tip"><kbd>ESC</kbd> to close</span>
+                <span class="search-tip"><kbd>↑</kbd><kbd>↓</kbd> to navigate</span>
+                <span class="search-tip"><kbd>Enter</kbd> to select</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="admin-wrapper">
+
+    <nav id="sidebarMenu" class="modern-sidebar">
+        <div class="sidebar-header">
+            <a class="brand-container" href="{% url 'admin_dashboard' %}">
+                <img src="{% static 'media/Brand-light.svg' %}" class="img-fluid brand-logo" alt="Brand Logo">
+            </a>
+        </div>
+
+        <div class="sidebar-content">
+            <div class="nav-section">
+                <ul class="nav-menu">
+                    <!-- Dashboard -->
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}" 
+                            href="{% url 'admin_dashboard' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-speedometer2"></i>
+                            </div>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    
+                    <!-- Product Books Section -->
+                    <li class="nav-item mt-3 mb-2">
+                        <div class="d-flex align-items-center px-3">
+                            <small class="text-white-50 fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Product Books</small>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'admin_books_list' %}active{% endif %}" 
+                            href="{% url 'admin_books_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-book"></i>
+                            </div>
+                            <span class="nav-text">Product Books</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'admin_books_create' %}active{% endif %}" 
+                            href="{% url 'admin_books_create' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-plus-circle"></i>
+                            </div>
+                            <span class="nav-text">Create Book</span>
+                        </a>
+                    </li>
+                    
+                    <!-- User Management Section -->
+                    <li class="nav-item mt-3 mb-2">
+                        <div class="d-flex align-items-center px-3">
+                            <small class="text-white-50 fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">User Management</small>
+                        </div>
+                    </li>
+                    
+                    {% if request.user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'admin_list' %}active{% endif %}" 
+                            href="{% url 'admin_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-shield-lock"></i>
+                            </div>
+                            <span class="nav-text">Administrators</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'admin_user_list' %}active{% endif %}" 
+                            href="{% url 'admin_user_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <span class="nav-text">Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'admin_user_books' %}active{% endif %}" 
+                            href="{% url 'admin_user_books' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-journal-text"></i>
+                            </div>
+                            <span class="nav-text">User Stories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'user_purchased_books' %}active{% endif %}" 
+                            href="{% url 'user_purchased_books' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-bag-check"></i>
+                            </div>
+                            <span class="nav-text">Purchased Books</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'user_wallets wallet_get wallet_create wallet_update' %}active{% endif %}"
+                           href="{% url 'user_wallets' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-wallet2"></i>
+                            </div>
+                            <span class="nav-text">Wallet Transactions</span>
+                        </a>
+                    </li>
+                    <!-- Sales & Transactions Section -->
+                    <li class="nav-item mt-3 mb-2">
+                        <div class="d-flex align-items-center px-3">
+                            <small class="text-white-50 fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Sales & Transactions</small>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'admin_order_list' %}active{% endif %}" 
+                            href="{% url 'admin_order_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-cart-check"></i>
+                            </div>
+                            <span class="nav-text">Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'admin_transaction_list' %}active{% endif %}" 
+                            href="{% url 'admin_transaction_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-credit-card"></i>
+                            </div>
+                            <span class="nav-text">Transactions</span>
+                        </a>
+                    </li>
+                    
+                   
+                    <!-- Marketing Section -->
+                    <li class="nav-item mt-3 mb-2">
+                        <div class="d-flex align-items-center px-3">
+                            <small class="text-white-50 fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Marketing</small>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'admin_coupon_list' or request.resolver_match.url_name == 'admin_coupon_create' or request.resolver_match.url_name == 'admin_coupon_edit' %}active{% endif %}" 
+                            href="{% url 'admin_coupon_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-tag"></i>
+                            </div>
+                            <span class="nav-text">Coupons</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'daily_claim_list daily_claim_get daily_claim_create daily_claim_update daily_claim_delete' %}active{% endif %}" 
+                            href="{% url 'daily_claim_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-gift"></i>
+                            </div>
+                            <span class="nav-text">Daily Claims</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'referral_list referral_get referral_create referral_update referral_delete' %}active{% endif %}" 
+                            href="{% url 'referral_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-share"></i>
+                            </div>
+                            <span class="nav-text">Referrals</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'referral_code_list referral_code_get referral_code_create referral_code_update referral_code_delete' %}active{% endif %}" 
+                            href="{% url 'referral_code_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-upc-scan"></i>
+                            </div>
+                            <span class="nav-text">Referral Codes</span>
+                        </a>
+                    </li>
+                    
+                    <!-- Communication Section -->
+                    <li class="nav-item mt-3 mb-2">
+                        <div class="d-flex align-items-center px-3">
+                            <small class="text-white-50 fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Communication</small>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'contact_list' %}active{% endif %}" 
+                            href="{% url 'contact_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                            <span class="nav-text">Contacts</span>
+                        </a>
+                    </li>
+        
+                    {% if request.user.is_superuser %}
+
+                     <!-- Packages Section -->
+                     <li class="nav-item mt-3 mb-2">
+                        <div class="d-flex align-items-center px-3">
+                            <small class="text-white-50 fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Packages</small>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'packagetype_list' %}active{% endif %}" 
+                            href="{% url 'packagetype_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+                            <span class="nav-text">Package Types</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'package_list' %}active{% endif %}" 
+                            href="{% url 'package_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-box2"></i>
+                            </div>
+                            <span class="nav-text">Packages</span>
+                        </a>
+                    </li>
+                    
+                    <!-- System Configuration Section -->
+                    <li class="nav-item mt-3 mb-2">
+                        <div class="d-flex align-items-center px-3">
+                            <small class="text-white-50 fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">System Configuration</small>
+                        </div>
+                    </li>
+        
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'configurations' %}active{% endif %}" 
+                            href="{% url 'configurations' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-gear-fill"></i>
+                            </div>
+                            <span class="nav-text">Configurations</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'legal_list legal_get legal_create legal_update legal_delete' %}active{% endif %}" 
+                            href="{% url 'legal_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-file-text"></i>
+                            </div>
+                            <span class="nav-text">Legal Content</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'website_list website_get website_create website_update website_delete' %}active{% endif %}" 
+                            href="{% url 'website_list' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-globe"></i>
+                            </div>
+                            <span class="nav-text">Websites</span>
+                        </a>
+                    </li>
+                    
+                    <!-- Content Settings Section -->
+                    <li class="nav-item mt-3 mb-2">
+                        <div class="d-flex align-items-center px-3">
+                            <small class="text-white-50 fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Content Settings</small>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'ai_models model_get model_create model_update' %}active{% endif %}" 
+                            href="{% url 'ai_models' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-robot"></i>
+                            </div>
+                            <span class="nav-text">AI Models</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'age_ranges age_range_get age_range_create age_range_update' %}active{% endif %}" 
+                            href="{% url 'age_ranges' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                            <span class="nav-text">Age Ranges</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'imagestyles imagestyle_get imagestyle_create imagestyle_update' %}active{% endif %}" 
+                            href="{% url 'imagestyles' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-image"></i>
+                            </div>
+                            <span class="nav-text">Image Styles</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'languages language_get language_create language_update' %}active{% endif %}" 
+                            href="{% url 'languages' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-globe"></i>
+                            </div>
+                            <span class="nav-text">Languages</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'lengths length_get length_create length_update' %}active{% endif %}" 
+                            href="{% url 'lengths' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-rulers"></i>
+                            </div>
+                            <span class="nav-text">Story Lengths</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'narrators narrator_get narrator_create narrator_update' %}active{% endif %}" 
+                            href="{% url 'narrators' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-mic"></i>
+                            </div>
+                            <span class="nav-text">Narrators</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'plots plot_get plot_create plot_update' %}active{% endif %}" 
+                            href="{% url 'plots' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-diagram-3"></i>
+                            </div>
+                            <span class="nav-text">Plots</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'settings setting_get setting_create setting_update' %}active{% endif %}" 
+                            href="{% url 'settings' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-gear"></i>
+                            </div>
+                            <span class="nav-text">Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'themes theme_get theme_create theme_update' %}active{% endif %}" 
+                            href="{% url 'themes' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-palette"></i>
+                            </div>
+                            <span class="nav-text">Themes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name in 'tones tone_get tone_create tone_update' %}active{% endif %}" 
+                            href="{% url 'tones' %}">
+                            <div class="nav-icon">
+                                <i class="bi bi-stars"></i>
+                            </div>
+                            <span class="nav-text">Tones</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a class="nav-link logout-link" href="{% url 'admin_logout' %}">
+                        <div class="nav-icon">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </div>
+                        <span class="nav-text">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="mainContent" class="main-content-wrapper">
+        <header class="top-navbar">
+            <div class="navbar-container">
+                <button class="sidebar-toggle-btn" id="toggleSidebar" type="button">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <div class="navbar-actions">
+                    <a href="{% url 'get_my_profile' admin_id=request.user.id %}" class="d-flex align-items-center gap-2 px-3 py-2 bg-light rounded text-decoration-none">
+                        <i class="bi bi-person-circle text-muted"></i>
+                        <span class="fw-semibold text-dark">{{ request.user.first_name }} {{ request.user.last_name }}</span>
+                    </a>
+            
+                     <a class="action-btn notification-btn" href="{% url 'admin_logs' %}">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge">{{ today_logs_count }} </span>
+                    </a>
+                    <button class="action-btn search-btn" id="openSearchModal">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <footer class="modern-footer">
+            <div class="footer-content">
+                <p class="footer-text">{{ site_name|default:"Little Story Book" }} © {% now "Y" %} | All rights reserved</p>
+            </div>
+        </footer>
+    </div>
+
+</div>
+<script>
+const toggleBtn = document.getElementById('toggleSidebar');
+const sidebar = document.getElementById('sidebarMenu');
+const mainContent = document.getElementById('mainContent');
+const overlay = document.getElementById('sidebarOverlay');
+const wrapper = document.querySelector('.admin-wrapper');
+const searchModal = document.getElementById('searchModal');
+const openSearchBtn = document.getElementById('openSearchModal');
+const closeSearchBtn = document.getElementById('closeSearchModal');
+const searchInput = document.getElementById('searchInput');
+
+function isMobile() {
+    return window.innerWidth < 992;
+}
+
+function openSidebar() {
+    wrapper.classList.remove('sidebar-collapsed');
+    if (isMobile()) {
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeSidebar() {
+    wrapper.classList.add('sidebar-collapsed');
+    overlay.classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+function toggleSidebar() {
+    if (wrapper.classList.contains('sidebar-collapsed')) {
+        openSidebar();
+    } else {
+        closeSidebar();
+    }
+}
+
+function openSearchModal() {
+    searchModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => {
+        searchInput.focus();
+    }, 100);
+}
+
+function closeSearchModalFn() {
+    searchModal.classList.remove('active');
+    document.body.style.overflow = '';
+    searchInput.value = '';
+    currentIndex = -1;
+    document.querySelectorAll('.search-item').forEach(item => {
+        item.style.display = 'flex';
+        item.classList.remove('active');
+        const span = item.querySelector('span');
+        if (span) {
+            span.innerHTML = span.textContent;
+        }
+    });
+    document.querySelectorAll('.search-category').forEach(cat => {
+        cat.style.display = 'block';
+    });
+    removeNoResults();
+}
+
+toggleBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    toggleSidebar();
+});
+
+overlay.addEventListener('click', function() {
+    closeSidebar();
+});
+
+openSearchBtn.addEventListener('click', function() {
+    openSearchModal();
+});
+
+closeSearchBtn.addEventListener('click', function() {
+    closeSearchModalFn();
+});
+
+searchModal.addEventListener('click', function(e) {
+    if (e.target === searchModal) {
+        closeSearchModalFn();
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && searchModal.classList.contains('active')) {
+        closeSearchModalFn();
+    }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        openSearchModal();
+    }
+});
+
+document.querySelectorAll('#sidebarMenu .nav-link').forEach(link => {
+    link.addEventListener('click', function() {
+        if (isMobile()) {
+            closeSidebar();
+        }
+    });
+});
+
+window.addEventListener('resize', function() {
+    if (!isMobile()) {
+        overlay.classList.remove('show');
+        document.body.style.overflow = '';
+        wrapper.classList.remove('sidebar-collapsed');
+    } else {
+        if (!wrapper.classList.contains('sidebar-collapsed')) {
+            closeSidebar();
+        }
+    }
+});
+
+if (isMobile()) {
+    closeSidebar();
+}
+
+let currentIndex = -1;
+
+function initSearchModal() {
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    const searchModal = document.getElementById('searchModal');
+    
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        const searchItems = document.querySelectorAll('.search-item');
+        const categories = document.querySelectorAll('.search-category');
+        
+        if (query === '') {
+            searchItems.forEach(item => {
+                item.style.display = 'flex';
+                item.classList.remove('active');
+                const span = item.querySelector('span');
+                if (span) {
+                    span.innerHTML = span.textContent;
+                }
+            });
+            categories.forEach(cat => {
+                cat.style.display = 'block';
+            });
+            currentIndex = -1;
+            removeNoResults();
+            return;
+        }
+        
+        let hasVisibleItems = false;
+        
+        searchItems.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            const keywords = item.getAttribute('data-keywords') || '';
+            const matches = text.includes(query) || keywords.toLowerCase().includes(query);
+            
+            if (matches) {
+                item.style.display = 'flex';
+                hasVisibleItems = true;
+                highlightText(item, query);
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        
+        categories.forEach(category => {
+            const visibleItems = category.querySelectorAll('.search-item[style*="display: flex"]');
+            if (visibleItems.length > 0) {
+                category.style.display = 'block';
+            } else {
+                category.style.display = 'none';
+            }
+        });
+        
+        if (!hasVisibleItems) {
+            showNoResults();
+        } else {
+            removeNoResults();
+        }
+        
+        currentIndex = -1;
+    });
+    
+    searchInput.addEventListener('keydown', function(e) {
+        const visibleItems = Array.from(document.querySelectorAll('.search-item'))
+            .filter(item => item.style.display !== 'none');
+        
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            currentIndex = (currentIndex + 1) % visibleItems.length;
+            updateSelection(visibleItems);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            currentIndex = currentIndex <= 0 ? visibleItems.length - 1 : currentIndex - 1;
+            updateSelection(visibleItems);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (currentIndex >= 0 && visibleItems[currentIndex]) {
+                visibleItems[currentIndex].click();
+            }
+        }
+    });
+    
+    function updateSelection(items) {
+        items.forEach((item, index) => {
+            if (index === currentIndex) {
+                item.classList.add('active');
+                item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+    
+    function highlightText(element, query) {
+        const span = element.querySelector('span');
+        if (!span) return;
+        
+        const text = span.textContent;
+        const lowerText = text.toLowerCase();
+        const index = lowerText.indexOf(query);
+        
+        if (index !== -1) {
+            const before = text.substring(0, index);
+            const match = text.substring(index, index + query.length);
+            const after = text.substring(index + query.length);
+            
+            span.innerHTML = `${before}<mark>${match}</mark>${after}`;
+        }
+    }
+    
+    function showNoResults() {
+        removeNoResults();
+        const noResults = document.createElement('div');
+        noResults.className = 'no-results';
+        noResults.style.cssText = 'text-align:center;padding:3rem 1rem;color:#6c757d;';
+        noResults.innerHTML = `
+            <i class="bi bi-search" style="font-size:3rem;display:block;margin-bottom:1rem;"></i>
+            <p style="font-size:1.1rem;margin-bottom:0.5rem;">No results found</p>
+            <small>Try a different search term</small>
+        `;
+        searchResults.appendChild(noResults);
+    }
+    
+    function removeNoResults() {
+        const existing = searchResults.querySelector('.no-results');
+        if (existing) {
+            existing.remove();
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    initSearchModal();
+});
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,239 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Story Lengths{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-book"></i> Story Lengths</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lengthModal" onclick="resetLengthForm()">
+            <i class="bi bi-plus-circle"></i> Add New Length
+        </button>
+    </div>
+
+    <div class="log-table-card">
+        <table id="lengthsTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Min Pages</th>
+                    <th>Max Pages</th>
+                    <th>Emoji</th>
+                    <th>Token Cost</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for length in lengths %}
+                    <tr class="log-table-row">
+                        <td><span class="log-id-badge">#{{ length.id }}</span></td>
+                        <td>{{ length.name }}</td>
+                        <td>{{ length.min }}</td>
+                        <td>{{ length.max }}</td>
+                        <td>{{ length.emoji }}</td>
+                        <td>
+                            <span class="badge bg-info">{{ length.cost }} tokens</span>
+                        </td>
+                        <td class="text-center">
+                            {% if length.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#lengthModal"
+                                    data-length-id="{{ length.id }}"
+                                    onclick="editLength(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="lengthModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-book"></i> Story Length</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="lengthForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="lengthId">
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Length Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="lengthName" placeholder="e.g., Short" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Emoji</label>
+                            <input type="text" class="form-control" id="lengthEmoji" placeholder="e.g., 📄" maxlength="10">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Minimum Pages <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="lengthMin" value="1" min="1" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Maximum Pages <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="lengthMax" value="10" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Token Cost</label>
+                        <input type="number" class="form-control" id="lengthCost" value="0" min="0">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="lengthIsActive" name="is_active">
+                            <label class="form-check-label" for="lengthIsActive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveLength()">Save Length</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const routes = {
+    lengthGet: "{% url 'length_get' 0 %}",
+    lengthCreate: "{% url 'length_create' %}",
+    lengthUpdate: "{% url 'length_update' 0 %}"
+};
+
+function resetLengthForm() {
+    document.getElementById('lengthForm').reset();
+    document.getElementById('lengthId').value = '';
+    document.getElementById('lengthIsActive').checked = false;
+}
+
+function editLength(button) {
+    const lengthId = button.getAttribute('data-length-id');
+    universalLoader("Please wait", "Loading length details...");
+
+    fetch(routes.lengthGet.replace('/0/', '/' + lengthId + '/'))
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('lengthId').value = data.id;
+            document.getElementById('lengthName').value = data.name || '';
+            document.getElementById('lengthEmoji').value = data.emoji || '';
+            document.getElementById('lengthMin').value = data.min || 1;
+            document.getElementById('lengthMax').value = data.max || 10;
+            document.getElementById('lengthCost').value = data.cost || 0;
+            document.getElementById('lengthIsActive').checked = data.is_active || false;
+            universalLoader(false);
+        })
+        .catch(error => {
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Failed to load length details." });
+        });
+}
+
+function saveLength() {
+    const lengthId = document.getElementById('lengthId').value;
+    const name = document.getElementById('lengthName').value.trim();
+    
+    if (!name) {
+        window.notyf.open({ type: "error", message: "Name is required!" });
+        return;
+    }
+
+    const min = parseInt(document.getElementById('lengthMin').value);
+    const max = parseInt(document.getElementById('lengthMax').value);
+    
+    if (min < 1) {
+        window.notyf.open({ type: "error", message: "Minimum pages must be at least 1!" });
+        return;
+    }
+
+    if (max < min) {
+        window.notyf.open({ type: "error", message: "Maximum pages must be greater than or equal to minimum pages!" });
+        return;
+    }
+
+    const cost = document.getElementById('lengthCost').value;
+    if (cost < 0) {
+        window.notyf.open({ type: "error", message: "Cost cannot be negative!" });
+        return;
+    }
+
+    universalLoader("Please wait", lengthId ? "Updating length..." : "Creating new length...");
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('emoji', document.getElementById('lengthEmoji').value);
+    formData.append('min', min);
+    formData.append('max', max);
+    formData.append('cost', cost);
+    formData.append('is_active', document.getElementById('lengthIsActive').checked);
+
+    const url = lengthId ? routes.lengthUpdate.replace('/0/', '/' + lengthId + '/') : routes.lengthCreate;
+
+    fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        universalLoader(false);
+        if (data.success) {
+            window.notyf.open({ type: "success", message: data.message || (lengthId ? "Length updated successfully!" : "Length created successfully!") });
+            setTimeout(() => location.reload(), 500);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Failed to save length." });
+        }
+    })
+    .catch(error => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Error saving length." });
+    });
+}
+
+$(document).ready(function() {
+    $('#lengthsTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search lengths...",
+            emptyTable: "No lengths found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ lengths",
+            paginate: { previous: '<i class="bi bi-chevron-left"></i>', next: '<i class="bi bi-chevron-right"></i>' }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: -1 },
+            { orderable: false, targets: -1 }
+        ]
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,249 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Narrator Voices{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-mic"></i> Narrator Voices</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#voiceModal" onclick="resetVoiceForm()">
+            <i class="bi bi-plus-circle"></i> Add New Voice
+        </button>
+    </div>
+
+    <div class="log-table-card">
+        <table id="voicesTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Emoji</th>
+                    <th>Model</th>
+                    <th>Token Cost</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for voice in voices %}
+                    <tr class="log-table-row">
+                        <td><span class="log-id-badge">#{{ voice.id }}</span></td>
+                        <td>{{ voice.name }}</td>
+                        <td>{{ voice.emoji }}</td>
+                        <td>{{ voice.model.name }}</td>
+                        <td>
+                            <span class="badge bg-info">{{ voice.cost }} tokens</span>
+                        </td>
+                        <td class="text-center">
+                            {% if voice.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#voiceModal"
+                                    data-voice-id="{{ voice.id }}"
+                                    onclick="editVoice(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="voiceModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-mic"></i> Narrator Voice</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="voiceForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="voiceId">
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Voice Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="voiceName" placeholder="e.g., Warm Male" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Emoji</label>
+                            <input type="text" class="form-control" id="voiceEmoji" placeholder="e.g., 🎤" maxlength="10">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">TTS Model <span class="text-danger">*</span></label>
+                        <select class="form-select" id="voiceModel" required>
+                            <option value="">Select Model</option>
+                            {% for model in models %}
+                                <option value="{{ model.id }}">{{ model.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Voice ID</label>
+                        <input type="text" class="form-control" id="voiceVid" placeholder="e.g., EXAVITQu4vr4xnSDxMaL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Preview Audio URL</label>
+                        <input type="url" class="form-control" id="voiceUrl" placeholder="https://example.com/voice.mp3">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Token Cost</label>
+                        <input type="number" class="form-control" id="voiceCost" value="0" min="0">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="voiceIsActive" name="is_active">
+                            <label class="form-check-label" for="voiceIsActive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveVoice()">Save Voice</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const routes = {
+    voiceGet: "{% url 'narrator_get' 0 %}",
+    voiceCreate: "{% url 'narrator_create' %}",
+    voiceUpdate: "{% url 'narrator_update' 0 %}"
+};
+
+function resetVoiceForm() {
+    document.getElementById('voiceForm').reset();
+    document.getElementById('voiceId').value = '';
+    document.getElementById('voiceIsActive').checked = false;
+}
+
+function editVoice(button) {
+    const voiceId = button.getAttribute('data-voice-id');
+    universalLoader('Please wait', 'Loading voice data...');
+    
+    fetch(routes.voiceGet.replace('/0/', '/' + voiceId + '/'))
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('voiceId').value = data.id;
+            document.getElementById('voiceName').value = data.name || '';
+            document.getElementById('voiceEmoji').value = data.emoji || '';
+            document.getElementById('voiceModel').value = data.model || '';
+            document.getElementById('voiceVid').value = data.vid || '';
+            document.getElementById('voiceUrl').value = data.voice || '';
+            document.getElementById('voiceCost').value = data.cost || 0;
+            document.getElementById('voiceIsActive').checked = data.is_active || false;
+            universalLoader(false);
+        })
+        .catch(error => {
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Error loading voice data" });
+            console.error('Error:', error);
+        });
+}
+
+function saveVoice() {
+    const voiceId = document.getElementById('voiceId').value;
+    const name = document.getElementById('voiceName').value.trim();
+    const modelId = document.getElementById('voiceModel').value;
+
+    if (!name) {
+        window.notyf.open({ type: "error", message: "Name is required!" });
+        return;
+    }
+
+    if (!modelId) {
+        window.notyf.open({ type: "error", message: "Model is required!" });
+        return;
+    }
+
+    const cost = document.getElementById('voiceCost').value;
+    if (cost < 0) {
+        window.notyf.open({ type: "error", message: "Cost cannot be negative!" });
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('emoji', document.getElementById('voiceEmoji').value);
+    formData.append('model', modelId);
+    formData.append('vid', document.getElementById('voiceVid').value);
+    formData.append('voice', document.getElementById('voiceUrl').value);
+    formData.append('cost', cost);
+    formData.append('is_active', document.getElementById('voiceIsActive').checked);
+
+    const url = voiceId ? routes.voiceUpdate.replace('/0/', '/' + voiceId + '/') : routes.voiceCreate;
+
+    universalLoader('Please wait', voiceId ? 'Updating voice...' : 'Creating new voice...');
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        universalLoader(false);
+        if (data.success) {
+            window.notyf.open({ type: "success", message: data.message || "Voice saved successfully!" });
+            setTimeout(() => location.reload(), 500);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Failed to save voice." });
+        }
+    })
+    .catch(error => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Error saving voice" });
+        console.error('Error:', error);
+    });
+}
+
+$(document).ready(function() {
+    $('#voicesTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search voices...",
+            emptyTable: "No voices found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ voices",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: -1 },
+            { orderable: false, targets: -1 }
+        ]
+    });
+});
+</script>
+{% endblock %}

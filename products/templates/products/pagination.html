@@ -1,0 +1,40 @@
+{% with total=page_obj.paginator.num_pages current=page_obj.number %}
+
+{# ---- FIRST PAGES ---- #}
+{% for num in page_obj.paginator.page_range %}
+    {% if num <= 3 %}
+        <a href="?page={{ num }}" class="page-number {% if current == num %}active{% endif %}">
+            {{ num }}
+        </a>
+    {% endif %}
+{% endfor %}
+
+{# ---- ELLIPSIS AFTER FIRST ---- #}
+{% if current > 4 %}
+    <span class="page-number">...</span>
+{% endif %}
+
+{# ---- CURRENT WINDOW ---- #}
+{% for num in page_obj.paginator.page_range %}
+    {% if num >= current|add:"-1" and num <= current|add:"1" and num > 3 and num < total|add:"-2" %}
+        <a href="?page={{ num }}" class="page-number {% if current == num %}active{% endif %}">
+            {{ num }}
+        </a>
+    {% endif %}
+{% endfor %}
+
+{# ---- ELLIPSIS BEFORE LAST ---- #}
+{% if current < total|add:"-3" %}
+    <span class="page-number">...</span>
+{% endif %}
+
+{# ---- LAST PAGES ---- #}
+{% for num in page_obj.paginator.page_range %}
+    {% if num > total|add:"-3" %}
+        <a href="?page={{ num }}" class="page-number {% if current == num %}active{% endif %}">
+            {{ num }}
+        </a>
+    {% endif %}
+{% endfor %}
+
+{% endwith %}

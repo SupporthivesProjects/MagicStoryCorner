@@ -1,0 +1,94 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4">
+        <h3><i class="bi bi-cart-check"></i> Orders</h3>
+    </div>
+
+    <div class="log-table-card table-responsive">
+        <table id="ordersTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Amount</th>
+                    <th>Tokens</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for order in orders %}
+                    <tr class="log-table-row">
+                        <td data-order="{{ order.id }}">
+                            <span class="log-id-badge">#{{ order.id }}</span>
+                        </td>
+
+                        <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
+
+                        <td>{{ order.user.email }}</td>
+
+                        <td>${{ order.total|floatformat:2 }}</td>
+
+                        <td>{{ order.tokens|floatformat:0 }}</td>
+
+                        <td class="text-center">
+                            <span class="log-badge 
+                                {% if order.status == 'success' %}log-badge-success
+                                {% elif order.status == 'pending' %}log-badge-warning
+                                {% elif order.status == 'failed' %}log-badge-danger
+                                {% elif order.status == 'cancelled' %}log-badge-danger
+                                {% elif order.status == 'refund' %}log-badge-info
+                                {% else %}log-badge-secondary
+                                {% endif %}">
+                                {{ order.status|title }}
+                            </span>
+                        </td>
+
+                        <td>{{ order.created_at|date:"M d, Y h:i A" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#ordersTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search orders...",
+            emptyTable: "No orders found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ orders",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { type: 'num', targets: 0 },
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 },
+            { responsivePriority: 3, targets: 3 },
+            { responsivePriority: 4, targets: 5 },
+            { responsivePriority: 5, targets: 6 }
+        ]
+    });
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function(el) { return new bootstrap.Tooltip(el) });
+});
+</script>
+{% endblock %}

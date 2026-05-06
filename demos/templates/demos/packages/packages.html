@@ -1,0 +1,290 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Packages{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-box2"></i> Packages</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#packageModal" onclick="resetPackageForm()">
+            <i class="bi bi-plus-circle"></i> Add New Package
+        </button>
+    </div>
+
+    <div class="log-table-card table-responsive">
+        <table id="packagesTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Image</th>
+                    <th>Tokens</th>
+                    <th>Price</th>
+                    <th>Order</th>
+                    <th>Popular</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for package in packages %}
+                    <tr class="log-table-row">
+                        <td data-order="{{ package.id }}"><span class="log-id-badge">#{{ package.id }}</span></td>
+                        <td>{{ package.name|default:"-" }}</td>
+                        <td><span class="badge bg-primary">{{ package.packagetype.name }}</span></td>
+                        <td>
+                            {% if package.image %}
+                                <img src="{{ package.image.url }}" alt="image" style="height: 40px; width: auto;">
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td><span class="badge bg-info">{{ package.tokens }} tokens</span></td>
+                        <td>{{ package.currency }}{{ package.price }}</td>
+                        <td>{{ package.order }}</td>
+                        <td class="text-center">
+                            {% if package.is_popular %}
+                                <i class="bi bi-star-fill text-warning"></i>
+                            {% else %}
+                                <i class="bi bi-star text-muted"></i>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            {% if package.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#packageModal"
+                                    data-package-id="{{ package.id }}"
+                                    onclick="editPackage(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="packageModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-box2"></i> Package</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="packageForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="packageId">
+
+                    <div class="mb-3">
+                        <label class="form-label">Package Type <span class="text-danger">*</span></label>
+                        <select class="form-select" id="packageTypeId" required>
+                            <option value="">Select Package Type</option>
+                            {% for pt in package_types %}
+                                <option value="{{ pt.id }}">{{ pt.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Package Name</label>
+                        <input type="text" class="form-control" id="packageName" placeholder="e.g., Basic Plan">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tokens <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="packageTokens" min="1" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Order</label>
+                            <input type="number" class="form-control" id="packageOrder" value="0" min="0">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Currency</label>
+                            <input type="text" class="form-control" id="packageCurrency" value="$" maxlength="5">
+                        </div>
+                        <div class="col-md-8 mb-3">
+                            <label class="form-label">Price <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="packagePrice" step="0.01" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="packageDescription" rows="3" placeholder="Optional description"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Package Image</label>
+                        <input type="file" class="form-control" id="packageImage" accept="image/*">
+                        <small class="form-text text-muted">Upload image for this package (leave empty to keep existing)</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="packageIsPopular" name="is_popular">
+                            <label class="form-check-label" for="packageIsPopular">
+                                Popular Package
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="packageIsActive" name="is_active">
+                            <label class="form-check-label" for="packageIsActive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="savePackage()">Save Package</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const routes = {
+    packageGet: "{% url 'package_get' 0 %}",
+    packageCreate: "{% url 'package_create' %}",
+    packageUpdate: "{% url 'package_update' 0 %}"
+};
+
+function resetPackageForm() {
+    document.getElementById('packageForm').reset();
+    document.getElementById('packageId').value = '';
+    document.getElementById('packageIsActive').checked = false;
+    document.getElementById('packageIsPopular').checked = false;
+}
+
+function editPackage(button) {
+    const packageId = button.getAttribute('data-package-id');
+
+    universalLoader("Please wait", "Loading package data...");
+    fetch(routes.packageGet.replace('/0/', '/' + packageId + '/'))
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('packageId').value = data.id;
+            document.getElementById('packageTypeId').value = data.packagetype_id || '';
+            document.getElementById('packageName').value = data.name || '';
+            document.getElementById('packageTokens').value = data.tokens || '';
+            document.getElementById('packagePrice').value = data.price || '';
+            document.getElementById('packageCurrency').value = data.currency || '$';
+            document.getElementById('packageOrder').value = data.order || 0;
+            document.getElementById('packageDescription').value = data.description || '';
+            document.getElementById('packageIsPopular').checked = data.is_popular || false;
+            document.getElementById('packageIsActive').checked = data.is_active || false;
+            universalLoader(false);
+        })
+        .catch(err => { 
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Failed to load package data." }); 
+        });
+}
+
+function savePackage() {
+    const packageId = document.getElementById('packageId').value;
+    const packageTypeId = document.getElementById('packageTypeId').value;
+    const tokens = document.getElementById('packageTokens').value;
+    const price = document.getElementById('packagePrice').value;
+
+    if (!packageTypeId) {
+        window.notyf.open({ type: "error", message: "Package type is required!" });
+        return;
+    }
+
+    if (!tokens || tokens < 1) {
+        window.notyf.open({ type: "error", message: "Tokens must be at least 1!" });
+        return;
+    }
+
+    if (!price || price < 0) {
+        window.notyf.open({ type: "error", message: "Price cannot be negative!" });
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('packagetype_id', packageTypeId);
+    formData.append('name', document.getElementById('packageName').value);
+    formData.append('tokens', tokens);
+    formData.append('price', price);
+    formData.append('currency', document.getElementById('packageCurrency').value);
+    formData.append('order', document.getElementById('packageOrder').value);
+    formData.append('description', document.getElementById('packageDescription').value);
+    formData.append('is_popular', document.getElementById('packageIsPopular').checked);
+    formData.append('is_active', document.getElementById('packageIsActive').checked);
+
+    const imageFile = document.getElementById('packageImage').files[0];
+    if (imageFile) {
+        formData.append('image', imageFile);
+    }
+
+    const url = packageId ? routes.packageUpdate.replace('/0/', '/' + packageId + '/') : routes.packageCreate;
+
+    universalLoader("Please wait", packageId ? "Updating package..." : "Creating new package...");
+    fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => { 
+        universalLoader(false);
+        if (data.success) { 
+            window.notyf.open({ type: "success", message: data.message || "Package saved successfully!" });
+            setTimeout(() => location.reload(), 500);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Failed to save package." });
+        }
+    })
+    .catch(err => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Error saving package." });
+    });
+}
+
+$(document).ready(function() {
+    $('#packagesTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search packages...",
+            emptyTable: "No packages found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ packages",
+            paginate: { previous: '<i class="bi bi-chevron-left"></i>', next: '<i class="bi bi-chevron-right"></i>' }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { type: 'num', targets: 0 },
+            { orderable: false, targets: [9] },
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 },
+            { responsivePriority: 3, targets: 8 },
+            { responsivePriority: 4, targets: 9 }
+        ]
+    });
+});
+</script>
+{% endblock %}

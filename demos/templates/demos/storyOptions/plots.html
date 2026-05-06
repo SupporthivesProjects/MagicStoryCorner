@@ -1,0 +1,226 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Story Plots{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-bookmark"></i> Story Plots</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#plotModal" onclick="resetPlotForm()">
+            <i class="bi bi-plus-circle"></i> Add New Plot
+        </button>
+    </div>
+
+    <div class="log-table-card">
+        <table id="plotsTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Emoji</th>
+                    <th>Token Cost</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for plot in plots %}
+                    <tr class="log-table-row">
+                        <td><span class="log-id-badge">#{{ plot.id }}</span></td>
+                        <td>{{ plot.name }}</td>
+                        <td>{{ plot.emoji }}</td>
+                        <td>
+                            <span class="badge bg-info">{{ plot.cost }} tokens</span>
+                        </td>
+                        <td class="text-center">
+                            {% if plot.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#plotModal"
+                                    data-plot-id="{{ plot.id }}"
+                                    onclick="editPlot(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="plotModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-bookmark"></i> Story Plot</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="plotForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="plotId">
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Plot Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="plotName" name="name" placeholder="e.g., Silly Adventure" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Emoji</label>
+                            <input type="text" class="form-control" id="plotEmoji" name="emoji" placeholder="e.g., 🎪" maxlength="10">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="plotContent" name="content" rows="3" placeholder="Optional description of this plot type"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Token Cost</label>
+                        <input type="number" class="form-control" id="plotCost" name="cost" value="0" min="0">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="plotIsActive" name="is_active">
+                            <label class="form-check-label" for="plotIsActive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="savePlot()">Save Plot</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const routes = {
+    plotGet: "{% url 'plot_get' 0 %}",
+    plotCreate: "{% url 'plot_create' %}",
+    plotUpdate: "{% url 'plot_update' 0 %}"
+};
+
+function getCsrfToken() {
+    return document.querySelector('[name=csrfmiddlewaretoken]').value;
+}
+
+function resetPlotForm() {
+    document.getElementById('plotForm').reset();
+    document.getElementById('plotId').value = '';
+    document.getElementById('plotCost').value = '0';
+    document.getElementById('plotIsActive').checked = false;
+}
+
+function editPlot(button) {
+    const plotId = button.getAttribute('data-plot-id');
+    
+    fetch(routes.plotGet.replace('/0/', '/' + plotId + '/'))
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to fetch plot');
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('plotId').value = data.id;
+            document.getElementById('plotName').value = data.name || '';
+            document.getElementById('plotEmoji').value = data.emoji || '';
+            document.getElementById('plotContent').value = data.content || '';
+            document.getElementById('plotCost').value = data.cost || 0;
+            document.getElementById('plotIsActive').checked = data.is_active || false;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            window.notyf.open({ type: "error", message: "Error loading plot data" });
+        });
+}
+
+function savePlot() {
+    const plotId = document.getElementById('plotId').value;
+    const form = document.getElementById('plotForm');
+    
+    const name = document.getElementById('plotName').value.trim();
+    if (!name) {
+        window.notyf.open({ type: "error", message: "Name is required!" });
+        return;
+    }
+    
+    const cost = document.getElementById('plotCost').value;
+    if (cost < 0) {
+        window.notyf.open({ type: "error", message: "Cost cannot be negative!" });
+        return;
+    }
+    
+    const formData = new FormData(form);
+    formData.append('is_active', document.getElementById('plotIsActive').checked);
+    const url = plotId ? routes.plotUpdate.replace('/0/', '/' + plotId + '/') : routes.plotCreate;
+
+    universalLoader('Saving Plot', 'Please wait...');
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCsrfToken()
+        },
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(data => {
+        universalLoader(false);
+        if (data.success) {
+            window.notyf.open({ type: "success", message: data.message || "Plot saved successfully!" });
+            setTimeout(() => location.reload(), 500);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Error saving plot" });
+        }
+    })
+    .catch(error => {
+        universalLoader(false);
+        console.error('Error:', error);
+        window.notyf.open({ type: "error", message: "Error saving plot: " + error.message });
+    });
+}
+
+$(document).ready(function() {
+    $('#plotsTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search plots...",
+            emptyTable: "No plots found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ plots",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: -1 },
+            { orderable: false, targets: -1 }
+        ]
+    });
+});
+</script>
+{% endblock %}

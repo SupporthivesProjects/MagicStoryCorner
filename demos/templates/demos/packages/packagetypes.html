@@ -1,0 +1,192 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Package Types{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-box-seam"></i> Package Types</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#packageTypeModal" onclick="resetPackageTypeForm()">
+            <i class="bi bi-plus-circle"></i> Add New Package Type
+        </button>
+    </div>
+
+    <div class="log-table-card table-responsive">
+        <table id="packageTypesTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for pt in package_types %}
+                    <tr class="log-table-row">
+                        <td data-order="{{ pt.id }}"><span class="log-id-badge">#{{ pt.id }}</span></td>
+                        <td>{{ pt.name }}</td>
+                        <td>{{ pt.description|default:"-"|truncatewords:10 }}</td>
+                        <td class="text-center">
+                            {% if pt.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#packageTypeModal"
+                                    data-pt-id="{{ pt.id }}"
+                                    onclick="editPackageType(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="packageTypeModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-box-seam"></i> Package Type</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="packageTypeForm">
+                    {% csrf_token %}
+                    <input type="hidden" id="packageTypeId">
+
+                    <div class="mb-3">
+                        <label class="form-label">Type Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="packageTypeName" placeholder="e.g., Premium" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="packageTypeDescription" rows="3" placeholder="Optional description"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="packageTypeIsActive" name="is_active">
+                            <label class="form-check-label" for="packageTypeIsActive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="savePackageType()">Save Package Type</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const routes = {
+    packageTypeGet: "{% url 'packagetype_get' 0 %}",
+    packageTypeCreate: "{% url 'packagetype_create' %}",
+    packageTypeUpdate: "{% url 'packagetype_update' 0 %}"
+};
+
+function resetPackageTypeForm() {
+    document.getElementById('packageTypeForm').reset();
+    document.getElementById('packageTypeId').value = '';
+    document.getElementById('packageTypeIsActive').checked = false;
+}
+
+function editPackageType(button) {
+    const ptId = button.getAttribute('data-pt-id');
+
+    universalLoader("Please wait", "Loading package type data...");
+    fetch(routes.packageTypeGet.replace('/0/', '/' + ptId + '/'))
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('packageTypeId').value = data.id;
+            document.getElementById('packageTypeName').value = data.name || '';
+            document.getElementById('packageTypeDescription').value = data.description || '';
+            document.getElementById('packageTypeIsActive').checked = data.is_active || false;
+            universalLoader(false);
+        })
+        .catch(err => { 
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Failed to load package type data." }); 
+        });
+}
+
+function savePackageType() {
+    const ptId = document.getElementById('packageTypeId').value;
+    const name = document.getElementById('packageTypeName').value.trim();
+
+    if (!name) {
+        window.notyf.open({ type: "error", message: "Name is required!" });
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('description', document.getElementById('packageTypeDescription').value);
+    formData.append('is_active', document.getElementById('packageTypeIsActive').checked);
+
+    const url = ptId ? routes.packageTypeUpdate.replace('/0/', '/' + ptId + '/') : routes.packageTypeCreate;
+
+    universalLoader("Please wait", ptId ? "Updating package type..." : "Creating new package type...");
+    fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => { 
+        universalLoader(false);
+        if (data.success) { 
+            window.notyf.open({ type: "success", message: data.message || "Package type saved successfully!" });
+            setTimeout(() => location.reload(), 500);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Failed to save package type." });
+        }
+    })
+    .catch(err => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Error saving package type." });
+    });
+}
+
+$(document).ready(function() {
+    $('#packageTypesTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search package types...",
+            emptyTable: "No package types found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ package types",
+            paginate: { previous: '<i class="bi bi-chevron-left"></i>', next: '<i class="bi bi-chevron-right"></i>' }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { type: 'num', targets: 0 },
+            { orderable: false, targets: [4] },
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 },
+            { responsivePriority: 3, targets: 3 },
+            { responsivePriority: 4, targets: 4 }
+        ]
+    });
+});
+</script>
+{% endblock %}

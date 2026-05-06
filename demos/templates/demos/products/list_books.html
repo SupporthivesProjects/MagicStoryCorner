@@ -1,0 +1,366 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Product Books | Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-tag"></i> Product Books</h3>
+        <a href="{% url 'admin_books_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Create New Book
+        </a>
+    </div>
+
+
+
+    <div class="log-table-card">
+        <table id="booksTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Created Date</th>
+                    <th>Cost</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for story in stories %}
+                    <tr class="log-table-row">
+                        <td  data-order="{{ story.id }}">
+                            <span class="log-id-badge">#{{ story.id }}</span>
+                        </td>
+
+                        <td>{{ story.title }}</td>
+
+                        <td>{{ story.created_at|date:"M d, Y h:i A" }}</td>
+                        
+                        <td>
+                            <span class="badge bg-info">{{ story.tokens }} tokens</span>
+                        </td>
+
+                        <td>
+                            {% if story.is_active %}
+                                <span class="badge bg-success">Published</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Unpublished</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">
+                            <div class="btn-group" role="group" aria-label="Book Actions">
+                                <a href="{% url 'admin_books_detail' story.slug %}" 
+                                   class="btn btn-sm btn-primary me-1" 
+                                   data-bs-toggle="tooltip" 
+                                   title="View Book">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="#"
+                                   class="btn btn-sm btn-info me-1 btn-edit-book"
+                                   data-bs-toggle="tooltip"
+                                   title="Edit Book"
+                                   data-book-id="{{ story.id }}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="{% url 'productbook_download' story.slug %}"
+                                   class="btn btn-sm btn-danger productbook_download"
+                                   data-bs-toggle="tooltip" 
+                                   title="Download PDF">
+                                    <i class="bi bi-file-earmark-pdf"></i>
+                                </a>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editBookModalLabel">
+            <i class="bi bi-pencil-square me-2"></i>Edit Product Book
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editBookForm">
+            <div class="mb-3">
+              <label for="bookTitle" class="form-label">Title <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="bookTitle" placeholder="Enter book title" required>
+            </div>
+  
+            <div class="mb-3">
+              <label for="bookDescription" class="form-label">Description <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="bookDescription" rows="4" placeholder="Enter book description" required></textarea>
+            </div>
+  
+            <div class="mb-3 d-none">
+              <label for="bookPrice" class="form-label">Price</label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" class="form-control" id="bookPrice" placeholder="0.00" step="0.01" min="0">
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="bookTokens" class="form-label">Tokens <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="bookTokens" placeholder="Enter token amount" min="0" required>
+            </div>
+  
+            <div class="mb-3">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="bookIsActive" checked>
+                    <label class="form-check-label" for="bookIsActive">Published</label>
+                  </div>
+                  <small class="text-muted">Enable this to make the book visible to users</small>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>Cancel
+          </button>
+          <button type="submit" form="editBookForm" class="btn btn-primary">
+            <i class="bi bi-check-circle me-1"></i>Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const downloadBtns = document.querySelectorAll('.productbook_download');
+    
+        downloadBtns.forEach(btn => {
+            btn.addEventListener('click', function(event) {
+                event.preventDefault();
+    
+                const downloadUrl = this.getAttribute('href');
+                universalLoader("Please wait", "Preparing PDF for download...");
+    
+                fetch(downloadUrl, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        universalLoader(false);
+                        return response.json().then(data => {
+                            throw new Error(data.error || 'Download failed');
+                        });
+                    }
+    
+                    const contentDisposition = response.headers.get('Content-Disposition');
+                    let filename = (this.dataset.filename || 'Story') + '.pdf';
+    
+                    if (contentDisposition) {
+                        const filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
+                        if (filenameMatch && filenameMatch[1]) {
+                            filename = filenameMatch[1];
+                        }
+                    }
+    
+                    return response.blob().then(blob => ({ blob, filename }));
+                })
+                .then(({ blob, filename }) => {
+                    universalLoader(false);
+                    window.notyf.open({ type: "success", message: "PDF ready! Starting download..." });
+    
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+    
+                    setTimeout(() => {
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+                    }, 100);
+                })
+                .catch(error => {
+                    universalLoader(false);
+                    window.notyf.open({ type: "error", message: error.message });
+                    console.error('Download error:', error);
+                });
+            });
+        });
+    });
+    </script>
+    
+<script>
+$(document).ready(function() {
+    $('#booksTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search books...",
+            emptyTable: "No books found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ books",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 },
+            { responsivePriority: 3, targets: -1 }
+        ]
+    });
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function(el) { return new bootstrap.Tooltip(el) });
+});
+
+const EDIT_BOOK_ROUTE = "{% url 'edit_product_book' 0 %}".replace('/0/', '/{id}/');
+
+document.querySelectorAll('.btn-edit-book').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const bookId = this.getAttribute('data-book-id');
+        const fetchUrl = EDIT_BOOK_ROUTE.replace('{id}', bookId);
+        
+        const modal = new bootstrap.Modal(document.getElementById('editBookModal'), {
+            backdrop: 'static',
+            keyboard: false
+        });
+        modal.show();
+        
+        const form = document.getElementById('editBookForm');
+        form.classList.add('opacity-50');
+        
+        universalLoader("Loading", "Fetching book data...");
+        
+        fetch(fetchUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch book data');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('bookTitle').value = data.title || '';
+            document.getElementById('bookDescription').value = data.description || '';
+            document.getElementById('bookPrice').value = data.price || 0;
+            document.getElementById('bookTokens').value = data.tokens || 0;
+            document.getElementById('bookIsActive').checked = data.is_active || false;
+            
+            form.setAttribute('data-book-id', bookId);
+            form.classList.remove('opacity-50');
+            universalLoader(false);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Failed to load book data. Please try again." });
+            modal.hide();
+        });
+    });
+});
+
+document.getElementById('editBookForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const bookId = this.getAttribute('data-book-id');
+    const updateUrl = EDIT_BOOK_ROUTE.replace('{id}', bookId);
+    const submitBtn = document.querySelector('#editBookModal button[type="submit"]');
+    const originalBtnText = submitBtn.innerHTML;
+    
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                      document.querySelector('meta[name="csrf-token"]')?.content ||
+                      getCookie('csrftoken');
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Saving...';
+    
+    universalLoader("Please wait", "Updating book information...");
+    
+    const bookData = {
+        title: document.getElementById('bookTitle').value,
+        description: document.getElementById('bookDescription').value,
+        price: parseFloat(document.getElementById('bookPrice').value) || 0,
+        tokens: parseInt(document.getElementById('bookTokens').value),
+        is_active: document.getElementById('bookIsActive').checked
+    };
+    
+    fetch(updateUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(bookData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update book');
+        }
+        return response.json();
+    })
+    .then(data => {
+        universalLoader(false);
+        
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editBookModal'));
+        if (modal) {
+            modal.hide();
+        }
+        
+        window.notyf.open({ type: "success", message: "Book updated successfully!" });
+        
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Failed to update book. Please try again." });
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

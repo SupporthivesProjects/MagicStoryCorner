@@ -1,0 +1,372 @@
+{% extends "demos/layout.html" %}
+{% block title %}Create Story | StoryBook{% endblock %}
+
+{% block content %}
+<div class="stories-header py-2">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <p class="text-muted mb-0">Fill in the details to create a story that will be available for users to buy.</p>
+      </div>
+  </div>
+</div>
+
+<section class="pp-section py-2">
+  <div class="container-fluid">
+    <form method="post" action="{% url 'admin_books_create' %}" id="adminStoryForm" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="row g-4">
+        
+        <div class="col-lg-8">
+          <div class="form-card mb-4">
+            <div class="card-body-custom">
+              <div class="row g-3">
+                
+                <div class="col-md-6">
+                  <label class="form-label-custom">
+                    <i class="bi bi-people-fill"></i> Age Group<span class="required">*</span>
+                  </label>
+                  <select class="form-select-custom" name="childgroup_id" required>
+                    <option value="" selected disabled>Select Age Group</option>
+                    {% for age in agegroups %}
+                    <option value="{{ age.id }}">{{ age.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label-custom">
+                    <i class="bi bi-globe"></i> Story Language<span class="required">*</span>
+                  </label>
+                  <select class="form-select-custom" name="language_id" required>
+                    <option value="" selected disabled>Select Language</option>
+                    {% for lang in languages %}
+                    <option value="{{ lang.id }}">{{ lang.name }} {{ lang.emoji }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card mb-4">
+            <div class="card-body-custom">
+              <div class="mb-3">
+                <label class="form-label-custom">
+                  <i class="bi bi-tag-fill"></i> Character Name<span class="required">*</span>
+                </label>
+                <input type="text" class="form-control-custom" name="character_name" 
+                       placeholder="e.g., a brave little mouse named Max" required>
+              </div>
+              <div>
+                <label class="form-label-custom">
+                  <i class="bi bi-file-text-fill"></i> Character Traits & Personality<span class="required">*</span>
+                </label>
+                <textarea class="form-control-custom" name="character_desc" rows="3" 
+                          placeholder="Describe your character's personality, appearance, and unique traits..." required></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card mb-4">
+            <div class="card-body-custom">
+              <div class="mb-3">
+                <label class="form-label-custom">
+                  <i class="bi bi-map-fill"></i> Choose Setting<span class="required">*</span>
+                </label>
+                <select class="form-select-custom" name="setting_id" required>
+                  <option value="" selected disabled>Select Setting</option>
+                  {% for s in settings %}
+                  <option value="{{ s.id }}">{{ s.name }} {{ s.emoji }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div>
+                <label class="form-label-custom">
+                  <i class="bi bi-file-text-fill"></i> Setting Description
+                </label>
+                <textarea class="form-control-custom" name="setting_desc" rows="2" 
+                          placeholder="Describe the world, environment, and atmosphere of your story..." ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card mb-4">
+            <div class="card-body-custom">
+              <div class="mb-3">
+                <label class="form-label-custom">
+                  <i class="bi bi-graph-up-arrow"></i> Plot<span class="required">*</span>
+                </label>
+                <select class="form-select-custom" name="plot_id" required>
+                  <option value="" selected disabled>Select Plot</option>
+                  {% for p in plots %}
+                  <option value="{{ p.id }}">{{ p.name }}{{ p.emoji }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div>
+                <label class="form-label-custom">
+                  <i class="bi bi-file-text-fill"></i> Plot Description
+                </label>
+                <textarea class="form-control-custom" name="plot_desc" rows="2" 
+                          placeholder="Describe the main conflict, adventure, or journey in your story..." ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card mb-4">
+            <div class="card-body-custom">
+              <div class="mb-3">
+                <label class="form-label-custom">
+                  <i class="bi bi-heart-fill"></i> Choose Theme<span class="required">*</span>
+                </label>
+                <select class="form-select-custom" name="theme_id" required>
+                  <option value="" selected disabled>Select Theme</option>
+                  {% for t in themes %}
+                  <option value="{{ t.id }}">{{ t.name }} {{ t.emoji }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div>
+                <label class="form-label-custom">
+                  <i class="bi bi-file-text-fill"></i> Theme Description
+                </label>
+                <textarea class="form-control-custom" name="theme_desc" rows="2" 
+                          placeholder="Describe the moral lesson or message you want to convey..." ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card mb-4">
+            <div class="card-body-custom">
+              <div class="row g-3">
+                
+                <div class="col-md-6">
+                  <label class="form-label-custom">
+                    <i class="bi bi-emoji-smile-fill"></i> Story Tone<span class="required">*</span>
+                  </label>
+                  <select class="form-select-custom" name="tone_id" required>
+                    <option value="" selected disabled>Select Tone</option>
+                    {% for tn in tones %}
+                    <option value="{{ tn.id }}">{{ tn.name }} {{ tn.emoji }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label-custom">
+                    <i class="bi bi-rulers"></i> Story Length<span class="required">*</span>
+                  </label>
+                  <select class="form-select-custom" name="storylength_id" required>
+                    <option value="" selected disabled>Select Length</option>
+                    {% for length in lengths %}
+                    <option value="{{ length.id }}">{{ length.name }} ({{ length.min }}-{{ length.max }} pages)</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-lg-4">
+          
+          <div class="form-card mb-4">
+            <div class="card-body-custom">
+              <label class="form-label-custom">
+                <i class="bi bi-megaphone-fill"></i> Voice Style
+              </label>
+              <div class="voice-selector-wrapper">
+                <select class="form-select-custom voice-select-grow" name="narrator_id" id="narratorSelect">
+                  <option value="" selected disabled>Select Narrator</option>
+                  {% for voice in narrators %}
+                  <option value="{{ voice.id }}" data-voice-url="{{ voice.voice }}">{{ voice.name }}</option>
+                  {% endfor %}
+                </select>
+                <button type="button" class="btn-voice-player" id="playVoiceBtn" style="display: none;">
+                  <i class="bi bi-play-fill voice-icon-animate" id="playIcon"></i>
+                  <i class="bi bi-stop-fill voice-icon-animate" id="stopIcon" style="display: none;"></i>
+                  <span id="voiceBtnText">Play</span>
+                </button>
+              </div>
+              <small class="text-muted d-block mt-2">
+                <i class="bi bi-info-circle"></i> Choose the voice style for your story
+              </small>
+            </div>
+          </div>
+
+          <div class="form-card mb-4">
+            <div class="card-header-custom">
+              <h5 class="section-title">
+                <i class="bi bi-palette-fill"></i> Image Style<span class="required">*</span>
+              </h5>
+            </div>
+            <div class="card-body-custom">
+              <div class="row g-3">
+                {% for img in imagestyles %}
+                <div class="col-6">
+                  <input type="radio" class="btn-check" name="imagestyle_id" 
+                         id="style{{ forloop.counter }}" value="{{ img.id }}">
+                  <label class="image-style-label" for="style{{ forloop.counter }}">
+                    <div class="image-style-preview">
+                      {% if img.image %}
+                      <img src="{{ img.image.url }}" alt="{{ img.name }}" class="img-fluid">
+                      {% else %}
+                      <div class="placeholder-image">
+                        <i class="bi bi-image"></i>
+                      </div>
+                      {% endif %}
+                    </div>
+                    <div class="image-style-name">{{ img.name }}</div>
+                  </label>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="card-body-custom">
+              <button id="generateBtn" type="submit" class="btn-generate-story w-100">
+                <span id="generateBtnText">Generate Story</span>
+                <span id="spinner" class="spinner-border spinner-border-sm ms-2" role="status" style="display: none;"></span>
+              </button>
+              <small class="text-muted d-block mt-3 text-center">
+                <i class="bi bi-clock-history"></i> Takes 1 minute to 2 minutes.
+              </small>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </form>
+
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      if (typeof Notyf === 'undefined') {
+          console.error('Notyf is not loaded!');
+          return;
+      }
+      
+      const notyf = new Notyf({ 
+          duration: 4000, 
+          position: { x: 'right', y: 'top' },
+          dismissible: true
+      });
+  
+      const form = document.getElementById("adminStoryForm");
+      
+      if (!form) {
+          console.error('Form with id "adminStoryForm" not found');
+          return;
+      }
+  
+      form.addEventListener("submit", function (e) {
+          const radios = document.querySelectorAll('input[name="imagestyle_id"]');
+          let selected = false;
+          
+          radios.forEach(function(radio) {
+              if (radio.checked) {
+                  selected = true;
+              }
+          });
+          
+          if (!selected) {
+              e.preventDefault();
+              e.stopPropagation();
+              notyf.error('Please select an image style.');
+              return false;
+          }
+  
+          const btn = document.getElementById("generateBtn");
+          const spinner = document.getElementById("spinner");
+          const btnText = document.getElementById("generateBtnText");
+  
+          if (btn) btn.disabled = true;
+          if (spinner) spinner.style.display = "inline-block";
+          if (btnText) btnText.textContent = 'Generating...';
+          
+          document.body.style.overflow = 'hidden';
+
+          if (typeof generationLoader === 'function') {
+              generationLoader(true, "Transforming ideas into magic...");
+          }
+      });
+  
+      document.querySelectorAll('.form-control-custom, .form-select-custom').forEach(element => {
+          element.addEventListener('focus', function() {
+              this.closest('.mb-3, .col-md-6')?.classList.add('field-focused');
+          });
+          
+          element.addEventListener('blur', function() {
+              this.closest('.mb-3, .col-md-6')?.classList.remove('field-focused');
+          });
+      });
+  });
+</script>
+
+<script>
+  const narratorSelect = document.getElementById('narratorSelect');
+  const playVoiceBtn = document.getElementById('playVoiceBtn');
+  const playIcon = document.getElementById('playIcon');
+  const stopIcon = document.getElementById('stopIcon');
+  const voiceBtnText = document.getElementById('voiceBtnText');
+  let currentAudio = null;
+
+  narratorSelect.addEventListener('change', function() {
+    if (this.value) {
+      playVoiceBtn.style.display = 'block';
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+        resetButton();
+      }
+    } else {
+      playVoiceBtn.style.display = 'none';
+    }
+  });
+
+  playVoiceBtn.addEventListener('click', function() {
+    const selectedOption = narratorSelect.options[narratorSelect.selectedIndex];
+    const voiceUrl = selectedOption.getAttribute('data-voice-url');
+    
+    if (!voiceUrl) {
+      console.log('Voice sample not available');
+      return;
+    }
+
+    if (currentAudio && !currentAudio.paused) {
+      currentAudio.pause();
+      currentAudio = null;
+      resetButton();
+      return;
+    }
+
+    currentAudio = new Audio(voiceUrl);
+    
+    playIcon.style.display = 'none';
+    stopIcon.style.display = 'inline-block';
+    voiceBtnText.textContent = 'Stop';
+    
+    currentAudio.play().catch(error => {
+      console.error('Error playing audio:', error);
+      resetButton();
+    });
+
+    currentAudio.addEventListener('ended', resetButton);
+  });
+
+  function resetButton() {
+    playIcon.style.display = 'inline-block';
+    stopIcon.style.display = 'none';
+    voiceBtnText.textContent = 'Play';
+  }
+</script>
+{% endblock %}

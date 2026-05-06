@@ -1,0 +1,85 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Purchased Books{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4">
+        <h3><i class="bi bi-book-half"></i> Purchased Books</h3>
+    </div>
+
+    <div class="log-table-card table-responsive">
+        <table id="purchasesTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Book Title</th>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Purchase Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for purchase in purchases %}
+                    <tr class="log-table-row">
+                        <td data-order="{{ purchase.id }}">
+                            <span class="log-id-badge">#{{ purchase.id }}</span>
+                        </td>
+
+                        <td>{{ purchase.book.title }}</td>
+
+                        <td>{{ purchase.user.first_name }} {{ purchase.user.last_name }}</td>
+
+                        <td>{{ purchase.user.email }}</td>
+
+                        <td>{{ purchase.created_at|date:"M d, Y h:i A" }}</td>
+
+                        <td class="text-center">
+                            <a href="{% url 'admin_books_detail' purchase.book.slug %}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="View Book Details">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#purchasesTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search purchases...",
+            emptyTable: "No book purchases found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ purchases",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { type: 'num', targets: 0 },
+            { orderable: false, targets: [5] },
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 },
+            { responsivePriority: 3, targets: 2 },
+            { responsivePriority: 4, targets: 4 },
+            { responsivePriority: 5, targets: 5 }
+        ]
+    });
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function(el) { return new bootstrap.Tooltip(el) });
+});
+</script>
+{% endblock %}

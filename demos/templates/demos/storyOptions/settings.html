@@ -1,0 +1,226 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Story Settings{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-geo-alt"></i> Story Settings</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#settingModal" onclick="resetSettingForm()">
+            <i class="bi bi-plus-circle"></i> Add New Setting
+        </button>
+    </div>
+
+    <div class="log-table-card">
+        <table id="settingsTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Emoji</th>
+                    <th>Token Cost</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for setting in settings %}
+                    <tr class="log-table-row">
+                        <td><span class="log-id-badge">#{{ setting.id }}</span></td>
+                        <td>{{ setting.name }}</td>
+                        <td>{{ setting.emoji }}</td>
+                        <td>
+                            <span class="badge bg-info">{{ setting.cost }} tokens</span>
+                        </td>
+                        <td class="text-center">
+                            {% if setting.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#settingModal"
+                                    data-setting-id="{{ setting.id }}"
+                                    onclick="editSetting(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="settingModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-geo-alt"></i> Story Setting</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="settingForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="settingId">
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Setting Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="settingName" name="name" placeholder="e.g., Fairy tale" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Emoji</label>
+                            <input type="text" class="form-control" id="settingEmoji" name="emoji" placeholder="e.g., 🏰" maxlength="10">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="settingContent" name="content" rows="3" placeholder="Optional description of this setting"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Token Cost</label>
+                        <input type="number" class="form-control" id="settingCost" name="cost" value="0" min="0">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="settingIsActive" name="is_active">
+                            <label class="form-check-label" for="settingIsActive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveSetting()">Save Setting</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const routes = {
+    settingGet: "{% url 'setting_get' 0 %}",
+    settingCreate: "{% url 'setting_create' %}",
+    settingUpdate: "{% url 'setting_update' 0 %}"
+};
+
+function getCsrfToken() {
+    return document.querySelector('[name=csrfmiddlewaretoken]').value;
+}
+
+function resetSettingForm() {
+    document.getElementById('settingForm').reset();
+    document.getElementById('settingId').value = '';
+    document.getElementById('settingCost').value = '0';
+    document.getElementById('settingIsActive').checked = false;
+}
+
+function editSetting(button) {
+    const settingId = button.getAttribute('data-setting-id');
+    
+    fetch(routes.settingGet.replace('/0/', '/' + settingId + '/'))
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to fetch setting');
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('settingId').value = data.id;
+            document.getElementById('settingName').value = data.name || '';
+            document.getElementById('settingEmoji').value = data.emoji || '';
+            document.getElementById('settingContent').value = data.content || '';
+            document.getElementById('settingCost').value = data.cost || 0;
+            document.getElementById('settingIsActive').checked = data.is_active || false;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            window.notyf.open({ type: "error", message: "Error loading setting data" });
+        });
+}
+
+function saveSetting() {
+    const settingId = document.getElementById('settingId').value;
+    const form = document.getElementById('settingForm');
+    
+    const name = document.getElementById('settingName').value.trim();
+    if (!name) {
+        window.notyf.open({ type: "error", message: "Name is required!" });
+        return;
+    }
+    
+    const cost = document.getElementById('settingCost').value;
+    if (cost < 0) {
+        window.notyf.open({ type: "error", message: "Cost cannot be negative!" });
+        return;
+    }
+    
+    const formData = new FormData(form);
+    formData.append('is_active', document.getElementById('settingIsActive').checked);
+    const url = settingId ? routes.settingUpdate.replace('/0/', '/' + settingId + '/') : routes.settingCreate;
+
+    universalLoader('Saving Setting', 'Please wait...');
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCsrfToken()
+        },
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(data => {
+        universalLoader(false);
+        if (data.success) {
+            window.notyf.open({ type: "success", message: data.message || "Setting saved successfully!" });
+            setTimeout(() => location.reload(), 500);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Error saving setting" });
+        }
+    })
+    .catch(error => {
+        universalLoader(false);
+        console.error('Error:', error);
+        window.notyf.open({ type: "error", message: "Error saving setting: " + error.message });
+    });
+}
+
+$(document).ready(function() {
+    $('#settingsTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search settings...",
+            emptyTable: "No settings found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ settings",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: -1 },
+            { orderable: false, targets: -1 }
+        ]
+    });
+});
+</script>
+{% endblock %}

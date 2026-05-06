@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reply to Your Contact Request</title>
+    <style>
+        * { margin: 0; }
+    </style>
+</head>
+<body>
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td align="center" bgcolor="#ffffff" style="padding:0;">
+                <table width="600" cellspacing="0" cellpadding="0" border="0" bgcolor="#FAFAFA" style="border-collapse:collapse; box-shadow:0px 3px 6px rgba(0,0,0,0.1);">
+
+                    <tr>
+                        <td style="padding:0; height:90px;">
+                            <img src="{{ website.header_url }}" alt="" style="width:100%;">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:40px 20px;" align="center">
+                            <h1 style="font-size:24px; color:#251D32; font-family:Arial;">
+                                Reply to Your Contact Request
+                            </h1>
+                            <p style="font-size:16px; color:#656565; font-family:Arial; line-height:158%; margin-top:16px;">
+                                Hi {{ name }},
+                            </p>
+                            <p style="font-size:16px; color:#656565; font-family:Arial; line-height:158%; margin-top:16px;">
+                                Thank you for contacting us. Here is our response to your message:
+                            </p>
+                            
+                            <div style="background:#F5F5F5; padding:20px; margin-top:24px; border-radius:8px; text-align:left;">
+                                <p style="font-size:14px; color:#251D32; font-family:Arial; font-weight:bold;">
+                                    Your Message:
+                                </p>
+                                <p style="font-size:14px; color:#656565; font-family:Arial; margin-top:12px; white-space: pre-wrap;">
+                                    {{ user_message }}
+                                </p>
+                            </div>
+
+                            <div style="background:#E8F5E9; padding:20px; margin-top:24px; border-radius:8px; text-align:left; border-left: 4px solid #4CAF50;">
+                                <p style="font-size:14px; color:#251D32; font-family:Arial; font-weight:bold;">
+                                    Our Response:
+                                </p>
+                                <p style="font-size:14px; color:#656565; font-family:Arial; margin-top:12px; white-space: pre-wrap;">
+                                    {{ reply_message }}
+                                </p>
+                            </div>
+
+                            <p style="font-size:16px; color:#656565; font-family:Arial; line-height:158%; margin-top:24px;">
+                                If you have any further questions, feel free to reply to this email or contact us again.
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:0;">
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse;">
+                                <tr style="background:#251D32; height:160px;">
+                                    <td style="padding:40px;">
+                                        <img src="{{ website.footer_url }}" alt="" style="height:31px;">
+                                    </td>
+                                    <td style="font-size:16px; color:#FAFAFA; text-align:right; padding:40px; font-family:Arial; line-height:158%;width:60%;">
+                                        {{ website.email }}<br>
+                                        {{ website.address }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

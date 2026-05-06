@@ -1,0 +1,44 @@
+{% load static %}
+<div id="pagination" class="pagination d-flex justify-content-center align-items-center mt-4 position-relative">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="nav-btn">
+      <img src="{% static 'media/prev_arr.jpeg' %}" alt="Previous">
+    </a>
+    {% endif %}
+    
+    {% with total=page_obj.paginator.num_pages current=page_obj.number %}
+        {% if total <= 7 %}
+            {% for num in page_obj.paginator.page_range %}
+            <a href="?page={{ num }}" class="page-number {% if current == num %}active{% endif %}">{{ num }}</a>
+            {% endfor %}
+        {% else %}
+            <a href="?page=1" class="page-number {% if current == 1 %}active{% endif %}">1</a>
+            
+            {% if current > 4 %}
+            <span class="page-number">...</span>
+            {% endif %}
+            
+            {% for num in page_obj.paginator.page_range %}
+                {% if num == current|add:"-1" and num > 1 and num < total %}
+                <a href="?page={{ num }}" class="page-number">{{ num }}</a>
+                {% elif num == current and num > 1 and num < total %}
+                <a href="?page={{ num }}" class="page-number active">{{ num }}</a>
+                {% elif num == current|add:"1" and num > 1 and num < total %}
+                <a href="?page={{ num }}" class="page-number">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+            
+            {% if current < total|add:"-3" and current > 4 %}
+            <span class="page-number">...</span>
+            {% endif %}
+            
+            <a href="?page={{ total }}" class="page-number {% if current == total %}active{% endif %}">{{ total }}</a>
+        {% endif %}
+    {% endwith %}
+    
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="nav-btn">
+      <img src="{% static 'media/nxt_arr.jpeg' %}" alt="Next">
+    </a>
+    {% endif %}
+</div>

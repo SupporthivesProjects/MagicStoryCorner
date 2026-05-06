@@ -1,0 +1,28 @@
+.header {
+    background: #251D32;
+}
+
+.header .nav-link {
+    color: #fff;;
+    
+}
+
+
+
+.hearbalence p {
+    color: #5A3384;
+}
+
+.header::after {
+    background: url("/static/media/brown_cloud.svg") no-repeat !important;
+}
+
+.pp-section::after {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .header::after {
+      background: url("/static/media/mobbrown_cloud.svg") no-repeat !important;
+  }
+}

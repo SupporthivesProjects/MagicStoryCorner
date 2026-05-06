@@ -1,0 +1,714 @@
+{% extends "demos/layout.html" %}
+{% load static %}
+
+{% block title %}Configuration Settings{% endblock %}
+
+{% block content %}
+<div class="lsb-config-container">
+    <div class="log-page-header mb-4">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <h3 class="mb-2">
+                    <i class="bi bi-sliders"></i> Configuration Settings
+                </h3>
+            </div>
+            <div class="col text-end">
+                <p class="text-warning mb-0 ps-5" style="font-size: 12px;">
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                    Change these settings only if you fully understand their impact.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="lsb-config-tabs-wrapper">
+        <div class="lsb-config-tabs-nav">
+            <button class="lsb-config-tab-btn active" data-tab="admin">
+                <i class="bi bi-shield-check"></i>
+                Admin Settings
+            </button>
+            <button class="lsb-config-tab-btn" data-tab="user">
+                <i class="bi bi-person-gear"></i>
+                User Settings
+            </button>
+        </div>
+
+        <div class="lsb-config-tab-content active" id="admin-tab">
+            <div class="lsb-config-stats-grid">
+                <div class="lsb-config-stat-card">
+                    <div class="lsb-config-stat-icon lsb-config-stat-icon-blue">
+                        <i class="bi bi-file-text"></i>
+                    </div>
+                    <div class="lsb-config-stat-info">
+                        <h3 class="lsb-config-stat-value">8</h3>
+                        <p class="lsb-config-stat-label">Configuration Parameters</p>
+                    </div>
+                </div>
+                <div class="lsb-config-stat-card">
+                    <div class="lsb-config-stat-icon lsb-config-stat-icon-orange">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div class="lsb-config-stat-info">
+                        <h3 class="lsb-config-stat-value" id="lastModifiedAdmin">{{ admin_config.updated_at|date:"M d, Y" }}</h3>
+                        <p class="lsb-config-stat-label">Last Modified</p>
+                    </div>
+                </div>
+                <div class="lsb-config-stat-card">
+                    <div class="lsb-config-stat-icon lsb-config-stat-icon-purple">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div class="lsb-config-stat-info">
+                        <h3 class="lsb-config-stat-value">{{ admin_config.updated_by|default:"System" }}</h3>
+                        <p class="lsb-config-stat-label">Last Updated By</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lsb-config-sections">
+                <div class="lsb-config-section">
+                    <div class="lsb-config-section-header">
+                        <div class="lsb-config-section-title">
+                            <i class="bi bi-book"></i>
+                            <div>
+                                <h2>Story Generation Settings</h2>
+                                <p class="lsb-config-section-subtitle">Control story page limits, retry attempts, and content length requirements</p>
+                            </div>
+                        </div>
+                        <button class="lsb-config-collapse-btn" data-section="story">
+                            <i class="bi bi-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="lsb-config-section-content">
+                        <div class="lsb-config-grid">
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="charsPerPageAdmin">Characters Per Page</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Maximum characters to display per page">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="charsPerPageAdmin" class="lsb-config-input lsb-config-editable" data-field="chars_per_page" data-config-type="admin" value="{{ admin_config.chars_per_page }}" min="100" max="1000">
+                                    <span class="lsb-config-input-unit">chars</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="100" max="1000" value="{{ admin_config.chars_per_page }}" step="25">
+                                    <div class="lsb-config-range-labels">
+                                        <span>100</span>
+                                        <span>1000</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="maxPagesAdmin">Maximum Story Pages</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Maximum number of pages per story">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="maxPagesAdmin" class="lsb-config-input lsb-config-editable" data-field="max_pages" data-config-type="admin" value="{{ admin_config.max_pages }}" min="1" max="50">
+                                    <span class="lsb-config-input-unit">pages</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="3" max="50" value="{{ admin_config.max_pages }}" step="1">
+                                    <div class="lsb-config-range-labels">
+                                        <span>3</span>
+                                        <span>50</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="storyRetriesAdmin">Story Generation Retries</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Number of retry attempts if the generated story does not meet the minimum length percentage">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="storyRetriesAdmin" class="lsb-config-input lsb-config-editable" data-field="story_retries" data-config-type="admin" value="{{ admin_config.story_retries }}" min="1" max="5">
+                                    <span class="lsb-config-input-unit">attempts</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="1" max="5" value="{{ admin_config.story_retries }}" step="1">
+                                    <div class="lsb-config-range-labels">
+                                        <span>1</span>
+                                        <span>5</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="minStoryLenAdmin">Minimum Story Length</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Minimum percentage of required story length the generated story must reach before it is accepted">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="minStoryLenAdmin" class="lsb-config-input lsb-config-editable" data-field="min_story_len" data-config-type="admin" value="{{ admin_config.min_story_len }}" min="50" max="100">
+                                    <span class="lsb-config-input-unit">%</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="50" max="100" value="{{ admin_config.min_story_len }}" step="5">
+                                    <div class="lsb-config-range-labels">
+                                        <span>50%</span>
+                                        <span>100%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lsb-config-section">
+                    <div class="lsb-config-section-header">
+                        <div class="lsb-config-section-title">
+                            <i class="bi bi-image"></i>
+                            <div>
+                                <h2>Image & Media Generation</h2>
+                                <p class="lsb-config-section-subtitle">Configure retry attempts for image and text-to-speech generation</p>
+                            </div>
+                        </div>
+                        <button class="lsb-config-collapse-btn" data-section="image">
+                            <i class="bi bi-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="lsb-config-section-content">
+                        <div class="lsb-config-grid">
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="imgRetriesAdmin">Image Generation Retries</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Number of retry attempts for image generation">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="imgRetriesAdmin" class="lsb-config-input lsb-config-editable" data-field="img_retries" data-config-type="admin" value="{{ admin_config.img_retries }}" min="1" max="5">
+                                    <span class="lsb-config-input-unit">attempts</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="1" max="5" value="{{ admin_config.img_retries }}" step="1">
+                                    <div class="lsb-config-range-labels">
+                                        <span>1</span>
+                                        <span>5</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="ttsRetriesAdmin">Text-to-Speech Retries</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Number of retry attempts for TTS generation">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="ttsRetriesAdmin" class="lsb-config-input lsb-config-editable" data-field="tts_retries" data-config-type="admin" value="{{ admin_config.tts_retries }}" min="1" max="5">
+                                    <span class="lsb-config-input-unit">attempts</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="1" max="5" value="{{ admin_config.tts_retries }}" step="1">
+                                    <div class="lsb-config-range-labels">
+                                        <span>1</span>
+                                        <span>5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lsb-config-section">
+                    <div class="lsb-config-section-header">
+                        <div class="lsb-config-section-title">
+                            <i class="bi bi-speedometer"></i>
+                            <div>
+                                <h2>Performance & Processing</h2>
+                                <p class="lsb-config-section-subtitle">Parallel page processing and character consistency checks</p>
+                            </div>
+                        </div>
+                        <button class="lsb-config-collapse-btn" data-section="performance">
+                            <i class="bi bi-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="lsb-config-section-content">
+                        <div class="lsb-config-grid">
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="workersAdmin">Parallel Workers</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Simultaneously generate images and audio across multiple pages">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="workersAdmin" class="lsb-config-input lsb-config-editable" data-field="workers" data-config-type="admin" value="{{ admin_config.workers }}" min="1" max="15">
+                                    <span class="lsb-config-input-unit">workers</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="1" max="15" value="{{ admin_config.workers }}" step="1">
+                                    <div class="lsb-config-range-labels">
+                                        <span>1</span>
+                                        <span>15</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="consistencyChecksAdmin">Character Consistency Checks</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Number of main and sub characters checked for visual consistency">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="consistencyChecksAdmin" class="lsb-config-input lsb-config-editable" data-field="consistency_checks" data-config-type="admin" value="{{ admin_config.consistency_checks }}" min="1" max="10">
+                                    <span class="lsb-config-input-unit">chars</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="1" max="10" value="{{ admin_config.consistency_checks }}" step="1">
+                                    <div class="lsb-config-range-labels">
+                                        <span>1</span>
+                                        <span>10</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lsb-config-actions">
+                <button class="btn btn-success" id="lsbConfigSaveAdminBtn">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Save All Changes
+                </button>
+                <button class="btn btn-danger" id="lsbConfigResetAdminBtn">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                    Reset to Defaults
+                </button>
+            </div>
+        </div>
+
+        <div class="lsb-config-tab-content" id="user-tab">
+            <div class="lsb-config-stats-grid">
+                <div class="lsb-config-stat-card">
+                    <div class="lsb-config-stat-icon lsb-config-stat-icon-blue">
+                        <i class="bi bi-file-text"></i>
+                    </div>
+                    <div class="lsb-config-stat-info">
+                        <h3 class="lsb-config-stat-value">8</h3>
+                        <p class="lsb-config-stat-label">Configuration Parameters</p>
+                    </div>
+                </div>
+                <div class="lsb-config-stat-card">
+                    <div class="lsb-config-stat-icon lsb-config-stat-icon-orange">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div class="lsb-config-stat-info">
+                        <h3 class="lsb-config-stat-value" id="lastModifiedUser">{{ user_config.updated_at|date:"M d, Y" }}</h3>
+                        <p class="lsb-config-stat-label">Last Modified</p>
+                    </div>
+                </div>
+                <div class="lsb-config-stat-card">
+                    <div class="lsb-config-stat-icon lsb-config-stat-icon-purple">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div class="lsb-config-stat-info">
+                        <h3 class="lsb-config-stat-value">{{ user_config.updated_by|default:"System" }}</h3>
+                        <p class="lsb-config-stat-label">Last Updated By</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lsb-config-sections">
+                <div class="lsb-config-section">
+                    <div class="lsb-config-section-header">
+                        <div class="lsb-config-section-title">
+                            <i class="bi bi-book"></i>
+                            <div>
+                                <h2>Story Generation Settings</h2>
+                                <p class="lsb-config-section-subtitle">Control story page limits, retry attempts, and content length requirements</p>
+                            </div>
+                        </div>
+                        <button class="lsb-config-collapse-btn" data-section="story">
+                            <i class="bi bi-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="lsb-config-section-content">
+                        <div class="lsb-config-grid">
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="charsPerPageUser">Characters Per Page</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Maximum characters to display per page">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="charsPerPageUser" class="lsb-config-input lsb-config-editable" data-field="chars_per_page" data-config-type="user" value="{{ user_config.chars_per_page }}" min="100" max="1000">
+                                    <span class="lsb-config-input-unit">chars</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="100" max="1000" value="{{ user_config.chars_per_page }}" step="25">
+                                    <div class="lsb-config-range-labels">
+                                        <span>100</span>
+                                        <span>1000</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="maxPagesUser">Maximum Story Pages</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Maximum number of pages per story">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="maxPagesUser" class="lsb-config-input lsb-config-editable" data-field="max_pages" data-config-type="user" value="{{ user_config.max_pages }}" min="1" max="50">
+                                    <span class="lsb-config-input-unit">pages</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="3" max="50" value="{{ user_config.max_pages }}" step="1">
+                                    <div class="lsb-config-range-labels">
+                                        <span>3</span>
+                                        <span>50</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="storyRetriesUser">Story Generation Retries</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Number of retry attempts if the generated story does not meet the minimum length percentage">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="storyRetriesUser" class="lsb-config-input lsb-config-editable" data-field="story_retries" data-config-type="user" value="{{ user_config.story_retries }}" min="1" max="5">
+                                    <span class="lsb-config-input-unit">attempts</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="1" max="5" value="{{ user_config.story_retries }}" step="1">
+                                    <div class="lsb-config-range-labels">
+                                        <span>1</span>
+                                        <span>5</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="minStoryLenUser">Minimum Story Length</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Minimum percentage of required story length the generated story must reach before it is accepted">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="minStoryLenUser" class="lsb-config-input lsb-config-editable" data-field="min_story_len" data-config-type="user" value="{{ user_config.min_story_len }}" min="50" max="100">
+                                    <span class="lsb-config-input-unit">%</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="50" max="100" value="{{ user_config.min_story_len }}" step="5">
+                                    <div class="lsb-config-range-labels">
+                                        <span>50%</span>
+                                        <span>100%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lsb-config-section">
+                    <div class="lsb-config-section-header">
+                        <div class="lsb-config-section-title">
+                            <i class="bi bi-image"></i>
+                            <div>
+                                <h2>Image & Media Generation</h2>
+                                <p class="lsb-config-section-subtitle">Configure retry attempts for image and text-to-speech generation</p>
+                            </div>
+                        </div>
+                        <button class="lsb-config-collapse-btn" data-section="image">
+                            <i class="bi bi-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="lsb-config-section-content">
+                        <div class="lsb-config-grid">
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="imgRetriesUser">Image Generation Retries</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Number of retry attempts for image generation">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="imgRetriesUser" class="lsb-config-input lsb-config-editable" data-field="img_retries" data-config-type="user" value="{{ user_config.img_retries }}" min="1" max="5">
+                                    <span class="lsb-config-input-unit">attempts</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="1" max="5" value="{{ user_config.img_retries }}" step="1">
+                                    <div class="lsb-config-range-labels">
+                                        <span>1</span>
+                                        <span>5</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="ttsRetriesUser">Text-to-Speech Retries</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Number of retry attempts for TTS generation">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="ttsRetriesUser" class="lsb-config-input lsb-config-editable" data-field="tts_retries" data-config-type="user" value="{{ user_config.tts_retries }}" min="1" max="5">
+                                    <span class="lsb-config-input-unit">attempts</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="1" max="5" value="{{ user_config.tts_retries }}" step="1">
+                                    <div class="lsb-config-range-labels">
+                                        <span>1</span>
+                                        <span>5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lsb-config-section">
+                    <div class="lsb-config-section-header">
+                        <div class="lsb-config-section-title">
+                            <i class="bi bi-speedometer"></i>
+                            <div>
+                                <h2>Performance & Processing</h2>
+                                <p class="lsb-config-section-subtitle">Parallel page processing and character consistency checks</p>
+                            </div>
+                        </div>
+                        <button class="lsb-config-collapse-btn" data-section="performance">
+                            <i class="bi bi-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="lsb-config-section-content">
+                        <div class="lsb-config-grid">
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="workersUser">Parallel Workers</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Simultaneously generate images and audio across multiple pages">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="workersUser" class="lsb-config-input lsb-config-editable" data-field="workers" data-config-type="user" value="{{ user_config.workers }}" min="1" max="15">
+                                    <span class="lsb-config-input-unit">workers</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="1" max="15" value="{{ user_config.workers }}" step="1">
+                                    <div class="lsb-config-range-labels">
+                                        <span>1</span>
+                                        <span>15</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lsb-config-item">
+                                <div class="lsb-config-label">
+                                    <label for="consistencyChecksUser">Character Consistency Checks</label>
+                                    <span class="lsb-config-info-icon" data-bs-toggle="tooltip" title="Number of main and sub characters checked for visual consistency">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="lsb-config-input-group">
+                                    <input type="number" id="consistencyChecksUser" class="lsb-config-input lsb-config-editable" data-field="consistency_checks" data-config-type="user" value="{{ user_config.consistency_checks }}" min="1" max="10">
+                                    <span class="lsb-config-input-unit">chars</span>
+                                </div>
+                                <div class="lsb-config-range">
+                                    <input type="range" class="lsb-config-range-input" min="1" max="10" value="{{ user_config.consistency_checks }}" step="1">
+                                    <div class="lsb-config-range-labels">
+                                        <span>1</span>
+                                        <span>10</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lsb-config-actions">
+                <button class="btn btn-success" id="lsbConfigSaveUserBtn">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Save All Changes
+                </button>
+                <button class="btn btn-danger" id="lsbConfigResetUserBtn">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                    Reset to Defaults
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
+
+document.querySelectorAll('.lsb-config-item').forEach(item => {
+    const input = item.querySelector('.lsb-config-input[type="number"]');
+    const range = item.querySelector('.lsb-config-range-input');
+    
+    if (input && range) {
+        input.addEventListener('input', function() {
+            range.value = this.value;
+        });
+        
+        range.addEventListener('input', function() {
+            input.value = this.value;
+        });
+    }
+});
+
+document.querySelectorAll('.lsb-config-collapse-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const section = this.getAttribute('data-section');
+        const content = this.closest('.lsb-config-section').querySelector('.lsb-config-section-content');
+        const icon = this.querySelector('i');
+        
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            icon.classList.remove('bi-chevron-down');
+            icon.classList.add('bi-chevron-up');
+        } else {
+            content.style.display = 'none';
+            icon.classList.remove('bi-chevron-up');
+            icon.classList.add('bi-chevron-down');
+        }
+    });
+});
+
+document.querySelectorAll('.lsb-config-tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const tab = this.getAttribute('data-tab');
+        
+        document.querySelectorAll('.lsb-config-tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.lsb-config-tab-content').forEach(c => c.classList.remove('active'));
+        
+        this.classList.add('active');
+        document.getElementById(tab + '-tab').classList.add('active');
+    });
+});
+
+function saveConfiguration(configType) {
+    universalLoader("Saving", "Updating configuration settings...");
+    
+    const configData = {};
+    const tabContent = document.getElementById(configType + '-tab');
+    tabContent.querySelectorAll('.lsb-config-editable').forEach(input => {
+        const field = input.getAttribute('data-field');
+        configData[field] = input.value;
+    });
+    
+    configData.type = configType;
+
+    fetch('{% url "save_configuration" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify(configData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        universalLoader(false);
+        if (data.success) {
+            window.notyf.open({
+                type: "success",
+                message: "Configuration saved successfully!"
+            });
+            const lastModified = document.getElementById('lastModified' + (configType === 'admin' ? 'Admin' : 'User'));
+            if (lastModified) lastModified.textContent = 'Just now';
+        } else {
+            window.notyf.open({
+                type: "error",
+                message: "Failed to save configuration."
+            });
+        }
+    })
+    .catch(error => {
+        universalLoader(false);
+        window.notyf.open({
+            type: "error",
+            message: "Failed to save configuration."
+        });
+    });
+}
+
+function resetConfiguration(configType) {
+    Swal.fire({
+        title: 'Reset Configuration?',
+        text: 'Are you sure you want to reset all ' + configType + ' settings to default values?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc2626',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'Yes, Reset',
+        cancelButtonText: 'Cancel',
+        width: '350px',
+        heightAuto: false,
+        backdrop: true,
+        didOpen: (modal) => {
+            modal.style.borderRadius = '12px';
+            const confirmBtn = modal.querySelector('.swal2-confirm');
+            const cancelBtn = modal.querySelector('.swal2-cancel');
+            if (confirmBtn) confirmBtn.style.padding = '8px 16px';
+            if (cancelBtn) cancelBtn.style.padding = '8px 16px';
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            universalLoader("Resetting", "Restoring default configuration...");
+            
+            fetch('{% url "reset_configuration" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ type: configType })
+            })
+            .then(response => response.json())
+            .then(data => {
+                universalLoader(false);
+                if (data.success) {
+                    window.notyf.open({
+                        type: "success",
+                        message: "Configuration reset to defaults."
+                    });
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    window.notyf.open({
+                        type: "error",
+                        message: "Failed to reset configuration."
+                    });
+                }
+            })
+            .catch(error => {
+                universalLoader(false);
+                window.notyf.open({
+                    type: "error",
+                    message: "Failed to reset configuration."
+                });
+            });
+        }
+    });
+}
+
+document.getElementById('lsbConfigSaveAdminBtn')?.addEventListener('click', () => saveConfiguration('admin'));
+document.getElementById('lsbConfigSaveUserBtn')?.addEventListener('click', () => saveConfiguration('user'));
+document.getElementById('lsbConfigResetAdminBtn')?.addEventListener('click', () => resetConfiguration('admin'));
+document.getElementById('lsbConfigResetUserBtn')?.addEventListener('click', () => resetConfiguration('user'));
+</script>
+{% endblock %}

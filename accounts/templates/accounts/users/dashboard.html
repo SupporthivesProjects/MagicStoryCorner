@@ -1,0 +1,1177 @@
+{% extends "includes/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %} Dashboard | {{ site_name }} {% endblock %}
+{% block content %}
+<style>
+  @media only screen and (max-width: 600px) {
+  .footer{
+    display: none;
+  }
+  .header-white::after{
+    display: none;
+  }
+}
+.smodal_btn1{
+  padding: 8px 24px;
+}
+.dash_libcard img{
+  border-radius: 8px;
+}
+</style>
+ <section class="dashboard_s1">
+    <div class="dashboard_c1 text-center">
+        <img class="dashboard_ani1 mb-3" src="{% static 'media/dashboard_ani1.gif' %}" alt="Animation 1">
+    
+        <div class="dashboard_s1titlebar mt-3">
+            <h1 class="dashboard_s1title">Hello, {{ logged_in_user.first_name }} !</h1>
+            <a id="logoutLink" href="{% url 'user_logout' %}" class="btn dashboard_logoutbtn mt-3">Logout</a>
+        </div>
+    
+        <img class="dashboard_ani2 mt-3" src="{% static 'media/dashboard_ani2.gif' %}" alt="Animation 2">
+    </div>
+</section>
+
+ <section class="dashboard_s2">
+    <div class="dashboard_c2">
+        <div class="dashboard_top">
+            <div class="dashboard_topcard">
+                <img class="dashboard_card1icon" src="{% static 'media/dashboard_card1icon.svg' %}">
+                <div class="dashboard_card">
+                    <h3 class="dash_cardtitle">Daily rewards</h3>
+                    <p class="dash_cardsubtitle">Login each day and earn daily<br>tokens for keeping your streak!</p>
+                    <button type="button" class="btn smodal_btn1 w-100"  data-bs-toggle="modal" data-bs-target="#Claimreward">Claim now</button>
+                </div>
+            </div>
+            <div class="dashboard_topcard">
+                <img class="dashboard_card1icon" src="{% static 'media/dashboard_card2icon.svg' %}">
+                <div class="dashboard_card">
+                    <h3 class="dash_cardtitle">Share and earn</h3>
+                    <p class="dash_cardsubtitle">Receive 100 referral tokens<br>for every friend who joins!</p>
+                    <button type="button" class="btn smodal_btn1 w-100" data-bs-toggle="modal" data-bs-target="#shareEarnModal">Share with friends</button>
+                </div>
+            </div>
+            <div class="dashboard_topcard">
+                <img class="dashboard_card1icon" src="{% static 'media/dashboard_card3icon.svg' %}">
+                <div class="dashboard_card">
+                    <h3 class="dash_cardtitle">Get more stories</h3>
+                    <p class="dash_cardsubtitle">Login each day and earn daily<br>tokens for keeping your streak!</p>
+                    <a type="button" class="btn smodal_btn1 w-100" href="/stories/story-book-create/">Start creation</a>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard_mid">
+            <div class="dash_midleft">
+                <div class="dash_midleftop">
+                    <div class="balance_titlebar">
+                        <h3 class="balance_title">Balance:</h3>
+                        <p class="balance_subtitle">{{ user.profile.wallet|intcomma }} tokens</p>
+                    </div>
+                    <a type="button" href="{% url 'package_pricing' %}" class="btn smodal_btn1">Top up</a>
+                </div>
+                <div class="dash_midlefmid">
+                    <div class="dash_midleftmiddle">
+                        <h3 class="balance_title">My details</h3>
+                        <button type="button" class="btn smodal_btn1" onclick="submitProfileUpdateDesktop()">
+                            Update details
+                        </button>
+                    </div>
+                
+                    <form id="profileUpdateFormDesktop" class="dash_textboxbar">
+                        {% csrf_token %}
+                        <div class="dash_textline">
+                            <input type="text" class="form-control dash_textbox" name="first_name" placeholder="First name" value="{{ user.first_name|default_if_none:'' }}">
+                            <input type="text" class="form-control dash_textbox" name="last_name" placeholder="Last name" value="{{ user.last_name|default_if_none:'' }}">
+                        </div>
+                        
+                        <input type="email" class="form-control dash_textbox" name="email" placeholder="Email Address" value="{{ user.email|default_if_none:'' }}">
+                        
+                        {% with profile=user.profile %}
+                            <input type="text" class="form-control dash_textbox" name="line_1" placeholder="Address line 1" value="{{ profile.line_1|default_if_none:'' }}">
+                            <input type="text" class="form-control dash_textbox" name="line_2" placeholder="Address line 2" value="{{ profile.line_2|default_if_none:'' }}">
+                            <div class="dash_textline">
+                                <input type="text" class="form-control dash_textbox" name="city" placeholder="City / town" value="{{ profile.city|default_if_none:'' }}">
+                                <input type="text" class="form-control dash_textbox" name="postal" placeholder="Zip / Postal Code" value="{{ profile.postal|default_if_none:'' }}">
+                            </div>
+                        {% endwith %}
+                    </form>
+                </div>
+                <div class="dash_midlefmid">
+                    <div class="dash_midleftmiddle">
+                        <h3 class="balance_title">Password</h3>
+                        <button type="button" class="btn smodal_btn1" onclick="submitPasswordUpdateDesktop()">Update password</button>
+                    </div>
+                
+                    <form id="passwordUpdateFormDesktop" class="dash_textboxbar">
+                        {% csrf_token %}
+                        <input type="password" class="form-control dash_textbox" name="current_password" placeholder="Current Password" required>
+                        <input type="password" class="form-control dash_textbox" name="new_password" placeholder="New Password" required>
+                        <input type="password" class="form-control dash_textbox" name="confirm_password" placeholder="Confirm New Password" required>
+                    </form>
+                </div>
+            </div>
+            <div class="dash_midright">
+                <div class="dash_midrighttop">
+                    <h3 class="dash_midrighttitle">My Library</h3>
+                    <a type="button" href="{% url 'library_list' %}" class="btn smodal_btn1 ms-1">
+                        Library <i class="bi bi-book ms-1"></i>
+                    </a>
+                    <a type="button" href="{% url 'purchase_history' %}" class="btn smodal_btn1 ms-1">
+                      Purchase <i class="bi bi-bag-check ms-1"></i>
+                  </a>
+                </div>
+                
+
+                    {% if stories %}
+                    <div class="dash_midrightbottom">
+                        {% for story in stories %}
+                            <div class="dash_libcard">
+                                {% if story.image %}
+                                <img class="img-fluid" src="{{ story.image.url }}" alt="{{ story.title }}" >
+                                {% else %}
+                                <img class="img-fluid" src="{% static 'media/BookCover.jpeg' %}" alt="Default Cover">
+                                {% endif %}
+
+                                <div class="dash_libbtn">
+                                <p class="dash_libbtntitle">
+                                    {% if story.title|length > 25 %}
+                                    {{ story.title|slice:":25" }}...
+                                    {% else %}
+                                    {{ story.title }}
+                                    {% endif %}
+                                </p>
+                                <a href="{% url 'library_view' story.slug %}" class="dash_libbtnreadmore">Read now</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        <div class="dash_libcard">
+                         <p class="text-muted mb-0 fs-5 text-center">No stories found in your library.</p>
+                        </div>
+                    {% endif %}
+                    
+            </div>
+        </div>
+        <div class="dashboard_bottom">
+            <h3 class="balance_title">Transaction history</h3>
+            <div class="dashboard_table w-100">
+                <table class="table table-borderless order_desctable mb-0">
+                    <thead class="account_table_header">
+                        <tr class="align-middle">
+                            <th scope="col"><p class="success_headtext">Receipt<img src="{% static 'media/dash_tabledrop.svg' %}"></p></th>
+                            <th scope="col"><p class="success_headtext">Purchase Date<img src="{% static 'media/dash_tabledrop.svg' %}"></p></th>
+                            <th scope="col"><p class="success_headtext">Item name</p></th>
+                            <th scope="col">
+                                <div class="dash_tbtnbar">
+                                    <p class="success_headtext">Total Amount &nbsp;<img src="{% static 'media/dash_tabledrop.svg' %}"></p>
+                                </div>
+                            </th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="account_table_body" id="desktopOrdersTable">
+                        {% for order in orders %}
+                            <tr class="align-middle">
+                                <td><p class="success_bodytext">#{{ order.id }}</p></td>
+                                <td><p class="success_bodytext">{{ order.created_at|date:"M d, Y" }}</p></td>
+                                <td>
+                                    <p class="success_bodytext">
+                                        {% for item in order.items.all %}
+                                            {{ item.package.packagetype.name }} {% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </p>
+                                </td>
+                                <td><p class="success_bodytext">{{ order.currency }} {{ order.total }}</p></td>
+                                <td>
+                                    <div class="dash_tbtnbar">
+                                        <button onclick="downloadInvoice('{{ order.id }}')" type="button" class="btn view_orderbtn">Download Receipt</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" style="text-align: center;">
+                                    <p class="success_bodytext">No orders found.</p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        
+            <div class="pagination" id="desktopPagination">
+                {% if orders.has_previous %}
+                    <a href="?page={{ orders.previous_page_number }}" class="page-btn">
+                        <img src="{% static 'media/pagination_left.svg' %}">
+                    </a>
+                {% else %}
+                    <span class="page-btn disabled">
+                        <img src="{% static 'media/pagination_left.svg' %}">
+                    </span>
+                {% endif %}
+        
+                {% for num in orders.paginator.page_range %}
+                    {% if num == orders.number %}
+                        <span class="page-number active">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="page-number">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+        
+                {% if orders.has_next %}
+                    <a href="?page={{ orders.next_page_number }}" class="page-btn">
+                        <img src="{% static 'media/pagination_right.svg' %}">
+                    </a>
+                {% else %}
+                    <span class="page-btn disabled">
+                        <img src="{% static 'media/pagination_right.svg' %}">
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+ </section>
+ 
+
+ <div class="desktop_none">
+    <div class="app-container dashapp_container">
+
+        <div class="tab-content dashtab_content active" id="tab-home">
+            <div class="dash_mobs1">
+                <h3 class="dash_s1title">Hello  {{ logged_in_user.first_name }} !</h3>
+            </div>
+            <div class="dash_t1s2mob">
+                <div class="dash_midleftop">
+                    <div class="balance_titlebar">
+                        <h3 class="balance_title">Balance:</h3>
+                        <p class="balance_subtitle">{{ user.profile.wallet|intcomma }} tokens</p>
+                    </div>
+                    <a type="button" href="{% url 'package_pricing' %}" class="btn smodal_btn1">Top up</a>
+                </div>
+                <div class="simple-carousel">
+                    <div class="carousel-track">
+                    <div class="carousel-card">
+                        <div class="dashboard_topcard">
+                            <img class="dashboard_card1icon" src="{% static 'media/dashboard_card1icon.svg' %}">
+                            <div class="dashboard_card">
+                                <h3 class="dash_cardtitle">Daily rewards</h3>
+                                <p class="dash_cardsubtitle">Login each day and earn daily<br>tokens for keeping your streak!</p>
+                                <button type="button" class="btn smodal_btn1 w-100"  data-bs-toggle="modal" data-bs-target="#Claimreward">Claim now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-card">
+                        <div class="dashboard_topcard">
+                            <img class="dashboard_card1icon" src="{% static 'media/dashboard_card2icon.svg' %}">
+                            <div class="dashboard_card">
+                                <h3 class="dash_cardtitle">Share and earn</h3>
+                                <p class="dash_cardsubtitle">Receive 100 referral tokens<br>for every friend who joins!</p>
+                                <button type="button" class="btn smodal_btn1 w-100"  data-bs-toggle="modal" data-bs-target="#shareEarnModal">Share with friends</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-card">
+                        <div class="dashboard_topcard">
+                            <img class="dashboard_card1icon" src="{% static 'media/dashboard_card3icon.svg' %}">
+                            <div class="dashboard_card">
+                                <h3 class="dash_cardtitle">Get more stories</h3>
+                                <p class="dash_cardsubtitle">Login each day and earn daily<br>tokens for keeping your streak!</p>
+                                <a type="button" class="btn smodal_btn1 w-100" href="/stories/story-book-create/">Start creation</a>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                
+                    <div class="carousel-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    </div>
+                </div>
+
+                <div class="t2s2_storybar">
+                    <div class="dashboard_topcard">
+                        <img class="dashboard_card1icon" src="{% static 'media/dashboard_card3icon.svg' %}">
+                        <div class="dashboard_card">
+                            <h3 class="dash_cardtitle">Get more stories</h3>
+                            <p class="dash_cardsubtitle">Login each day and earn daily<br>tokens for keeping your streak!</p>
+                            <!-- <button type="button" class="btn char_btn1 back-btn">Explore catalogue</button> -->
+                            <a type="button" href="{% url 'product_book_list' %}" class="btn char_btn1 back-btn">
+                                Explore catalogue
+                            </a>
+                            <a type="button" class="btn smodal_btn1 w-100" href="/stories/story-book-create/">Start creation</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="t2s2_storybar">
+                    <div class="dashboard_topcard">
+                        <img class="dashboard_card1icon" src="{% static 'media/dash_libicon.svg' %}">
+                        <div class="dashboard_card">
+                            <h3 class="dash_cardtitle">My library</h3>
+
+                            <div class="lib_mobcardbar">
+
+                              {% if stories %}
+                              {% for story in stories %}
+                                  <a href="{% url 'library_view' story.slug %}" class="dash_midrightbottom">
+                                      {% if story.image %}
+                                          <img class="img-fluid lib_mobcardimg" src="{{ story.image.url }}">
+                                      {% else %}
+                                          <img class="img-fluid" src="{% static 'media/BookCover.jpeg' %}" alt="Default Cover">
+                                      {% endif %}
+                                  </a>
+                              {% endfor %}
+                          {% else %}
+                              <div class="dash_libcard">
+                                  <p class="text-muted mb-0 fs-5 text-center">No stories found in your library.</p>
+                              </div>
+                          {% endif %}
+                          
+                          
+                          </div>
+                            <a href="{% url 'library_list' %}" class="btn smodal_btn1 w-100">View library</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="tab-content dashtab_content" id="tab-purchase">
+            <div class="dash_mobs1">
+                <h3 class="dash_s1title">Purchases</h3>
+            </div>
+            <div class="dash_t4s2" id="mobileOrdersContainer">
+                <div style="text-align: center; padding: 20px;">
+                    <p>Loading orders...</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="tab-content dashtab_content" id="tab-setting">
+            <div class="dash_mobs1">
+                <h3 class="dash_s1title">Settings</h3>
+            </div>
+            <div class="dash_t5s2">
+                <div class="dash_midlefmid">
+                    <h3 class="balance_title">My details</h3>
+                    <form id="profileUpdateFormMobile" class="dash_textboxbar">
+                        {% csrf_token %}
+                        <div class="dash_textline">
+                            <input type="text" class="form-control dash_textbox" name="first_name" placeholder="First name" value="{{ user.first_name|default_if_none:'' }}">
+                            <input type="text" class="form-control dash_textbox" name="last_name" placeholder="Last name" value="{{ user.last_name|default_if_none:'' }}">
+                        </div>
+                        
+                        <input type="email" class="form-control dash_textbox" name="email" placeholder="Email Address" value="{{ user.email|default_if_none:'' }}">
+                        
+                        {% with profile=user.profile %}
+                            <input type="text" class="form-control dash_textbox" name="line_1" placeholder="Address line 1" value="{{ profile.line_1|default_if_none:'' }}">
+                            <input type="text" class="form-control dash_textbox" name="line_2" placeholder="Address line 2" value="{{ profile.line_2|default_if_none:'' }}">
+                            <div class="dash_textline">
+                                <input type="text" class="form-control dash_textbox" name="city" placeholder="City / town" value="{{ profile.city|default_if_none:'' }}">
+                                <input type="text" class="form-control dash_textbox" name="postal" placeholder="Zip / Postal Code" value="{{ profile.postal|default_if_none:'' }}">
+                            </div>
+                        {% endwith %}
+                    </form>
+                    <button type="button" class="btn smodal_btn1" onclick="submitProfileUpdateMobile()">Update details</button>
+                </div>
+                <div class="dash_midlefmid">
+                    <h3 class="balance_title">Password</h3>
+                    <form id="passwordUpdateFormMobile" class="dash_textboxbar">
+                        {% csrf_token %}
+                        <input type="password" class="form-control dash_textbox" name="current_password" placeholder="Current Password" required>
+                        <input type="password" class="form-control dash_textbox" name="new_password" placeholder="New Password" required>
+                        <input type="password" class="form-control dash_textbox" name="confirm_password" placeholder="Confirm New Password" required>
+                    </form>
+                    <button type="button" class="btn smodal_btn1" onclick="submitPasswordUpdateMobile()">Update password</button>
+                </div>
+            </div>
+        </div>
+    
+        <div class="bottom-nav dashbottom_nav">
+        <button class="nav-btn dashnav_btn active" data-tab="tab-home"><img src="{% static 'media/dash_mobtabbtn1.svg' %}"></button>
+        <a class="dashnav_btn" href="/users/library/"><img src="{% static 'media/dash_mobtabbtn2.svg' %}"></a>
+        <a class="dashnav_btn" href="/stories/story-book-create/"><img src="{% static 'media/dash_mobtabbtn3.svg' %}"></a>
+        <button class="nav-btn dashnav_btn" data-tab="tab-purchase"><img src="{% static 'media/dash_mobtabbtn4.svg' %}"></button>
+        <button class="nav-btn dashnav_btn" data-tab="tab-setting"><img src="{% static 'media/dash_mobtabbtn5.svg' %}"></button>
+        </div>
+    
+    </div>
+</div>
+
+<div class="modal fade" id="Claimreward" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content dash_mcontent">
+            <button class="modal_closeimg" data-bs-dismiss="modal" aria-label="Close"><img src="{% static 'media/mod_close.svg' %}"></button>
+            <div class="modal-body story_mbody">
+                <div class="story_mtitlebar">
+                    <h3 class="story_mtitle">Claim reward</h3>
+                    <p class="story_msubtitle" id="claimModalSubtitle">Welcome back! Click below to get your daily rewards as a loyal customer.</p>
+                </div>
+                <div class="story_mbtnbar">
+                    <button type="button" id="claimRewardBtn" class="btn smodal_btn1 w-100" onclick="claimDailyReward()">Claim reward</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="shareEarnModal" tabindex="-1" aria-labelledby="shareEarnLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content dash_mcontent">
+          <button class="modal_closeimg" data-bs-dismiss="modal" aria-label="Close"><img src="{% static 'media/mod_close.svg' %}"></button>
+          <div class="modal-body story_mbody">
+              <div class="story_mtitlebar">
+                  <h3 class="story_mtitle">Share and Earn</h3>
+                  <p class="story_msubtitle" id="shareEarnSubtitle">Loading your referral information...</p>
+              </div>
+              <div class="story_mbtnbar">
+                  <button type="button" class="btn smodal_btn1 w-100" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn smodal_btn2 w-100" id="shareEarnCopyBtn" style="white-space: nowrap; padding: 8px 12px;">Copy Link</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="user_profile_updated" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content dash_mcontent dash_m3content">
+          <button class="modal_closeimg" data-bs-dismiss="modal" aria-label="Close"><img src="{% static 'media/mod_close.svg' %}"></button>
+            <div class="modal-body story_mbody">
+                <div class="story_mtitlebar">
+                    <h3 class="story_mtitle">Details updated!</h3>
+                </div>
+                <div class="story_mbtnbar">
+                    <button type="button" class="btn smodal_btn1 w-100"data-bs-dismiss="modal" aria-label="Close">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="user_password_updated" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content dash_mcontent">
+          <button class="modal_closeimg" data-bs-dismiss="modal" aria-label="Close"><img src="{% static 'media/mod_close.svg' %}"></button>
+            <div class="modal-body story_mbody">
+                <div class="story_mtitlebar">
+                    <h3 class="story_mtitle">password updated!</h3>
+                </div>
+                <div class="story_mbtnbar">
+                    <button type="button" class="btn smodal_btn1 w-100"data-bs-dismiss="modal" aria-label="Close">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="dashboard_last d-lg-block d-md-block d-none"></section>
+{% endblock %}
+{% block extra_js %}
+<script>
+    const csrf_token = "{{ csrf_token }}";
+    const downloadInvoiceURL = "{% url 'download_order_invoice' 0 %}"; 
+</script>
+
+<script>
+  function downloadInvoice(orderId) {
+
+      universalLoader('Generating Invoice', 'Please wait while we generate your invoice...');
+  
+      const url = downloadInvoiceURL.replace('0', orderId);
+  
+      fetch(url, {
+          method: 'POST',
+          headers: {
+              'X-CSRFToken': csrf_token,
+              'Content-Type': 'application/json',
+          },
+          credentials: 'same-origin'
+      })
+      .then(async response => {
+          if (!response.ok) {
+              const data = await response.json().catch(() => ({ error: 'Failed to generate invoice' }));
+              throw new Error(data.error || 'Failed to generate invoice');
+          }
+          return response.blob();
+      })
+      .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `Invoice_${orderId}.pdf`;
+          document.body.appendChild(a);
+          a.click();
+  
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+  
+          universalLoader(false);
+  
+          window.notyf.open({
+              type: "success",
+              message: "Invoice downloaded successfully!"
+          });
+      })
+      .catch(error => {
+          console.error('Error:', error);
+  
+          universalLoader(false);
+  
+          window.notyf.open({
+              type: "error",
+              message: error.message || 'Error generating invoice'
+          });
+      });
+  }
+  </script>
+
+
+<script>
+const tabButtons = document.querySelectorAll(".dashnav_btn");
+const tabContents = document.querySelectorAll(".dashtab_content");
+
+tabButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    tabButtons.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    tabContents.forEach((content) => content.classList.remove("active"));
+
+    const targetTab = btn.getAttribute("data-tab");
+    if(targetTab === "tab-purchase") {
+      loadMobileOrders(1);
+    }
+    document.getElementById(targetTab).classList.add("active");
+
+    document.getElementById(targetTab).scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+
+const track = document.querySelector('.carousel-track');
+const dots = document.querySelectorAll('.dot');
+const cards = document.querySelectorAll('.carousel-card');
+let index = 0;
+
+function updateCarousel(i) {
+  const cardWidth = cards[0].offsetWidth;
+  const offset = i * -cardWidth;
+  track.style.transform = `translateX(${offset}px)`;
+  dots.forEach(d => d.classList.remove('active'));
+  dots[i].classList.add('active');
+}
+
+dots.forEach((dot, i) => {
+  dot.addEventListener('click', () => {
+    index = i;
+    updateCarousel(i);
+  });
+});
+
+cards.forEach((card, i) => {
+  card.addEventListener('click', () => {
+    index = i;
+    updateCarousel(i);
+  });
+});
+
+let autoSlide = setInterval(() => {
+  index = (index + 1) % dots.length;
+  updateCarousel(index);
+}, 3000);
+
+window.addEventListener('resize', () => {
+  updateCarousel(index);
+});
+
+function getCsrfToken() {
+  const tokens = document.querySelectorAll('input[name="csrfmiddlewaretoken"]');
+  if(tokens.length > 0) {
+    return tokens[0].value;
+  }
+  console.error('CSRF token not found');
+  return null;
+}
+
+function closeLoader() {
+  universalLoader(false);
+}
+
+function submitProfileUpdateDesktop() {
+  const csrfToken = getCsrfToken();
+  if(!csrfToken) {
+    window.notyf.open({ type: "error", message: 'Security token missing' });
+    return;
+  }
+  
+  const form = document.getElementById('profileUpdateFormDesktop');
+  const formData = new FormData(form);
+  
+  universalLoader("Updating Profile", "Please wait, updating your details.");
+  
+  fetch('{% url "user_update_profile" %}', {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': csrfToken,
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    closeLoader();
+    if(data.success) {
+      window.notyf.open({ type: "success", message: "Profile updated successfully!" });
+      const successModal = new bootstrap.Modal(document.getElementById('user_profile_updated'));
+      successModal.show();
+      form.reset();
+    } else {
+      window.notyf.open({ type: "error", message: data.error || 'Error updating profile' });
+    }
+  })
+  .catch(error => {
+    closeLoader();
+    console.error('Error:', error);
+    window.notyf.open({ type: "error", message: 'An error occurred' });
+  });
+}
+
+function submitPasswordUpdateDesktop() {
+  const csrfToken = getCsrfToken();
+  if(!csrfToken) {
+    window.notyf.open({ type: "error", message: 'Security token missing' });
+    return;
+  }
+  
+  const form = document.getElementById('passwordUpdateFormDesktop');
+  const formData = new FormData(form);
+  
+  universalLoader("Updating Password", "Please wait, updating your password.");
+  
+  fetch('{% url "user_password_update" %}', {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': csrfToken,
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    closeLoader();
+    if(data.success) {
+      window.notyf.open({ type: "success", message: "Password updated successfully!" });
+      const successModal = new bootstrap.Modal(document.getElementById('user_password_updated'));
+      successModal.show();
+      form.reset();
+    } else {
+      window.notyf.open({ type: "error", message: data.error || 'Error updating password' });
+    }
+  })
+  .catch(error => {
+    closeLoader();
+    console.error('Error:', error);
+    window.notyf.open({ type: "error", message: 'An error occurred' });
+  });
+}
+
+function openPasswordModal() {
+  const passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
+  passwordModal.show();
+}
+
+function submitProfileUpdateMobile() {
+  const csrfToken = getCsrfToken();
+  if(!csrfToken) {
+    window.notyf.open({ type: "error", message: 'Security token missing' });
+    return;
+  }
+  
+  const form = document.getElementById('profileUpdateFormMobile');
+  const formData = new FormData(form);
+  
+  universalLoader("Updating Profile", "Please wait, updating your details.");
+  
+  fetch('{% url "user_update_profile" %}', {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': csrfToken,
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    closeLoader();
+    if(data.success) {
+      window.notyf.open({ type: "success", message: "Profile updated successfully!" });
+      const successModal = new bootstrap.Modal(document.getElementById('user_profile_updated'));
+      successModal.show();
+      form.reset();
+    } else {
+      window.notyf.open({ type: "error", message: data.error || 'Error updating profile' });
+    }
+  })
+  .catch(error => {
+    closeLoader();
+    console.error('Error:', error);
+    window.notyf.open({ type: "error", message: 'An error occurred' });
+  });
+}
+
+function submitPasswordUpdateMobile() {
+  const csrfToken = getCsrfToken();
+  if(!csrfToken) {
+    window.notyf.open({ type: "error", message: 'Security token missing' });
+    return;
+  }
+  
+  const form = document.getElementById('passwordUpdateFormMobile');
+  const formData = new FormData(form);
+  
+  universalLoader("Updating Password", "Please wait, updating your password.");
+  
+  fetch('{% url "user_password_update" %}', {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': csrfToken,
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    closeLoader();
+    if(data.success) {
+      window.notyf.open({ type: "success", message: "Password updated successfully!" });
+      const successModal = new bootstrap.Modal(document.getElementById('user_password_updated'));
+      successModal.show();
+      form.reset();
+    } else {
+      window.notyf.open({ type: "error", message: data.error || 'Error updating password' });
+    }
+  })
+  .catch(error => {
+    closeLoader();
+    console.error('Error:', error);
+    window.notyf.open({ type: "error", message: 'An error occurred' });
+  });
+}
+
+function loadMobileOrders(page = 1) {
+  const container = document.getElementById('mobileOrdersContainer');
+  container.innerHTML = '<div style="text-align: center; padding: 20px;"><p>Loading orders...</p></div>';
+  
+  universalLoader("Loading Orders", "Please wait, fetching your orders.");
+  
+  fetch('{% url "user_dashboard" %}?page=' + page + '&ajax=true', {
+    method: 'GET',
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    closeLoader();
+    let html = '';
+    
+    if(data.orders && data.orders.length > 0) {
+      data.orders.forEach(order => {
+        const itemNames = order.items.map(item => item.package.packagetype.name).join(', ');
+        const orderDate = new Date(order.created_at).toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric' 
+        });
+        
+        html += `
+          <div class="dash_t4s2card">
+            <div class="dash_t4s2cardcbar">
+              <h4 class="dash_t4s2cardtitle">${itemNames}</h4>
+              <div class="dash_t4s2carddbar">
+                <p class="dash_t4s2cardsubtitle">#${order.id}</p>
+                <p class="dash_t4s2cardsubtitle">${orderDate}</p>
+                <p class="dash_t4s2cardsubtitle">${order.currency} ${order.total}</p>
+              </div>
+            </div>
+            <button onclick="downloadInvoice(${order.id})" type="button" class="btn smodal_btn1">
+              Download Receipt
+            </button>
+          </div>
+        `;
+      });
+      
+      html += '<div class="pagination">';
+      
+      if(data.has_previous) {
+        html += `<a href="#" onclick="loadMobileOrders(${data.previous_page_number}); return false;" class="page-btn"><img src="{% static 'media/pagination_left.svg' %}"></a>`;
+      } else {
+        html += `<span class="page-btn"><img src="{% static 'media/pagination_left.svg' %}"></span>`;
+      }
+      
+      for(let i = 1; i <= data.total_pages; i++) {
+        if(i === data.current_page) {
+          html += `<button class="page-number active">${i}</button>`;
+        } else {
+          html += `<a href="#" onclick="loadMobileOrders(${i}); return false;" class="page-number">${i}</a>`;
+        }
+      }
+      
+      if(data.has_next) {
+        html += `<a href="#" onclick="loadMobileOrders(${data.next_page_number}); return false;" class="page-btn"><img src="{% static 'media/pagination_right.svg' %}"></a>`;
+      } else {
+        html += `<span class="page-btn"><img src="{% static 'media/pagination_right.svg' %}"></span>`;
+      }
+      
+      html += '</div>';
+    } else {
+      html = '<div style="text-align: center; padding: 20px;"><p class="text-muted">No orders found.</p></div>';
+    }
+    
+    container.innerHTML = html;
+  })
+  .catch(error => {
+    closeLoader();
+    console.error('Error:', error);
+    container.innerHTML = '<div style="text-align: center; padding: 20px;"><p class="text-danger">Error loading orders</p></div>';
+    window.notyf.open({ type: "error", message: 'Error loading orders' });
+  });
+}
+</script>
+<script>
+        let claimModal = null;
+let rewardSoundUrl = '{% static "audios/clamed2.mp3" %}';
+
+document.addEventListener('DOMContentLoaded', function() {
+    claimModal = new bootstrap.Modal(document.getElementById('Claimreward'));
+    
+    const claimButtons = document.querySelectorAll('[data-bs-target="#Claimreward"]');
+    claimButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            checkClaimStatus();
+        });
+    });
+    
+    createAnimationContainer();
+    preloadRewardSound();
+});
+
+function preloadRewardSound() {
+    const audio = new Audio(rewardSoundUrl);
+    audio.preload = 'auto';
+}
+
+function createAnimationContainer() {
+    if (!document.getElementById('reward-animation-container')) {
+        const container = document.createElement('div');
+        container.id = 'reward-animation-container';
+        container.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10000;';
+        document.body.appendChild(container);
+        
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes float-up {
+                0% { opacity: 1; transform: translate(0, 0) scale(1); }
+                100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3); }
+            }
+            @keyframes confetti-fall {
+                0% { opacity: 1; transform: translateY(0) translateX(0) rotate(0deg); }
+                100% { opacity: 0; transform: translateY(100vh) translateX(var(--drift)) rotate(360deg); }
+            }
+            @keyframes particle-burst {
+                0% { opacity: 1; transform: translate(0, 0) scale(1); }
+                100% { opacity: 0; transform: translate(var(--px), var(--py)) scale(0); }
+            }
+            .reward-emoji-burst {
+                position: fixed;
+                font-size: 50px;
+                animation: float-up 2s ease-out forwards;
+            }
+            .reward-confetti {
+                position: fixed;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                animation: confetti-fall 3s ease-in forwards;
+            }
+            .reward-particle {
+                position: fixed;
+                pointer-events: none;
+            }
+            .reward-particle-inner {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                animation: particle-burst 0.8s ease-out forwards;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+function playRewardSound() {
+    try {
+        const audio = new Audio(rewardSoundUrl);
+        audio.volume = 0.5;
+        audio.play().catch(() => {
+            console.log('Sound play failed - browser may have blocked autoplay');
+        });
+    } catch (e) {
+        console.log('Error playing sound:', e);
+    }
+}
+
+function checkClaimStatus() {
+    universalLoader("Checking Status", "Please wait...");
+    
+    fetch('{% url "check_claim_status" %}', {
+        method: 'GET',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(response => response.json())
+    .then(data => {
+        universalLoader(false);
+        
+        if(data.success) {
+            const claimBtn = document.getElementById('claimRewardBtn');
+            const subtitle = document.getElementById('claimModalSubtitle');
+            
+            if(data.can_claim) {
+                claimBtn.disabled = false;
+                claimBtn.textContent = 'Claim reward';
+                subtitle.textContent = 'Welcome back! Click below to get your daily rewards as a loyal customer.';
+            } else {
+                claimBtn.disabled = true;
+                claimBtn.textContent = 'Already claimed today';
+                subtitle.textContent = 'You have already claimed your reward today. Come back tomorrow for more tokens!';
+            }
+        } else {
+            window.notyf.open({ type: "error", message: data.error || 'Error checking claim status' });
+        }
+    })
+    .catch(error => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: 'An error occurred while checking claim status' });
+    });
+}
+
+function claimDailyReward() {
+    const csrfToken = getCsrfToken();
+    if(!csrfToken) {
+        window.notyf.open({ type: "error", message: 'Security token missing' });
+        return;
+    }
+    
+    universalLoader("Claiming Reward", "Please wait while we process your reward...");
+    
+    fetch('{% url "claim_daily_reward" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken,
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        universalLoader(false);
+        
+        if(data.success) {
+            playRewardSound();
+            triggerRewardAnimations(data.new_balance);
+            
+            window.notyf.open({ type: "success", message: data.message });
+            
+            const balanceElements = document.querySelectorAll('.balance_subtitle');
+            balanceElements.forEach(el => {
+                el.textContent = data.new_balance.toLocaleString() + ' tokens';
+            });
+            
+            const claimBtn = document.getElementById('claimRewardBtn');
+            const subtitle = document.getElementById('claimModalSubtitle');
+            
+            claimBtn.disabled = true;
+            claimBtn.textContent = 'Already claimed today';
+            subtitle.textContent = 'You have already claimed your reward today. Come back tomorrow for more tokens!';
+            
+            setTimeout(() => {
+                if(claimModal) claimModal.hide();
+                location.reload();
+            }, 2000);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || 'Error claiming reward' });
+            const claimBtn = document.getElementById('claimRewardBtn');
+            claimBtn.disabled = true;
+            claimBtn.textContent = 'Already claimed today';
+        }
+    })
+    .catch(error => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: 'An error occurred while claiming your reward' });
+    });
+}
+
+function triggerRewardAnimations(balance) {
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    
+    createConfetti(50, centerX, centerY);
+    createBurstParticles(30, centerX, centerY);
+    createFloatingRewards(12, centerX, centerY, '⭐');
+}
+
+function createConfetti(count, centerX, centerY) {
+    const colors = ['#FFD700', '#FFA500', '#FF6B9D', '#667eea', '#764ba2'];
+    const container = document.getElementById('reward-animation-container');
+    
+    for (let i = 0; i < count; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'reward-confetti';
+        confetti.style.left = (Math.random() * window.innerWidth) + 'px';
+        confetti.style.top = '-10px';
+        confetti.style.setProperty('--drift', (Math.random() - 0.5) * 300 + 'px');
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        container.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+    }
+}
+
+function createBurstParticles(count, centerX, centerY) {
+    const container = document.getElementById('reward-animation-container');
+    
+    for (let i = 0; i < count; i++) {
+        const angle = (i / count) * Math.PI * 2;
+        const distance = 150;
+        const px = Math.cos(angle) * distance;
+        const py = Math.sin(angle) * distance;
+        
+        const particle = document.createElement('div');
+        particle.className = 'reward-particle';
+        particle.style.left = centerX + 'px';
+        particle.style.top = centerY + 'px';
+        
+        const inner = document.createElement('div');
+        inner.className = 'reward-particle-inner';
+        inner.style.background = ['#FFD700', '#667eea', '#764ba2'][Math.floor(Math.random() * 3)];
+        inner.style.setProperty('--px', px + 'px');
+        inner.style.setProperty('--py', py + 'px');
+        
+        particle.appendChild(inner);
+        container.appendChild(particle);
+        setTimeout(() => particle.remove(), 800);
+    }
+}
+
+function createFloatingRewards(count, centerX, centerY, emoji) {
+    const container = document.getElementById('reward-animation-container');
+    
+    for (let i = 0; i < count; i++) {
+        const burst = document.createElement('div');
+        burst.className = 'reward-emoji-burst';
+        burst.textContent = emoji;
+        
+        const angle = (i / count) * Math.PI * 2;
+        const tx = Math.cos(angle) * (220 + Math.random() * 100);
+        const ty = Math.sin(angle) * (220 + Math.random() * 100);
+        
+        burst.style.left = centerX + 'px';
+        burst.style.top = centerY + 'px';
+        burst.style.setProperty('--tx', tx + 'px');
+        burst.style.setProperty('--ty', ty + 'px');
+        
+        container.appendChild(burst);
+        setTimeout(() => burst.remove(), 2000);
+    }
+}
+</script>
+<script>
+    let referralModal = null;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const shareButtons = document.querySelectorAll('[data-bs-target="#shareEarnModal"]');
+        shareButtons.forEach(button => {
+            button.addEventListener('click', handleShareClick);
+        });
+        
+        const closeBtn = document.querySelector('[data-bs-target="#shareEarnModal"]').parentElement.querySelector('[data-bs-dismiss="modal"]');
+        const modal = document.getElementById('shareEarnModal');
+        modal.addEventListener('hidden.bs.modal', function() {
+            document.body.classList.remove('modal-open');
+            const backdrop = document.querySelector('.modal-backdrop');
+            if(backdrop) {
+                backdrop.remove();
+            }
+        });
+    });
+
+    function handleShareClick() {
+        universalLoader("Loading", "Getting your referral link...");
+        
+        fetch('{% url "get_referral_code" %}', {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            universalLoader(false);
+            if(data.success) {
+                displayShareModal(data);
+            } else {
+                window.notyf.open({
+                    type: "error",
+                    message: data.error || 'Error loading referral code'
+                });
+            }
+        })
+        .catch(error => {
+            universalLoader(false);
+            console.error('Error:', error);
+            window.notyf.open({
+                type: "error",
+                message: 'An error occurred'
+            });
+        });
+    }
+
+    function displayShareModal(data) {
+        const modal = document.getElementById('shareEarnModal');
+        const subtitle = document.getElementById('shareEarnSubtitle');
+
+        subtitle.innerHTML = `
+            <strong>Your referral code:</strong><br>
+            <code style="background:#f0f0f0;padding:10px;border-radius:4px;display:block;margin:10px 0;font-size:18px;text-align:center;font-weight:bold;color:#d946ef;">
+                ${data.code}
+            </code>
+            <span style="font-family: Poppins; font-size: 14px; font-style: normal; font-weight: 500;">
+                Share this code with friends and earn <strong style="font-family: Poppins; font-size: 14px; font-weight: 500;">100 tokens</strong> for every purchase!
+            </span>
+        `;
+
+        const copyBtn = document.getElementById('shareEarnCopyBtn');
+        copyBtn.textContent = 'Copy Link';
+        copyBtn.style.whiteSpace = 'nowrap';
+        copyBtn.onclick = function() {
+            copyToClipboard(data.link);
+        };
+
+        if(!referralModal) {
+            referralModal = new bootstrap.Modal(modal);
+        }
+        referralModal.show();
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            window.notyf.open({
+                type: "success",
+                message: "Link copied to clipboard!"
+            });
+        }).catch(() => {
+            window.notyf.open({
+                type: "error",
+                message: "Failed to copy link"
+            });
+        });
+    }
+</script>
+{% endblock %}

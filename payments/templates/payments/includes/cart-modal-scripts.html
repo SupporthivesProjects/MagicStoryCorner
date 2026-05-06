@@ -1,0 +1,423 @@
+
+<div class="modal fade" id="added_to_cart_model" tabindex="-1" aria-labelledby="added_to_cart_modelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered forget_dailog">
+      <div class="modal-content forget_content2">
+        <div class="modal-body added_cart_modal">
+          <div class="cart_wrapper">
+            <h2 class="cart_title">Added to cart</h2>
+
+            <div class="cart_items" id="cartItemsContainer"></div>
+
+            <div class="cart_summary">
+              <div class="summary_row">
+                <span>Sub total</span>
+                <span id="cartSubTotal">$0</span>
+              </div>
+              <div class="summary_rowsaving">
+                <span>Savings @ <span id="cartDiscountPercent">0</span>%</span>
+                <span id="cartSavings">-$0</span>
+              </div>
+              <div class="summary_rowtotal">
+                <span>Total</span>
+                <span id="cartTotal">$0</span>
+              </div>
+            </div>
+
+            <div class="cart_buttons">
+              <a class="btn go_checkout" href="{% url 'order_summary' %}">Go to Cart</a>
+              <button class="btn keep_shop" data-bs-dismiss="modal">Shopping</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+    window.logged_in_user = "{{ logged_in_user|yesno:'true,false' }}" === "true";
+</script>
+<script>
+    window.selectedCurrency = {
+        code: "{{ selected_currency.code|escapejs }}",
+        symbol: "{{ selected_currency.symbol|escapejs }}",
+        rate: parseFloat("{{ selected_currency.exchange_rate }}")
+    };
+</script>
+<!-- <script>
+    window.selectedCurrency = {
+        code: "{{ selected_currency.code }}",
+        symbol: "{{ selected_currency.symbol }}",
+        rate: {{ selected_currency.exchange_rate }}
+    };
+ </script> -->
+<script>
+    function convertPrice(amount) {
+        const rate = window.selectedCurrency.rate;
+        const symbol = window.selectedCurrency.symbol;
+    
+        const converted = amount * rate;
+        return symbol + converted.toFixed(2);
+    }
+</script>
+
+<script>
+    document.querySelectorAll('.add_to_cart_package').forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (!window.logged_in_user) {
+                Swal.fire({
+                    title: 'Login Required',
+                    text: "You need to log in to add packages to cart.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Login',
+                    cancelButtonText: 'Cancel',
+                    width: '400px',
+                    padding: '10px', 
+                    background: '#5A3384', 
+                    color: '#ffce3c',      
+                    customClass: {
+                        title: 'swal-title',
+                        content: 'swal-text',
+                        confirmButton: 'swal-btn-yellow',
+                        cancelButton: 'swal-btn-yellow'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{% url 'user_login' %}";
+                    }
+                });
+                return;
+            }
+
+            const packageId = this.dataset.packageId;
+
+            universalLoader("Adding to Cart...", "Please wait while we add your package...");
+
+            fetch("{% url 'add_package_to_cart' 0 %}".replace('0', packageId), {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                universalLoader(false);
+                
+                if (!data.success) {
+                    window.notyf.open({ type: "error", message: data.error || "Something went wrong." });
+                    return;
+                }
+                
+                window.notyf.open({ type: "success", message: "Package added to cart!" });
+    
+                const cartContainer = document.getElementById('cartItemsContainer');
+                cartContainer.innerHTML = '';
+                data.cart_items.forEach(item => {
+                    cartContainer.innerHTML += `
+                        <div class="cart_item">
+                            <span class="cart_remove" data-id="${item.id}">✕</span>
+                            <span class="cart_name">${item.name} (${item.tokens.toLocaleString()} Tokens)</span>
+                            
+                            <span class="cart_price">${convertPrice(item.price * item.quantity)}</span>
+                        </div>
+                    `;
+                });
+    
+                // document.getElementById('cartSubTotal').textContent = `$${data.subtotal.toFixed(2)}`;
+                document.getElementById('cartSubTotal').textContent = convertPrice(data.subtotal);
+                document.getElementById('cartDiscountPercent').textContent = data.discount_percent;
+                // document.getElementById('cartSavings').textContent = `-$${data.savings.toFixed(2)}`;
+                document.getElementById('cartSavings').textContent = `-${convertPrice(data.savings)}`;
+                // document.getElementById('cartTotal').textContent = `$${data.total.toFixed(2)}`;
+                document.getElementById('cartTotal').textContent = convertPrice(data.total);
+    
+                const modal = new bootstrap.Modal(document.getElementById('added_to_cart_model'), {
+                    keyboard: false,
+                    backdrop: 'static'
+                });
+                modal.show();
+            })
+            .catch(err => {
+                universalLoader(false);
+                console.error(err);
+                window.notyf.open({ type: "error", message: "Network error. Try again." });
+            });
+        });
+    });
+</script>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const amountInput = document.getElementById('customAmount');
+        const addBtn = document.getElementById('addCustomToCart');
+
+        // 👇 CHANGE: select both desktop + mobile token displays
+        const tokenDisplayDesktop = document.querySelectorAll(
+            '#tokenDisplayDesktop, #tokenDisplayMobile'
+        );
+
+        const packageId = addBtn.dataset.packageId;
+        const tokenRate = parseFloat(addBtn.dataset.packageTokens) || 0;
+
+        // Initial reset
+        tokenDisplayDesktop.forEach(el => {
+            el.textContent = '= 0 tokens';
+        });
+
+        amountInput.addEventListener('input', function() {
+            const amount = parseFloat(this.value);
+
+            if (!amountInput.value.trim() || isNaN(amount) || amount <= 0) {
+                tokenDisplayDesktop.forEach(el => {
+                    el.textContent = '= 0 tokens';
+                });
+                return;
+            }
+
+            const tokens = Math.round(amount * tokenRate);
+            tokenDisplayDesktop.forEach(el => {
+                el.textContent = `= ${tokens.toLocaleString()} tokens`;
+            });
+        });
+
+        amountInput.addEventListener('keypress', function(e) {
+            if (!/[0-9.]/.test(e.key)) e.preventDefault();
+        });
+
+        addBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const inputValue = amountInput.value.trim();
+
+            if (!inputValue) {
+                window.notyf.open({
+                    type: "error",
+                    message: "Please enter a valid amount in USD."
+                });
+                return false;
+            }
+            
+
+            const amount = parseFloat(inputValue);
+
+            if (isNaN(amount) || amount <= 0) {
+                window.notyf.open({
+                    type: "error",
+                    message: "Please enter a valid amount in USD."
+                });
+                return false;
+            }
+           if (Number(inputValue) < 10) {
+                window.notyf.open({
+                    type: "error",
+                    message: "Amount must be at least 10 USD."
+                });
+                return false;
+            }
+
+            const tokens = Math.round(amount * tokenRate);
+
+            if (!window.logged_in_user) {
+                Swal.fire({
+                    title: 'Login Required',
+                    text: "You need to log in to add packages to cart.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Login',
+                    cancelButtonText: 'Cancel',
+                    width: '400px',
+                    padding: '10px',
+                    background: '#5A3384',
+                    color: '#ffce3c',
+                    customClass: {
+                        title: 'swal-title',
+                        content: 'swal-text',
+                        confirmButton: 'swal-btn-yellow',
+                        cancelButton: 'swal-btn-yellow'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{% url 'user_login' %}";
+                    }
+                });
+                return false;
+            }
+
+            universalLoader(
+                "Adding Custom Package...",
+                "Please wait while we add your custom package..."
+            );
+
+            fetch("{% url 'add_custom_package_to_cart' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: new URLSearchParams({
+                    'package_id': packageId,
+                    'amount': amount,
+                    'tokens': tokens
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                universalLoader(false);
+
+                if (!data.success) {
+                    window.notyf.open({
+                        type: "error",
+                        message: data.error || "Something went wrong."
+                    });
+                    return;
+                }
+
+                window.notyf.open({
+                    type: "success",
+                    message: "Custom package added to cart!"
+                });
+
+                const cartContainer = document.getElementById('cartItemsContainer');
+                cartContainer.innerHTML = '';
+
+                data.cart_items.forEach(item => {
+                    cartContainer.innerHTML += `
+                        <div class="cart_item">
+                            <span class="cart_remove" data-id="${item.id}">✕</span>
+                            <span class="cart_name">${item.name} (${item.tokens.toLocaleString()} Tokens)</span>
+            
+                            <span class="cart_price">${convertPrice(item.price * item.quantity)}</span>
+                        </div>
+                    `;
+                });
+
+                // document.getElementById('cartSubTotal').textContent =
+                //     `$${data.subtotal.toFixed(2)}`;
+                // document.getElementById('cartDiscountPercent').textContent =
+                //     data.discount_percent;
+                // document.getElementById('cartSavings').textContent =
+                //     `-$${data.savings.toFixed(2)}`;
+                // document.getElementById('cartTotal').textContent =
+                //     `$${data.total.toFixed(2)}`;
+
+                document.getElementById('cartSubTotal').textContent =
+                    convertPrice(data.subtotal);
+
+                document.getElementById('cartDiscountPercent').textContent =
+                    data.discount_percent;
+
+                document.getElementById('cartSavings').textContent =
+                    `-${convertPrice(data.savings)}`;
+
+                document.getElementById('cartTotal').textContent =
+                    convertPrice(data.total);
+                
+
+
+                const modal = new bootstrap.Modal(
+                    document.getElementById('added_to_cart_model')
+                );
+                modal.show();
+
+                amountInput.value = '';
+
+                // Reset tokens after add
+                tokenDisplayDesktop.forEach(el => {
+                    el.textContent = '= 0 tokens';
+                });
+            })
+            .catch(err => {
+                universalLoader(false);
+                console.error(err);
+                window.notyf.open({
+                    type: "error",
+                    message: "Network error. Try again."
+                });
+            });
+
+            return false;
+        });
+    });
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cartContainer = document.getElementById('cartItemsContainer');
+        const cartModalEl = document.getElementById('added_to_cart_model');
+
+        cartContainer.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('cart_remove')) return;
+
+            const packageId = e.target.dataset.id;
+            const url = `{% url 'remove_from_cart' 0 %}`.replace('0', packageId);
+
+            const existingModal = bootstrap.Modal.getInstance(cartModalEl);
+            if (existingModal) existingModal.hide();
+
+            universalLoader("Removing from Cart...", "Please wait while we remove your package...");
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                universalLoader(false);
+
+                if (!data.success) {
+                    window.notyf.open({ type: "error", message: data.error || "Failed to remove item." });
+                    return;
+                }
+
+                const cartContainer = document.getElementById('cartItemsContainer');
+                cartContainer.innerHTML = '';
+
+                if (data.cart_items.length === 0) {
+                    window.notyf.open({ type: "success", message: `'${data.removed_item}' removed! Cart is now empty.` });
+                    document.getElementById('cartSubTotal').textContent = '$0';
+                    document.getElementById('cartDiscountPercent').textContent = '0';
+                    document.getElementById('cartSavings').textContent = '-$0';
+                    document.getElementById('cartTotal').textContent = '$0';
+                    return;
+                }
+
+                data.cart_items.forEach(item => {
+                    cartContainer.innerHTML += `
+                        <div class="cart_item">
+                            <span class="cart_remove" data-id="${item.id}">✕</span>
+                            <span class="cart_name">${item.name} (${item.tokens.toLocaleString()} Tokens)</span>
+                            // <span class="cart_price">$${(item.price * item.quantity).toFixed(2)}</span>
+                            <span class="cart_price">${convertPrice(item.price * item.quantity)}</span>
+                        </div>
+                    `;
+                });
+
+                // document.getElementById('cartSubTotal').textContent = `$${data.subtotal.toFixed(2)}`;
+                document.getElementById('cartSubTotal').textContent = convertPrice(data.subtotal);
+                document.getElementById('cartDiscountPercent').textContent = data.discount_percent;
+                // document.getElementById('cartSavings').textContent = `-$${data.savings.toFixed(2)}`;
+                document.getElementById('cartSavings').textContent = `-${convertPrice(data.savings)}`;
+                // document.getElementById('cartTotal').textContent = `$${data.total.toFixed(2)}`;
+                document.getElementById('cartTotal').textContent = convertPrice(data.total);
+
+                window.notyf.open({ type: "success", message: `'${data.removed_item}' removed from cart.` });
+
+                const cartModal = new bootstrap.Modal(cartModalEl, {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                cartModal.show();
+            })
+            .catch(err => {
+                universalLoader(false);
+                console.error(err);
+                window.notyf.open({ type: "error", message: "Network error. Try again." });
+            });
+        });
+    });
+</script>

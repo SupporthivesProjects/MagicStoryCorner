@@ -1,0 +1,696 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Websites{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-globe"></i> Websites</h3>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#websiteModal" onclick="resetWebsiteForm()">
+            <i class="bi bi-plus-circle"></i> Add New Website
+        </button>
+    </div>
+
+    <div class="log-table-card table-responsive">
+        <table id="websitesTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Company</th>
+                    <th>Domain</th>
+                    <th>Website</th>
+                    <th>Status</th>
+                    <th>Updated At</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for website in websites %}
+                    <tr class="log-table-row">
+                        <td data-order="{{ website.id }}"><span class="log-id-badge">#{{ website.id }}</span></td>
+                        <td>{{ website.company|default:"-" }}</td>
+                        <td>{{ website.domain|default:"-" }}</td>
+                        <td><a href="{{ website.website }}" target="_blank">{{ website.website|truncatechars:30 }}</a></td>
+                        <td>
+                            {% if website.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ website.updated_at|date:"M d, Y H:i" }}</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-primary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#websiteModal"
+                                    data-website-id="{{ website.id }}"
+                                    onclick="editWebsite(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" 
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal"
+                                    data-website-id="{{ website.id }}"
+                                    onclick="prepareDelete(this)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="websiteModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-light sticky-top">
+                <h5 class="modal-title"><i class="bi bi-globe"></i> <span id="modalTitle">Add Website</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="websiteForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="websiteId">
+
+                    <div class="accordion" id="websiteAccordion">
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#basicInfo">
+                                    <i class="bi bi-info-circle me-2"></i> Basic Information
+                                </button>
+                            </h2>
+                            <div id="basicInfo" class="accordion-collapse collapse show" data-bs-parent="#websiteAccordion">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Company Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="websiteCompany" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Domain <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="websiteDomain" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Website URL <span class="text-danger">*</span></label>
+                                        <input type="url" class="form-control" id="websiteUrl" required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="websiteEmail">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Mobile</label>
+                                            <input type="text" class="form-control" id="websiteMobile">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Address</label>
+                                        <textarea class="form-control" id="websiteAddress" rows="2"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="websiteIsActive" checked>
+                                            <label class="form-check-label" for="websiteIsActive">Active</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#imageSettings">
+                                    <i class="bi bi-image me-2"></i> Images & Assets
+                                </button>
+                            </h2>
+                            <div id="imageSettings" class="accordion-collapse collapse" data-bs-parent="#websiteAccordion">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Logo</label>
+                                            <input type="file" class="form-control" id="websiteLogo" accept="image/*">
+                                            <div id="logoPreview" class="mt-2"></div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Header Image</label>
+                                            <input type="file" class="form-control" id="websiteHeader" accept="image/*">
+                                            <div id="headerPreview" class="mt-2"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Footer Image</label>
+                                            <input type="file" class="form-control" id="websiteFooter" accept="image/*">
+                                            <div id="footerPreview" class="mt-2"></div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Signature Image</label>
+                                            <input type="file" class="form-control" id="websiteSignature" accept="image/*">
+                                            <div id="signaturePreview" class="mt-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recaptchaSettings">
+                                    <i class="bi bi-shield-check me-2"></i> ReCAPTCHA Settings
+                                </button>
+                            </h2>
+                            <div id="recaptchaSettings" class="accordion-collapse collapse" data-bs-parent="#websiteAccordion">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Site Key</label>
+                                            <input type="text" class="form-control" id="websiteRecaptchaSiteKey">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Secret Key</label>
+                                            <input type="text" class="form-control" id="websiteRecaptchaSecretKey">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#smtpSettings">
+                                    <i class="bi bi-envelope me-2"></i> SMTP Settings
+                                </button>
+                            </h2>
+                            <div id="smtpSettings" class="accordion-collapse collapse" data-bs-parent="#websiteAccordion">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-md-8 mb-3">
+                                            <label class="form-label">SMTP Host</label>
+                                            <input type="text" class="form-control" id="websiteSmtpHost">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">SMTP Port</label>
+                                            <input type="number" class="form-control" id="websiteSmtpPort">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">SMTP Username</label>
+                                            <input type="text" class="form-control" id="websiteSmtpUsername">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">SMTP Password</label>
+                                            <input type="password" class="form-control" id="websiteSmtpPassword">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="websiteSmtpUseTls" checked>
+                                            <label class="form-check-label" for="websiteSmtpUseTls">Use TLS</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#apiSettings">
+                                    <i class="bi bi-key me-2"></i> API Settings
+                                </button>
+                            </h2>
+                            <div id="apiSettings" class="accordion-collapse collapse" data-bs-parent="#websiteAccordion">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">API Key</label>
+                                            <input type="text" class="form-control" id="websiteApiKey">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">API Secret</label>
+                                            <input type="text" class="form-control" id="websiteApiSecret">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paymentSettings">
+                                    <i class="bi bi-credit-card me-2"></i> Payment Gateway
+                                </button>
+                            </h2>
+                            <div id="paymentSettings" class="accordion-collapse collapse" data-bs-parent="#websiteAccordion">
+                                <div class="accordion-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Payment Gateway</label>
+                                        <input type="text" class="form-control" id="websitePaymentGateway">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Payment Key</label>
+                                            <input type="text" class="form-control" id="websitePaymentKey">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Payment Secret</label>
+                                            <input type="text" class="form-control" id="websitePaymentSecret">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#smsSettings">
+                                    <i class="bi bi-chat-dots me-2"></i> SMS Settings
+                                </button>
+                            </h2>
+                            <div id="smsSettings" class="accordion-collapse collapse" data-bs-parent="#websiteAccordion">
+                                <div class="accordion-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">SMS Provider</label>
+                                        <input type="text" class="form-control" id="websiteSmsProvider">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">SMS API Key</label>
+                                            <input type="text" class="form-control" id="websiteSmsApiKey">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">SMS API Secret</label>
+                                            <input type="text" class="form-control" id="websiteSmsApiSecret">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">SMS Sender ID</label>
+                                        <input type="text" class="form-control" id="websiteSmsSenderId">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#analyticsSettings">
+                                    <i class="bi bi-graph-up me-2"></i> Analytics & Tracking
+                                </button>
+                            </h2>
+                            <div id="analyticsSettings" class="accordion-collapse collapse" data-bs-parent="#websiteAccordion">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Google Analytics ID</label>
+                                            <input type="text" class="form-control" id="websiteGoogleAnalyticsId">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Facebook Pixel ID</label>
+                                            <input type="text" class="form-control" id="websiteFacebookPixelId">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#socialSettings">
+                                    <i class="bi bi-share me-2"></i> Social Media
+                                </button>
+                            </h2>
+                            <div id="socialSettings" class="accordion-collapse collapse" data-bs-parent="#websiteAccordion">
+                                <div class="accordion-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Facebook</label>
+                                        <input type="text" class="form-control" id="websiteSocialFacebook">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Twitter</label>
+                                        <input type="text" class="form-control" id="websiteSocialTwitter">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Instagram</label>
+                                        <input type="text" class="form-control" id="websiteSocialInstagram">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">LinkedIn</label>
+                                        <input type="text" class="form-control" id="websiteSocialLinkedin">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">YouTube</label>
+                                        <input type="text" class="form-control" id="websiteSocialYoutube">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#maintenanceSettings">
+                                    <i class="bi bi-tools me-2"></i> Maintenance Mode
+                                </button>
+                            </h2>
+                            <div id="maintenanceSettings" class="accordion-collapse collapse" data-bs-parent="#websiteAccordion">
+                                <div class="accordion-body">
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="websiteMaintenanceMode">
+                                            <label class="form-check-label" for="websiteMaintenanceMode">Enable Maintenance Mode</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Maintenance Message</label>
+                                        <textarea class="form-control" id="websiteMaintenanceMessage" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light sticky-bottom">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveWebsite()">
+                    <i class="bi bi-save"></i> Save Website
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title"><i class="bi bi-exclamation-triangle text-danger"></i> Confirm Delete</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Are you sure you want to delete this website?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+ const routes = {
+    websiteGet: "{% url 'website_get' 0 %}",
+    websiteCreate: "{% url 'website_create' %}",
+    websiteUpdate: "{% url 'website_update' 0 %}",
+    websiteDelete: "{% url 'website_delete' 0 %}"
+};
+
+let deleteTargetId = null;
+
+function prepareDelete(button) {
+    deleteTargetId = button.getAttribute('data-website-id');
+}
+
+function confirmDelete() {
+    if (!deleteTargetId) return;
+
+    const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+    deleteModal.hide();
+
+    universalLoader("Please wait", "Deleting website...");
+    fetch(routes.websiteDelete.replace('/0/', '/' + deleteTargetId + '/'), {
+        method: 'POST',
+        headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
+    })
+    .then(res => res.json())
+    .then(data => { 
+        universalLoader(false);
+        if (data.success) { 
+            window.notyf.open({ type: "success", message: data.message || "Website deleted successfully!" });
+            setTimeout(() => location.reload(), 500);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Failed to delete website." });
+        }
+    })
+    .catch(err => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Error deleting website." });
+    });
+}
+
+function resetWebsiteForm() {
+    document.getElementById('websiteForm').reset();
+    document.getElementById('websiteId').value = '';
+    document.getElementById('modalTitle').textContent = 'Add Website';
+    document.getElementById('websiteIsActive').checked = true;
+    document.getElementById('websiteSmtpUseTls').checked = true;
+    document.getElementById('websiteMaintenanceMode').checked = false;
+    
+    document.getElementById('logoPreview').innerHTML = '';
+    document.getElementById('headerPreview').innerHTML = '';
+    document.getElementById('footerPreview').innerHTML = '';
+    document.getElementById('signaturePreview').innerHTML = '';
+    
+    const firstAccordion = document.getElementById('basicInfo');
+    const bsCollapse = new bootstrap.Collapse(firstAccordion, { toggle: false });
+    bsCollapse.show();
+}
+
+function showImagePreview(inputId, previewId, existingUrl) {
+    const preview = document.getElementById(previewId);
+    
+    if (existingUrl) {
+        preview.innerHTML = `<img src="${existingUrl}" alt="Current image">`;
+    }
+}
+
+function setupImagePreviews() {
+    const imageInputs = [
+        { inputId: 'websiteLogo', previewId: 'logoPreview' },
+        { inputId: 'websiteHeader', previewId: 'headerPreview' },
+        { inputId: 'websiteFooter', previewId: 'footerPreview' },
+        { inputId: 'websiteSignature', previewId: 'signaturePreview' }
+    ];
+    
+    imageInputs.forEach(({ inputId, previewId }) => {
+        const input = document.getElementById(inputId);
+        const preview = document.getElementById(previewId);
+        
+        input.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = '';
+            }
+        });
+    });
+}
+
+function editWebsite(button) {
+    const websiteId = button.getAttribute('data-website-id');
+    document.getElementById('modalTitle').textContent = 'Edit Website';
+
+    universalLoader("Please wait", "Loading website data...");
+    fetch(routes.websiteGet.replace('/0/', '/' + websiteId + '/'))
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('websiteId').value = data.id;
+            document.getElementById('websiteCompany').value = data.company || '';
+            document.getElementById('websiteDomain').value = data.domain || '';
+            document.getElementById('websiteUrl').value = data.website || '';
+            document.getElementById('websiteEmail').value = data.email || '';
+            document.getElementById('websiteMobile').value = data.mobile || '';
+            document.getElementById('websiteAddress').value = data.address || '';
+            document.getElementById('websiteIsActive').checked = data.is_active !== false;
+            
+            document.getElementById('websiteRecaptchaSiteKey').value = data.recaptcha_site_key || '';
+            document.getElementById('websiteRecaptchaSecretKey').value = data.recaptcha_secret_key || '';
+            
+            document.getElementById('websiteSmtpHost').value = data.smtp_host || '';
+            document.getElementById('websiteSmtpPort').value = data.smtp_port || '';
+            document.getElementById('websiteSmtpUsername').value = data.smtp_username || '';
+            document.getElementById('websiteSmtpPassword').value = data.smtp_password || '';
+            document.getElementById('websiteSmtpUseTls').checked = data.smtp_use_tls !== false;
+            
+            document.getElementById('websiteApiKey').value = data.api_key || '';
+            document.getElementById('websiteApiSecret').value = data.api_secret || '';
+            
+            document.getElementById('websitePaymentGateway').value = data.payment_gateway || '';
+            document.getElementById('websitePaymentKey').value = data.payment_key || '';
+            document.getElementById('websitePaymentSecret').value = data.payment_secret || '';
+            
+            document.getElementById('websiteSmsProvider').value = data.sms_provider || '';
+            document.getElementById('websiteSmsApiKey').value = data.sms_api_key || '';
+            document.getElementById('websiteSmsApiSecret').value = data.sms_api_secret || '';
+            document.getElementById('websiteSmsSenderId').value = data.sms_sender_id || '';
+            
+            document.getElementById('websiteGoogleAnalyticsId').value = data.google_analytics_id || '';
+            document.getElementById('websiteFacebookPixelId').value = data.facebook_pixel_id || '';
+            
+            document.getElementById('websiteSocialFacebook').value = data.social_facebook || '';
+            document.getElementById('websiteSocialTwitter').value = data.social_twitter || '';
+            document.getElementById('websiteSocialInstagram').value = data.social_instagram || '';
+            document.getElementById('websiteSocialLinkedin').value = data.social_linkedin || '';
+            document.getElementById('websiteSocialYoutube').value = data.social_youtube || '';
+            
+            document.getElementById('websiteMaintenanceMode').checked = data.maintenance_mode || false;
+            document.getElementById('websiteMaintenanceMessage').value = data.maintenance_message || '';
+            
+            showImagePreview('websiteLogo', 'logoPreview', data.logo_url);
+            showImagePreview('websiteHeader', 'headerPreview', data.header_url);
+            showImagePreview('websiteFooter', 'footerPreview', data.footer_url);
+            showImagePreview('websiteSignature', 'signaturePreview', data.signature_url);
+            
+            universalLoader(false);
+        })
+        .catch(err => { 
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Failed to load website data." }); 
+        });
+}
+
+function saveWebsite() {
+    const websiteId = document.getElementById('websiteId').value;
+    const company = document.getElementById('websiteCompany').value.trim();
+    const domain = document.getElementById('websiteDomain').value.trim();
+    const website = document.getElementById('websiteUrl').value.trim();
+
+    if (!company) {
+        window.notyf.open({ type: "error", message: "Company name is required!" });
+        return;
+    }
+
+    if (!domain) {
+        window.notyf.open({ type: "error", message: "Domain is required!" });
+        return;
+    }
+
+    if (!website) {
+        window.notyf.open({ type: "error", message: "Website URL is required!" });
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('company', company);
+    formData.append('domain', domain);
+    formData.append('website', website);
+    formData.append('email', document.getElementById('websiteEmail').value);
+    formData.append('mobile', document.getElementById('websiteMobile').value);
+    formData.append('address', document.getElementById('websiteAddress').value);
+    formData.append('is_active', document.getElementById('websiteIsActive').checked);
+    
+    formData.append('recaptcha_site_key', document.getElementById('websiteRecaptchaSiteKey').value);
+    formData.append('recaptcha_secret_key', document.getElementById('websiteRecaptchaSecretKey').value);
+    
+    formData.append('smtp_host', document.getElementById('websiteSmtpHost').value);
+    formData.append('smtp_port', document.getElementById('websiteSmtpPort').value);
+    formData.append('smtp_username', document.getElementById('websiteSmtpUsername').value);
+    formData.append('smtp_password', document.getElementById('websiteSmtpPassword').value);
+    formData.append('smtp_use_tls', document.getElementById('websiteSmtpUseTls').checked);
+    
+    formData.append('api_key', document.getElementById('websiteApiKey').value);
+    formData.append('api_secret', document.getElementById('websiteApiSecret').value);
+    
+    formData.append('payment_gateway', document.getElementById('websitePaymentGateway').value);
+    formData.append('payment_key', document.getElementById('websitePaymentKey').value);
+    formData.append('payment_secret', document.getElementById('websitePaymentSecret').value);
+    
+    formData.append('sms_provider', document.getElementById('websiteSmsProvider').value);
+    formData.append('sms_api_key', document.getElementById('websiteSmsApiKey').value);
+    formData.append('sms_api_secret', document.getElementById('websiteSmsApiSecret').value);
+    formData.append('sms_sender_id', document.getElementById('websiteSmsSenderId').value);
+    
+    formData.append('google_analytics_id', document.getElementById('websiteGoogleAnalyticsId').value);
+    formData.append('facebook_pixel_id', document.getElementById('websiteFacebookPixelId').value);
+    
+    formData.append('social_facebook', document.getElementById('websiteSocialFacebook').value);
+    formData.append('social_twitter', document.getElementById('websiteSocialTwitter').value);
+    formData.append('social_instagram', document.getElementById('websiteSocialInstagram').value);
+    formData.append('social_linkedin', document.getElementById('websiteSocialLinkedin').value);
+    formData.append('social_youtube', document.getElementById('websiteSocialYoutube').value);
+    
+    formData.append('maintenance_mode', document.getElementById('websiteMaintenanceMode').checked);
+    formData.append('maintenance_message', document.getElementById('websiteMaintenanceMessage').value);
+
+    const logoFile = document.getElementById('websiteLogo').files[0];
+    if (logoFile) formData.append('logo', logoFile);
+
+    const headerFile = document.getElementById('websiteHeader').files[0];
+    if (headerFile) formData.append('header', headerFile);
+
+    const footerFile = document.getElementById('websiteFooter').files[0];
+    if (footerFile) formData.append('footer', footerFile);
+
+    const signatureFile = document.getElementById('websiteSignature').files[0];
+    if (signatureFile) formData.append('signature', signatureFile);
+
+    const url = websiteId ? routes.websiteUpdate.replace('/0/', '/' + websiteId + '/') : routes.websiteCreate;
+
+    universalLoader("Please wait", websiteId ? "Updating website..." : "Creating new website...");
+    fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => { 
+        universalLoader(false);
+        if (data.success) { 
+            window.notyf.open({ type: "success", message: data.message || "Website saved successfully!" });
+            const modal = bootstrap.Modal.getInstance(document.getElementById('websiteModal'));
+            modal.hide();
+            setTimeout(() => location.reload(), 500);
+        } else {
+            window.notyf.open({ type: "error", message: data.error || "Failed to save website." });
+        }
+    })
+    .catch(err => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Error saving website." });
+    });
+}
+
+$(document).ready(function() {
+    $('#websitesTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search websites...",
+            emptyTable: "No websites found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ websites",
+            paginate: { 
+                previous: '<i class="bi bi-chevron-left"></i>', 
+                next: '<i class="bi bi-chevron-right"></i>' 
+            }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { type: 'num', targets: 0 },
+            { orderable: false, targets: [6] },
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 },
+            { responsivePriority: 3, targets: 3 },
+            { responsivePriority: 4, targets: 6 }
+        ]
+    });
+    
+    setupImagePreviews();
+});
+</script>
+{% endblock %}

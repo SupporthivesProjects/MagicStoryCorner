@@ -1,0 +1,54 @@
+{% extends "includes/layout.html" %}
+{% load static %}
+{% block title %} Set Password | {{ site_name }} {% endblock %}
+
+{% block content %}
+<style>
+    body{
+        background-color: #BDEEFC;
+    }
+    .log-reg-sec {
+        margin-top:200px;
+        background-color: #BDEEFC;
+    }
+     @media only screen and (max-device-width: 600px){
+      .log-reg-sec{
+margin-top:100px !important;
+margin-bottom:0px !important;
+      }  }
+          .reg-box{
+            width:auto !important;
+          }
+</style>
+<section class="log-reg-sec">
+    <img src="{% static 'media/login-mob.png' %}" alt="" style="width: 100%;" class="d-lg-none d-block d-md-block w-100">
+    <div class="reg-box" style="width: 450px;">
+       <h1 class="s-text">Set a password</h1>
+       <form method="POST" id="setPasswordForm">
+           {% csrf_token %}
+           <input type="hidden" name="token" value="{{ token }}">
+           <div class="inp-sec">
+           <div class="inp-box">
+               <input type="password" style="width: 300px;" name="password" placeholder="New password" required>
+               <input type="password" style="width: 300px;" name="confirm_password" placeholder="Confirm new password" required>
+           </div>
+           <button type="submit" class="si-button btn">
+               <span>Confirm password</span>
+           </button>
+           </div>
+       </form>
+    </div>
+    <img src="{% static 'media/Clouds.png' %}" alt="" style="width: 100%;" class="d-lg-none d-block d-md-block w-100">
+</section>
+<section class="dashboard_last d-lg-block d-md-block d-none"></section>
+{% endblock %}
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("setPasswordForm"); 
+        form.addEventListener("submit", function() {
+            universalLoader("Resetting password...", "Please wait while we process your request");
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,788 @@
+{% extends "demos/layout.html" %}
+{% block title %}Dashboard | StoryBook Admin{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <section class="mb-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="chart-card">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4" style="gap: 20px;">
+                        <div class="chart-title mb-0">
+                            <i class="bi bi-activity" style="margin-right: 8px;"></i>
+                            <span id="chartWeekTitle">Story Generation & Purchase Trends - Current Week</span>
+                        </div>
+                        <div class="week-navigation" style="display: flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 8px 12px; border-radius: 12px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                            <button class="btn btn-nav-arrow" id="prevWeekBtn" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <button class="btn btn-nav btn-current" id="currentWeekBtn" style="background: white; color: #667eea; border: none; padding: 6px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px;">
+                                <i class="bi bi-calendar-check"></i> Current Week
+                            </button>
+                            <button class="btn btn-nav-arrow" id="nextWeekBtn" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="storyTrendChart" style="height: 380px; position: relative; z-index: 1; overflow: hidden !important;"></div>
+                    <div class="chart-info mt-3">
+                        <small class="text-muted">
+                            <i class="bi bi-info-circle"></i>
+                            Showing data from <strong id="weekRangeText"></strong>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section mb-5">
+        <div class="section-label mb-4">
+            <i class="bi bi-journal-text"></i>
+            <span>Product Books Statistics</span>
+        </div>
+        <div class="row g-3 g-md-4">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card stat-primary">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="bi bi-book-half"></i>
+                        </div>
+                        <div class="stat-badge trending">{{ product_book_change }}%</div>
+                    </div>
+                    <div class="stat-body">
+                        <h3 class="stat-label">Total Books</h3>
+                        <p class="stat-value">{{ product_book_count }}</p>
+                        <small class="stat-meta">
+                            <i class="bi bi-arrow-{% if product_books_this_month >= 0 %}up{% else %}down{% endif %}-short"></i> {{ product_books_this_month }} this month
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card stat-success">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="stat-badge">{{ product_completed_change }}%</div>
+                    </div>
+                    <div class="stat-body">
+                        <h3 class="stat-label">Completed</h3>
+                        <p class="stat-value">{{ product_completed_count }}</p>
+                        <small class="stat-meta">
+                            <i class="bi bi-arrow-{% if product_completed_this_month >= 0 %}up{% else %}down{% endif %}-short"></i> {{ product_completed_this_month }} this month
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card stat-warning">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <div class="stat-badge"><i class="bi bi-hourglass-split"></i></div>
+                    </div>
+                    <div class="stat-body">
+                        <h3 class="stat-label">In Progress</h3>
+                        <p class="stat-value">{{ product_pending_count }}</p>
+                        <small class="stat-meta">Currently generating</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card stat-danger">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <div class="stat-badge">{{ product_failed_change }}%</div>
+                    </div>
+                    <div class="stat-body">
+                        <h3 class="stat-label">Failed</h3>
+                        <p class="stat-value">{{ product_failed_count }}</p>
+                        <small class="stat-meta">{{ product_failed_this_month }} this month</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section mb-5">
+        <div class="section-label mb-4">
+            <i class="bi bi-journal-text"></i>
+            <span>User Stories Statistics</span>
+        </div>
+        <div class="row g-3 g-md-4">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card stat-primary">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="bi bi-book-half"></i>
+                        </div>
+                        <div class="stat-badge trending">{{ story_book_change }}%</div>
+                    </div>
+                    <div class="stat-body">
+                        <h3 class="stat-label">Total Stories</h3>
+                        <p class="stat-value">{{ storybook_count }}</p>
+                        <small class="stat-meta">
+                            <i class="bi bi-arrow-{% if story_books_this_month >= 0 %}up{% else %}down{% endif %}-short"></i> {{ story_books_this_month }} this month
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card stat-success">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="stat-badge">{{ story_completed_change }}%</div>
+                    </div>
+                    <div class="stat-body">
+                        <h3 class="stat-label">Completed</h3>
+                        <p class="stat-value">{{ storybook_completed_count }}</p>
+                        <small class="stat-meta">
+                            <i class="bi bi-arrow-{% if story_completed_this_month >= 0 %}up{% else %}down{% endif %}-short"></i> {{ story_completed_this_month }} this month
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card stat-warning">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <div class="stat-badge"><i class="bi bi-hourglass-split"></i></div>
+                    </div>
+                    <div class="stat-body">
+                        <h3 class="stat-label">In Progress</h3>
+                        <p class="stat-value">{{ storybook_pending_count }}</p>
+                        <small class="stat-meta">Currently generating</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card stat-danger">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <div class="stat-badge">{{ story_failed_change }}%</div>
+                    </div>
+                    <div class="stat-body">
+                        <h3 class="stat-label">Failed</h3>
+                        <p class="stat-value">{{ storybook_failed_count }}</p>
+                        <small class="stat-meta">{{ story_failed_this_month }} this month</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-4">
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="analytics-area-chart-card">
+                    <div class="analytics-area-chart-title">
+                        <i class="bi bi-bar-chart-line" style="margin-right: 8px;"></i>
+                        <span>Story Creation by Configuration</span>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <ul style="display: flex; gap: 10px; flex-wrap: wrap; list-style: none; padding: 0; margin: 0; border-bottom: 2px solid #e7e7e7;">
+                            <li><button class="config-tab-btn active" data-config="agegroup" style="background: none; border: none; padding: 12px 16px; cursor: pointer; font-weight: 600; color: #667eea; border-bottom: 3px solid #667eea; transition: all 0.3s ease;">Age Ranges</button></li>
+                            <li><button class="config-tab-btn" data-config="setting" style="background: none; border: none; padding: 12px 16px; cursor: pointer; font-weight: 600; color: #718096; transition: all 0.3s ease;">Settings</button></li>
+                            <li><button class="config-tab-btn" data-config="plot" style="background: none; border: none; padding: 12px 16px; cursor: pointer; font-weight: 600; color: #718096; transition: all 0.3s ease;">Plots</button></li>
+                            <li><button class="config-tab-btn" data-config="theme" style="background: none; border: none; padding: 12px 16px; cursor: pointer; font-weight: 600; color: #718096; transition: all 0.3s ease;">Themes</button></li>
+                            <li><button class="config-tab-btn" data-config="tone" style="background: none; border: none; padding: 12px 16px; cursor: pointer; font-weight: 600; color: #718096; transition: all 0.3s ease;">Tones</button></li>
+                            <li><button class="config-tab-btn" data-config="length" style="background: none; border: none; padding: 12px 16px; cursor: pointer; font-weight: 600; color: #718096; transition: all 0.3s ease;">Lengths</button></li>
+                            <li><button class="config-tab-btn" data-config="imagestyle" style="background: none; border: none; padding: 12px 16px; cursor: pointer; font-weight: 600; color: #718096; transition: all 0.3s ease;">Image Styles</button></li>
+                            <li><button class="config-tab-btn" data-config="language" style="background: none; border: none; padding: 12px 16px; cursor: pointer; font-weight: 600; color: #718096; transition: all 0.3s ease;">Languages</button></li>
+                            <li><button class="config-tab-btn" data-config="narrator" style="background: none; border: none; padding: 12px 16px; cursor: pointer; font-weight: 600; color: #718096; transition: all 0.3s ease;">Narrators</button></li>
+                        </ul>
+                    </div>
+                    <div class="analytics-donut-stats-badge">
+                        <i class="bi bi-lightning-fill"></i>
+                        <span id="configTotal">Product Books: 0 | User Stories: 0</span>
+                    </div>
+                    <div id="storyConfigChart" style="height: 380px;"></div>
+                    <div class="analytics-donut-chart-info">
+                        <small class="text-muted">
+                            <i class="bi bi-info-circle"></i>
+                            Detailed breakdown of story creation by selected configuration
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section mb-5">
+        <div class="section-label mb-4">
+            <i class="bi bi-cpu"></i>
+            <span>System Overview</span>
+        </div>
+        <div class="row g-3 g-md-4">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card stat-info">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                    </div>
+                    <div class="stat-body">
+                        <h3 class="stat-label">Registered Users</h3>
+                        <p class="stat-value">{{ total_users_count }}</p>
+                        <small class="stat-meta">Active accounts</small>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card stat-token">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="bi bi-lightning-charge-fill"></i>
+                        </div>
+                        <div class="stat-badge progress-badge">100%</div>
+                    </div>
+                    <div class="stat-body">
+                        <h3 class="stat-label">OpenAI Credits</h3>
+                        <p class="stat-value">0</p>
+                        <small class="stat-meta">Remaining balance</small>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card stat-usage">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="bi bi-mic-fill"></i>
+                        </div>
+                        <div class="stat-badge">100%</div>
+                    </div>
+                    <div class="stat-body">
+                        <h3 class="stat-label">ElevenLabs Credits</h3>
+                        <p class="stat-value">0</p>
+                        <small class="stat-meta">Remaining balance</small>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card stat-info">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="bi bi-images"></i>
+                        </div>
+                        <div class="stat-badge">100%</div>
+                    </div>
+                    <div class="stat-body">
+                        <h3 class="stat-label">Gemini Image Credits</h3>
+                        <p class="stat-value">0</p>
+                        <small class="stat-meta">Remaining balance</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="application/json" id="weeks-data">{{ weeks_data_json|safe }}</script>
+<script type="application/json" id="story-config-data">{{ story_config_json|safe }}</script>
+<script type="application/json" id="current-day-of-week">{{ current_day_of_week }}</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var weeksDataElement = document.getElementById('weeks-data');
+    var storyConfigElement = document.getElementById('story-config-data');
+    var currentDayElement = document.getElementById('current-day-of-week');
+    
+    if (!weeksDataElement || !storyConfigElement || !currentDayElement) {
+        console.error('Required data elements not found');
+        return;
+    }
+    
+    try {
+        var weeksDataArray = JSON.parse(weeksDataElement.textContent);
+        var allConfigData = JSON.parse(storyConfigElement.textContent);
+        var currentDayOfWeek = parseInt(currentDayElement.textContent);
+        
+        var weeklyData = {};
+        weeksDataArray.forEach(function(week) {
+            weeklyData[week.offset.toString()] = {
+                productBooks: week.product_books,
+                userStories: week.user_stories,
+                purchases: week.purchases,
+                range: week.start + " - " + week.end
+            };
+        });
+        
+        var currentWeekOffset = 0;
+        var chart;
+        var configChart;
+        var currentConfigTab = 'agegroup';
+
+        function getDayLabels(weekOffset) {
+            var dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+            
+            if (weekOffset === 0) {
+                dayNames[currentDayOfWeek] = "Today";
+            }
+            
+            return dayNames;
+        }
+
+        function initChart() {
+            var options = getChartOptions(currentWeekOffset);
+            chart = new ApexCharts(document.querySelector("#storyTrendChart"), options);
+            chart.render();
+        }
+
+        function getChartOptions(weekOffset) {
+            var data = weeklyData[weekOffset.toString()] || weeklyData["0"];
+            var dayLabels = getDayLabels(weekOffset);
+            
+            return {
+                series: [
+                    {
+                        name: "Product Books",
+                        data: data.productBooks
+                    },
+                    {
+                        name: "User Stories",
+                        data: data.userStories
+                    },
+                    {
+                        name: "Purchases",
+                        data: data.purchases
+                    }
+                ],
+                chart: {
+                    height: 380,
+                    type: "area",
+                    zoom: {
+                        enabled: false
+                    },
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: true,
+                            selection: true,
+                            zoom: false,
+                            zoomin: false,
+                            zoomout: false,
+                            pan: true,
+                            reset: true
+                        }
+                    },
+                    animations: {
+                        enabled: true,
+                        easing: "easeinout",
+                        speed: 800,
+                        animateGradually: {
+                            enabled: true,
+                            delay: 150
+                        },
+                        dynamicAnimation: {
+                            enabled: true,
+                            speed: 350
+                        }
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: "smooth",
+                    width: 3,
+                    lineCap: "round"
+                },
+                colors: ["#667eea", "#48bb78", "#f56565"],
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        shade: "light",
+                        type: "vertical",
+                        shadeIntensity: 0.5,
+                        gradientToColors: ["#764ba2", "#38a169", "#c53030"],
+                        inverseColors: false,
+                        opacityFrom: 0.85,
+                        opacityTo: 0.15,
+                        stops: [0, 90, 100]
+                    }
+                },
+                grid: {
+                    borderColor: "#e7e7e7",
+                    strokeDashArray: 5,
+                    xaxis: {
+                        lines: {
+                            show: true
+                        }
+                    },
+                    yaxis: {
+                        lines: {
+                            show: true
+                        }
+                    },
+                    padding: {
+                        top: 0,
+                        right: 20,
+                        bottom: 0,
+                        left: 20
+                    }
+                },
+                xaxis: {
+                    categories: dayLabels,
+                    labels: {
+                        style: {
+                            colors: "#718096",
+                            fontSize: "13px",
+                            fontWeight: 600
+                        }
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: "#e7e7e7"
+                    },
+                    axisTicks: {
+                        show: true,
+                        color: "#e7e7e7"
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: "Count",
+                        style: {
+                            color: "#2d3748",
+                            fontSize: "14px",
+                            fontWeight: 700
+                        }
+                    },
+                    min: 0,
+                    forceNiceScale: true,
+                    labels: {
+                        style: {
+                            colors: "#718096",
+                            fontSize: "12px",
+                            fontWeight: 600
+                        },
+                        formatter: function(val) {
+                            return Math.floor(val);
+                        }
+                    }
+                },
+                tooltip: {
+                    theme: "light",
+                    x: {
+                        show: true
+                    },
+                    y: {
+                        formatter: function(val, opts) {
+                            var seriesName = opts.w.config.series[opts.seriesIndex].name;
+                            if (seriesName === "Purchases") {
+                                return val + " books";
+                            }
+                            return val + " created";
+                        }
+                    },
+                    style: {
+                        fontSize: "14px"
+                    },
+                    marker: {
+                        show: true
+                    }
+                },
+                legend: {
+                    position: "top",
+                    horizontalAlign: "left",
+                    floating: false,
+                    offsetY: 0,
+                    offsetX: 0,
+                    fontSize: "15px",
+                    fontWeight: 700,
+                    markers: {
+                        width: 14,
+                        height: 14,
+                        radius: 14
+                    },
+                    itemMargin: {
+                        horizontal: 20,
+                        vertical: 5
+                    }
+                },
+                markers: {
+                    size: 0,
+                    hover: {
+                        size: 8,
+                        sizeOffset: 4
+                    }
+                }
+            };
+        }
+
+        function updateChart(weekOffset) {
+            var data = weeklyData[weekOffset.toString()];
+            
+            if (!data) {
+                return;
+            }
+            
+            var dayLabels = getDayLabels(weekOffset);
+            
+            chart.updateOptions({
+                xaxis: {
+                    categories: dayLabels
+                }
+            });
+            
+            chart.updateSeries([
+                {
+                    name: "Product Books",
+                    data: data.productBooks
+                },
+                {
+                    name: "User Stories",
+                    data: data.userStories
+                },
+                {
+                    name: "Purchases",
+                    data: data.purchases
+                }
+            ]);
+            
+            updateWeekInfo(weekOffset);
+        }
+
+        function updateWeekInfo(weekOffset) {
+            var data = weeklyData[weekOffset.toString()];
+            
+            if (!data) return;
+            
+            var weekRangeText = document.getElementById("weekRangeText");
+            var chartWeekTitle = document.getElementById("chartWeekTitle");
+            
+            weekRangeText.textContent = data.range;
+            
+            if (weekOffset === 0) {
+                chartWeekTitle.textContent = "Story Generation & Purchase Trends - Current Week";
+            } else if (weekOffset < 0) {
+                chartWeekTitle.textContent = "Story Generation & Purchase Trends - " + Math.abs(weekOffset) + " Week" + (Math.abs(weekOffset) > 1 ? "s" : "") + " Ago";
+            } else {
+                chartWeekTitle.textContent = "Story Generation & Purchase Trends - " + weekOffset + " Week" + (weekOffset > 1 ? "s" : "") + " Ahead";
+            }
+            
+            updateButtonStates(weekOffset);
+        }
+
+        function updateButtonStates(weekOffset) {
+            var prevBtn = document.getElementById("prevWeekBtn");
+            var nextBtn = document.getElementById("nextWeekBtn");
+            var currentBtn = document.getElementById("currentWeekBtn");
+            
+            prevBtn.disabled = !weeklyData[(weekOffset - 1).toString()];
+            nextBtn.disabled = !weeklyData[(weekOffset + 1).toString()];
+            
+            if (weekOffset === 0) {
+                currentBtn.classList.add("btn-current-active");
+            } else {
+                currentBtn.classList.remove("btn-current-active");
+            }
+        }
+
+        function initConfigChart() {
+            var configData = allConfigData[currentConfigTab];
+            
+            if (!configData || configData.labels.length === 0) {
+                configData = {labels: ['No Data'], productBooks: [0], userStories: [0]};
+            }
+            
+            var options = {
+                series: [{
+                    name: "Product Books",
+                    data: configData.productBooks
+                }, {
+                    name: "User Stories",
+                    data: configData.userStories
+                }],
+                chart: {
+                    type: "bar",
+                    height: 380,
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: true,
+                            selection: true,
+                            zoom: false,
+                            zoomin: false,
+                            zoomout: false,
+                            pan: true,
+                            reset: true
+                        }
+                    },
+                    animations: {
+                        enabled: true,
+                        easing: "easeinout",
+                        speed: 800
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 8,
+                        dataLabels: {
+                            position: "top"
+                        },
+                        columnWidth: "70%"
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
+                    offsetY: -20,
+                    style: {
+                        fontSize: "11px",
+                        fontWeight: 600
+                    }
+                },
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ["transparent"]
+                },
+                xaxis: {
+                    categories: configData.labels,
+                    labels: {
+                        style: {
+                            colors: "#718096",
+                            fontSize: "12px",
+                            fontWeight: 600
+                        }
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: "#e7e7e7"
+                    },
+                    axisTicks: {
+                        show: true,
+                        color: "#e7e7e7"
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: "Count",
+                        style: {
+                            color: "#2d3748",
+                            fontSize: "14px",
+                            fontWeight: 700
+                        }
+                    },
+                    min: 0,
+                    forceNiceScale: true,
+                    labels: {
+                        style: {
+                            colors: "#718096",
+                            fontSize: "12px"
+                        },
+                        formatter: function(val) {
+                            return Math.floor(val);
+                        }
+                    }
+                },
+                fill: {
+                    opacity: 1
+                },
+                colors: ["#667eea", "#48bb78"],
+                tooltip: {
+                    theme: "light",
+                    y: {
+                        formatter: function(val) {
+                            return val + " created";
+                        }
+                    },
+                    style: {
+                        fontSize: "14px"
+                    }
+                },
+                grid: {
+                    borderColor: "#e7e7e7",
+                    strokeDashArray: 5,
+                    yaxis: {
+                        lines: {
+                            show: true
+                        }
+                    }
+                },
+                legend: {
+                    position: "top",
+                    horizontalAlign: "left",
+                    fontSize: "13px",
+                    fontWeight: 600,
+                    markers: {
+                        width: 12,
+                        height: 12,
+                        radius: 6
+                    }
+                }
+            };
+            
+            if (configChart) {
+                configChart.destroy();
+            }
+            configChart = new ApexCharts(document.querySelector("#storyConfigChart"), options);
+            configChart.render();
+            
+            var productTotal = configData.productBooks.reduce(function(a, b) {
+                return a + b;
+            }, 0);
+            var storyTotal = configData.userStories.reduce(function(a, b) {
+                return a + b;
+            }, 0);
+            document.getElementById("configTotal").textContent = "Product Books: " + productTotal + " | User Stories: " + storyTotal;
+        }
+
+        initChart();
+        updateWeekInfo(0);
+        initConfigChart();
+        
+        document.getElementById("prevWeekBtn").addEventListener("click", function() {
+            if (weeklyData[(currentWeekOffset - 1).toString()]) {
+                currentWeekOffset--;
+                updateChart(currentWeekOffset);
+            }
+        });
+        
+        document.getElementById("nextWeekBtn").addEventListener("click", function() {
+            if (weeklyData[(currentWeekOffset + 1).toString()]) {
+                currentWeekOffset++;
+                updateChart(currentWeekOffset);
+            }
+        });
+        
+        document.getElementById("currentWeekBtn").addEventListener("click", function() {
+            currentWeekOffset = 0;
+            updateChart(currentWeekOffset);
+        });
+        
+        document.querySelectorAll('.config-tab-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.config-tab-btn').forEach(function(b) {
+                    b.style.color = '#718096';
+                    b.style.borderBottom = 'none';
+                });
+                
+                this.style.color = '#667eea';
+                this.style.borderBottom = '3px solid #667eea';
+                
+                currentConfigTab = this.getAttribute('data-config');
+                initConfigChart();
+            });
+        });
+        
+    } catch (error) {
+        console.error("Chart initialization error:", error);
+    }
+});
+</script>
+{% endblock %}

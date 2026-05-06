@@ -1,0 +1,467 @@
+.lsb-admin-profile-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.lsb-admin-hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 30px 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.lsb-admin-avatar {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    border: 3px solid white;
+    margin: 0 auto 20px;
+}
+
+@media (min-width: 768px) {
+    .lsb-admin-avatar {
+        margin: 0;
+    }
+}
+
+.lsb-avatar-initials {
+    text-transform: uppercase;
+}
+
+.lsb-admin-crown-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #ffd700;
+    color: #333;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 2px solid white;
+}
+
+.lsb-admin-fullname {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: white;
+}
+
+@media (min-width: 768px) {
+    .lsb-admin-fullname {
+        font-size: 28px;
+    }
+}
+
+.lsb-admin-email-display {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    color: white;
+}
+
+.lsb-verified-badge {
+    background: #4ade80;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.lsb-admin-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    flex-wrap: wrap;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.lsb-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.lsb-meta-divider {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.lsb-admin-info-panel {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.lsb-info-panel-header {
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.lsb-info-panel-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lsb-info-panel-body {
+    padding: 20px;
+}
+
+.lsb-admin-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.lsb-form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.lsb-form-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.lsb-form-input {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.lsb-form-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.lsb-form-input:disabled {
+    background: #f3f4f6;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.lsb-static-value {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #374151;
+    display: flex;
+    align-items: center;
+}
+
+.lsb-admin-badge {
+    background: #fcd34d;
+    color: #92400e;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+}
+
+.lsb-status-active {
+    color: #16a34a;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lsb-status-inactive {
+    color: #dc2626;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lsb-status-verified {
+    color: #16a34a;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lsb-status-pending {
+    color: #f59e0b;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lsb-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.lsb-btn-save {
+    background: #16a34a;
+    color: white;
+}
+
+.lsb-btn-save:hover {
+    background: #15803d;
+}
+
+.lsb-btn-cancel {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.lsb-btn-cancel:hover {
+    background: #d1d5db;
+}
+
+.lsb-info-display {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.lsb-password-panel {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.lsb-password-panel-header {
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    color: white;
+}
+
+.lsb-password-panel-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lsb-password-panel-body {
+    padding: 20px;
+}
+
+.lsb-password-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.lsb-password-hint {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 4px;
+    display: block;
+}
+
+.lsb-info-display {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.lsb-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.lsb-info-item:last-child {
+    border-bottom: none;
+}
+
+.lsb-info-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.lsb-info-value {
+    font-size: 13px;
+    color: #374151;
+    font-weight: 500;
+}
+
+.lsb-activities-panel {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.lsb-activities-header {
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.lsb-activities-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lsb-activities-body {
+    padding: 15px 0;
+}
+
+.lsb-activities-list {
+    padding: 15px 0;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.lsb-activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 15px;
+    border-bottom: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+.lsb-activity-item:last-child {
+    border-bottom: none;
+}
+
+.lsb-activity-item:hover {
+    background: #f9fafb;
+}
+
+.lsb-activity-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.lsb-activity-story {
+    background: #dbeafe;
+    color: #0284c7;
+}
+
+.lsb-activity-edit {
+    background: #fecdd3;
+    color: #dc2626;
+}
+
+.lsb-activity-login {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.lsb-activity-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.lsb-activity-text {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    word-break: break-word;
+}
+
+.lsb-activity-time {
+    margin: 4px 0 0 0;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+@media (max-width: 576px) {
+    .lsb-admin-profile-container {
+        padding: 12px;
+    }
+
+    .lsb-admin-hero-section {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+    }
+
+    .lsb-admin-fullname {
+        font-size: 20px;
+    }
+
+    .lsb-info-panel-body {
+        padding: 15px;
+    }
+
+    .lsb-form-label {
+        font-size: 11px;
+    }
+
+    .lsb-activities-list {
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .lsb-activities-list {
+        max-height: 500px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .lsb-activities-list {
+        max-height: 700px;
+    }
+}

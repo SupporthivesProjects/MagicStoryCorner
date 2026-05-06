@@ -1,0 +1,162 @@
+{% load static %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const applyForm = document.getElementById("applyPromoCodeForm");
+        const removeForm = document.getElementById("removePromoCodeForm");
+    
+        if (applyForm) {
+            applyForm.addEventListener("submit", function(e) {
+                const promoInput = applyForm.querySelector("input[name='promo_code']");
+
+                if (!promoInput.value.trim()) {
+                    e.preventDefault();
+                    window.notyf.open({ type: "error", message: "Please enter a promo code." });
+                    return;
+                }
+
+                if (applyForm.dataset.submitting === "true") {
+                    e.preventDefault();
+                    window.notyf.open({ type: "error", message: "Promo code is already being applied. Please wait." });
+                    return;
+                }
+
+                applyForm.dataset.submitting = "true";
+                universalLoader("Validating promo code...", "Applying discount...");
+            });
+        }
+    
+        if(removeForm) {
+            removeForm.addEventListener("submit", function(e) {
+                if (removeForm.dataset.submitting === "true") {
+                    e.preventDefault();
+                    window.notyf.open({ type: "error", message: "Promo code removal is in progress. Please wait." });
+                    return;
+                }
+                removeForm.dataset.submitting = "true";
+                universalLoader("Removing promo code...", "Processing your request...");
+            });
+        }
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const nextLink = document.getElementById("nextLink");
+        const agreeBox = document.getElementById("agree");
+
+        if (nextLink) {
+            nextLink.addEventListener("click", function(e) {
+                const cartItems = document.querySelectorAll(".cart-item"); 
+                
+                if (agreeBox && !agreeBox.checked) {
+                    e.preventDefault();
+                    window.notyf.open({ type: "error", message: "Agree to Terms first." });
+                    return;
+                }
+
+                if (!cartItems || cartItems.length === 0) {
+                    e.preventDefault();
+                    window.notyf.open({ type: "error", message: "Cart is empty." });
+                    return;
+                }
+            });
+        }
+    });
+</script>
+<script>
+    let appliedCoupon = "{{ applied_coupon|default:'' }}";
+    let appliedReferral = "{{ applied_referral|default:'' }}";
+    let discountPercent = parseFloat("{{ discount_percent|default:0 }}");
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const cartContainer = document.getElementById("cartItemsContainer");
+    
+        cartContainer.addEventListener("click", function(e) {
+            const removeBtn = e.target.closest(".cart_remove");
+            if (!removeBtn) return;
+    
+            const packageId = removeBtn.dataset.id;
+            const url = `{% url 'remove_from_cart' 0 %}`.replace('0', packageId);
+    
+            universalLoader("Removing Item", "Please wait...");
+    
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ package_id: packageId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                universalLoader(false);
+    
+                if (data.error) {
+                    window.notyf.open({ type: "error", message: data.error });
+                    return;
+                }
+    
+                if (!data.success) {
+                    window.notyf.open({ type: "error", message: "Failed to remove item." });
+                    return;
+                }
+    
+                if (data.cart_items.length === 0) {
+                    cartContainer.innerHTML = '<p class="i-det">Your cart is empty.</p>';
+                    
+                    const promoInput = document.querySelector('input[name="promo_code"]');
+                    const removeForm = document.getElementById('removePromoCodeForm');
+                    if (promoInput) promoInput.value = '';
+                    if (removeForm) removeForm.remove();
+                    
+                    appliedCoupon = '';
+                    appliedReferral = '';
+                    discountPercent = 0;
+                    
+                    window.notyf.open({ type: "success", message: `"${data.removed_item}" removed. Cart is now empty.` });
+                    return;
+                }
+    
+                discountPercent = data.discount_percent || 0;
+                
+                const itemsHtml = data.cart_items.map(item => `
+                    <div class="info-sec cart-item">
+                        <p class="i-det">${item.name} (${item.tokens.toLocaleString()} Tokens)</p>
+                        <div class="price-sec">
+                            <p class="i-detb">$${parseFloat(item.price).toFixed(2)} x ${item.quantity}</p>
+                            <a href="javascript:void(0);" class="cart_remove" data-id="${item.id}">
+                                <img src="{% static 'media/crossitem.png' %}" alt="" style="width:24px;height:24px;">
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+    
+                const totalsHtml = `
+                    <div class="st-sec">
+                        <div class="line-p">
+                            <p class="i-detb">Sub total</p>
+                            <p class="i-detb" id="cartSubTotal">$${data.subtotal.toFixed(2)}</p>
+                        </div>
+                        <div class="line-p">
+                            <p class="i-detb" style="color: #47B147;">Savings @ ${discountPercent}%</p>
+                            <p class="i-detb" style="color: #47B147;" id="cartSavings">-$${data.savings.toFixed(2)}</p>
+                        </div>
+                        <div class="line-p">
+                            <p class="i-detbt">Total</p>
+                            <p class="i-detbt" id="cartTotal">$${data.total.toFixed(2)}</p>
+                        </div>
+                    </div>
+                `;
+    
+                cartContainer.innerHTML = `<div class="px-chg">${itemsHtml}${totalsHtml}</div>`;
+    
+                window.notyf.open({ type: "success", message: `"${data.removed_item}" removed from cart.` });
+            })
+            .catch(err => {
+                universalLoader(false);
+                console.error(err);
+                window.notyf.open({ type: "error", message: "Network error. Please try again." });
+            });
+        });
+    });
+</script>

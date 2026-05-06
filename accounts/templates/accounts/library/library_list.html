@@ -1,0 +1,280 @@
+{% extends "includes/layout.html" %}
+{% load static %}
+{% block title %} My Library  | {{ site_name }} {% endblock %}
+{% block content %}
+<section class="my_libb">
+    <div class="container position-relative">
+      <img src="{% static 'media/cat.gif' %}" alt="" class="cattt d-lg-block d-md-block d-none">
+      <h4 class="cat_text_ml d-lg-block d-md-block d-none">My Library</h4>
+      <h4 class="cat_text_ml d-block d-lg-none d-md-none">Library</h4>
+      <div class=" d-none d-lg-block d-md-block">
+        <a href="{% url 'user_logout' %}" class="loghu">Logout</a>
+      </div>
+      <img src="{% static 'media/owl.gif' %}" alt="" class="owlll d-lg-block d-md-block d-none">
+    </div>
+  </section>
+
+ 
+<section class="products_search">
+    <div class="search_box">
+      <div class="container">
+        <form method="get" id="filterForm">
+          <div class="search-container">
+            <div class="search-box">
+              <input type="text" name="search" value="{{ request.GET.search|default:'' }}" placeholder="Search products">
+              <button class="search-btn" type="submit">
+                <img src="{% static 'media/brand_ico.jpeg' %}" alt="search icon">
+              </button>
+            </div>
+  
+            <div class="btn_bx">
+              <div class="filter-container">
+                <button class="filter-btn" type="button" onclick="toggleFilter()">Filter</button>
+                <div class="filter-panel" id="filterPanel">
+                  <div class="filter-section">
+                    <div>
+                      <h3>Age</h3>
+                      {% for age in ages %}
+                        <label>
+                          <input type="checkbox" name="age" value="{{ age.name }}" {% if age.name in selected_filters.age %}checked{% endif %}>{{ age.name }} ({{ age.story_count }})
+                        </label>
+                      {% endfor %}
+                    </div>
+                    <div>
+                      <h3>Story Type</h3>
+                      {% for st in story_types %}
+                        <label>
+                          <input type="checkbox" name="story_type" value="{{ st.name }}" {% if st.name in selected_filters.story_type %}checked{% endif %}>{{ st.name }} ({{ st.story_count }})
+                        </label>
+                      {% endfor %}
+                    </div>
+                    <div>
+                      <h3>Themes</h3>
+                      {% for theme in themes %}
+                        <label>
+                          <input type="checkbox" name="theme" value="{{ theme.name }}" {% if theme.name in selected_filters.theme %}checked{% endif %}>{{ theme.name }} ({{ theme.story_count }})
+                        </label>
+                      {% endfor %}
+                    </div>
+                    <div>
+                      <h3>Narration</h3>
+                      {% for narration in narrations %}
+                        <label>
+                          <input type="checkbox" name="narration" value="{{ narration.name }}" {% if narration.name in selected_filters.narration %}checked{% endif %}>{{ narration.name }} ({{ narration.story_count }})
+                        </label>
+                      {% endfor %}
+                    </div>
+                    <div>
+                      <h3>Style</h3>
+                      {% for style in styles %}
+                        <label>
+                          <input type="checkbox" name="style" value="{{ style.name }}" {% if style.name in selected_filters.style %}checked{% endif %}>{{ style.name }} ({{ style.story_count }})
+                        </label>
+                      {% endfor %}
+                    </div>
+                    <div class="filter-footer">
+                      <button type="button" class="close-filter" onclick="toggleFilter()">Close</button>
+                      <button type="submit" class="apply-btn">Apply</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="dropdown">
+                <button class="sort-btn" type="button" onclick="toggleDropdown()">
+                  <p>Sort by <span class="bolddy" id="currentSort">{{ request.GET.sort|default:"Date" }}</span></p>
+                  <img src="{% static 'media/drop_dwn.png' %}" class="drop_icoo" alt="">
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                  <a href="#" data-sort="date_desc">Newest – Oldest</a>
+                  <a href="#" data-sort="date_asc">Oldest – Newest</a>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <h4 class="textt_pup">
+            Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ page_obj.paginator.count }} Results
+          </h4>
+        </form>
+      </div>
+    </div>
+    <div class="container px-0">
+      <div class="main_prod_box position-relative">
+        <div id="story-list" class="container-fluid px-0">
+          {% include "accounts/library/cards.html" %}
+        </div>
+        
+        <div id="story-skeleton" class="d-none container-fluid px-0">
+          <div class="container">
+            <div class="row g-4 justify-content-center justify-content-md-start">
+              {% for i in per_page_cards %}
+              <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
+                <div class="outer_card"  style="max-width: 100%;">
+                  <div class="card border-0 h-100">
+                    <div class="card-img bg-secondary placeholder placeholder-wave" style="height: 350px;"></div>
+                    <div class="card-content p-4 w-100">
+                      <h3><span class="placeholder placeholder-wave col-8"></span></h3>
+                      <a href="#" class="placeholder placeholder-wave col-6"></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+    <div class="pagination d-flex justify-content-center align-items-center mt-4" id="pagination">
+      {% include "accounts/library/pagination.html" %}
+    </div>
+    <div class="bottom-nav dashbottom_nav d-md-none">
+        <button class="nav-btn dashnav_btn" data-tab="tab-home"><img src="{% static 'media/dash_mobtabbtn1.svg' %}"></button>
+        <a class="dashnav_btn active" href="/users/library/"><img src="{% static 'media/dash_mobtabbtn2.svg' %}"></a>
+        <a class="dashnav_btn" href="/stories/story-book-create/"><img src="{% static 'media/dash_mobtabbtn3.svg' %}"></a>
+        <button class="nav-btn dashnav_btn" data-tab="tab-purchase"><img src="{% static 'media/dash_mobtabbtn4.svg' %}"></button>
+        <button class="nav-btn dashnav_btn" data-tab="tab-setting"><img src="{% static 'media/dash_mobtabbtn5.svg' %}"></button>
+      </div>
+  </section>
+  <section class="last d-lg-block d-md-block d-none"></section>
+  {% endblock %}
+  {% block extra_js %}
+    <script>
+      if(typeof AOS !== 'undefined') {
+        AOS.init({duration: 1000});
+      }
+
+      const tabButtons = document.querySelectorAll(".dashnav_btn");
+      const tabContents = document.querySelectorAll(".dashtab_content");
+
+      tabButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          tabButtons.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          tabContents.forEach((content) => content.classList.remove("active"));
+
+          const targetTab = btn.getAttribute("data-tab");
+          if(targetTab === "tab-home" ||targetTab === "tab-purchase"||targetTab === "tab-setting" ) {
+              window.location.href = "{% url 'user_dashboard' %}";
+          }
+          document.getElementById(targetTab).classList.add("active");
+
+          document.getElementById(targetTab).scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+  
+      function toggleDropdown() {
+        const menu = document.getElementById("dropdownMenu");
+        const icon = document.querySelector(".drop_icoo");
+        if(menu) menu.classList.toggle("show");
+        if(icon) icon.classList.toggle("rotate");
+      }
+  
+      window.onclick = function(event) {
+        if (!event.target.closest('.dropdown')) {
+          const menu = document.getElementById("dropdownMenu");
+          const icon = document.querySelector(".drop_icoo");
+          if(menu) menu.classList.remove("show");
+          if(icon) icon.classList.remove("rotate");
+        }
+        if (!event.target.closest('.filter-container')) {
+          const filterPanel = document.getElementById("filterPanel");
+          if(filterPanel) filterPanel.classList.remove("show-filter");
+        }
+      }
+  
+      function toggleFilter() {
+        const filterPanel = document.getElementById("filterPanel");
+        if(filterPanel) filterPanel.classList.toggle("show-filter");
+      }
+  
+      function showSkeleton(show) {
+        const skeleton = document.getElementById('story-skeleton');
+        const storyList = document.getElementById('story-list');
+        if(!skeleton || !storyList) return;
+        if(show){
+          storyList.classList.add('d-none');
+          skeleton.classList.remove('d-none');
+        } else {
+          storyList.classList.remove('d-none');
+          skeleton.classList.add('d-none');
+        }
+      }
+  
+      function fetchStories() {
+        showSkeleton(true);
+        const filterForm = document.getElementById('filterForm');
+        if(!filterForm) return;
+        let params = new URLSearchParams(new FormData(filterForm));
+        fetch("{% url 'library_list' %}?" + params.toString(), { headers: { "X-Requested-With": "XMLHttpRequest" } })
+          .then(res => res.json())
+          .then(data => {
+            const storyList = document.getElementById('story-list');
+            const pagination = document.getElementById('pagination');
+            const textCount = document.querySelector('.textt_pup');
+            if(storyList) storyList.innerHTML = data.html;
+            if(pagination) pagination.innerHTML = data.pagination_html;
+            if(textCount && data.start_index !== undefined){
+              textCount.textContent = `Showing ${data.start_index} - ${data.end_index} of ${data.total_count} Results`;
+            }
+          })
+          .finally(() => showSkeleton(false));
+      }
+  
+      const filterForm = document.getElementById('filterForm');
+      if(filterForm) filterForm.addEventListener('input', fetchStories);
+  
+      document.addEventListener('click', function(e) {
+        const link = e.target.closest('.pagination a');
+        if(link){
+          e.preventDefault();
+          const storyList = document.getElementById('story-list');
+          const pagination = document.getElementById('pagination');
+          showSkeleton(true);
+          if(storyList) storyList.innerHTML = '';
+          const url = new URL(link.href, window.location.origin);
+          fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+            .then(res => res.json())
+            .then(data => {
+              if(storyList) storyList.innerHTML = data.html;
+              if(pagination) pagination.innerHTML = data.pagination_html;
+              const textCount = document.querySelector('.textt_pup');
+              if(textCount && data.start_index !== undefined){
+                textCount.textContent = `Showing ${data.start_index} - ${data.end_index} of ${data.total_count} Results`;
+              }
+            })
+            .finally(() => showSkeleton(false));
+        }
+      });
+  
+      document.querySelectorAll('#dropdownMenu a').forEach(link => {
+        link.addEventListener('click', function(e){
+          e.preventDefault();
+          const sortValue = this.dataset.sort;
+          const form = document.getElementById('filterForm');
+          if(!form) return;
+          
+          const existingSortInput = form.querySelector('input[name="sort"]');
+          if(existingSortInput){
+            existingSortInput.value = sortValue;
+          } else {
+            const sortInput = document.createElement('input');
+            sortInput.type = 'hidden';
+            sortInput.name = 'sort';
+            sortInput.value = sortValue;
+            form.appendChild(sortInput);
+          }
+          
+          const currentSort = document.getElementById('currentSort');
+          if(currentSort) currentSort.textContent = this.textContent.trim();
+          fetchStories();
+          const dropdownMenu = document.getElementById("dropdownMenu");
+          if(dropdownMenu) dropdownMenu.classList.remove("show");
+        });
+      });
+    </script>
+  {% endblock %}

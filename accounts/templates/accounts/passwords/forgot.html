@@ -1,0 +1,52 @@
+{% extends "includes/layout.html" %}
+{% load static %}
+{% block title %} Forgot Password | {{ site_name }} {% endblock %}
+
+{% block content %}
+<style>
+    body{
+        background-color: #BDEEFC;
+    }
+    .log-reg-sec {
+        margin-top:200px;
+        background-color: #BDEEFC;
+    }
+     @media only screen and (max-device-width: 600px){
+      .log-reg-sec{
+margin-top:100px !important;
+margin-bottom:0px !important;
+      }  }
+          .reg-box{
+            width:auto !important;
+          }
+</style>
+<section class="log-reg-sec">
+    <img src="{% static 'media/login-mob.png' %}" alt="" style="width: 100%;" class="d-lg-none d-block d-md-block w-100">
+    <div class="reg-box" style="width: 450px;">
+       <h1 class="s-text">Forgot password</h1>
+       <form method="POST" id="forgotPasswordForm">
+           {% csrf_token %}
+           <div class="inp-sec">
+           <div class="inp-box">
+               <input type="email" style="width: 300px;" name="email" placeholder="Enter your email address" required>
+           </div>
+           <button type="submit" class="si-button btn">
+               <span>Send reset link</span>
+           </button>
+           </div>
+       </form>
+    </div>
+    <img src="{% static 'media/Clouds.png' %}" alt="" style="width: 100%;" class="d-lg-none d-block d-md-block w-100">
+</section>
+<section class="dashboard_last d-lg-block d-md-block d-none"></section>
+{% endblock %}
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("forgotPasswordForm"); 
+        form.addEventListener("submit", function() {
+            universalLoader("Sending reset link...", "Please wait while we process your request");
+        });
+    });
+</script>
+{% endblock %}

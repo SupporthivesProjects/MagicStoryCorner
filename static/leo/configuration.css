@@ -1,0 +1,537 @@
+.lsb-config-container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    animation: lsbConfigFadeIn 0.3s ease-in;
+}
+
+@keyframes lsbConfigFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lsb-config-tabs-wrapper {
+    margin-bottom: 2rem;
+}
+
+.lsb-config-tabs-nav {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.lsb-config-tab-btn {
+    padding: 1rem 1.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #6b7280;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+}
+
+.lsb-config-tab-btn:hover {
+    color: #667eea;
+}
+
+.lsb-config-tab-btn.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+}
+
+.lsb-config-tab-content {
+    display: none;
+}
+
+.lsb-config-tab-content.active {
+    display: block;
+    animation: lsbConfigTabFadeIn 0.3s ease-in;
+}
+
+@keyframes lsbConfigTabFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lsb-config-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.lsb-config-stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.lsb-config-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--lsb-config-accent-color), transparent);
+}
+
+.lsb-config-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.lsb-config-stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: white;
+}
+
+.lsb-config-stat-icon-blue {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --lsb-config-accent-color: #667eea;
+}
+
+.lsb-config-stat-icon-green {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --lsb-config-accent-color: #10b981;
+}
+
+.lsb-config-stat-icon-orange {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    --lsb-config-accent-color: #f59e0b;
+}
+
+.lsb-config-stat-icon-purple {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    --lsb-config-accent-color: #8b5cf6;
+}
+
+.lsb-config-stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem 0;
+    color: #1f2937;
+}
+
+.lsb-config-stat-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.lsb-config-stat-info {
+    flex: 1;
+}
+
+.lsb-config-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.lsb-config-section {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.lsb-config-section:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.lsb-config-section-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.lsb-config-section-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.lsb-config-section-title i {
+    font-size: 1.5rem;
+    color: #667eea;
+}
+
+.lsb-config-section-title h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: #1f2937;
+}
+
+.lsb-config-section-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 4px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+}
+
+.lsb-config-collapse-btn {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.lsb-config-collapse-btn:hover {
+    background: #667eea;
+    border-color: #667eea;
+    color: white;
+}
+
+.lsb-config-collapse-btn i {
+    font-size: 1rem;
+}
+
+.lsb-config-section-content {
+    padding: 2rem;
+}
+
+.lsb-config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.lsb-config-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.lsb-config-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.lsb-config-label label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0;
+}
+
+.lsb-config-info-icon {
+    color: #9ca3af;
+    cursor: help;
+    transition: color 0.3s ease;
+}
+
+.lsb-config-info-icon:hover {
+    color: #667eea;
+}
+
+.lsb-config-input-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.lsb-config-input-group:focus-within {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.lsb-config-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    background: transparent;
+}
+
+.lsb-config-input-unit {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.lsb-config-range {
+    margin-top: 0.5rem;
+}
+
+.lsb-config-range input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(to right, #667eea 0%, #764ba2 100%);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.lsb-config-range input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border: 3px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.lsb-config-range input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.lsb-config-range input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border: 3px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.lsb-config-range input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.lsb-config-range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+
+.lsb-config-range-labels span {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.lsb-config-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    bottom: 1rem;
+    z-index: 10;
+}
+
+.lsb-config-actions .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.lsb-config-actions .btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.lsb-config-actions .btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+}
+
+.lsb-config-actions .btn-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+}
+
+.lsb-config-actions .btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+}
+
+.log-page-header {
+    margin-bottom: 2rem;
+}
+
+.log-page-header h3 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+
+.text-warning {
+    color: #f59e0b;
+}
+
+.bi-exclamation-triangle-fill {
+    margin-right: 0.25rem;
+}
+
+@media (max-width: 768px) {
+    .lsb-config-container {
+        padding: 1rem;
+    }
+
+    .lsb-config-tabs-nav {
+        flex-direction: column;
+    }
+
+    .lsb-config-tab-btn {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .lsb-config-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lsb-config-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lsb-config-section-header {
+        padding: 1rem 1.5rem;
+    }
+
+    .lsb-config-section-content {
+        padding: 1.5rem;
+    }
+
+    .lsb-config-actions {
+        flex-direction: column;
+        position: static;
+        margin-top: 2rem;
+    }
+
+    .lsb-config-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .lsb-config-container {
+        padding: 0.75rem;
+    }
+
+    .log-page-header h3 {
+        font-size: 1.5rem;
+    }
+
+    .log-page-header i {
+        font-size: 1.5rem;
+    }
+
+    .lsb-config-tab-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .lsb-config-stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .lsb-config-stat-value {
+        font-size: 1.5rem;
+    }
+
+    .lsb-config-section-title h2 {
+        font-size: 1.25rem;
+    }
+
+    .lsb-config-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .text-end {
+        text-align: left;
+    }
+
+    .ps-5 {
+        padding-left: 0;
+    }
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+}
+.modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+}
+#logoPreview img, #headerPreview img, #footerPreview img, #signaturePreview img {
+    height: 80px;
+    width: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}

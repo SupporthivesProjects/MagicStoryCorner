@@ -1,0 +1,568 @@
+{% extends "demos/layout.html" %}
+{% load static %}
+
+{% block title %}{{ book.title }} | Little Story Book {% endblock %}
+
+{% block content %}
+<section class="productbook-view-section">
+    <div class="productbook-view-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="row g-2 align-items-center">
+                  <div class="col-12 col-lg-8">
+                    <div class="productbook-view-title-wrapper">
+                      <h1 class="productbook-view-title text-truncate">{{ book.title }}</h1>
+                      <p class="productbook-view-subtitle small">
+                        Generated on: {{ book.created_at|date:"d M Y" }} |
+                        Age Group: {{ book.agegroup.name }},
+                        Setting: {{ book.setting.name }},
+                        Plot: {{ book.plot.name }},
+                        Theme: {{ book.theme.name }},
+                        Tone: {{ book.tone.name }},
+                        Length: {{ book.length.name }},
+                        Style: {{ book.imagestyle.name }},
+                        Language: {{ book.language.name }},
+                        Narrator: {{ book.narrator.name }}
+                      </p>
+                    </div>
+                  </div>
+              
+                  <div class="col-12 col-lg-4">
+                    <div class="d-flex gap-2 w-100">
+                      <a href="{% url 'productbook_download' book.slug %}" 
+                         class="productbook-view-btn-download productbook_download btn btn-outline-primary btn-sm flex-fill" 
+                         title="Download PDF">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        <span class="d-none d-sm-inline ms-1">PDF</span>
+                      </a>
+              
+                      <button type="button" 
+                              class="btn btn-primary btn-sm flex-fill" 
+                              title="View or Regenerate Cover Image" 
+                              data-book-id="{{ book.id }}" 
+                              data-bs-toggle="modal" 
+                              data-bs-target="#retryCoverModal">
+                        <i class="bi bi-image"></i>
+                        <span class="d-none d-sm-inline ms-1">Cover</span>
+                      </button>
+              
+                      <a href="#" 
+                         class="productbook-view-btn-edit btn btn-outline-secondary btn-sm flex-fill" 
+                         title="Edit Book" 
+                         data-book-id="{{ book.id }}">
+                        <i class="bi bi-pencil-square"></i>
+                        <span class="d-none d-sm-inline ms-1">Edit</span>
+                      </a>
+              
+                      <button type="button" 
+                              class="productbook-view-btn-delete btn btn-sm btn-danger flex-fill" 
+                              title="Delete Book" 
+                              data-book-id="{{ book.id }}" 
+                              data-bs-toggle="modal" 
+                              data-bs-target="#deleteBookModal">
+                        <i class="bi bi-trash"></i>
+                        <span class="d-none d-sm-inline ms-1">Delete</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+
+    <div class="container productbook-view-container">
+        {% for page in pages %}
+        <div class="productbook-view-page" data-page="{{ page.page }}">
+            <div class="productbook-view-page-number">
+                <span>Page {{ page.page }}</span>
+            </div>
+            
+            <div class="productbook-view-page-content">
+                <div class="productbook-view-image-wrapper">
+                    <div class="productbook-view-image-container">
+                        {% if page.image %}
+                            <img src="{{ page.image.url }}" alt="Story illustration for page {{ page.page }}">
+                        {% endif %}
+                        <div class="productbook-view-image-overlay"></div>
+                    </div>
+                </div>
+
+                <div class="productbook-view-text-wrapper">
+                    <div class="productbook-view-text-content">
+                        <p>{{ page.text }}</p>
+                    </div>
+
+                    {% if page.audio %}
+                    <div class="productbook-view-audio-player">
+                        <div class="productbook-view-audio-controls">
+                            <button class="productbook-view-audio-btn play-btn" data-audio-id="audio-{{ page.page }}">
+                                <i class="bi bi-play-circle-fill"></i>
+                            </button>
+                            <div class="productbook-view-audio-info">
+                                <span class="productbook-view-audio-label">Listen to this page</span>
+                                <div class="productbook-view-audio-progress">
+                                    <div class="productbook-view-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <audio id="audio-{{ page.page }}" preload="metadata">
+                            <source src="{{ page.audio.url }}" type="audio/mpeg">
+                        </audio>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editBookModalLabel">
+            <i class="bi bi-pencil-square me-2"></i>Edit Product Book
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editBookForm">
+            <div class="mb-3">
+              <label for="bookTitle" class="form-label">Title <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="bookTitle" required>
+            </div>
+  
+            <div class="mb-3">
+              <label for="bookDescription" class="form-label">Description  <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="bookDescription" rows="4" required></textarea>
+            </div>
+  
+            <div class="mb-3 d-none">
+              <label for="bookPrice" class="form-label">Price </label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" class="form-control" id="bookPrice" step="0.01" min="0">
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="bookTokens" class="form-label">Tokens <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="bookTokens" min="0" required>
+            </div>
+  
+            <div class="mb-3">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="bookIsActive" checked>
+                <label class="form-check-label" for="bookIsActive">Active Status</label>
+              </div>
+              <small class="text-muted">Enable this to make the book visible to users</small>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>Cancel
+          </button>
+          <button type="submit" form="editBookForm" class="btn btn-primary">
+            <i class="bi bi-check-circle me-1"></i>Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteBookModal" tabindex="-1" aria-labelledby="deleteBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-danger">
+        <div class="modal-header bg-danger bg-opacity-10 border-danger">
+          <h5 class="modal-title" id="deleteBookModalLabel">
+            <i class="bi bi-exclamation-triangle text-danger me-2"></i>Delete Product Book
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-2"><strong>Are you sure?</strong></p>
+          <p class="mb-3 text-muted" id="deleteBookTitle"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>Cancel
+          </button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+            <i class="bi bi-trash me-1"></i>Delete
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="modal fade" id="retryCoverModal" tabindex="-1" aria-labelledby="retryCoverModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header border-0 py-2">
+                <h6 class="modal-title fw-bold mb-0" id="retryCoverModalLabel">Current Cover Image</h6>
+                <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="position-relative" style="height: 320px; overflow: hidden;">
+                    <div class="position-absolute w-100 h-100 p-2 d-flex align-items-center justify-content-center">
+                        {% if book.image %}
+                            <img id="currentCoverImage" src="{{ book.image.url }}" alt="Current cover" class="img-fluid rounded" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                        {% else %}
+                            <div class="text-center">
+                                <i class="bi bi-image text-muted" style="font-size: 2.5rem;"></i>
+                                <p class="text-muted small mt-2 mb-0">No cover</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light border-0 py-2 px-2">
+                <div class="d-flex gap-2 w-100">
+                    <button type="button" class="btn btn-outline-primary btn-sm flex-fill" id="regenerateAIBtn">
+                      Regenerate (AI)
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm flex-fill" id="regeneratePythonBtn">
+                       Regenerate (PIL)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const RETRY_COVER_ROUTE = "{% url 'retry_cover' book_id=0 %}".replace('0', '{id}');
+    
+    document.querySelectorAll('[data-bs-target="#retryCoverModal"]').forEach(button => {
+        const tooltip = new bootstrap.Tooltip(button, {
+            title: button.getAttribute('title'),
+            placement: 'top'
+        });
+        
+        button.addEventListener('click', function(e) {
+            const bookId = this.getAttribute('data-book-id');
+            document.getElementById('regenerateAIBtn').setAttribute('data-book-id', bookId);
+            document.getElementById('regeneratePythonBtn').setAttribute('data-book-id', bookId);
+        });
+    });
+    
+    function handleRegeneration(method, button) {
+        const bookId = button.getAttribute('data-book-id');
+        const originalBtnHTML = button.innerHTML;
+        const aiBtn = document.getElementById('regenerateAIBtn');
+        const pythonBtn = document.getElementById('regeneratePythonBtn');
+        
+        aiBtn.disabled = true;
+        pythonBtn.disabled = true;
+        button.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Processing...';
+        
+        universalLoader("Please wait", "Regenerating cover image...");
+        
+        const url = RETRY_COVER_ROUTE.replace('{id}', bookId);
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                          document.querySelector('meta[name="csrf-token"]')?.content ||
+                          getCookie('csrftoken');
+        
+        const requestBody = { method: method };
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify(requestBody)
+        })
+        .then(response => response.json())
+        .then(data => {
+            universalLoader(false);
+            
+            if (data.success) {
+                window.notyf.open({ type: "success", message: "Cover regenerated successfully!" });
+                setTimeout(() => {
+                    location.reload();
+                }, 100);
+            } else {
+                window.notyf.open({ type: "error", message: data.message || "Failed to regenerate cover" });
+                aiBtn.disabled = false;
+                pythonBtn.disabled = false;
+                button.innerHTML = originalBtnHTML;
+            }
+        })
+        .catch(error => {
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Network error occurred" });
+            console.error('Error:', error);
+            aiBtn.disabled = false;
+            pythonBtn.disabled = false;
+            button.innerHTML = originalBtnHTML;
+        });
+    }
+    
+    document.getElementById('regenerateAIBtn').addEventListener('click', function() {
+        handleRegeneration('ai', this);
+    });
+    
+    document.getElementById('regeneratePythonBtn').addEventListener('click', function() {
+        handleRegeneration('python', this);
+    });
+</script>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const downloadBtn = document.querySelector('.productbook_download');
+    
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            const downloadUrl = this.getAttribute('href');
+            universalLoader("Please wait", "Preparing PDF for download...");
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', downloadUrl, true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.responseType = 'blob';
+            
+            xhr.timeout = 120000;
+            
+            xhr.onload = function() {
+                universalLoader(false);
+                
+                if (xhr.status === 200) {
+                    const contentDisposition = xhr.getResponseHeader('Content-Disposition');
+                    let filename = 'Story.pdf';
+                    
+                    if (contentDisposition) {
+                        const filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
+                        if (filenameMatch && filenameMatch[1]) {
+                            filename = filenameMatch[1];
+                        }
+                    }
+                    
+                    window.notyf.open({ type: "success", message: "PDF ready! Starting download..." });
+                    
+                    const blob = xhr.response;
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    setTimeout(() => {
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+                    }, 100);
+                } else {
+                    const reader = new FileReader();
+                    reader.onload = function() {
+                        try {
+                            const errorData = JSON.parse(reader.result);
+                            window.notyf.open({ type: "error", message: errorData.error || 'Download failed' });
+                        } catch (e) {
+                            window.notyf.open({ type: "error", message: 'Download failed' });
+                        }
+                    };
+                    reader.readAsText(xhr.response);
+                }
+            };
+            
+            xhr.onerror = function() {
+                universalLoader(false);
+                window.notyf.open({ type: "error", message: 'Network error occurred' });
+            };
+            
+            xhr.ontimeout = function() {
+                universalLoader(false);
+                window.notyf.open({ type: "error", message: 'Request timeout' });
+            };
+            
+            xhr.send();
+        });
+    }
+});
+</script>
+
+<script>
+const EDIT_BOOK_ROUTE = "{% url 'edit_product_book' 0 %}".replace('/0/', '/{id}/');
+const DELETE_BOOK_ROUTE = "{% url 'delete_product_book' 0 %}".replace('/0/', '/{id}/');
+
+document.querySelectorAll('.productbook-view-btn-edit').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const bookId = this.getAttribute('data-book-id');
+        const fetchUrl = EDIT_BOOK_ROUTE.replace('{id}', bookId);
+        const modal = new bootstrap.Modal(document.getElementById('editBookModal'), { backdrop: 'static', keyboard: false });
+        modal.show();
+        const form = document.getElementById('editBookForm');
+        form.classList.add('opacity-50');
+        fetch(fetchUrl, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+        .then(data => {
+            document.getElementById('bookTitle').value = data.title || '';
+            document.getElementById('bookDescription').value = data.description || '';
+            document.getElementById('bookPrice').value = data.price || 0;
+            document.getElementById('bookTokens').value = data.tokens || 0;
+            document.getElementById('bookIsActive').checked = data.is_active || false;
+            form.setAttribute('data-book-id', bookId);
+            form.classList.remove('opacity-50');
+        })
+        .catch(() => {
+            universalLoader(false);
+            window.notyf.open({ type: "error", message: "Failed to load book data. Please try again." });
+            modal.hide();
+        });
+    });
+});
+
+document.getElementById('editBookForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const bookId = this.getAttribute('data-book-id');
+    const updateUrl = EDIT_BOOK_ROUTE.replace('{id}', bookId);
+    const submitBtn = document.querySelector('#editBookModal button[type="submit"]');
+    const originalBtnText = submitBtn.innerHTML;
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                      document.querySelector('meta[name="csrf-token"]')?.content ||
+                      getCookie('csrftoken');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Saving...';
+    universalLoader("Please wait", "Updating book information...");
+    const bookData = {
+        title: document.getElementById('bookTitle').value,
+        description: document.getElementById('bookDescription').value,
+        price: parseFloat(document.getElementById('bookPrice').value),
+        tokens: parseInt(document.getElementById('bookTokens').value),
+        is_active: document.getElementById('bookIsActive').checked
+    };
+    fetch(updateUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRFToken': csrftoken },
+        body: JSON.stringify(bookData)
+    })
+    .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+    .then(() => {
+        universalLoader(false);
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editBookModal'));
+        if (modal) modal.hide();
+        window.notyf.open({ type: "success", message: "Book updated successfully!" });
+    })
+    .catch(() => {
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Failed to update book. Please try again." });
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+    });
+});
+
+document.querySelectorAll('.productbook-view-btn-delete').forEach(button => {
+    button.addEventListener('click', function(e) {
+        const bookId = this.getAttribute('data-book-id');
+        const bookTitle = document.querySelector('.productbook-view-title').textContent.trim();
+        document.getElementById('deleteBookTitle').textContent = `Confirm deletion of "${bookTitle}"`;
+        document.getElementById('confirmDeleteBtn').setAttribute('data-book-id', bookId);
+    });
+});
+
+document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+    const bookId = this.getAttribute('data-book-id');
+    console.log(`[DELETE_LOG] Attempting to delete book ID: ${bookId}`);
+    universalLoader("Please wait", "Deleting book...");
+    
+    const deleteUrl = DELETE_BOOK_ROUTE.replace('{id}', bookId);
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                      document.querySelector('meta[name="csrf-token"]')?.content ||
+                      getCookie('csrftoken');
+    
+    const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteBookModal'));
+    if (deleteModal) deleteModal.hide();
+    
+    console.log(`[DELETE_LOG] Sending DELETE request to: ${deleteUrl}`);
+    
+    fetch(deleteUrl, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRFToken': csrftoken }
+    })
+    .then(r => {
+        console.log(`[DELETE_LOG] Response status: ${r.status}`);
+        if (!r.ok) throw new Error();
+        return r.json();
+    })
+    .then(data => {
+        console.log(`[DELETE_LOG] ✓ Book deleted successfully`);
+        console.log(`[DELETE_LOG] Redirect URL: ${data.redirect}`);
+        universalLoader(false);
+        window.notyf.open({ type: "success", message: "Book deleted successfully!" });
+        setTimeout(() => {
+            console.log(`[DELETE_LOG] Redirecting to: ${data.redirect}`);
+            window.location.href = data.redirect;
+        }, 1500);
+    })
+    .catch(error => {
+        console.error(`[DELETE_LOG] ✗ Error deleting book:`, error);
+        universalLoader(false);
+        window.notyf.open({ type: "error", message: "Failed to delete book. Please try again." });
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let c of cookies) {
+            const cookie = c.trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const audioElements = document.querySelectorAll('audio');
+    audioElements.forEach(audio => {
+        const audioId = audio.id;
+        const playBtn = document.querySelector(`[data-audio-id="${audioId}"]`);
+        const progressBar = playBtn.closest('.productbook-view-audio-player').querySelector('.productbook-view-progress-bar');
+        playBtn.addEventListener('click', function() {
+            if (audio.paused) {
+                audioElements.forEach(a => {
+                    if (a !== audio) {
+                        a.pause();
+                        a.currentTime = 0;
+                        const otherBtn = document.querySelector(`[data-audio-id="${a.id}"]`);
+                        if (otherBtn) otherBtn.innerHTML = '<i class="bi bi-play-circle-fill"></i>';
+                    }
+                });
+                audio.play();
+                playBtn.innerHTML = '<i class="bi bi-pause-circle-fill"></i>';
+            } else {
+                audio.pause();
+                playBtn.innerHTML = '<i class="bi bi-play-circle-fill"></i>';
+            }
+        });
+        audio.addEventListener('timeupdate', function() {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = progress + '%';
+        });
+        audio.addEventListener('ended', function() {
+            playBtn.innerHTML = '<i class="bi bi-play-circle-fill"></i>';
+            progressBar.style.width = '0%';
+        });
+    });
+});
+</script>
+
+{% endblock %}

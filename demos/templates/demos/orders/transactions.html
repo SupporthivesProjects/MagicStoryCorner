@@ -1,0 +1,137 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Payment Transactions{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4">
+        <h3><i class="bi bi-credit-card"></i> Payment Transactions</h3>
+    </div>
+
+    <div class="log-table-card table-responsive">
+        <table id="transactionsTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Transaction ID</th>
+                    <th>Order ID</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for transaction in transactions %}
+                    <tr class="log-table-row">
+                        <td data-order="{{ transaction.id }}">
+                            <span class="log-id-badge">#{{ transaction.id }}</span>
+                        </td>
+
+                        <td class="text-center">
+                            {% if transaction.response and transaction.response.TransactionID %}
+                                <span class="badge bg-info">{{ transaction.response.TransactionID }}</span>
+                            {% else %}
+                                <span class="text-muted">N/A</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">
+                           #ORD{{ transaction.order.id }}
+                        </td>
+
+                        <td>${{ transaction.order.total|floatformat:2 }}</td>
+
+                        <td class="text-center">
+                            <span class="log-badge 
+                                {% if transaction.order.status == 'success' %}log-badge-success
+                                {% elif transaction.order.status == 'pending' %}log-badge-warning
+                                {% elif transaction.order.status == 'failed' %}log-badge-danger
+                                {% elif transaction.order.status == 'cancelled' %}log-badge-danger
+                                {% elif transaction.order.status == 'refund' %}log-badge-info
+                                {% else %}log-badge-secondary
+                                {% endif %}">
+                                {{ transaction.order.status|title }}
+                            </span>
+                        </td>
+
+                        <td>{{ transaction.created_at|date:"M d, Y h:i A" }}</td>
+
+                        <td class="text-center">
+                            {% if transaction.response %}
+                                <button class="btn btn-sm btn-outline-info" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#responseModal{{ transaction.id }}"
+                                        title="View Response">
+                                    <i class="bi bi-eye"></i> View
+                                </button>
+                            {% else %}
+                                <span class="text-muted">N/A</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {% if transaction.response %}
+                    <div class="modal fade" id="responseModal{{ transaction.id }}" tabindex="-1" aria-labelledby="responseModalLabel{{ transaction.id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="responseModalLabel{{ transaction.id }}">
+                                        Transaction #{{ transaction.id }} - Gateway Response
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <pre class="bg-light p-3 rounded"><code>{{ transaction.response|pprint }}</code></pre>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#transactionsTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search transactions...",
+            emptyTable: "No transactions found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ transactions",
+            infoEmpty: "Showing 0 to 0 of 0 transactions",
+            infoFiltered: "(filtered from _MAX_ total transactions)",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"row mt-3"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+        columnDefs: [
+            { type: 'num', targets: 0 },
+            { orderable: false, targets: [6] },
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 },
+            { responsivePriority: 3, targets: 4 },
+            { responsivePriority: 4, targets: 5 },
+            { responsivePriority: 5, targets: 6 }
+        ]
+    });
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function(el) { return new bootstrap.Tooltip(el) });
+});
+</script>
+{% endblock %}

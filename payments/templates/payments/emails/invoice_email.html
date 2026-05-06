@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Email Title</title>
+    <style>
+        .header-bg {
+            background: url("{{ website.website }}/static/emails/static/header.png") no-repeat;
+            background-position: center;
+            background-size: cover;
+            text-align: center;
+            height: 150px;
+            width: 100%;
+        }
+        
+        .footer-bg {
+            background: url("{{ website.website }}/static/emails/static/footer.png") no-repeat;
+            background-position: center;
+            background-size: cover;
+            height: 230px;
+            background-size: cover;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td align="center" bgcolor="#f2f2f2" style="padding: 20px 0;">
+                <table width="600" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff" style="border-collapse: collapse; box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);">
+                    <!-- Header -->
+                    <tr class="header-bg">
+                        <td>
+                            <table>
+                                <tr>
+                                   <img src="{{ website.website }}/static/emails/static/logo.png" alt="" style="height:24px;">
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Header End -->
+
+
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding:40px;padding-top:0px;">
+                            <table>
+                                <tr>
+                                    <td style="width:520px;text-align: center;">
+                                       <h1 style="font-weight: bold;color:#241b33;text-align: center;margin: 0px;font-family:Poppins SemiBold;font-size:20px;line-height:30px">
+                                        Invoice No. {{ order.id|stringformat:"06d" }}
+                                       </h1>
+                                       <p style="color:#e3aa00;text-align: center;margin: 0px;font-family:Poppins;font-size:12px;line-height:20px">
+                                        {{ order.created_at|date:"d/m/Y" }}
+                                       </p>
+                                       <!-- <img src="{{ website.website }}/static/emails/static/onlines.png" alt="" style="height:30px;"> -->
+                                    </td>
+                                </tr>
+                            </table>
+                            <table style="border: none;border-collapse: collapse;width:100%;">
+                                <tr>
+                                    <td style="width:30%;padding:20px 0px;vertical-align:top;">
+                                     <h1 style="color:#241b33;margin: 0px;font-family:Poppins SemiBold;font-size:10px;line-height:14px">
+                                        TOTAL
+                                    </h1>
+                                    <p style="color:#e3aa00;margin: 0px;font-family:Poppins;font-size:24px;line-height:30px">
+                                        {{ order.currency }}{{ order.total|floatformat:2 }}
+                                    </p>
+                                    <br><br>
+                                    <p style="color:#241b33;margin: 0px;font-family:Poppins;font-size:9px;line-height:12px">
+                                       Invoice To:
+                                    </p>
+                                    <h1 style="font-weight: bold;color:#241b33;margin: 0px;font-family:Poppins SemiBold;font-size:12px;line-height:18px">
+                                        {{ order.user.first_name|default:"" }} {{ order.user.last_name|default:"" }}
+                                    </h1>
+                                    <br><br><br><br>
+                                    <p style="color:#241b33;margin: 0px;font-family:Poppins;font-size:9px;line-height:12px">
+                                       Invoice From:
+                                    </p>
+                                    <h1 style="font-weight: bold;color:#241b33;margin: 0px;font-family:Poppins SemiBold;font-size:12px;line-height:18px">
+                                        {{ website.company|default:"TBC" }}
+                                            
+                                    </h1>
+                                     <p style="color:#9e99af;margin: 0px;font-family:Poppins;font-size:8px;line-height:12px">
+                                      <br>
+                                      <!-- {{ website.address|default:"TBC"|safe }} -->
+                                      DUNEWELL  SERVICES  LTD<br>
+                                      3 Swan Avenue<br>
+                                      Wallsend<br>
+                                      United Kingdom<br>
+                                      NE28 7JH<br>
+                                      Company Number: 17135763<br>
+                                    </p><br>
+                                    <p style="color:#9e99af;margin: 0px;font-family:Poppins;font-size:8px;line-height:12px">
+                                    <b style="color:#e3aa00;margin: 0px;font-family:Poppins;font-size:8px;line-height:12px">Email:</b> {{ website.email|default:"support@littlestorybox.com" }}
+                                    </p>
+                                    </td>
+                                    <td style="width:70%;vertical-align:top;">
+                                     <table style="width:100%;border-collapse:collapse;border:none;">
+                                        <tr>
+                                         <td style="width:60%;border-bottom: 1px solid black;padding:10px 5px;">
+                                        <h1 style="font-weight: bold;color:#241b33;margin: 0px;font-family:Poppins SemiBold;font-size:12px;line-height:18px">
+                                        DESCRIPTION
+                                        </h1>
+                                         </td>
+                                        <td style="width:20%;border-bottom: 3px solid #e3aa00;padding:10px 5px;" align="center">
+                                        <h1 style="font-weight: bold;color:#241b33;margin: 0px;font-family:Poppins SemiBold;font-size:12px;line-height:18px">
+                                        QTY.
+                                        </h1>
+                                         </td>
+                                        <td style="width:20%;border-bottom: 3px solid #e3aa00;padding:10px 5px;" align="center">
+                                        <h1 style="font-weight: bold;color:#241b33;margin: 0px;font-family:Poppins SemiBold;font-size:12px;line-height:18px">
+                                        PRICE
+                                        </h1>
+                                         </td>
+                                        </tr>
+                                        {% for item in items %}
+                                        <tr>
+                                         <td style="width:60%;border-bottom: 1px solid black;padding:10px 5px;">
+                                        <h1 style="font-weight: bold;color:#241b33;margin: 0px;font-family:Poppins SemiBold;font-size:9px;line-height:16px">
+                                        {{ item.package.packagetype.name }}
+                                        </h1>
+                                         <p style="color:#9e99af;margin: 0px;font-family:Poppins;font-size:8px;line-height:16px">
+                                        {{ item.tokens }}
+                                        </p>
+                                         </td>
+                                        <td style="width:20%;border-bottom: 1px solid black;padding:10px 5px;background:#f8f8f8;" align="center">
+                                        <p style="color:#9e99af;margin: 0px;font-family:Poppins;font-size:8px;line-height:12px">
+                                        {{ item.quantity }}
+                                        </p>
+                                         </td>
+                                        <td style="width:20%;border-bottom: 1px solid black;padding:10px 5px;background:#f8f8f8;" align="center">
+                                         <p style="color:#9e99af;margin: 0px;font-family:Poppins;font-size:8px;line-height:12px">
+                                         {{ item.currency }}{{ item.subtotal|floatformat:2 }}
+                                        </p>
+                                         </td>
+                                        </tr>
+                                        {% endfor %}
+                                        <tr>
+                                         <td style="width:60%;padding:10px 10px 0px 5px;" align="right;">
+                                         <p style="color:#9e99af;margin: 0px;font-family:Poppins;font-size:10px;line-height:16px;text-align:right;">
+                                        Sub Total
+                                        </p>
+                                         </td>
+                                        <td style="width:20%;padding:10px 10px 0px 5px;padding-right:20px;background:#f8f8f8;" align="right" colspan="2">
+                                         <p style="color:#9e99af;margin: 0px;font-family:Poppins;font-size:10px;line-height:12px">
+                                         {{ order.currency }}{{ order.total|add:order.discount|floatformat:2 }}
+                                        </p>
+                                         </td>
+                                        </tr>
+                                         <tr>
+                                         <td style="width:60%;border-bottom: 1px solid black;padding:0px 10px 10px 5px;" align="right;">
+                                         <p style="color:#9e99af;margin: 0px;font-family:Poppins;font-size:10px;line-height:16px;text-align:right;">
+                                        Discount
+                                        </p>
+                                         </td>
+                                        <td style="width:20%;border-bottom: 1px solid black;padding:0px 10px 10px 5px;padding-right:20px;border-bottom: 3px solid #e3aa00;background:#f8f8f8;" align="right" colspan="2">
+                                         <p style="color:#9e99af;margin: 0px;font-family:Poppins;font-size:10px;line-height:12px">
+                                         {{ order.currency }}{{ order.discount|floatformat:2 }}
+                                        </p>
+                                         </td>
+                                        </tr>
+                                        <tr>
+                                         <td style="width:60%;padding:10px 5px" align="right;">
+                                         <p style="color:#241b33;margin: 0px;font-family:Poppins SemiBold;font-size:12px;line-height:16px;text-align:right;">
+                                        GRAND TOTAL
+                                        </p>
+                                         </td>
+                                        <td style="width:20%;padding:10px 5px;padding-right:20px;" align="right" colspan="2">
+                                         <p style="color:#241b33;margin: 0px;font-family:Poppins SemiBold;font-size:12px;line-height:16px">
+                                        {{ order.currency }}{{ order.total|floatformat:2 }}
+                                        </p>
+                                         </td>
+                                        </tr>
+                                     </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Content End-->
+
+
+                    <!-----------Footer----------->
+                    <tr>
+                        <td>
+                            <table width="100%" cellspacing="0" cellpadding="" border="0px" style="border-collapse: collapse;"> 
+                                <tr class="footer-bg">  
+                                    <td>
+                                        
+                                    </td>
+                                </tr>
+                                <tr>              
+                            </table>
+                        </td>
+                    </tr> 
+                    <!-----------Footer End----------->    
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

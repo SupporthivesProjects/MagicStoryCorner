@@ -1,0 +1,684 @@
+<script>
+    function generationLoader(show = true, message = 'Creating your magical story...') {
+        let loader = document.getElementById('gl-generation-loader');
+    
+        if (!loader && show) {
+            loader = document.createElement('div');
+            loader.id = 'gl-generation-loader';
+    
+            const style = document.createElement('style');
+            style.innerHTML = `
+            @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600;700&family=Bubblegum+Sans&display=swap');
+    
+            #gl-generation-loader {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+                font-family: 'Poppins', sans-serif;
+                background: rgba(13, 4, 21, 0.45);
+                overflow: hidden;
+            }
+    
+            @keyframes gl-bg-gradient {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.95; }
+            }
+    
+            #gl-generation-loader .gl-star {
+                position: absolute;
+                background: white;
+                border-radius: 50%;
+                animation: gl-star-twinkle 3s ease-in-out infinite;
+            }
+    
+            @keyframes gl-star-twinkle {
+                0%, 100% { 
+                    opacity: 0.3;
+                    transform: scale(1);
+                    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+                }
+                50% { 
+                    opacity: 1;
+                    transform: scale(1.5);
+                    box-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 25px rgba(255, 255, 255, 0.5);
+                }
+            }
+    
+            #gl-generation-loader .gl-shooting-star {
+                position: absolute;
+                width: 2px;
+                height: 2px;
+                background: white;
+                border-radius: 50%;
+                box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+                animation: gl-shooting 3s linear infinite;
+            }
+    
+            @keyframes gl-shooting {
+                0% {
+                    transform: translateX(0) translateY(0);
+                    opacity: 1;
+                }
+                70% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateX(-300px) translateY(300px);
+                    opacity: 0;
+                }
+            }
+    
+            #gl-generation-loader .gl-particle {
+                position: absolute;
+                border-radius: 50%;
+                animation: gl-float-particle 8s ease-in-out infinite;
+                opacity: 0.6;
+            }
+    
+            @keyframes gl-float-particle {
+                0%, 100% {
+                    transform: translateY(0) translateX(0) scale(1);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 0.6;
+                }
+                90% {
+                    opacity: 0.6;
+                }
+                100% {
+                    transform: translateY(-100vh) translateX(50px) scale(1.5);
+                    opacity: 0;
+                }
+            }
+    
+            #gl-generation-loader .gl-orb {
+                position: absolute;
+                border-radius: 50%;
+                filter: blur(60px);
+                animation: gl-orb-float 10s ease-in-out infinite;
+                opacity: 0.4;
+            }
+    
+            @keyframes gl-orb-float {
+                0%, 100% {
+                    transform: translate(0, 0) scale(1);
+                }
+                33% {
+                    transform: translate(100px, -100px) scale(1.2);
+                }
+                66% {
+                    transform: translate(-100px, 100px) scale(0.8);
+                }
+            }
+    
+            #gl-generation-loader .gl-loader-box {
+                background: #ffffff;
+                padding: 40px 50px;
+                border-radius: 30px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 420px;
+                max-width: 90vw;
+                box-shadow: 
+                    0 25px 70px rgba(0, 0, 0, 0.4),
+                    0 0 0 2px rgba(255, 255, 255, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 1);
+                position: relative;
+                overflow: hidden;
+                animation: gl-box-entrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+                z-index: 10;
+            }
+    
+            @keyframes gl-box-entrance {
+                0% {
+                    opacity: 0;
+                    transform: scale(0.8) translateY(30px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+            }
+    
+            @keyframes gl-box-glow {
+                0%, 100% {
+                    box-shadow: 
+                        0 30px 90px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px rgba(255, 255, 255, 0.3),
+                        inset 0 2px 0 rgba(255, 255, 255, 1),
+                        0 0 120px rgba(168, 85, 247, 0.6),
+                        0 0 200px rgba(244, 114, 182, 0.3);
+                }
+                50% {
+                    box-shadow: 
+                        0 30px 90px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px rgba(255, 255, 255, 0.3),
+                        inset 0 2px 0 rgba(255, 255, 255, 1),
+                        0 0 150px rgba(168, 85, 247, 0.8),
+                        0 0 250px rgba(244, 114, 182, 0.5);
+                }
+            }
+    
+            #gl-generation-loader .gl-loader-box::before {
+                content: '';
+                position: absolute;
+                top: -3px;
+                left: -3px;
+                right: -3px;
+                bottom: -3px;
+                border-radius: 30px;
+                z-index: -1;
+                opacity: 0.5;
+                filter: blur(12px);
+            }
+    
+            @keyframes gl-border-glow {
+                0%, 100% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+            }
+    
+            #gl-generation-loader .gl-loader-box::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: transparent;
+                border-radius: 30px;
+                pointer-events: none;
+            }
+    
+            #gl-generation-loader .gl-astronaut-container {
+                position: relative;
+                width: 140px;
+                height: 140px;
+                margin-bottom: 25px;
+            }
+    
+            #gl-generation-loader .gl-astronaut {
+                width: 80px;
+                height: 80px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                animation: gl-float 3s ease-in-out infinite;
+                filter: drop-shadow(0 10px 20px rgba(255, 206, 60, 0.4));
+            }
+    
+            @keyframes gl-float {
+                0%, 100% { 
+                    transform: translate(-50%, -50%) translateY(0px) rotate(-5deg);
+                    filter: drop-shadow(0 10px 20px rgba(255, 206, 60, 0.4));
+                }
+                50% { 
+                    transform: translate(-50%, -50%) translateY(-18px) rotate(5deg);
+                    filter: drop-shadow(0 15px 30px rgba(255, 206, 60, 0.6)) drop-shadow(0 0 20px rgba(255, 206, 60, 0.8));
+                }
+            }
+    
+            #gl-generation-loader .gl-astronaut-body {
+                width: 50px;
+                height: 60px;
+                background: linear-gradient(135deg, #ffce3c 0%, #ffa500 100%);
+                border-radius: 15px;
+                position: relative;
+                margin: 0 auto;
+                box-shadow: 
+                    inset 0 -2px 8px rgba(255, 140, 0, 0.5),
+                    0 4px 12px rgba(255, 206, 60, 0.4);
+            }
+    
+            #gl-generation-loader .gl-astronaut-helmet {
+                width: 45px;
+                height: 45px;
+                background: linear-gradient(135deg, #ffffff 0%, #e8f4ff 100%);
+                border-radius: 50%;
+                position: absolute;
+                top: -35px;
+                left: 50%;
+                transform: translateX(-50%);
+                border: 3px solid #ffce3c;
+                overflow: hidden;
+                box-shadow: 
+                    0 4px 12px rgba(255, 206, 60, 0.3),
+                    inset 0 2px 4px rgba(255, 255, 255, 0.8);
+            }
+    
+            #gl-generation-loader .gl-astronaut-helmet::before {
+                content: '';
+                position: absolute;
+                top: 5px;
+                left: 5px;
+                width: 15px;
+                height: 15px;
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.6), transparent);
+                border-radius: 50%;
+            }
+    
+            #gl-generation-loader .gl-astronaut-face {
+                width: 25px;
+                height: 25px;
+                background: #ffeaa7;
+                border-radius: 50%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+    
+            #gl-generation-loader .gl-astronaut-eyes {
+                position: absolute;
+                top: 8px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 8px;
+            }
+    
+            #gl-generation-loader .gl-eye {
+                width: 4px;
+                height: 4px;
+                background: #2d1b69;
+                border-radius: 50%;
+                animation: gl-blink 4s infinite;
+            }
+    
+            @keyframes gl-blink {
+                0%, 96%, 100% { height: 4px; }
+                98% { height: 1px; }
+            }
+    
+            #gl-generation-loader .gl-astronaut-smile {
+                width: 10px;
+                height: 5px;
+                border: 2px solid #2d1b69;
+                border-top: none;
+                border-radius: 0 0 10px 10px;
+                position: absolute;
+                bottom: 6px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+    
+            #gl-generation-loader .gl-astronaut-arms {
+                position: absolute;
+                width: 100%;
+                top: 15px;
+            }
+    
+            #gl-generation-loader .gl-arm {
+                width: 15px;
+                height: 35px;
+                background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 100%);
+                border-radius: 8px;
+                position: absolute;
+                box-shadow: 0 2px 6px rgba(255, 107, 107, 0.4);
+            }
+    
+            #gl-generation-loader .gl-arm-left {
+                left: -8px;
+                transform: rotate(-20deg);
+                animation: gl-wave-left 2s ease-in-out infinite;
+            }
+    
+            #gl-generation-loader .gl-arm-right {
+                right: -8px;
+                transform: rotate(20deg);
+                animation: gl-wave-right 2s ease-in-out infinite;
+            }
+    
+            @keyframes gl-wave-left {
+                0%, 100% { transform: rotate(-20deg); }
+                50% { transform: rotate(-40deg); }
+            }
+    
+            @keyframes gl-wave-right {
+                0%, 100% { transform: rotate(20deg); }
+                50% { transform: rotate(40deg); }
+            }
+    
+            #gl-generation-loader .gl-orbit {
+                position: absolute;
+                border: 2px dashed rgba(196, 109, 213, 0.5);
+                border-radius: 50%;
+                animation: gl-rotate 8s linear infinite;
+            }
+    
+            #gl-generation-loader .gl-orbit-1 {
+                width: 110px;
+                height: 110px;
+                top: 15px;
+                left: 15px;
+            }
+    
+            #gl-generation-loader .gl-orbit-2 {
+                width: 130px;
+                height: 130px;
+                top: 5px;
+                left: 5px;
+                animation-duration: 10s;
+                animation-direction: reverse;
+                border-color: rgba(109, 131, 242, 0.5);
+            }
+    
+            @keyframes gl-rotate {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+    
+            #gl-generation-loader .gl-book-icon {
+                position: absolute;
+                width: 22px;
+                height: 18px;
+                background: linear-gradient(135deg, #b324db 0%, #d946ef 100%);
+                border-radius: 3px;
+                box-shadow: 0 4px 12px rgba(179, 36, 219, 0.5);
+                animation: gl-book-pulse 2s ease-in-out infinite;
+            }
+    
+            @keyframes gl-book-pulse {
+                0%, 100% { 
+                    transform: scale(1); 
+                    box-shadow: 0 4px 12px rgba(179, 36, 219, 0.5), 0 0 0 0 rgba(179, 36, 219, 0.7);
+                }
+                50% { 
+                    transform: scale(1.2); 
+                    box-shadow: 0 6px 18px rgba(179, 36, 219, 0.7), 0 0 20px 5px rgba(179, 36, 219, 0.4);
+                }
+            }
+    
+            #gl-generation-loader .gl-book-icon::before {
+                content: '';
+                position: absolute;
+                top: 4px;
+                left: 4px;
+                right: 4px;
+                height: 2px;
+                background: rgba(255, 255, 255, 0.7);
+                border-radius: 1px;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            }
+    
+            #gl-generation-loader .gl-book-icon::after {
+                content: '';
+                position: absolute;
+                top: 9px;
+                left: 4px;
+                right: 4px;
+                height: 2px;
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 1px;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            }
+    
+            #gl-generation-loader .gl-book-1 {
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                animation-delay: 0s;
+            }
+    
+            #gl-generation-loader .gl-book-2 {
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                animation-delay: 0.5s;
+                background: linear-gradient(135deg, #6d83f2 0%, #4a5fe8 100%);
+            }
+    
+            #gl-generation-loader .gl-book-3 {
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+                animation-delay: 1s;
+                background: linear-gradient(135deg, #52d3aa 0%, #3ab896 100%);
+            }
+    
+            #gl-generation-loader .gl-book-4 {
+                top: 50%;
+                right: 0;
+                transform: translateY(-50%);
+                animation-delay: 1.5s;
+                background: linear-gradient(135deg, #ffd93d 0%, #ffb800 100%);
+            }
+    
+            #gl-generation-loader .gl-progress-bar-container {
+                width: 100%;
+                height: 10px;
+                background: linear-gradient(90deg, rgba(179, 36, 219, 0.08), rgba(255, 206, 60, 0.08));
+                border-radius: 12px;
+                overflow: hidden;
+                margin-top: 30px;
+                position: relative;
+                box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.08);
+            }
+    
+            #gl-generation-loader .gl-progress-bar {
+                height: 100%;
+                background: linear-gradient(90deg, 
+                    #ff6b9d 0%, 
+                    #c46dd5 20%, 
+                    #b324db 40%, 
+                    #6d83f2 60%, 
+                    #52d3aa 80%, 
+                    #ffd93d 100%
+                );
+                background-size: 200% 100%;
+                border-radius: 12px;
+                animation: gl-progress 3s ease-in-out infinite, gl-shimmer 3s linear infinite;
+                box-shadow: 
+                    0 0 20px rgba(255, 107, 157, 0.6),
+                    0 0 40px rgba(179, 36, 219, 0.4);
+                position: relative;
+            }
+    
+            #gl-generation-loader .gl-progress-bar::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 50%;
+                height: 100%;
+                background: linear-gradient(90deg, 
+                    transparent, 
+                    rgba(255, 255, 255, 0.8), 
+                    transparent
+                );
+                animation: gl-progress-shine 2s infinite;
+            }
+    
+            @keyframes gl-progress-shine {
+                0% { left: -100%; }
+                100% { left: 200%; }
+            }
+    
+            @keyframes gl-progress {
+                0% { width: 25%; }
+                50% { width: 85%; }
+                100% { width: 25%; }
+            }
+    
+            @keyframes gl-shimmer {
+                0% { background-position: 0% 50%; }
+                100% { background-position: 200% 50%; }
+            }
+    
+            #gl-generation-loader p {
+                color: #5e35b1;
+                margin-top: 30px;
+                font-size: 22px;
+                text-align: center;
+                font-weight: 700;
+                font-family: 'Bubblegum Sans', 'Fredoka One', cursive;
+                background: linear-gradient(135deg, #b324db, #ff6b9d, #ffd93d, #b324db);
+                background-size: 200% 200%;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: gl-text-gradient 3s ease-in-out infinite;
+                letter-spacing: 0.5px;
+                filter: drop-shadow(2px 2px 4px rgba(179, 36, 219, 0.3));
+            }
+    
+            @keyframes gl-text-gradient {
+                0%, 100% { 
+                    background-position: 0% 50%;
+                    transform: scale(1);
+                }
+                50% { 
+                    background-position: 100% 50%;
+                    transform: scale(1.05);
+                }
+            }
+    
+            #gl-generation-loader .gl-sparkles {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+            }
+    
+            #gl-generation-loader .gl-sparkle {
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                background: white;
+                border-radius: 50%;
+                box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+                animation: gl-sparkle-twinkle 2s ease-in-out infinite;
+            }
+    
+            @keyframes gl-sparkle-twinkle {
+                0%, 100% { 
+                    opacity: 0.3; 
+                    transform: scale(1);
+                }
+                50% { 
+                    opacity: 1; 
+                    transform: scale(1.8);
+                }
+            }
+            `;
+            document.head.appendChild(style);
+    
+            let starsHTML = '';
+            for (let i = 0; i < 0; i++) {
+                const size = Math.random() * 3 + 1;
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                const delay = Math.random() * 3;
+                const duration = 2 + Math.random() * 2;
+                starsHTML += `<div class="gl-star" style="width: ${size}px; height: ${size}px; left: ${left}%; top: ${top}%; animation-delay: ${delay}s; animation-duration: ${duration}s;"></div>`;
+            }
+    
+            let shootingStarsHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const top = Math.random() * 50;
+                const right = Math.random() * 50;
+                const delay = Math.random() * 5;
+                shootingStarsHTML += `<div class="gl-shooting-star" style="top: ${top}%; right: ${right}%; animation-delay: ${delay}s;"></div>`;
+            }
+    
+            let particlesHTML = '';
+            const particleColors = ['#ff6b9d', '#c46dd5', '#6d83f2', '#52d3aa', '#ffd93d'];
+            for (let i = 0; i < 30; i++) {
+                const size = Math.random() * 6 + 3;
+                const left = Math.random() * 100;
+                const color = particleColors[Math.floor(Math.random() * particleColors.length)];
+                const delay = Math.random() * 8;
+                const duration = 8 + Math.random() * 4;
+                particlesHTML += `<div class="gl-particle" style="width: ${size}px; height: ${size}px; left: ${left}%; bottom: -20px; background: ${color}; animation-delay: ${delay}s; animation-duration: ${duration}s; box-shadow: 0 0 ${size * 3}px ${color};"></div>`;
+            }
+    
+            let orbsHTML = '';
+            const orbData = [
+                {size: 200, color: 'rgba(255, 107, 157, 0.4)', top: '10%', left: '15%', delay: '0s'},
+                {size: 250, color: 'rgba(109, 131, 242, 0.4)', top: '60%', right: '10%', delay: '2s'},
+                {size: 180, color: 'rgba(82, 211, 170, 0.4)', bottom: '15%', left: '20%', delay: '4s'}
+            ];
+            orbData.forEach(orb => {
+                const position = orb.top ? `top: ${orb.top};` : `bottom: ${orb.bottom};`;
+                const horizontal = orb.left ? `left: ${orb.left};` : `right: ${orb.right};`;
+                orbsHTML += `<div class="gl-orb" style="width: ${orb.size}px; height: ${orb.size}px; background: ${orb.color}; ${position} ${horizontal} animation-delay: ${orb.delay};"></div>`;
+            });
+    
+            let sparklesHTML = '';
+            const sparklePositions = [
+                {top: '15%', left: '10%', delay: '0s'},
+                {top: '25%', right: '15%', delay: '0.5s'},
+                {top: '70%', left: '12%', delay: '1s'},
+                {top: '80%', right: '18%', delay: '1.5s'},
+                {top: '40%', left: '8%', delay: '0.8s'},
+                {top: '60%', right: '10%', delay: '1.2s'}
+            ];
+            
+            sparklePositions.forEach(pos => {
+                const style = `top: ${pos.top}; ${pos.left ? 'left: ' + pos.left : 'right: ' + pos.right}; animation-delay: ${pos.delay};`;
+                sparklesHTML += `<div class="gl-sparkle" style="${style}"></div>`;
+            });
+    
+            loader.innerHTML = `
+            ${starsHTML}
+            ${shootingStarsHTML}
+            ${particlesHTML}
+            ${orbsHTML}
+            <div class="gl-loader-box">
+                <div class="gl-sparkles">${sparklesHTML}</div>
+                <div class="gl-astronaut-container">
+                    <div class="gl-orbit gl-orbit-1">
+                        <div class="gl-book-icon gl-book-1"></div>
+                        <div class="gl-book-icon gl-book-3"></div>
+                    </div>
+                    <div class="gl-orbit gl-orbit-2">
+                        <div class="gl-book-icon gl-book-2"></div>
+                        <div class="gl-book-icon gl-book-4"></div>
+                    </div>
+                    <div class="gl-astronaut">
+                        <div class="gl-astronaut-body">
+                            <div class="gl-astronaut-helmet">
+                                <div class="gl-astronaut-face">
+                                    <div class="gl-astronaut-eyes">
+                                        <div class="gl-eye"></div>
+                                        <div class="gl-eye"></div>
+                                    </div>
+                                    <div class="gl-astronaut-smile"></div>
+                                </div>
+                            </div>
+                            <div class="gl-astronaut-arms">
+                                <div class="gl-arm gl-arm-left"></div>
+                                <div class="gl-arm gl-arm-right"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p>${message}</p>
+                <div class="gl-progress-bar-container">
+                    <div class="gl-progress-bar"></div>
+                </div>
+            </div>
+            `;
+    
+            document.body.appendChild(loader);
+        }
+    
+        if (loader) {
+            loader.style.display = show ? 'flex' : 'none';
+            if (show && message) {
+                loader.querySelector('p').textContent = message;
+            }
+        }
+    }
+</script>

@@ -1,0 +1,144 @@
+{% extends "demos/layout.html" %}
+
+{% block title %}Coupons{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="log-page-header mb-4 d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-tag"></i> Coupons</h3>
+        <a href="{% url 'admin_coupon_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Add New Coupon
+        </a>
+    </div>
+
+    <div class="log-table-card">
+        <table id="couponsTable" class="table table-hover log-table">
+            <thead class="log-table-head">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Discount</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody class="log-table-body">
+                {% for coupon in coupons %}
+                    <tr class="log-table-row">
+                        <td>
+                            <span class="log-id-badge">#{{ coupon.id }}</span>
+                        </td>
+
+                        <td>{{ coupon.name }}</td>
+
+                        <td>
+                            <span class="badge bg-secondary">{{ coupon.code }}</span>
+                        </td>
+
+                        <td>
+                            <span class="text-success fw-bold">{{ coupon.discount }}%</span>
+                        </td>
+
+                        <td>{{ coupon.startdate|date:"M d, Y h:i A" }}</td>
+
+                        <td>
+                            {% if coupon.enddate %}
+                                {{ coupon.enddate|date:"M d, Y h:i A" }}
+                            {% else %}
+                                <span class="text-muted">No Expiry</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">
+                            {% now "U" as current_timestamp %}
+                            {% if coupon.enddate %}
+                                {% if coupon.startdate.timestamp > current_timestamp|add:"0" %}
+                                    <span class="log-badge log-badge-info">Upcoming</span>
+                                {% elif coupon.enddate.timestamp < current_timestamp|add:"0" %}
+                                    <span class="log-badge log-badge-danger">Expired</span>
+                                {% else %}
+                                    <form method="POST" action="{% url 'admin_coupon_toggle' coupon.id %}" style="display: inline;">
+                                        {% csrf_token %}
+                                        {% if coupon.is_active %}
+                                            <button type="submit" class="log-badge log-badge-success border-0" style="cursor: pointer;">
+                                                Active
+                                            </button>
+                                        {% else %}
+                                            <button type="submit" class="log-badge log-badge-warning border-0" style="cursor: pointer;">
+                                                Inactive
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                {% if coupon.startdate.timestamp > current_timestamp|add:"0" %}
+                                    <span class="log-badge log-badge-info">Upcoming</span>
+                                {% else %}
+                                    <form method="POST" action="{% url 'admin_coupon_toggle' coupon.id %}" style="display: inline;">
+                                        {% csrf_token %}
+                                        {% if coupon.is_active %}
+                                            <button type="submit" class="log-badge log-badge-success border-0" style="cursor: pointer;">
+                                                Active
+                                            </button>
+                                        {% else %}
+                                            <button type="submit" class="log-badge log-badge-warning border-0" style="cursor: pointer;">
+                                                Inactive
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">
+                            <a href="{% url 'admin_coupon_edit' coupon.id %}" 
+                               class="btn btn-sm btn-outline-primary" 
+                               title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#couponsTable').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search coupons...",
+            emptyTable: "No coupons found",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ coupons",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>'
+            }
+        },
+        dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>t<"row mt-3"<"col-md-6"i><"col-md-6"p>>',
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 2 },
+            { responsivePriority: 3, targets: 3 },
+            { responsivePriority: 4, targets: 6 },
+            { responsivePriority: 5, targets: -1 },
+            { orderable: false, targets: -1 }
+        ]
+    });
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function(el) { return new bootstrap.Tooltip(el) });
+});
+</script>
+{% endblock %}

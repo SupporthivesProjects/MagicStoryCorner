@@ -1,0 +1,74 @@
+{
+  "name": "LittleStoryBox - AI Stories for Kids",
+  "short_name": "LittleStoryBox",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#E5F9FF",
+  "theme_color": "#00A8E8",
+  "orientation": "portrait-primary",
+  "description": "Create magical child stories with AI, listen with audio, and flip through beautiful interactive books",
+  "screenshots": [
+    {
+      "src": "/static/media/screenshot-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/static/media/screenshot-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/static/favicons/favicon.ico",
+      "sizes": "192x192 256x256 512x512",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/media/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/static/media/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["education", "books"],
+  "shortcuts": [
+    {
+      "name": "Create New Story",
+      "short_name": "New Story",
+      "description": "Generate a new AI story for your child",
+      "url": "/stories/story-book-create/",
+      "icons": [
+        {
+          "src": "/static/media/shortcut-icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "My Stories",
+      "short_name": "Stories",
+      "description": "View all your downloaded stories",
+      "url": "/users/library/",
+      "icons": [
+        {
+          "src": "/static/media/stories-icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

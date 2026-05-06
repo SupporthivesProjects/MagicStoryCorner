@@ -1,0 +1,98 @@
+{% extends "includes/layout.html" %}
+{% load static %}
+{% load currency_tags %}
+{% load humanize %}
+{% block title %} Order Summary | {{ site_name }} {% endblock %}
+{% block content %}
+<style>
+    body{
+        background-color:#BDEEFC;
+    }
+    .order-summary{
+        background-color:#BDEEFC;
+        margin-bottom: -141px;
+    }
+</style>
+<section class="order-summary">
+    <div class="os-sec">
+        <h2 class="bi-head">Order Summary</h2>
+        <div id="cartItemsContainer">
+            {% if cart %}
+            <div class="px-chg">
+                {% for item in cart.values %}
+                <div class="info-sec cart-item">
+                    <p class="i-det">{{ item.name }} ({{ item.tokens|intcomma }} Tokens)</p>
+                    <div class="price-sec">
+                        <!-- <p class="i-detb">${{ item.price|floatformat:2 }} x {{ item.quantity }}</p> -->
+                        <p class="i-detb">
+                            {% convert_currency item.price selected_currency %} x {{ item.quantity }}
+                        </p>
+                        <a href="javascript:void(0);" class="cart_remove" data-id="{{ item.id }}">
+                            <img src="{% static 'media/crossitem.png' %}" alt="" style="width:24px;height:24px;">
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="st-sec">
+                    <div class="line-p">
+                        <p class="i-detb">Sub total</p>
+                        <!-- <p class="i-detb" id="cartSubTotal">${{ subtotal|floatformat:2 }}</p> -->
+                        <p class="i-detb" id="cartSubTotal">
+                            {% convert_currency subtotal selected_currency %}
+                        </p>
+                    </div>
+                    <div class="line-p">
+                        <p class="i-detb" style="color: #47B147;">Savings @ {{ discount_percent }}% </p>
+                        <!-- <p class="i-detb" style="color: #47B147;" id="cartSavings">-${{ savings|floatformat:2 }}</p> -->
+                        <p class="i-detb" style="color: #47B147;" id="cartSavings">
+                            -{% convert_currency savings selected_currency %}
+                        </p>
+                    </div>
+                    <div class="line-p">
+                        <p class="i-detbt">Total</p>
+                        <!-- <p class="i-detbt" id="cartTotal">${{ total|floatformat:2 }}</p> -->
+                        <p class="i-detbt" id="cartTotal">
+                            {% convert_currency total selected_currency %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p class="i-det">Your cart is empty.</p>
+            {% endif %}
+        </div>
+
+        <div class="radio-groupp">
+            <input type="radio" id="agree" name="terms" class="agree-box" required>
+            <p class="agree-text">I have read and agree to the <a href="{% url 'terms_conditions' %}">Terms of Use</a>.</p>
+        </div>
+       <div class="pro"> 
+        <div class="input-group">
+            <form method="post" action="{% url 'order_summary' %}" id="applyPromoCodeForm" class="d-flex flex-grow-1">
+                {% csrf_token %}
+                <input type="text" name="promo_code" placeholder="Enter promo code and hit enter" value="{{ applied_coupon|default:applied_referral|default:'' }}" class="form-control">
+            </form>
+            
+            {% if applied_coupon or applied_referral %}
+            <form method="post" action="{% url 'order_summary' %}" id="removePromoCodeForm">
+                {% csrf_token %}
+                <button type="submit" name="remove_code" value="1" class="btn position-absolute end-0 top-50 translate-middle-y" title="Remove Code">&times;</button>
+            </form>
+            {% endif %}
+        </div>
+        
+        <div class="button-ani mt-2">
+            <a href="{% url 'package_pricing' %}" class="cancel-btn btn">Back</a>
+            <a href="{% url 'billing_information' %}" class="next-btn btn" id="nextLink">Billing Information</a>
+        </div>
+        <img src="{% static 'media/mastercard.png' %}" alt="">
+        </div>
+    </div>
+    <img src="{% static 'media/os-mob.png' %}" alt="" class="d-lg-none d-block d-md-block w-100" style="width: 100%;">
+</section>
+<section class="dashboard_last d-lg-block d-md-block d-none"></section>
+{% endblock %}
+
+{% block extra_js %}
+    {% include "payments/includes/cart-page-scripts.html" %}
+{% endblock %}
