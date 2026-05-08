@@ -121,41 +121,7 @@ html, body{
 .bg-image:not([class*=absolute]) {
   position: absolute;
 }
-header{
-  background: #5A3384;
-  padding-top: 16px;
-}
-.navbar-expand-lg .navbar-nav {
-    gap: 10px;
-    align-items: center;
-}
-.nav-item .d-flex{
-   gap: 10px;
-}
-main{
-  background: #fff;
-}
-.header .nav-link{
-    color: var(--Core-White, #FFF);
-    text-align: center;
-    font-family: "Josephine Cosy";
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 100%;
-    letter-spacing: -1.44px;
-}
-.header .nav-item .btn-yellow{
-    color: var(--Core-Secondary-Purple, #5A3384);
-    font-family: Poppins;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 150%;
-    /* padding: 16px 40px; */
-    padding: 0px 30px;
-    display: flex;
-}
+/* header/navbar rules removed — handled by Reskin style.css */
 .hearbalence-toggle-menu{
         display: flex;
         justify-content: center;

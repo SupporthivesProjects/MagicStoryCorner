@@ -3,34 +3,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
 @font-face {
   font-family: 'LEMON MILK';
-  src: url('../fonts/LEMONMILK-Regular.otf') format('opentype');
+  src: url('../font/LEMONMILK-Regular.otf') format('opentype');
   font-weight: 400;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'LEMON MILK';
-  src: url('../fonts/LEMONMILK-Medium.otf') format('opentype');
+  src: url('../font/LEMONMILK-Medium.otf') format('opentype');
   font-weight: 500;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'LEMON MILK';
-  src: url('../fonts/LEMONMILK-Light.otf') format('opentype');
+  src: url('../font/LEMONMILK-Light.otf') format('opentype');
   font-weight: 300;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'LEMON MILK';
-  src: url('../fonts/LEMONMILK-Bold.otf') format('opentype');
+  src: url('../font/LEMONMILK-Bold.otf') format('opentype');
   font-weight: 700; /* better than 800 */
   font-display: swap;
 }
 @font-face {
   font-family: 'Quicksand';
-  src: url('../fonts/Quicksand-VariableFont_wght.ttf') format('opentype');
+  src: url('../font/Quicksand-VariableFont_wght.ttf') format('opentype');
   font-display: swap;
 }
 
@@ -38,37 +38,37 @@
   font-family: 'Satoshi Regular';
   font-style: normal;
   font-weight: normal;
-  src: local('Satoshi Regular'), url('../fonts/Satoshi-Regular.woff') format('woff');
+  src: local('Satoshi Regular'), url('../font/Satoshi-Regular.woff') format('woff');
 }
 @font-face {
   font-family: 'Satoshi Light';
   font-style: normal;
   font-weight: normal;
-  src: local('Satoshi Light'), url('../fonts/Satoshi-Light.woff') format('woff');
+  src: local('Satoshi Light'), url('../font/Satoshi-Light.woff') format('woff');
 }
 
 @font-face {
   font-family: 'Satoshi Medium';
   font-style: normal;
   font-weight: normal;
-  src: local('Satoshi Medium'), url('../fonts/Satoshi-Medium.woff') format('woff');
+  src: local('Satoshi Medium'), url('../font/Satoshi-Medium.woff') format('woff');
 }
 @font-face {
   font-family: 'Satoshi Bold';
   font-style: normal;
   font-weight: normal;
-  src: local('Satoshi Bold'), url('../fonts/Satoshi-Bold.woff') format('woff');
+  src: local('Satoshi Bold'), url('../font/Satoshi-Bold.woff') format('woff');
 }
 @font-face {
   font-family: 'Satoshi Black';
   font-style: normal;
   font-weight: normal;
-  src: local('Satoshi Black'), url('../fonts/Satoshi-Black.woff') format('woff');
+  src: local('Satoshi Black'), url('../font/Satoshi-Black.woff') format('woff');
 }
 
 @font-face {
   font-family: 'Quicksand';
-  src: local('Quicksand'), url('../fonts/Quicksand-VariableFont_wght.ttf') format('ttf');
+  src: local('Quicksand'), url('../font/Quicksand-VariableFont_wght.ttf') format('ttf');
 }
 
 body {
