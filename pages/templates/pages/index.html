@@ -1,517 +1,390 @@
 {% extends "includes/layout.html" %}
-
-{% block title %} Home | {{ site_name }} {% endblock %}
-
-{% block content %}
 {% load static %}
 {% load currency_tags %}
- <style>
-    .framer-9VGlt.framer-72rtr7 {
-       background-color: transparent !important;
-    }
-    .framer-9VGlt .framer-1ooejfr-container {
-        aspect-ratio: 1.61504 / 1;
-        bottom: 36%;
-        flex: 0 0 auto;
-        height: var(--framer-aspect-ratio-supported, 471px);
-        left: 51%;
-        position: absolute;
-        transform: translateX(-50%);
-        width: 761px;
-    }
-    .main-cheste{
-        position: absolute;
-        left: 0px;
-        right: 0px;
-        z-index: 1;
-    }
-    .framer-nur8le, .framer-s61to5, .framer-180h076, .framer-18gm3f ,.framer-9o09wo, .framer-1sv8ug5, .framer-17kasgq-container, .framer-e2ru16, .__framer-badge-container{
-        display: none !important;
-    }
-    .framer-ho4io4, .framer-zjkh70, .framer-patapc{
-        display: none !important;
-    }
-    .waves-block{
-        display: block !important;
-    }
-@media only screen and (min-width: 1400px) and (max-width: 1490px) {
-    .framer-9VGlt .framer-1ooejfr-container {
-        aspect-ratio: 1.61504 / 1;
-        bottom: 44%;
-        flex: 0 0 auto;
-        height: var(--framer-aspect-ratio-supported, 471px);
-        left: 51%;
-        position: absolute;
-        transform: translateX(-50%);
-        width: 761px;
-    }
-}
-</style>
-<section class="home-banner-main">
-    <div id="main" class="main-cheste" data-framer-ssr-released-at="2025-09-22T09:17:32.650Z" data-framer-page-optimized-at="2025-09-22T12:21:03.972Z" data-framer-generated-page></div>
-    <div class="framer-s61to5 waves-block" data-framer-name="waves">
-        <img data-framer-name="layer 3" src="{% static 'media/layer-back.png' %}">
-        <img data-framer-name="layer 2" src="{% static 'media/layer-mid.png' %}">
-        <img data-framer-name="layer 1" src="{% static 'media/layer-top.png' %}">
-    </div>
-    <div class="container position-relative">
-        <img src="{% static 'media/books-L.png' %}" alt="" class="img-fluid book-left">
-        <img src="{% static 'media/books-R.png' %}" alt="" class="img-fluid book-right">
-        <!-- <img src="{% static 'media/Hero-element.png' %}" alt="" class="img-fluid home-element d-lg-block d-md-block d-none"> -->
-        <div class="home-element">
-            
-        </div>
-        <img src="{% static 'media/hero-element-mo.png' %}" alt="" class="img-fluid home-element d-lg-none d-md-none d-block">
-        <div class="col">
-            <div class="home-content">
-                <h1>Turn imagination into a story</h1>
-                <p>
-                    Create magical tales in seconds,<br>
-                    read aloud with AI voices.
-                </p>
-                <a href="{% url 'story_book_create' %}" class="btn btn-yellow">Create now</a>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="how-it-works-section">
-    <img src="{% static 'media/home-ite-wroks.png' %}" alt="" class="img-fluid bg-image d-none d-lg-block d-md-block">
-    <div class="container">
-        <div class="col how-it-works-title">
-            <h2>How it works</h2>
-            <p>Follow these steps and get started today.</p>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                <div class="card how-it-works-card how-it-works-card-arr1">
-                    <div class="how-it-works-card-content">
-                        <h5>Choose Your Story</h5>
-                        <p>
-                            Start fresh by creating your own adventure, or dive into our catalogue of premade tales filled with magical worlds and friendly characters. 
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                <div class="card how-it-works-card how-it-works-card-arr2">
-                    <div class="how-it-works-card-content">
-                        <h5>Top Up Easily</h5>
-                        <p>
-                            Simply top up your account with tokens to keep unlocking endless new stories for your child.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 m-auto">
-                <div class="card how-it-works-card">
-                    <div class="how-it-works-card-content">
-                        <h5>Watch the Magic</h5>
-                        <p>
-                            With just one click, AI transforms your choices into a complete
-                            storybook with vibrant pictures and voices that bring every page to life.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a href="{% url 'user_register' %}" class="btn btn-yellow">Get started</a>
-    </div>
-</section>
-<section class="module-benfite">
-    <img src="{% static 'media/module-benefits-bg.png' %}" alt="" class="img-fluid bg-image d-none d-lg-block d-md-block">
-    <img src="{% static 'media/benefits-mo.png' %}" alt="" class="img-fluid bg-image d-block d-lg-none d-md-none">
-    <div class="container">
-        <div class="col module-title-magin-main">
-            <div class="module-title-magin">
-                <h2>The magic that we provide</h2>
-                <p>
-                    LittleStoryBox makes storytelling magical. From custom
-                    characters to AI voices,
-                    we give you everything to create fun, personal, and
-                    unforgettable tales for kids of all ages.
-                </p>
-            </div>
-        </div>
-        <div class="col module-benifite-cards-main">
-            <div class="col d-none d-md-block d-lg-block">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
-                        <div class="card">
-                            <img src="{% static 'media/beni-icon1.svg' %}" alt="" class="img-fluid benefit-icon">
-                            <div class="module-benfite-card">
-                                <h5>Choose from magical themes</h5>
-                                <p>
-                                    Pick bedtime tales, quests, or funny adventures.
-                                    Each crafted to spark imagination and joy.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
-                        <div class="card">
-                            <img src="{% static 'media/beni-icon2.svg' %}" alt="" class="img-fluid benefit-icon">
-                            <div class="module-benfite-card">
-                                <h5>Bring your heroes to life</h5>
-                                <p>
-                                    Add your child, friends, or favourite heroes into the story
-                                    with names, roles, and traits that feel personal.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
-                        <div class="card">
-                            <img src="{% static 'media/beni-icon3.svg' %}" alt="" class="img-fluid benefit-icon">
-                            <div class="module-benfite-card">
-                                <h5>Listen with AI voices</h5>
-                                <p>
-                                    Stories are read aloud by fun, clear voices. Choose
-                                    the style that fits bedtime, learning, or playtime.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
-                        <div class="card">
-                            <img src="{% static 'media/beni-icon4.svg' %}" alt="" class="img-fluid benefit-icon">
-                            <div class="module-benfite-card">
-                                <h5>Save and share anytime</h5>
-                                <p>
-                                    Keep your favourite stories in your library or
-                                    share them with family so the magic lasts forever.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col d-block d-md-none d-lg-none">
-                <div class="owl-carousel module-benfite-owl-carousel owl-theme">
-                    <div class="item">
-                        <div class="card">
-                            <img src="{% static 'media/beni-icon1.svg' %}" alt="" class="img-fluid benefit-icon">
-                            <div class="module-benfite-card">
-                                <h5>Choose from magical themes</h5>
-                                <p>
-                                    Pick bedtime tales, quests, or funny adventures.
-                                    Each crafted to spark imagination and joy.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="card">
-                            <img src="{% static 'media/beni-icon2.svg' %}" alt="" class="img-fluid benefit-icon">
-                            <div class="module-benfite-card">
-                                <h5>Bring your heroes to life</h5>
-                                <p>
-                                    Add your child, friends, or favourite heroes into the story
-                                    with names, roles, and traits that feel personal.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="card">
-                            <img src="{% static 'media/beni-icon3.svg' %}" alt="" class="img-fluid benefit-icon">
-                            <div class="module-benfite-card">
-                                <h5>Listen with AI voices</h5>
-                                <p>
-                                    Stories are read aloud by fun, clear voices. Choose
-                                    the style that fits bedtime, learning, or playtime.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="card">
-                            <img src="{% static 'media/beni-icon4.svg' %}" alt="" class="img-fluid benefit-icon">
-                            <div class="module-benfite-card">
-                                <h5>Save and share anytime</h5>
-                                <p>
-                                    Keep your favourite stories in your library or
-                                    share them with family so the magic lasts forever.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="app-expirence">
-    <img src="{% static 'media/Appexperience-bg.png' %}" alt="" class="img-fluid bg-image d-none d-lg-block d-md-block">
-    <img src="{% static 'media/App-experience-bg.png' %}" alt="" class="img-fluid bg-image d-block d-lg-none d-md-none">
-    <div class="container">
-        <div class="col">
-            <div class="row">
-                <div class="col-lg-7 col-sm-12 col-12 col-md-12">
-                    <img src="{% static 'media/iPhone16-img.png' %}" alt="" class="img-fluid iPhone16-img d-none d-lg-block d-md-block m-sm-auto">
-                    <img src="{% static 'media/iPhone16-mo.png' %}" alt="" class="img-fluid iPhone16-img d-block d-lg-none d-md-none">
-                </div>
-                <div class="col-lg-5 col-sm-12 col-12 col-md-12 align-self-center">
-                    <div class="app-expirence-content">
-                        <h1>App experience</h1>
-                        <p>
-                            Enjoy LittleStoryBox anywhere, just like an app. Save your favorite stories,
-                            track progress, and pick up where you left off, all from your home screen. No
-                            downloads or hassle, only simple storytelling magic. Start your adventure with
-                            one tap and let your imagination travel wherever you go.
-                        </p>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#scanModal" class="btn btn-yellow">Get started</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="create-own-hero-section">
-    <img src="{% static 'media/create-your-own-bg.png' %}" alt="" class="img-fluid bg-image d-none d-lg-block d-md-block">
-    <img src="{% static 'media/create-your-own-bg-mo.png' %}" alt="" class="img-fluid bg-image d-block d-lg-none d-md-none">
-    <div class="container">
-        <div class="col">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 col-12 col-sm-12 align-self-center">
-                    <div class="create-own-hero-content">
-                        <h1>Create your own story</h1>
-                        <p>
-                            Unleash your creativity by building stories from scratch. Add
-                            your own heroes, friends, or family as characters, then pick
-                            from magical themes like quests, bedtime tales, or funny adventures.
-                        </p>
-                        <p>
-                            Shape the world, set the mood, and decide how the journey unfolds.
-                            Every story becomes one-of-a-kind because you control the magic behind it.
-                        </p>
-                        <a href="{% url 'story_book_create' %}" class="btn btn-yellow">Get creative</a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12 col-12 col-sm-12">
-                    <div class="create-own-hero-img">
-                        <img src="{% static 'media/dargon.gif' %}" alt="" class="img-fluid dargan-img">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="explore-hero-section">
-    <img src="{% static 'media/expolere-stories.png' %}" alt="" class="img-fluid bg-image d-none d-lg-block d-md-block">
-    <div class="container position-relative">
-        <div class="col">
-            <div class="row">
-                <div class="col-lg-7 col-md-12 col-12 col-sm-12 order-lg-0 order-1">
-                    <img src="{% static 'media/rocket-gitf.gif' %}" alt="" class="img-fluid rocket-gif d-block d-lg-block d-md-block">
-                </div>
-                <div class="col-lg-5 col-md-12 col-12 col-sm-12">
-                    <div class="explore-hero-content">
-                        <h1>Explore stories library</h1>
-                        <p>
-                            Dive into a treasure chest of stories ready to be enjoyed anytime.
-                            Choose from bedtime favourites, exciting adventures, or light-hearted
-                            tales made to entertain and inspire.
-                        </p>
-                        <p>
-                            Each story is carefully crafted with imagination and charm,
-                            perfect for sparking curiosity or winding down at the end of
-                            the day. Explore, listen, and share to keep the magic alive.
-                        </p>
-                        <a href="{% url 'product_book_list' %}" class="btn btn-yellow">Explore stories</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <img src="{% static 'media/field-mo.png' %}" alt="" class="img-fluid d-block d-lg-none d-md-none w-100">
-</section>
-<section class="home-package-main">
-    <img src="{% static 'media/home-Packages.png' %}" alt="" class="img-fluid bg-image d-none d-lg-block d-md-block">
-    <img src="{% static 'media/home-package-mo.png' %}" alt="" class="img-fluid bg-image d-block d-lg-none d-md-none">
-    <div class="container">
-        <div class="col">
-            <div class="home-packages-col">
-                <div class="col-package-titel">
-                    <h2>Get started here</h2>
-                    <p>
-                        Jump into the magic and begin your storytelling journey today.
-                        Whether you want to create your own adventure or explore ready-made
-                        tales, it only takes a few clicks to bring your imagination to life.
-                        Choose your path, unlock the stories, and let the fun begin.
-                    </p>
-                </div>
+{% block title %}Home | {{ site_name }}{% endblock %}
 
-                <div class="home-package-cards d-lg-block d-md-none d-none">
-                    <div class="row">
-                        {% if bronze_package %}
-                        <div class="card card-one">
-                            <img src="{{ bronze_package.image.url }}" alt="{{ bronze_package.name }}" class="img-fluid card-img-top">
-                            <div class="card-body">
-                                <h6>{{ bronze_package.packagetype.name }}</h6>
-                                <h5 class="card-title">{{ bronze_package.tokens }} tokens</h5>
-                                <p class="card-text">{{ bronze_package.name }}</p>
-                                <div class="card-body-details">
-                                    <p>{{ bronze_package.description }}</p>
-                                </div>
-                                <div class="card-price-addtocart">
-                                    <!-- <h6>{{ bronze_package.currency }}{{ bronze_package.price }}</h6> -->
-                                    <h6>{% convert_currency bronze_package.price selected_currency %}</h6>
-                                    <button class="btn btn-yellow add_to_cart_package" data-package-id="{{ bronze_package.id }}" data-package-price="{{ bronze_package.price }}"  data-package-tokens="{{ bronze_package.tokens }}">Add to cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
+{% block content %}
 
-                        {% if popular_package %}
-                        <div class="card card-two">
-                            <a class="btn btn-purple" href="#">Most popular</a>
-                            <img src="{{ popular_package.image.url }}" alt="{{ popular_package.name }}" class="img-fluid card-img-top">
-                            <div class="card-body">
-                                <h6>{{ popular_package.packagetype.name }}</h6>
-                                <h5 class="card-title">{{ popular_package.tokens }} tokens</h5>
-                                <p class="card-text">{{ popular_package.name }}</p>
-                                <div class="card-body-details">
-                                    <p>{{ popular_package.description }}</p>
-                                </div>
-                                <div class="card-price-addtocart">
-                                    <!-- <h6>{{ popular_package.currency }}{{ popular_package.price }}</h6> -->
-                                    <h6>{% convert_currency popular_package.price selected_currency %}</h6>
-                                    <button class="btn btn-yellow add_to_cart_package" data-package-id="{{ popular_package.id }}" data-package-price="{{ popular_package.price }}"  data-package-tokens="{{ popular_package.tokens }}">Add to cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
+<section class="hero_sec_1">
 
-                        {% if silver_package %}
-                        <div class="card card-three">
-                            <img src="{{ silver_package.image.url }}" alt="{{ silver_package.name }}" class="img-fluid card-img-top">
-                            <div class="card-body">
-                                <h6>{{ silver_package.packagetype.name }}</h6>
-                                <h5 class="card-title">{{ silver_package.tokens }} tokens</h5>
-                                <p class="card-text">{{ silver_package.name }}</p>
-                                <div class="card-body-details">
-                                    <p>{{ silver_package.description }}</p>
-                                </div>
-                                <div class="card-price-addtocart">
-                                    <!-- <h6>{{ silver_package.currency }}{{ silver_package.price }}</h6> -->
-                                    <h6>{% convert_currency silver_package.price selected_currency %}</h6>
-                                    <button class="btn btn-yellow add_to_cart_package" data-package-id="{{ silver_package.id }}" data-package-price="{{ silver_package.price }}"  data-package-tokens="{{ silver_package.tokens }}">Add to cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
+    <!-- VIDEO AREA -->
+    <div class="hero_sec_1_video">
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="v1">
+                <video src="{% static 'media/video_1.mp4' %}" autoplay muted loop playsinline></video>
+            </div>
+            <div class="tab-pane fade" id="v2">
+                <video src="{% static 'media/video_2.mp4' %}" autoplay muted loop playsinline></video>
+            </div>
+            <div class="tab-pane fade" id="v3">
+                <video src="{% static 'media/video_3.mp4' %}" autoplay muted loop playsinline></video>
+            </div>
+            <div class="tab-pane fade" id="v4">
+                <video src="{% static 'media/video_4.mp4' %}" autoplay muted loop playsinline></video>
+            </div>
+        </div>
+    </div>
+
+    <img src="{% static 'media/curve_linne.png' %}" alt="" class="curve_gold d-lg-block d-md-block d-none">
+
+    <!-- TABS -->
+    <div class="hero_sec_1_tabs nav">
+        <button type="button" class="hero_tab active" data-bs-toggle="tab" data-bs-target="#v1">
+            <video src="{% static 'media/video_1.mp4' %}" muted loop></video>
+            <span class="play_icon"><img src="{% static 'media/play.svg' %}" alt="play"></span>
+        </button>
+        <button type="button" class="hero_tab" data-bs-toggle="tab" data-bs-target="#v2">
+            <video src="{% static 'media/video_2.mp4' %}" muted loop></video>
+            <span class="play_icon"><img src="{% static 'media/play.svg' %}" alt="play"></span>
+        </button>
+        <button type="button" class="hero_tab" data-bs-toggle="tab" data-bs-target="#v3">
+            <video src="{% static 'media/video_3.mp4' %}" muted loop></video>
+            <span class="play_icon"><img src="{% static 'media/play.svg' %}" alt="play"></span>
+        </button>
+        <button type="button" class="hero_tab" data-bs-toggle="tab" data-bs-target="#v4">
+            <video src="{% static 'media/video_4.mp4' %}" muted loop></video>
+            <span class="play_icon"><img src="{% static 'media/play.svg' %}" alt="play"></span>
+        </button>
+    </div>
+
+    <div class="hero_sec_1_text_block">
+        <h1 class="hero_sec_1_heading">WHERE LITTLE IDEAS BECOME BIG ADVENTURES</h1>
+        <p class="hero_sec_1_subtext">Create enchanting tales in moments and hear them read aloud with AI voices.</p>
+        <a href="{% url 'story_book_create' %}" class="hero_sec_1_cta">CREATE YOUR STORY</a>
+    </div>
+
+</section>
+
+
+<section class="home_sec_2_section">
+    <div class="container px-0 home_sec_2_container text-center">
+
+        <!-- TOP CONTENT -->
+        <div class="home_sec_2_top_content">
+            <h2 class="home_sec_2_title">STORY TIME MADE SIMPLE</h2>
+            <p class="home_sec_2_subtitle">Follow these steps and get started today.</p>
+
+            <div class="home_sec_2_steps">
+                <div class="home_sec_2_step">
+                    <h4>FIND YOUR TALE</h4>
+                    <p>Start fresh by creating your own adventure, or dive into our catalog of premade tales filled with magical worlds and friendly characters.</p>
+                </div>
+                <div class="home_sec_2_arrow d-lg-block d-md-block d-none">
+                    <img src="{% static 'media/arrow_1.png' %}" alt="" class="arrow_1">
+                </div>
+                <div class="home_sec_2_step">
+                    <h4>TOP UP EASILY</h4>
+                    <p>Your first story is free, and when you're ready for more, simply top up with tokens to keep unlocking endless new stories for your child.</p>
+                </div>
+                <div class="home_sec_2_arrow d-lg-block d-md-block d-none">
+                    <img src="{% static 'media/arrow_2.png' %}" alt="" class="arrow_2">
+                </div>
+                <div class="home_sec_2_step">
+                    <h4>SEE THE MAGIC UNFOLD</h4>
+                    <p>With just one click, AI transforms your choices into a complete storybook with vibrant pictures and voices that bring every page to life.</p>
+                </div>
+            </div>
+
+            <a href="{% url 'user_register' %}" class="home_sec_2_btn">BEGIN YOUR ADVENTURE</a>
+        </div>
+
+        <!-- BOTTOM FEATURES -->
+        <div class="home_sec_2_bottom_content">
+            <h3 class="home_sec_2_bottom_title">THE MAGIC BEHIND EVERY STORY</h3>
+            <h3 class="home_sec_2_bottom_subtitle">Magic Story Corner makes storytime feel even more magical. From custom characters to AI voices, everything is designed to help you create playful, personal, and memorable tales for children of all ages.</h3>
+
+            <!-- Desktop Cards -->
+            <div class="d-lg-block d-md-block d-none w-100">
+                <div class="home_sec_2_cards">
+                    <div class="home_sec_2_card">
+                        <img src="{% static 'media/icon_1.png' %}" class="home_sec_2_card_icon" alt="">
+                        <h5>CHOOSE FROM MAGICAL THEMES</h5>
+                        <p>Pick bedtime tales, quests, or funny adventures. Each crafted to spark imagination and joy.</p>
+                    </div>
+                    <div class="home_sec_2_card">
+                        <img src="{% static 'media/icon_2.png' %}" class="home_sec_2_card_icon" alt="">
+                        <h5>BRING YOUR HEROES TO LIFE</h5>
+                        <p>Add your child, friends, or favourite heroes into the story with names, roles, and traits that feel personal.</p>
+                    </div>
+                    <div class="home_sec_2_card">
+                        <img src="{% static 'media/icon_3.png' %}" class="home_sec_2_card_icon" alt="">
+                        <h5>LISTEN WITH AI VOICES</h5>
+                        <p>Stories are read aloud by fun, clear voices. Choose the style that fits bedtime, learning, or playtime.</p>
+                    </div>
+                    <div class="home_sec_2_card">
+                        <img src="{% static 'media/icon_4.png' %}" class="home_sec_2_card_icon" alt="">
+                        <h5>SAVE AND SHARE ANYTIME</h5>
+                        <p>Keep your favourite stories in your library or share them with family so the magic lasts forever.</p>
                     </div>
                 </div>
+            </div>
 
-                <div class="home-package-owl-carousel d-lg-none d-md-block d-block">
-                    <div class="owl-carousel home-package-owl owl-theme">
-                        {% if bronze_package %}
-                        <div class="item">
-                            <div class="card card-one">
-                                <img src="{{ bronze_package.image.url }}" alt="{{ bronze_package.name }}" class="img-fluid card-img-top">
-                                <div class="card-body">
-                                    <h6>{{ bronze_package.packagetype.name }}</h6>
-                                    <h5 class="card-title">{{ bronze_package.tokens }} tokens</h5>
-                                    <p class="card-text">{{ bronze_package.name }}</p>
-                                    <div class="card-body-details">
-                                        <p>{{ bronze_package.description }}</p>
-                                    </div>
-                                    <div class="card-price-addtocart">
-                                        <h6>{{ bronze_package.currency }}{{ bronze_package.price }}</h6>
-                                        <button class="btn btn-yellow add_to_cart_package" data-package-id="{{ bronze_package.id }}" data-package-price="{{ bronze_package.price }}"  data-package-tokens="{{ bronze_package.tokens }}">Add to cart</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    
-                        {% if popular_package %}
-                        <div class="item">
-                            <div class="card card-two">
-                                <a class="btn btn-purple" href="#">Most popular</a>
-                                <img src="{{ popular_package.image.url }}" alt="{{ popular_package.name }}" class="img-fluid card-img-top">
-                                <div class="card-body">
-                                    <h6>{{ popular_package.packagetype.name }}</h6>
-                                    <h5 class="card-title">{{ popular_package.tokens }} tokens</h5>
-                                    <p class="card-text">{{ popular_package.name }}</p>
-                                    <div class="card-body-details">
-                                        <p>{{ popular_package.description }}</p>
-                                    </div>
-                                    <div class="card-price-addtocart">
-                                        <h6>{{ popular_package.currency }}{{ popular_package.price }}</h6>
-                                        <button class="btn btn-yellow add_to_cart_package" data-package-id="{{ popular_package.id }}" data-package-price="{{ popular_package.price }}"  data-package-tokens="{{ popular_package.tokens }}">Add to cart</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    
-                        {% if silver_package %}
-                        <div class="item">
-                            <div class="card card-three">
-                                <img src="{{ silver_package.image.url }}" alt="{{ silver_package.name }}" class="img-fluid card-img-top">
-                                <div class="card-body">
-                                    <h6>{{ silver_package.packagetype.name }}</h6>
-                                    <h5 class="card-title">{{ silver_package.tokens }} tokens</h5>
-                                    <p class="card-text">{{ silver_package.name }}</p>
-                                    <div class="card-body-details">
-                                        <p>{{ silver_package.description }}</p>
-                                    </div>
-                                    <div class="card-price-addtocart">
-                                        <h6>{{ silver_package.currency }}{{ silver_package.price }}</h6>
-                                        <button class="btn btn-yellow add_to_cart_package" data-package-id="{{ silver_package.id }}" data-package-price="{{ silver_package.price }}"  data-package-tokens="{{ silver_package.tokens }}">Add to cart</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
+            <!-- Mobile Carousel -->
+            <div class="d-block d-md-none d-lg-none w-100">
+                <div class="home_sec_2_cards_slider owl-carousel">
+                    <div class="home_sec_2_card item">
+                        <img src="{% static 'media/icon_1.png' %}" class="home_sec_2_card_icon" alt="">
+                        <h5>CHOOSE FROM MAGICAL THEMES</h5>
+                        <p>Pick bedtime tales, quests, or funny adventures. Each crafted to spark imagination and joy.</p>
                     </div>
-                </div>
-
-                <div>
-                    <a href="{% url 'package_pricing' %}" class="btn btn-yellow discover-btn">Discover more packages</a>
+                    <div class="home_sec_2_card item">
+                        <img src="{% static 'media/icon_2.png' %}" class="home_sec_2_card_icon" alt="">
+                        <h5>BRING YOUR HEROES TO LIFE</h5>
+                        <p>Add your child, friends, or favourite heroes into the story with names, roles, and traits that feel personal.</p>
+                    </div>
+                    <div class="home_sec_2_card item">
+                        <img src="{% static 'media/icon_3.png' %}" class="home_sec_2_card_icon" alt="">
+                        <h5>LISTEN WITH AI VOICES</h5>
+                        <p>Stories are read aloud by fun, clear voices. Choose the style that fits bedtime, learning, or playtime.</p>
+                    </div>
+                    <div class="home_sec_2_card item">
+                        <img src="{% static 'media/icon_4.png' %}" class="home_sec_2_card_icon" alt="">
+                        <h5>SAVE AND SHARE ANYTIME</h5>
+                        <p>Keep your favourite stories in your library or share them with family so the magic lasts forever.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+
+<section class="home_sec_3_section">
+    <div class="container px-0">
+        <div class="home_sec_3_wrapper">
+            <div class="home_sec_3_mobile d-lg-block d-md-block d-none">
+                <img src="{% static 'media/mobbilee_desk.png' %}" alt="">
+            </div>
+            <div class="home_sec_3_mobile d-lg-none d-md-none d-block">
+                <img src="{% static 'media/mobile_mob.png' %}" alt="">
+            </div>
+            <div class="home_sec_3_content">
+                <h2 class="home_sec_3_title">DISCOVER OUR WEB APP</h2>
+                <p class="home_sec_3_text">Enjoy Magicstorycorner anywhere, just like an app. Save your favourite stories, track progress, and pick up where you left off — all from your home screen. No downloads or hassle, only simple storytelling magic.</p>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#scanModal" class="home_sec_3_btn">CREATE YOUR FIRST STORY</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="home_sec_4_section">
+    <div class="container px-0">
+        <div class="home_sec_4_wrapper">
+            <div class="home_sec_4_content">
+                <h3 class="home_sec_3_title">Build Your Own Tale</h3>
+                <p class="home_sec_3_text">Unleash your creativity by building stories from scratch. Add your own heroes, friends, or family as characters, then pick from magical themes like quests, bedtime tales, or funny adventures.<br><br>Shape the world, set the mood, and decide how the journey unfolds. Every story becomes one-of-a-kind because you control the magic behind it.</p>
+                <a href="{% url 'story_book_create' %}" class="home_sec_3_btn">Create Without Limits</a>
+            </div>
+            <div class="home_sec_4_image">
+                <img src="{% static 'media/knight.gif' %}" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="home_sec_5_section">
+    <video class="home_sec_5_video d-lg-block d-md-block d-none" autoplay muted loop playsinline>
+        <source src="{% static 'media/sec_5_bg.mp4' %}" type="video/mp4">
+    </video>
+    <div class="container px-0">
+        <div class="home_sec_5_wrapper">
+            <div class="home_sec_5_content">
+                <h2 class="home_sec_5_title">EXPLORE THE STORY COLLECTION</h2>
+                <p class="home_sec_5_text">Dive into a treasure chest of stories ready to be enjoyed anytime. Choose from bedtime favourites, exciting adventures, or light-hearted tales made to entertain and inspire.</p>
+                <p class="home_sec_5_text">Each story is carefully crafted with imagination and charm, perfect for sparking curiosity or winding down at the end of the day. Explore, listen, and share to keep the magic alive.</p>
+                <a href="{% url 'product_book_list' %}" class="home_sec_5_btn">DISCOVER TALES</a>
+            </div>
+            <img src="{% static 'media/last_Sec.png' %}" alt="" class="mobb d-lg-none d-md-none d-block">
+        </div>
+    </div>
+</section>
+
+
+<section class="home_sec_6_section">
+    <video class="home_sec_6_video" autoplay muted loop playsinline>
+        <source src="{% static 'media/last _sec.mp4' %}" type="video/mp4">
+    </video>
+    <div class="container px-0">
+        <div class="home_sec_6_wrapper text-center">
+            <h2 class="home_sec_6_title">GET STARTED HERE</h2>
+            <p class="home_sec_6_subtitle">Jump into the magic and begin your storytelling journey today. Whether you want to create your own adventure or explore ready-made tales, it only takes a few clicks to bring your imagination to life. Choose your path, unlock the stories, and let the fun begin.</p>
+
+            <!-- Desktop Cards -->
+            <div class="d-lg-block d-md-block d-none w-100">
+                <div class="home_sec_6_cards">
+
+                    {% if bronze_package %}
+                    <div class="home_sec_6_card">
+                        <div class="home_sec_6_card_inner">
+                            <img src="{% static 'media/item_1.png' %}" class="home_sec_6_pack" alt="">
+                            <div class="inner_brown">
+                                <h5>{{ bronze_package.packagetype.name|upper }}</h5>
+                                <p class="home_sec_6_tokens">{{ bronze_package.tokens }} TOKENS</p>
+                                <h4>{{ bronze_package.name }}</h4>
+                            </div>
+                            <p class="home_sec_6_desc">{{ bronze_package.description }}</p>
+                            <p class="home_sec_6_price">{% convert_currency bronze_package.price selected_currency %}</p>
+                            <button class="home_sec_6_btn_dark add_to_cart_package" data-package-id="{{ bronze_package.id }}" data-package-price="{{ bronze_package.price }}" data-package-tokens="{{ bronze_package.tokens }}">ADD TO CART</button>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if popular_package %}
+                    <div class="home_sec_6_card home_sec_6_card_center">
+                        <div class="home_sec_6_card_inner2">
+                            <div class="home_sec_6_badge">MOST POPULAR</div>
+                            <img src="{% static 'media/item_2.png' %}" class="home_sec_6_pack" alt="">
+                            <div class="inner_brown_gold">
+                                <h5>{{ popular_package.packagetype.name|upper }}</h5>
+                                <p class="home_sec_6_tokens">{{ popular_package.tokens }} TOKENS</p>
+                                <h4>{{ popular_package.name }}</h4>
+                            </div>
+                            <p class="home_sec_6_desc">{{ popular_package.description }}</p>
+                            <p class="home_sec_6_price">{% convert_currency popular_package.price selected_currency %}</p>
+                            <button class="home_sec_6_btn_dark add_to_cart_package" data-package-id="{{ popular_package.id }}" data-package-price="{{ popular_package.price }}" data-package-tokens="{{ popular_package.tokens }}">ADD TO CART</button>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if silver_package %}
+                    <div class="home_sec_6_card">
+                        <div class="home_sec_6_card_inner">
+                            <img src="{% static 'media/item_3.png' %}" class="home_sec_6_pack" alt="">
+                            <div class="inner_brown">
+                                <h5>{{ silver_package.packagetype.name|upper }}</h5>
+                                <p class="home_sec_6_tokens">{{ silver_package.tokens }} TOKENS</p>
+                                <h4>{{ silver_package.name }}</h4>
+                            </div>
+                            <p class="home_sec_6_desc">{{ silver_package.description }}</p>
+                            <p class="home_sec_6_price">{% convert_currency silver_package.price selected_currency %}</p>
+                            <button class="home_sec_6_btn_dark add_to_cart_package" data-package-id="{{ silver_package.id }}" data-package-price="{{ silver_package.price }}" data-package-tokens="{{ silver_package.tokens }}">ADD TO CART</button>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <!-- Mobile Carousel -->
+            <div class="home_sec_6_cards_slider owl-carousel d-lg-none d-md-none d-block">
+
+                {% if popular_package %}
+                <div class="home_sec_6_card home_sec_6_card_center">
+                    <div class="home_sec_6_card_inner2">
+                        <div class="home_sec_6_badge">MOST POPULAR</div>
+                        <img src="{% static 'media/item_2.png' %}" class="home_sec_6_pack" alt="">
+                        <div class="inner_brown_gold">
+                            <h5>{{ popular_package.packagetype.name|upper }}</h5>
+                            <p class="home_sec_6_tokens">{{ popular_package.tokens }} TOKENS</p>
+                            <h4>{{ popular_package.name }}</h4>
+                        </div>
+                        <p class="home_sec_6_desc">{{ popular_package.description }}</p>
+                        <p class="home_sec_6_price">{% convert_currency popular_package.price selected_currency %}</p>
+                        <button class="home_sec_6_btn_dark add_to_cart_package" data-package-id="{{ popular_package.id }}" data-package-price="{{ popular_package.price }}" data-package-tokens="{{ popular_package.tokens }}">ADD TO CART</button>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if bronze_package %}
+                <div class="home_sec_6_card">
+                    <div class="home_sec_6_card_inner">
+                        <img src="{% static 'media/item_1.png' %}" class="home_sec_6_pack" alt="">
+                        <div class="inner_brown">
+                            <h5>{{ bronze_package.packagetype.name|upper }}</h5>
+                            <p class="home_sec_6_tokens">{{ bronze_package.tokens }} TOKENS</p>
+                            <h4>{{ bronze_package.name }}</h4>
+                        </div>
+                        <p class="home_sec_6_desc">{{ bronze_package.description }}</p>
+                        <p class="home_sec_6_price">{% convert_currency bronze_package.price selected_currency %}</p>
+                        <button class="home_sec_6_btn_dark add_to_cart_package" data-package-id="{{ bronze_package.id }}" data-package-price="{{ bronze_package.price }}" data-package-tokens="{{ bronze_package.tokens }}">ADD TO CART</button>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if silver_package %}
+                <div class="home_sec_6_card">
+                    <div class="home_sec_6_card_inner">
+                        <img src="{% static 'media/item_3.png' %}" class="home_sec_6_pack" alt="">
+                        <div class="inner_brown">
+                            <h5>{{ silver_package.packagetype.name|upper }}</h5>
+                            <p class="home_sec_6_tokens">{{ silver_package.tokens }} TOKENS</p>
+                            <h4>{{ silver_package.name }}</h4>
+                        </div>
+                        <p class="home_sec_6_desc">{{ silver_package.description }}</p>
+                        <p class="home_sec_6_price">{% convert_currency silver_package.price selected_currency %}</p>
+                        <button class="home_sec_6_btn_dark add_to_cart_package" data-package-id="{{ silver_package.id }}" data-package-price="{{ silver_package.price }}" data-package-tokens="{{ silver_package.tokens }}">ADD TO CART</button>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <a href="{% url 'package_pricing' %}" class="home_sec_6_btn_img">EXPLORE MORE</a>
+
+        </div>
+    </div>
+</section>
+
 {% endblock %}
+
 {% block extra_js %}
 {% include "payments/includes/cart-modal-scripts.html" %}
+
 <script>
-    $(document).ready(function() {
-        $(".home-package-owl, .module-benfite-owl-carousel").owlCarousel({
-            loop: true,
-            autoplay: false,
-            margin: 10,
-            nav: true,
-            dots: false,
-            navText: [
-                "<img src=\"{% static 'media/left-icon.svg' %}\" class='nav-icon img-fluid' alt='prev'>",
-                "<img src=\"{% static 'media/right-icon.svg' %}\" class='nav-icon img-fluid' alt='next'>"
-            ],
-            responsive: {
-                0: { items: 1 },
-                600: { items: 1 },
-                1000: { items: 1 }
-            }
+    // Hero tab active state
+    document.querySelectorAll('.hero_tab').forEach(function(btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.hero_tab').forEach(function(b) { b.classList.remove('active'); });
+            this.classList.add('active');
         });
+    });
+
+    // Hero tab thumbnail hover play
+    document.querySelectorAll('.hero_tab video').forEach(function(video) {
+        video.addEventListener('mouseenter', function() { video.play(); });
+        video.addEventListener('mouseleave', function() { video.pause(); video.currentTime = 0; });
     });
 </script>
 
 <script>
-    const layers = document.querySelectorAll('.framer-s61to5 img');
-    let t = 0;
-    function animate() {
-        t += 0.02;
-        layers.forEach((layer, i) => {
-            const offset = Math.abs(Math.sin(t + i)) * 12;
-            layer.style.transform = `translateY(${offset.toFixed(5)}px)`;
-        });
-        requestAnimationFrame(animate);
-    }
-    animate();
+    // Features cards carousel (mobile)
+    $('.home_sec_2_cards_slider').owlCarousel({
+        loop: true,
+        margin: 20,
+        nav: true,
+        dots: false,
+        navText: [
+            '<span class="nav_btn"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 11L1 6L6 1" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>',
+            '<span class="nav_btn"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
+        ],
+        responsive: {
+            0: { items: 1 },
+            600: { items: 2 },
+            1000: { items: 3 }
+        }
+    });
 </script>
 
+<script>
+    // Package cards carousel (mobile)
+    $('.home_sec_6_cards_slider').owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: true,
+        dots: false,
+        center: true,
+        smartSpeed: 600,
+        navText: [
+            '<span class="nav_btn"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 11L1 6L6 1" stroke="#030527" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>',
+            '<span class="nav_btn"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="#030527" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
+        ],
+        responsive: {
+            0: { items: 1, center: false },
+            768: { items: 2, center: false },
+            1000: { items: 3, center: true }
+        }
+    });
+</script>
 {% endblock %}
-
