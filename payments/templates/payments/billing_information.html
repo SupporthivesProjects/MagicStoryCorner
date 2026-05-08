@@ -1,67 +1,53 @@
 {% extends "includes/layout.html" %}
 {% load static %}
-{% load humanize %}
 {% block title %} Billing information | {{ site_name }} {% endblock %}
 {% block content %}
-<style>
-    body{
-        background-color:#BDEEFC;
-    }
-    .user-info{
-     background-color:#BDEEFC;
-     margin-bottom:-134px;
-    }
-    
-</style>
-<section class="user-info">
-    <img src="{% static 'media/birds-mob.png' %}" alt="" style="width: 100%;top:0" class="d-lg-none d-block d-md-block w-100">
-    <form class="billing-info" id="paymentForm" method="POST" action="{% url 'payment' %}">
-        {% csrf_token %}
-        <h2 class="bi-head">Billing information</h2>
-        <div class="aba-sec">
-            <div class="about-u">
-                <h1 class="ab-text">About You</h1>
-                <input type="text" name="first_name" placeholder="First name" value="{{ user.first_name }}" required>
-                <input type="text" name="last_name" placeholder="Last name" value="{{ user.last_name }}" required>
-                <input type="text" name="email" placeholder="Email Address" value="{{ user.email }}" required readonly >
-            </div>
-            <div class="about-u">
-                <h1 class="ab-text">Address</h1>
-                <input type="text" name="line_1" placeholder="Address line 1" value="{% if user.profile.line_1 and user.profile.line_1 != 'None' %}{{ user.profile.line_1 }}{% endif %}" required>
-                <input type="text" name="line_2" placeholder="Address line 2" value="{% if user.profile.line_2 and user.profile.line_2 != 'None' %}{{ user.profile.line_2 }}{% endif %}" required>
-                <div class="cz">
-                    <input type="text" name="city" placeholder="City / town" value="{% if user.profile.city and user.profile.city != 'None' %}{{ user.profile.city }}{% endif %}" required>
-                    <input type="text" name="postal" placeholder="Zip / Postal Code" value="{% if user.profile.postal and user.profile.postal != 'None' %}{{ user.profile.postal }}{% endif %}" required>
-                </div>
-            </div>
-        </div>
-        <div class="button-ani">
-            <a href="{% url 'order_summary' %}" class="cancel-btn btn">Back</a>
-            <button type="submit"  class="next-btn btn">Continue payment </button>
-        </div>
-        <br>
-    </form>
 
-     <img src="{% static 'media/os-mob-1.png' %}" alt="" style="width: 100%;" class="d-lg-none d-block d-md-block w-100">
+<section class="checkout-page">
+  <div class="user-info">
+    <div class="billing-info">
+      <h1 class="ub-h1">Billing information</h1>
+      <form id="paymentForm" method="POST" action="{% url 'payment' %}">
+        {% csrf_token %}
+        <div class="ab-field w-100">
+          <div class="field-box">
+            <h2 class="ay-txt">About You</h2>
+            <input type="text" name="first_name" placeholder="First name" value="{{ user.first_name }}" class="inp-bx" required>
+            <input type="text" name="last_name" placeholder="Last name" value="{{ user.last_name }}" class="inp-bx" required>
+            <input type="email" name="email" placeholder="Email Address" value="{{ user.email }}" class="inp-bx" required readonly>
+          </div>
+          <div class="field-box">
+            <h2 class="ay-txt">Address</h2>
+            <input type="text" name="line_1" placeholder="Address line 1" value="{% if user.profile.line_1 and user.profile.line_1 != 'None' %}{{ user.profile.line_1 }}{% endif %}" class="inp-bx" required>
+            <input type="text" name="line_2" placeholder="Address line 2" value="{% if user.profile.line_2 and user.profile.line_2 != 'None' %}{{ user.profile.line_2 }}{% endif %}" class="inp-bx" required>
+            <div class="ap-b">
+              <input type="text" name="city" placeholder="City / town" value="{% if user.profile.city and user.profile.city != 'None' %}{{ user.profile.city }}{% endif %}" class="inp-bx" required>
+              <input type="text" name="postal" placeholder="Zip / Postal Code" value="{% if user.profile.postal and user.profile.postal != 'None' %}{{ user.profile.postal }}{% endif %}" class="inp-bx" required>
+            </div>
+          </div>
+        </div>
+        <div class="button-sec">
+          <a href="{% url 'order_summary' %}" class="yello-btn btn">Cancel</a>
+          <button type="submit" class="bluee-btn btn">Continue payment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <img src="{% static 'media/usr-info-mb.png' %}" class="d-block d-md-none" alt="">
 </section>
-<section class="dashboard_last d-lg-block d-md-block d-none"></section>
+
 {% endblock %}
 {% block extra_js %}
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const form = document.getElementById("paymentForm"); 
-        if(form) {
-            form.addEventListener("submit", function(e) {
-                if (form.dataset.submitting === "true") {
-                    e.preventDefault();
-                    return;
-                }
-                form.dataset.submitting = "true";
-    
-                universalLoader("Processing Payment", "Redirecting to secure gateway...");
-            });
-        }
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.getElementById("paymentForm");
+  if(form) {
+    form.addEventListener("submit", function(e) {
+      if(form.dataset.submitting === "true") { e.preventDefault(); return; }
+      form.dataset.submitting = "true";
+      universalLoader("Processing Payment", "Redirecting to secure gateway...");
     });
+  }
+});
 </script>
-
 {% endblock %}
