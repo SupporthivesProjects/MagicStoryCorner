@@ -1,34 +1,22 @@
 {% load static %}
-<div class="container">
-  <div class="row g-4 justify-content-center justify-content-md-start">
-    {% for story in stories %}
-    <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-      <div class="outer_card" style="max-width: 100%;">
-        <div class="card border-0  h-100">
-          {% if story.image %}
-            <img src="{{ story.image.url }}" alt="{{ story.title }}" class="card-img d-lg-block d-md-block d-none">
-            <img src="{{ story.image.url }}" alt="{{ story.title }}" class="card-img d-block d-lg-none d-md-none">
-          {% else %}
-            <img src="{{ story.pages.all.0.image.url }}" alt="Sample Story" class="card-img d-lg-block d-md-block d-none">
-            <img src="{{ story.pages.all.0.image.url }}" alt="Sample Story" class="card-img d-block d-lg-none d-md-none">
-          {% endif %}
-          <div class="card-content">
-            <h3>
-              {% if story.title|length > 20 %}
-                {{ story.title|slice:":20" }}...
-              {% else %}
-                {{ story.title }}
-              {% endif %}
-            </h3>
-            <a href="{% url 'product_book_view_purchased' story.slug %}" class="card-link">Find out more</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    {% empty %}
-    <div class="col-12 text-center">
-      <p class="textt_pup">No stories found.</p>
-    </div>
-    {% endfor %}
+{% for story in stories %}
+<div class="full_cardd">
+  <div class="book_covert">
+    {% if story.image %}
+      <img src="{{ story.image.url }}" alt="{{ story.title }}">
+    {% elif story.pages.all.0.image %}
+      <img src="{{ story.pages.all.0.image.url }}" alt="{{ story.title }}">
+    {% else %}
+      <img src="{% static 'media/BookCover.jpeg' %}" alt="{{ story.title }}">
+    {% endif %}
+  </div>
+  <div class="bottom_card_div">
+    <p class="book_title_card">
+      {% if story.title|length > 22 %}{{ story.title|slice:":22" }}...{% else %}{{ story.title }}{% endif %}
+    </p>
+    <a href="{% url 'product_book_view_purchased' story.slug %}" class="find_out_more">Find out more</a>
   </div>
 </div>
+{% empty %}
+<p class="showing_pp w-100 text-center">No purchases found.</p>
+{% endfor %}
