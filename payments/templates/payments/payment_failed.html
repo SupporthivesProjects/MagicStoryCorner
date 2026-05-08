@@ -1,34 +1,25 @@
 {% extends "includes/layout.html" %}
 {% load static %}
-{% load humanize %}
 {% block title %} Payment Failed | {{ site_name }} {% endblock %}
 {% block content %}
-<style>
-    body{
-        background-color:#BDEEFC;
-    }
-</style>
-    <section class="pf-section">
-        <img src="{% static 'media/pay-fail-mob.png' %}" alt="" style="width: 100%;top:0" class="d-lg-none d-block d-md-block w-100">
-        <div class="pay-detail">
-            <h1 class="s-text">Payment fail!</h1>
-            <p>Something went wrong! Please try again later.</p>
-            <div class="btn-box">
-                <button class="y-btn btn w-100">
-                <a href="{% url 'billing_information' %}" style="color: var(--Core-Secondary-Purple, #5A3384);">Try again</a>
-            </button>
-            <button class="b-btn btn w-100">
-                <a href="{% url 'home' %}" style="color: var(--Core-yellow, #FFCE3C);">Back home</a>
-            </button>
-            </div>
-        </div>
-        <!-- <img src="{% static 'media/darkclouds.png' %}" alt="" style="width: 100%;position:absolute;bottom:0;" class="d-lg-block d-none d-md-none"> -->
-        <img src="{% static 'media/Clouds.png' %}" alt="" style="width: 100%;" class="d-lg-none d-block d-md-block w-100">
-    </section>
-    <section class="dashboard_last d-lg-block d-md-block d-none"></section>
+
+<section style="padding:0%;">
+  <div class="check_e">
+    <img src="{% static 'media/check_e_octo.png' %}" alt="" class="check_e_img mo_none">
+    <img src="{% static 'media/check_e_blowfish.png' %}" alt="" class="desk_none check_e_blwfsh">
+    <img src="{% static 'media/check_e_mo_oct.png' %}" alt="" class="desk_none check_e_octo">
+    <div class="check_e_outer">
+      <div class="check_e_inner1">
+        <h3 class="head_check_e">Payment Error!</h3>
+        <p class="para_check_e">Something went wrong! Please try again later.</p>
+      </div>
+      <div class="check_e_inner2">
+        <a href="{% url 'billing_information' %}" class="btn btn_check_s_y">Try again</a>
+        <a href="{% url 'home' %}" class="btn btn_check_s_b">Return home</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}
-
-{% block extra_js %}
-
-{% endblock %}
+{% block extra_js %}{% endblock %}

@@ -1,71 +1,33 @@
 {% extends "includes/layout.html" %}
 {% load static %}
-{% load humanize %}
 {% block title %} Payment Success | {{ site_name }} {% endblock %}
 {% block content %}
-<style>
-    body{
-        background-color:#BDEEFC;
-    }
-</style>
-<section class="ps-section">
-    <img src="{% static 'media/pay-sccess-mob.png' %}" alt="" class="d-lg-none d-block d-md-block w-100" style="width: 100%;top:0">
 
-    <div class="pay-detail">
-        <h1 class="s-text">Payment success!</h1>
-
-        <div class="btn-box">
-            <button class="y-btn btn w-100">
-                <a href="{% url 'user_dashboard' %}" style="color: var(--Core-Secondary-Purple, #5A3384);">Go to library</a>
-            </button>
-
-            <button class="b-btn btn w-100" id="openModalBtn">
-                <a href="{% url 'product_book_list' %}" style="color: var(--Core-yellow, #FFCE3C);">Explore books</a>
-            </button>
-        </div>
+<section style="padding:0%;">
+  <div class="check_s">
+    <img src="{% static 'media/check_suc_l.png' %}" alt="" class="img_chek_s mo_none">
+    <div class="check_s_outer">
+      <h3 class="check_s_head">Payment success!</h3>
+      <div class="check_s_div">
+        <a href="{% url 'user_dashboard' %}" class="btn btn_check_s_y">Go to library</a>
+        <a href="{% url 'product_book_list' %}" class="btn btn_check_s_b">Explore Stories</a>
+      </div>
     </div>
-
-    <img src="{% static 'media/Clouds.png' %}" alt="" class="d-lg-none d-block d-md-block w-100" style="width: 100%;">
+    <img src="{% static 'media/check_S_mo.png' %}" alt="" class="desk_none">
+    <img src="{% static 'media/check_suc_R.png' %}" alt="" class="img_chek_s mo_none">
+  </div>
 </section>
-<section class="dashboard_last d-lg-block d-md-block d-none"></section>
 
-<div class="my-modal" id="paymentSuccess" style="display: none;">
-    <div class="modal-contents">
-        <span class="close-btn" id="closeModalBtn">&times;</span>
-        <div class="m-box">
-            <h2>Payment successful</h2>
-            <p>Tokens added! You can now create a story or make a purchase.</p>
-        </div>
-        <button class="closemodal btn" id="closemodal">close</button>
-    </div>
-</div>
 <div id="showModalFlag" data-show="{{ show_modal_flag|yesno:'1,0' }}"></div>
-{% endblock %}
 
+{% endblock %}
 {% block extra_js %}
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const modal = document.getElementById("paymentSuccess");
-        const closeModalBtn = document.getElementById("closeModalBtn");
-        const closemodal = document.getElementById("closemodal");
-        const flag = document.getElementById("showModalFlag").dataset.show === "1";
-    
-        if (flag) {
-            modal.style.display = "flex";
-        }
-    
-        function closeModal() {
-            modal.style.display = "none";
-        }
-    
-        closeModalBtn.addEventListener("click", closeModal);
-        closemodal.addEventListener("click", closeModal);
-    
-        window.addEventListener("click", e => {
-            if (e.target === modal) closeModal();
-        });
-    });
-    </script>
-    
-
+document.addEventListener("DOMContentLoaded", function() {
+  const flag = document.getElementById("showModalFlag");
+  if(flag && flag.dataset.show === "1") {
+    window.notyf && window.notyf.open({ type: "success", message: "Tokens added! You can now create a story or make a purchase." });
+  }
+});
+</script>
 {% endblock %}
