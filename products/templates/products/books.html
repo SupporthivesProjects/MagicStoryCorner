@@ -1,246 +1,193 @@
 {% extends "includes/layout.html" %}
 {% load static %}
-{% block title %}Explore Stories | {{ site_name }} {% endblock %}
+{% block title %}Our Stories | {{ site_name }}{% endblock %}
 
 {% block content %}
-<section class="cat_head">
-  <div class="container"><h4 class="cat_text">Catalogue</h4></div>
-</section>
 
-<section class="products_search">
-  <div class="search_box">
+<section class="core-main-ing">
+    <img src="{% static 'media/core-hero.png' %}" alt="" class="img-fluid bg-image d-lg-block d-md-block d-none">
+    <img src="{% static 'media/core-img-om.svg' %}" alt="" class="img-fluid bg-image d-lg-none d-md-none d-block">
     <div class="container">
-      <form method="get" id="filterForm">
-        <div class="search-container">
-          <div class="search-box">
-            <input type="text" name="search" value="{{ request.GET.search|default:'' }}" placeholder="Search products">
-            <button class="search-btn" type="button">
-              <img src="{% static 'media/brand_ico.jpeg' %}" alt="search icon">
-            </button>
-          </div>
-
-          <div class="btn_bx">
-            <div class="filter-container">
-              <button class="filter-btn" type="button" onclick="toggleFilter()">Filter</button>
-              <div class="filter-panel" id="filterPanel">
-                <div class="filter-section">
-                  <div class="inner_text_arro">
-                    <h3>Age</h3>
-                    <img src="/static/media/arrroe.svg" alt="" class="arroe d-lg-none d-md-none d-block">
-                    {% for age in ages %}
-                      <label>
-                        <input type="checkbox" name="age" value="{{ age.name }}" {% if age.name in selected_filters.age %}checked{% endif %}>{{ age.name }} ({{ age.story_count }})
-                      </label>
-                    {% endfor %}
-                  </div>
-                  <div class="inner_text_arro">
-                    <h3>Story Type</h3>
-                                        <img src="/static/media/arrroe.svg" alt="" class="arroe d-lg-none d-md-none d-block">
-
-                    {% for st in story_types %}
-                      <label>
-                        <input type="checkbox" name="story_type" value="{{ st.name }}" {% if st.name in selected_filters.story_type %}checked{% endif %}>{{ st.name }} ({{ st.story_count }})
-                      </label>
-                    {% endfor %}
-                  </div>
-                  <div class="inner_text_arro">
-                    <h3>Themes</h3>
-                                        <img src="/static/media/arrroe.svg" alt="" class="arroe d-lg-none d-md-none d-block">
-
-                    {% for theme in themes %}
-                      <label>
-                        <input type="checkbox" name="theme" value="{{ theme.name }}" {% if theme.name in selected_filters.theme %}checked{% endif %}>{{ theme.name }} ({{ theme.story_count }})
-                      </label>
-                    {% endfor %}
-                  </div>
-                  <div class="inner_text_arro">
-                    <h3>Narration</h3>
-                                        <img src="/static/media/arrroe.svg" alt="" class="arroe d-lg-none d-md-none d-block">
-
-                    {% for narration in narrations %}
-                      <label>
-                        <input type="checkbox" name="narration" value="{{ narration.name }}" {% if narration.name in selected_filters.narration %}checked{% endif %}>{{ narration.name }} ({{ narration.story_count }})
-                      </label>
-                    {% endfor %}
-                  </div>
-                  <div class="inner_text_arro">
-                    <h3>Style</h3>
-                                        <img src="/static/media/arrroe.svg" alt="" class="arroe d-lg-none d-md-none d-block">
-
-                    {% for style in styles %}
-                      <label>
-                        <input type="checkbox" name="style" value="{{ style.name }}" {% if style.name in selected_filters.style %}checked{% endif %}>{{ style.name }} ({{ style.story_count }})
-                      </label>
-                    {% endfor %}
-                  </div>
-              
-                </div>
-                    <div class="filter-footer">
-                    <button type="button" class="close-filter" onclick="toggleFilter()">Close</button>
-                    <button type="submit" class="apply-btn">Apply</button>
-                  </div>
-              </div>
-            </div>
-
-            <div class="dropdown">
-              <button class="sort-btn" type="button" onclick="toggleDropdown()">
-                <p>Sort by <span class="bolddy" id="currentSort">{{ request.GET.sort|default:"Price" }}</span></p>
-                <img src="{% static 'media/drop_dwn.png' %}" class="drop_icoo" alt="">
-              </button>
-              <div class="dropdown-menu" id="dropdownMenu">
-                <a href="#" data-sort="price_desc">High&nbsp;–&nbsp;Low</a>
-                <a href="#" data-sort="price_asc">Low&nbsp;–&nbsp;High</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <h4 class="textt_pup">
-          Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ page_obj.paginator.count }} Results
-        </h4>
-      </form>
+        <h2>Our Stories</h2>
     </div>
-  </div>
-  <div class="container px-0">
-    <div class="main_prod_box position-relative">
-      <div id="story-list" class="container-fluid px-0">
-        {% include "products/cards.html" %}
-      </div>
-      
-      <div id="story-skeleton" class="d-none container-fluid px-0">
-        <div class="container">
-          <div class="row g-4 justify-content-center justify-content-md-start">
-            {% for i in per_page_cards %}
-            <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-              <div class="outer_card"  style="max-width: 100%;">
-                <div class="card border-0  h-100">
-                  <div class="card-img bg-secondary placeholder placeholder-wave" style="height: 350px;"></div>
-                  <div class="card-content p-4 w-100">
-                    <h3><span class="placeholder placeholder-wave col-8"></span></h3>
-                    <a href="#" class="placeholder placeholder-wave col-6"></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="pagination d-flex justify-content-center align-items-center mt-4" id="pagination">
-    {% include "products/pagination.html" %}
-  </div>
 </section>
-<section class="last d-lg-block d-md-block d-none"></section>
+
+<section class="filter-box-product">
+    <div class="filter-box-main">
+        <div class="container">
+            <form method="get" id="filterForm">
+                <div class="filter-div">
+                    <input type="text" name="search" value="{{ request.GET.search|default:'' }}" class="form-control" placeholder="Search products">
+                    <button type="button" class="btn btn-fliter" id="filterid">filter</button>
+                    <select class="form-select" name="sort" id="sortSelect">
+                        <option value="" {% if not request.GET.sort %}selected{% endif %}>Sort by Price</option>
+                        <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Low &ndash; High</option>
+                        <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>High &ndash; Low</option>
+                    </select>
+                </div>
+            </form>
+            <p>Showing <span id="showing-range">{{ page_obj.start_index }} - {{ page_obj.end_index }}</span> of <span id="total-count">{{ page_obj.paginator.count }}</span> Results</p>
+            <div class="filter-box-menu-category" id="filterBox">
+                <div class="filter-box-menu">
+                    <div class="ul-filter-menu">
+                        <h3>AGE <span class="arrow"></span></h3>
+                        <ul>
+                            {% for age in ages %}
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="age" value="{{ age.name }}" id="age_{{ forloop.counter }}" {% if age.name in selected_filters.age %}checked{% endif %}>
+                                    <label class="form-check-label" for="age_{{ forloop.counter }}">{{ age.name }} ({{ age.story_count }})</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="ul-filter-menu">
+                        <h3>Story type <span class="arrow"></span></h3>
+                        <ul>
+                            {% for st in story_types %}
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="story_type" value="{{ st.name }}" id="st_{{ forloop.counter }}" {% if st.name in selected_filters.story_type %}checked{% endif %}>
+                                    <label class="form-check-label" for="st_{{ forloop.counter }}">{{ st.name }} ({{ st.story_count }})</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="ul-filter-menu">
+                        <h3>Themes <span class="arrow"></span></h3>
+                        <ul>
+                            {% for theme in themes %}
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="theme" value="{{ theme.name }}" id="theme_{{ forloop.counter }}" {% if theme.name in selected_filters.theme %}checked{% endif %}>
+                                    <label class="form-check-label" for="theme_{{ forloop.counter }}">{{ theme.name }} ({{ theme.story_count }})</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="ul-filter-menu">
+                        <h3>Narration <span class="arrow"></span></h3>
+                        <ul>
+                            {% for narration in narrations %}
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="narration" value="{{ narration.name }}" id="narr_{{ forloop.counter }}" {% if narration.name in selected_filters.narration %}checked{% endif %}>
+                                    <label class="form-check-label" for="narr_{{ forloop.counter }}">{{ narration.name }} ({{ narration.story_count }})</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="ul-filter-menu">
+                        <h3>Style <span class="arrow"></span></h3>
+                        <ul>
+                            {% for style in styles %}
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="style" value="{{ style.name }}" id="style_{{ forloop.counter }}" {% if style.name in selected_filters.style %}checked{% endif %}>
+                                    <label class="form-check-label" for="style_{{ forloop.counter }}">{{ style.name }} ({{ style.story_count }})</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="filter-close-apply">
+                    <button class="btn btn-close-filter" id="filter-close" type="button">Close Filter</button>
+                    <button class="btn btn-apply" type="button" id="filter-apply">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="core-book">
+        <div class="container">
+            <div class="col">
+                <div class="row-card-book" id="story-list">
+                    {% include "products/cards.html" %}
+                </div>
+                <div class="row-card-book d-none" id="story-skeleton">
+                    {% for i in per_page_cards %}
+                    <div class="card">
+                        <div class="card-img bg-secondary placeholder placeholder-wave" style="min-height: 280px;"></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pagination-prod" id="pagination">
+        {% include "products/pagination.html" %}
+    </div>
+</section>
+
 {% endblock %}
 {% block extra_js %}
-  <script>
-    AOS.init({duration: 1000});
-
-    function toggleDropdown() {
-      const menu = document.getElementById("dropdownMenu");
-      const icon = document.querySelector(".drop_icoo");
-      if(menu) menu.classList.toggle("show");
-      if(icon) icon.classList.toggle("rotate");
-    }
-
-    window.onclick = function(event) {
-      if (!event.target.closest('.dropdown')) {
-        const menu = document.getElementById("dropdownMenu");
-        const icon = document.querySelector(".drop_icoo");
-        if(menu) menu.classList.remove("show");
-        if(icon) icon.classList.remove("rotate");
-      }
-      if (!event.target.closest('.filter-container')) {
-        const filterPanel = document.getElementById("filterPanel");
-        if(filterPanel) filterPanel.classList.remove("show-filter");
-      }
-    }
-
-    function toggleFilter() {
-      const filterPanel = document.getElementById("filterPanel");
-      if(filterPanel) filterPanel.classList.toggle("show-filter");
-    }
+<script>
+    // Filter box toggle
+    document.getElementById('filterid').addEventListener('click', function () {
+        document.getElementById('filterBox').classList.toggle('active');
+    });
+    document.getElementById('filter-close').addEventListener('click', function () {
+        document.getElementById('filterBox').classList.remove('active');
+    });
+    document.getElementById('filter-apply').addEventListener('click', function () {
+        fetchStories();
+        document.getElementById('filterBox').classList.remove('active');
+    });
+    document.getElementById('sortSelect').addEventListener('change', fetchStories);
 
     function showSkeleton(show) {
-      const skeleton = document.getElementById('story-skeleton');
-      const storyList = document.getElementById('story-list');
-      if(!skeleton || !storyList) return;
-      if(show){
-        storyList.classList.add('d-none');
-        skeleton.classList.remove('d-none');
-      } else {
-        storyList.classList.remove('d-none');
-        skeleton.classList.add('d-none');
-      }
+        const skeleton = document.getElementById('story-skeleton');
+        const storyList = document.getElementById('story-list');
+        if (!skeleton || !storyList) return;
+        if (show) {
+            storyList.classList.add('d-none');
+            skeleton.classList.remove('d-none');
+        } else {
+            storyList.classList.remove('d-none');
+            skeleton.classList.add('d-none');
+        }
     }
 
     function fetchStories() {
-      showSkeleton(true);
-      const filterForm = document.getElementById('filterForm');
-      if(!filterForm) return;
-      let params = new URLSearchParams(new FormData(filterForm));
-      fetch("{% url 'product_book_list' %}?" + params.toString(), { headers: { "X-Requested-With": "XMLHttpRequest" } })
+        showSkeleton(true);
+        const filterForm = document.getElementById('filterForm');
+        if (!filterForm) return;
+        let params = new URLSearchParams(new FormData(filterForm));
+        fetch("{% url 'product_book_list' %}?" + params.toString(), {
+            headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
         .then(res => res.json())
         .then(data => {
-          const storyList = document.getElementById('story-list');
-          const pagination = document.getElementById('pagination');
-          const textCount = document.querySelector('.textt_pup');
-          if(storyList) storyList.innerHTML = data.html;
-          if(pagination) pagination.innerHTML = data.pagination_html;
-          if(textCount && data.start_index !== undefined){
-            textCount.textContent = `Showing ${data.start_index} - ${data.end_index} of ${data.total_count} Results`;
-          }
+            const storyList = document.getElementById('story-list');
+            const pagination = document.getElementById('pagination');
+            const showingRange = document.getElementById('showing-range');
+            const totalCount = document.getElementById('total-count');
+            if (storyList) storyList.innerHTML = data.html;
+            if (pagination) pagination.innerHTML = data.pagination_html;
+            if (showingRange && data.start_index !== undefined) {
+                showingRange.textContent = data.start_index + ' - ' + data.end_index;
+            }
+            if (totalCount && data.total_count !== undefined) {
+                totalCount.textContent = data.total_count;
+            }
         })
         .finally(() => showSkeleton(false));
     }
 
-    const filterForm = document.getElementById('filterForm');
-    if(filterForm) filterForm.addEventListener('input', fetchStories);
-
-    document.addEventListener('click', function(e) {
-      const link = e.target.closest('.pagination a');
-      if(link){
-        e.preventDefault();
-        const storyList = document.getElementById('story-list');
-        const pagination = document.getElementById('pagination');
-        showSkeleton(true);
-        if(storyList) storyList.innerHTML = '';
-        const url = new URL(link.href, window.location.origin);
-        fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
-          .then(res => res.json())
-          .then(data => {
-            if(storyList) storyList.innerHTML = data.html;
-            if(pagination) pagination.innerHTML = data.pagination_html;
-            const textCount = document.querySelector('.textt_pup');
-            if(textCount && data.start_index !== undefined){
-              textCount.textContent = `Showing ${data.start_index} - ${data.end_index} of ${data.total_count} Results`;
-            }
-          })
-          .finally(() => showSkeleton(false));
-      }
+    // Checkbox auto-fetch
+    document.querySelectorAll('#filterForm input[type="checkbox"]').forEach(function (cb) {
+        cb.addEventListener('change', fetchStories);
     });
 
-    document.querySelectorAll('#dropdownMenu a').forEach(link => {
-      link.addEventListener('click', function(e){
-        e.preventDefault();
-        const sortValue = this.dataset.sort;
-        const form = document.getElementById('filterForm');
-        if(!form) return;
-        const sortInput = document.createElement('input');
-        sortInput.type = 'hidden';
-        sortInput.name = 'sort';
-        sortInput.value = sortValue;
-        form.appendChild(sortInput);
-        const currentSort = document.getElementById('currentSort');
-        if(currentSort) currentSort.textContent = this.textContent.trim();
-        fetchStories();
-        const dropdownMenu = document.getElementById("dropdownMenu");
-        if(dropdownMenu) dropdownMenu.classList.remove("show");
-      });
+    // Search on Enter
+    document.querySelector('#filterForm input[name="search"]').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); fetchStories(); }
     });
-  </script>
+</script>
 {% endblock %}

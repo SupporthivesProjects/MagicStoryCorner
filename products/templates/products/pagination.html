@@ -1,40 +1,54 @@
 {% with total=page_obj.paginator.num_pages current=page_obj.number %}
+<nav aria-label="Page navigation">
+    <ul class="pagination">
 
-{# ---- FIRST PAGES ---- #}
-{% for num in page_obj.paginator.page_range %}
-    {% if num <= 3 %}
-        <a href="?page={{ num }}" class="page-number {% if current == num %}active{% endif %}">
-            {{ num }}
-        </a>
-    {% endif %}
-{% endfor %}
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none">
+                    <path d="M6 11L1 6L6 1" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </li>
+        {% endif %}
 
-{# ---- ELLIPSIS AFTER FIRST ---- #}
-{% if current > 4 %}
-    <span class="page-number">...</span>
-{% endif %}
+        {% for num in page_obj.paginator.page_range %}
+            {% if num <= 3 %}
+                <li class="page-item"><a class="page-link {% if current == num %}active{% endif %}" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+        {% endfor %}
 
-{# ---- CURRENT WINDOW ---- #}
-{% for num in page_obj.paginator.page_range %}
-    {% if num >= current|add:"-1" and num <= current|add:"1" and num > 3 and num < total|add:"-2" %}
-        <a href="?page={{ num }}" class="page-number {% if current == num %}active{% endif %}">
-            {{ num }}
-        </a>
-    {% endif %}
-{% endfor %}
+        {% if current > 4 %}
+            <li class="page-item"><span class="page-link">...</span></li>
+        {% endif %}
 
-{# ---- ELLIPSIS BEFORE LAST ---- #}
-{% if current < total|add:"-3" %}
-    <span class="page-number">...</span>
-{% endif %}
+        {% for num in page_obj.paginator.page_range %}
+            {% if num >= current|add:"-1" and num <= current|add:"1" and num > 3 and num < total|add:"-2" %}
+                <li class="page-item"><a class="page-link {% if current == num %}active{% endif %}" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+        {% endfor %}
 
-{# ---- LAST PAGES ---- #}
-{% for num in page_obj.paginator.page_range %}
-    {% if num > total|add:"-3" %}
-        <a href="?page={{ num }}" class="page-number {% if current == num %}active{% endif %}">
-            {{ num }}
-        </a>
-    {% endif %}
-{% endfor %}
+        {% if current < total|add:"-3" %}
+            <li class="page-item"><span class="page-link">...</span></li>
+        {% endif %}
 
+        {% for num in page_obj.paginator.page_range %}
+            {% if num > total|add:"-3" %}
+                <li class="page-item"><a class="page-link {% if current == num %}active{% endif %}" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none">
+                    <path d="M1 1L6 6L1 11" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
 {% endwith %}
+
