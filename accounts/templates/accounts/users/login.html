@@ -1,57 +1,37 @@
 {% extends "includes/layout.html" %}
 {% load static %}
-{% block title %} Login | {{ site_name }} {% endblock %}
+{% block title %}Login | {{ site_name }}{% endblock %}
 
 {% block content %}
-<style>
-    body{
-       background-color: #BDEEFC; 
-    }
-    @media only screen and (max-device-width: 600px){
-      .log-reg-sec{
-margin-top:100px !important;
 
-      }  
-    }
-    .log-reg-sec {
-        margin-top:200px;
-        background-color: #BDEEFC;
-    }
-</style>
-<section class="log-reg-sec" style="background-color:#BDEEFC;">
-    <img src="{% static 'media/login-mob.png' %}" alt="" style="width: 100%;" class="d-lg-none d-block d-md-block w-100">
-    <form id="loginForm" method="POST" action="{% url 'user_login' %}">
-        {% csrf_token %}
-        <div class="reg-box">
-            <br>
-        <h1 class="s-text">Sign in</h1>
-        <div class="inp-sec">
-        <div class="inp-box">
-            <input name="username" type="text" placeholder="Enter your email" required>
-            <input name="password" type="password" placeholder="Password" required>
+<section style="padding: 0;">
+    <div class="login_div">
+        <div class="login_outer">
+            <h2 class="head_login">Login</h2>
+            <div class="login_inner">
+                <form id="loginForm" method="POST" action="{% url 'user_login' %}">
+                    {% csrf_token %}
+                    <div class="login_form">
+                        <input type="text" name="username" class="login_input" placeholder="Enter your email" required>
+                        <input type="password" name="password" class="login_input" placeholder="Password" required>
+                    </div>
+                    <a href="{% url 'user_forgot_password' %}" class="para_login">Forgot password?</a>
+                    <button type="submit" class="btn btn_login">Sign in</button>
+                </form>
+                <p class="para_login2">Don't have an account? <a href="{% url 'user_register' %}">Sign up</a></p>
+            </div>
         </div>
-        <button type="submit" class="si-button btn">
-            Sign in
-        </button>
-        <a href="{% url 'user_forgot_password' %}" class="fp-txt">Forgot password</a>
-        </div>
-        <p class="fp-txt">Don’t have an account? <a href="{% url 'user_register' %}" class="fp-txt">Sign up</a></p>
-        </div>
-    </form>
-    <img src="{% static 'media/Clouds.png' %}" alt="" style="width: 100%;" class="d-lg-none d-block d-md-block w-100">
+    </div>
 </section>
-<section class="dashboard_last d-lg-block d-md-block d-none"></section>
+
 {% endblock %}
+
 {% block extra_js %}
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const form = document.getElementById("loginForm"); 
-        form.addEventListener("submit", function() {
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("loginForm").addEventListener("submit", function () {
             universalLoader("Logging in...", "Please wait while we process your login");
         });
     });
-    </script>
+</script>
 {% endblock %}
-
-
-

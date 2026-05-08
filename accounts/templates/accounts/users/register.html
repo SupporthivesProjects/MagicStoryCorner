@@ -1,76 +1,54 @@
 {% extends "includes/layout.html" %}
 {% load static %}
-{% block title %}Create New Account | {{ site_name }} {% endblock %}
+{% block title %}Create New Account | {{ site_name }}{% endblock %}
 
 {% block content %}
-<style>
-    body {
-        background-color: #BDEEFC; 
-    }
 
-    main {
-        background: url(../media/login-bg.png);
-        background-color: #BDEEFC !important;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-
-    .reg-sec {
-        margin-bottom: -88px;
-        background: none;
-        margin-top: 200px;
-    }
-</style>
-
-<section class="reg-sec">
-    <form id="registerForm" method="POST" action="{% url 'user_register' %}">
-        {% csrf_token %}
-        <img src="{% static 'media/login-mob.png' %}" alt="" style="width: 100%;" class="d-lg-none d-block d-md-block w-100">
-        <div class="reg-box">
-            <h1 class="s-text">Create an account</h1>
-            <div class="inp-sec">
-                <div class="inp-box">
-                    <input type="text" name="fullname" placeholder="Full name" required>
-                    <input type="email" name="email" placeholder="Email address" required>
-                    <input type="password" name="password" placeholder="Password" required>
-                    <input type="password" name="confirm_password" placeholder="Confirm password" required>
-                    <div class="radio-groupp">
-                        <input type="radio" id="agree" name="terms" class="agree-box" required>
-                        <p class="agree-text">
-                            I have read and agree to the <a href="{% url 'terms_conditions' %}">Terms of Use</a>.
-                        </p>
-                    </div>
-                </div>
-                <div class="ing-bx">
-                    <div class="recaptcha-wrapper">
-                        <div class="g-recaptcha"
-                             data-sitekey="{{ RECAPTCHA_PUBLIC_KEY }}"
-                             data-size="normal">
+<section style="padding: 0;">
+    <div class="login_div">
+        <div class="sign_outer">
+            <h2 class="head_login">Sign up</h2>
+            <div class="login_inner">
+                <form id="registerForm" method="POST" action="{% url 'user_register' %}">
+                    {% csrf_token %}
+                    <div class="login_form w-100">
+                        <div class="sign_div">
+                            <input type="text" name="fullname" class="login_input w-100" placeholder="Full name" required>
+                            <input type="email" name="email" class="login_input w-100" placeholder="Email address" required>
+                        </div>
+                        <div class="sign_div">
+                            <input type="password" name="password" class="login_input w-100" placeholder="Password" required>
+                            <input type="password" name="confirm_password" class="login_input w-100" placeholder="Confirm password" required>
                         </div>
                     </div>
-                    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                    <button type="submit" class="si-button btn lg-w-50 md-w-100">
-                        Register
-                    </button>
-                </div>
+                    <div class="form-check sign_check_main">
+                        <input class="form-check-input sign_check" type="checkbox" id="termsCheck" required>
+                        <label class="form-check-label sing_check_para" for="termsCheck">
+                            I have read and agree to the <a href="{% url 'terms_conditions' %}"><span>Terms of Use.</span></a>
+                        </label>
+                    </div>
+                    <div class="btn_div_sign w-100">
+                        <div class="recaptcha-wrapper">
+                            <div class="g-recaptcha" data-sitekey="{{ RECAPTCHA_PUBLIC_KEY }}" data-size="normal"></div>
+                        </div>
+                        <script src="https://www.google.com/recaptcha/api.js" async defer><\/script>
+                        <button type="submit" class="btn btn_login">Create account</button>
+                    </div>
+                </form>
+                <p class="para_login2">Already have an account? <a href="{% url 'user_login' %}">Sign in</a></p>
             </div>
-            <p class="fp-txt">Already have an account? 
-                <a href="{% url 'user_login' %}" class="fp-txt">Sign in</a>
-            </p>
         </div>
-        <img src="{% static 'media/Clouds.png' %}" alt="" style="width: 100%;" class="d-lg-none d-block d-md-block w-100">
-    </form>
+    </div>
 </section>
-<section class="dashboard_last d-lg-block d-md-block d-none"></section>
-   {% endblock %}
 
-   {% block extra_js %}
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const form = document.getElementById("registerForm"); 
-            form.addEventListener("submit", function() {
-                universalLoader("Creating New Account","Please wait while we set up your account...");
-            });
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("registerForm").addEventListener("submit", function () {
+            universalLoader("Creating New Account", "Please wait while we set up your account...");
         });
-    </script>
+    });
+<\/script>
 {% endblock %}
