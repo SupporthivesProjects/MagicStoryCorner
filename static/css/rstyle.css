@@ -480,19 +480,19 @@ background: var(--Base-Off-Black, #0F0F0F);
 
 /* Background styles for each tab */
 .bg-1 {
-  background: url('../img/story1_bg.png') no-repeat center/cover;
+  background: url('../media/story1_bg.png') no-repeat center/cover;
 }
 
 .bg-2 {
-  background: url('../img/story2_bg.png') no-repeat center/cover;
+  background: url('../media/story2_bg.png') no-repeat center/cover;
 }
 
 .bg-3 {
-  background: url('../img/story3_bg.png') no-repeat center/cover;
+  background: url('../media/story3_bg.png') no-repeat center/cover;
 }
 
 .bg-4 {
-  background: url('../img/story4_bg.png') no-repeat center/cover;
+  background: url('../media/story4_bg.png') no-repeat center/cover;
 }
 .story_section{
   padding: 0px;
@@ -1125,7 +1125,7 @@ background: var(--Base-Off-Black, #0F0F0F);
         padding: 16px;
     }
     .age_section{
-        background-image: url('../img/Age_bgmob.png');
+        background-image: url('../media/Age_bgmob.png');
         padding: 190px 0px 323px 0px;
         margin: 0px;
         background-size: 100% 100%;

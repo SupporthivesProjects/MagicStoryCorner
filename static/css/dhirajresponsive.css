@@ -301,7 +301,7 @@
 
     .home_sec_2_top_content {
         margin-bottom: 0px;
-        background: url('../img/home_sec_2_1.png') no-repeat center;
+        background: url('../media/home_sec_2_1.png') no-repeat center;
         background-size: 100% 100%;
         padding: 32px 24px;
 
@@ -309,7 +309,7 @@
 
     .home_sec_2_bottom_content {
         margin-bottom: 0px;
-        background: url('../img/home_sec_2.png') no-repeat center;
+        background: url('../media/home_sec_2.png') no-repeat center;
         background-size: 100% 100%;
         padding: 126px 24px 32px;
         height: 737px;
@@ -550,7 +550,7 @@
     .home_sec_6_section {
         padding: 32px 0px 40px;
         height: 100%;
-        background: url('../img/SEC_6_BG.png') no-repeat center !important;
+        background: url('../media/SEC_6_BG.png') no-repeat center !important;
         background-size: 100% 100%;
         padding: 40px 20px 30px;
     }
@@ -571,7 +571,7 @@
     .home_sec_6_card_center {
         width: 100% !important;
         max-width: 340px !important;
-        background: url('../img/mob_scroll_bigg.png') no-repeat center !important;
+        background: url('../media/mob_scroll_bigg.png') no-repeat center !important;
         background-size: 100% 100%;
         padding: 60px 20px 30px;
         position: relative;
@@ -584,7 +584,7 @@
         width: 100%;
         max-width: 340px;
         height: 500px;
-        background: url('../img/mob_scroll_ssmall.png') no-repeat center;
+        background: url('../media/mob_scroll_ssmall.png') no-repeat center;
         background-size: 100% 100%;
         padding: 60px 20px 60px;
         position: relative;

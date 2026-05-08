@@ -6,7 +6,7 @@
 /* Section with scroll background */
 .contact-scroll-section {
     min-height: 1133px;
-    background: #5b0f1a url('../img/desk_bg.png') no-repeat center center;
+    background: #5b0f1a url('../media/desk_bg.png') no-repeat center center;
     background-size: cover;
     display: flex;
     align-items: center;
@@ -289,7 +289,7 @@
 
 /* FULL MODAL BACKGROUND IMAGE */
 .contact_modal_body {
-    background: url('../img/contact_modal.png') no-repeat center;
+    background: url('../media/contact_modal.png') no-repeat center;
     padding: 100px 40px 80px;
     text-align: center;
 }
@@ -329,7 +329,7 @@
     width: 174px;
     height: 64px;
     border: none;
-    background: url('../img/cont_btn.png') no-repeat center;
+    background: url('../media/cont_btn.png') no-repeat center;
     background-size: contain;
     padding-top: 8px;
     color: #4A311A;
@@ -359,7 +359,7 @@
 
 .product_view_section {
     min-height: 935px;
-    background: #5b0f1a url('../img/prodPview.png') no-repeat center center;
+    background: #5b0f1a url('../media/prodPview.png') no-repeat center center;
     background-size: cover;
     display: flex;
     align-items: center;
@@ -557,7 +557,7 @@
 }
 
 .add_to_cart_body {
-    background: url('../img/addtocart.png') no-repeat center;
+    background: url('../media/addtocart.png') no-repeat center;
     background-size: 100% 100%;
     padding: 90px 30px 70px;
     position: relative;
@@ -750,7 +750,7 @@
 /* Home Page */
 
 .home_sec_2_section {
-    background: url('../img/hero_sec_2.png') no-repeat center;
+    background: url('../media/hero_sec_2.png') no-repeat center;
     background-size: cover;
     padding: 62px 0 120px;
     color: #fff;
@@ -844,7 +844,7 @@
     width: 328px;
     height: 56px;
     border: none;
-    background: url('../img/hom_2_sec_btn1.png') no-repeat center;
+    background: url('../media/hom_2_sec_btn1.png') no-repeat center;
     background-size: cover;
     color: #4A311A;
     font-family: "LEMON MILK";
@@ -954,7 +954,7 @@
 
 
 .home_sec_3_section {
-    background: url('../img/home_mod_3.png') no-repeat center;
+    background: url('../media/home_mod_3.png') no-repeat center;
     background-size: 100% 100%;
     padding: 32px 0 120px;
     color: #fff;
@@ -1010,7 +1010,7 @@
     width: 344px;
     height: 56px;
     border: none;
-    background: url('../img/hom_2_sec_btn1.png') no-repeat center;
+    background: url('../media/hom_2_sec_btn1.png') no-repeat center;
     background-size: cover;
     color: #4A311A;
     font-family: "LEMON MILK";
@@ -1039,7 +1039,7 @@
 }
 
 .home_sec_4_section {
-    background: url('../img/home_sec_4.png') no-repeat center;
+    background: url('../media/home_sec_4.png') no-repeat center;
     background-size: cover;
     padding: 40px 0 0;
     background-color: #FFE6BC;
@@ -1057,7 +1057,7 @@
     top: 145px;
     width: 295px;
     height: 678px;
-    background: url('../img/brand_flagg.png') no-repeat left center;
+    background: url('../media/brand_flagg.png') no-repeat left center;
     background-size: contain;
     z-index: 12;
     overflow: visible;
@@ -1169,7 +1169,7 @@
     width: 259px;
     height: 56px;
     border: none;
-    background: url('../img/hom_2_sec_btn1.png') no-repeat center;
+    background: url('../media/hom_2_sec_btn1.png') no-repeat center;
     background-size: contain;
     color: #4A311A;
     font-family: "LEMON MILK";
@@ -1268,7 +1268,7 @@
     width: 100%;
     max-width: 406px;
     height: 673px;
-    background: url('../img/scroll_small.png') no-repeat center;
+    background: url('../media/scroll_small.png') no-repeat center;
     background-size: 100% 100%;
     padding: 60px 20px 60px;
     position: relative;
@@ -1391,7 +1391,7 @@
 .home_sec_6_card_center {
     width: 100%;
     max-width: 430px;
-    background: url('../img/scroll_big.png') no-repeat center;
+    background: url('../media/scroll_big.png') no-repeat center;
     background-size: 100% 100%;
     padding: 60px 20px 30px;
     position: relative;
@@ -1458,7 +1458,7 @@
     width: 239px;
     height: 56px;
     border: none;
-    background: url('../img/ecplor_btn.png') no-repeat center;
+    background: url('../media/ecplor_btn.png') no-repeat center;
     background-size: contain;
     color: #4A311A;
     font-family: "LEMON MILK";
@@ -1637,7 +1637,7 @@
     width: 293px;
     height: 56px;
     border: none;
-    background: url('../img/btn-bg.png') no-repeat center;
+    background: url('../media/btn-bg.png') no-repeat center;
     background-size: contain;
     color: #4A311A;
     font-family: "LEMON MILK";

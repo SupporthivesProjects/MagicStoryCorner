@@ -49,7 +49,7 @@
   
   /* checked state */
   .custom-checkboxt:checked {
-    background: url('../img/checkt.svg') no-repeat center;
+    background: url('../media/checkt.svg') no-repeat center;
     
   }
   
