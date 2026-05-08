@@ -5,331 +5,221 @@
 {% block title %} Pricing | {{ site_name }} {% endblock %}
 {% block content %}
 
-<section class="pricing">
-  <div class="container">
-    <div class="top_ptice_box">
-      <div class="price_box">
-        <h2 class="price_title">Pricing</h2>
-        <p class="price_para">
-          Hello there storytellers! The magic of world building awaits you, to help you get started use the 3 great packages below to add thousands of tokens and start your journey! Choose your path, unlock the stories, and let the fun begin.
-        </p>
+<section class="pricing-page">
+  <div class="pricing-s1">
+    <div class="m-price-box">
+      <div class="price-text">
+        <h1>Pricing</h1>
+        <p>Jump into the magic and begin your storytelling journey today. Whether you want to create your own adventure or explore ready-made tales, it only takes a few clicks to bring your imagination to life. Choose your path, unlock the stories, and let the fun begin.</p>
       </div>
-      <div class="d-lg-block d-md-block d-none">
-        <div class="dragon_box">
+
+      <!-- Desktop grid -->
+      <div class="row g-4 msc-desktop">
+        {% if bronze_package %}
+        <div class="col-md-3">
+          <div class="msc-card">
+            {% if bronze_package.is_popular %}<div class="most-popular"><p>most popular</p></div>{% endif %}
+            {% if bronze_package.image %}<img src="{{ bronze_package.image.url }}" alt="{{ bronze_package.name }}">{% endif %}
+            <div class="package-detail">
+              <h2 class="package-name">{{ bronze_package.name }}</h2>
+              <h1 class="tokenss">{{ bronze_package.tokens }} tokens</h1>
+              <p class="no-story">{{ bronze_package.packagetype.name }}</p>
+            </div>
+            {% if bronze_package.description %}<p class="box-p">{{ bronze_package.description }}</p>{% endif %}
+            <h4 class="price">{% convert_currency bronze_package.price selected_currency %}</h4>
+            <button class="btn msc-btn w-100 add_to_cart_package"
+              data-package-id="{{ bronze_package.id }}"
+              data-package-price="{{ bronze_package.price }}"
+              data-package-tokens="{{ bronze_package.tokens }}">ADD TO CART</button>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if popular_package %}
+        <div class="col-md-3">
+          <div class="msc-card">
+            {% if popular_package.is_popular %}<div class="most-popular"><p>most popular</p></div>{% endif %}
+            {% if popular_package.image %}<img src="{{ popular_package.image.url }}" alt="{{ popular_package.name }}">{% endif %}
+            <div class="package-detail">
+              <h2 class="package-name">{{ popular_package.name }}</h2>
+              <h1 class="tokenss">{{ popular_package.tokens }} tokens</h1>
+              <p class="no-story">{{ popular_package.packagetype.name }}</p>
+            </div>
+            {% if popular_package.description %}<p class="box-p">{{ popular_package.description }}</p>{% endif %}
+            <h4 class="price">{% convert_currency popular_package.price selected_currency %}</h4>
+            <button class="btn msc-btn w-100 add_to_cart_package"
+              data-package-id="{{ popular_package.id }}"
+              data-package-price="{{ popular_package.price }}"
+              data-package-tokens="{{ popular_package.tokens }}">ADD TO CART</button>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if silver_package %}
+        <div class="col-md-3">
+          <div class="msc-card">
+            {% if silver_package.is_popular %}<div class="most-popular"><p>most popular</p></div>{% endif %}
+            {% if silver_package.image %}<img src="{{ silver_package.image.url }}" alt="{{ silver_package.name }}">{% endif %}
+            <div class="package-detail">
+              <h2 class="package-name">{{ silver_package.name }}</h2>
+              <h1 class="tokenss">{{ silver_package.tokens }} tokens</h1>
+              <p class="no-story">{{ silver_package.packagetype.name }}</p>
+            </div>
+            {% if silver_package.description %}<p class="box-p">{{ silver_package.description }}</p>{% endif %}
+            <h4 class="price">{% convert_currency silver_package.price selected_currency %}</h4>
+            <button class="btn msc-btn w-100 add_to_cart_package"
+              data-package-id="{{ silver_package.id }}"
+              data-package-price="{{ silver_package.price }}"
+              data-package-tokens="{{ silver_package.tokens }}">ADD TO CART</button>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Mobile carousel -->
+      <div id="pricingCarousel" class="carousel slide msc-mobile">
+        <div class="carousel-inner msc-carousel-inner">
           {% if bronze_package %}
-          <div class="box{{ bronze_package.order }}_drag">
-            {% if bronze_package.is_popular %}
-            <button class="btn btn-famous">Most popular</button>
-            {% endif %}
-            {% if bronze_package.image %}
-            <img src="{{ bronze_package.image.url }}" alt="{{ bronze_package.name }}" class="drag_1">
-            {% endif %}
-            <div class="mid_text">
-              <p class="pack">{{ bronze_package.packagetype.name }}</p>
-              <h3 class="pack_title">{{ bronze_package.tokens }} tokens</h3>
-              <p class="pack_sub">{{ bronze_package.name }}</p>
-            </div>
-            {% if bronze_package.description %}
-            <p class="subb_price">{{ bronze_package.description }}</p>
-            {% endif %}
-            <div class="btn_box">
-              <!-- <p class="dollar_price">{{ bronze_package.currency }}{{ bronze_package.price }}</p> -->
-              <p class="dollar_price">
-                {% convert_currency bronze_package.price selected_currency %}
-              </p>
-              
-              <button class="btn btn-add add_to_cart_package" data-package-id="{{ bronze_package.id }}"
-                data-package-price="{{ bronze_package.price }}" data-package-tokens="{{ bronze_package.tokens }}">Add to cart
-              </button>
+          <div class="carousel-item active msc-carousel-item">
+            <div class="msc-card">
+              {% if bronze_package.is_popular %}<div class="most-popular"><p>most popular</p></div>{% endif %}
+              {% if bronze_package.image %}<img src="{{ bronze_package.image.url }}" alt="{{ bronze_package.name }}">{% endif %}
+              <div class="package-detail">
+                <h2 class="package-name">{{ bronze_package.name }}</h2>
+                <h1 class="tokenss">{{ bronze_package.tokens }} tokens</h1>
+                <p class="no-story">{{ bronze_package.packagetype.name }}</p>
+              </div>
+              {% if bronze_package.description %}<p class="box-p">{{ bronze_package.description }}</p>{% endif %}
+              <h4 class="price">{% convert_currency bronze_package.price selected_currency %}</h4>
+              <button class="btn msc-btn w-100 add_to_cart_package"
+                data-package-id="{{ bronze_package.id }}"
+                data-package-price="{{ bronze_package.price }}"
+                data-package-tokens="{{ bronze_package.tokens }}">ADD TO CART</button>
             </div>
           </div>
           {% endif %}
-        
+
           {% if popular_package %}
-          <div class="box{{ popular_package.order }}_drag">
-            {% if popular_package.is_popular %}
-            <button class="btn btn-famous">Most popular</button>
-            {% endif %}
-            {% if popular_package.image %}
-            <img src="{{ popular_package.image.url }}" alt="{{ popular_package.name }}" class="drag_1">
-            {% endif %}
-            <div class="mid_text">
-              <p class="pack">{{ popular_package.packagetype.name }}</p>
-              <h3 class="pack_title_gold">{{ popular_package.tokens }} tokens</h3>
-              <p class="pack_sub">{{ popular_package.name }}</p>
-            </div>
-            {% if popular_package.description %}
-            <p class="subb_price">{{ popular_package.description }}</p>
-            {% endif %}
-            <div class="btn_box">
-              <!-- <p class="dollar_price">{{ popular_package.currency }}{{ popular_package.price }}</p> -->
-              <p class="dollar_price">
-                {% convert_currency popular_package.price selected_currency %}
-            </p>
-
-              <button class="btn btn-add add_to_cart_package" data-package-id="{{ popular_package.id }}"
-                data-package-price="{{ popular_package.price }}" data-package-tokens="{{ popular_package.tokens }}">Add to cart
-              </button>
+          <div class="carousel-item {% if not bronze_package %}active{% endif %} msc-carousel-item">
+            <div class="msc-card">
+              {% if popular_package.is_popular %}<div class="most-popular"><p>most popular</p></div>{% endif %}
+              {% if popular_package.image %}<img src="{{ popular_package.image.url }}" alt="{{ popular_package.name }}">{% endif %}
+              <div class="package-detail">
+                <h2 class="package-name">{{ popular_package.name }}</h2>
+                <h1 class="tokenss">{{ popular_package.tokens }} tokens</h1>
+                <p class="no-story">{{ popular_package.packagetype.name }}</p>
+              </div>
+              {% if popular_package.description %}<p class="box-p">{{ popular_package.description }}</p>{% endif %}
+              <h4 class="price">{% convert_currency popular_package.price selected_currency %}</h4>
+              <button class="btn msc-btn w-100 add_to_cart_package"
+                data-package-id="{{ popular_package.id }}"
+                data-package-price="{{ popular_package.price }}"
+                data-package-tokens="{{ popular_package.tokens }}">ADD TO CART</button>
             </div>
           </div>
           {% endif %}
-        
+
           {% if silver_package %}
-          <div class="box{{ silver_package.order }}_drag">
-            {% if silver_package.is_popular %}
-            <button class="btn btn-famous">Most popular</button>
-            {% endif %}
-            {% if silver_package.image %}
-            <img src="{{ silver_package.image.url }}" alt="{{ silver_package.name }}" class="drag_1">
-            {% endif %}
-            <div class="mid_text">
-              <p class="pack">{{ silver_package.packagetype.name }}</p>
-              <h3 class="pack_title_silver">{{ silver_package.tokens }} tokens</h3>
-              <p class="pack_sub">{{ silver_package.name }}</p>
-            </div>
-            {% if silver_package.description %}
-            <p class="subb_price">{{ silver_package.description }}</p>
-            {% endif %}
-            <div class="btn_box">
-              <!-- <p class="dollar_price">{{ silver_package.currency }}{{ silver_package.price }}</p> -->
-              <p class="dollar_price">
-                {% convert_currency silver_package.price selected_currency %}
-              </p>
-              <button class="btn btn-add add_to_cart_package" data-package-id="{{ silver_package.id }}"
-                data-package-price="{{ silver_package.price }}" data-package-tokens="{{ silver_package.tokens }}">Add to cart
-              </button>
+          <div class="carousel-item {% if not bronze_package and not popular_package %}active{% endif %} msc-carousel-item">
+            <div class="msc-card">
+              {% if silver_package.is_popular %}<div class="most-popular"><p>most popular</p></div>{% endif %}
+              {% if silver_package.image %}<img src="{{ silver_package.image.url }}" alt="{{ silver_package.name }}">{% endif %}
+              <div class="package-detail">
+                <h2 class="package-name">{{ silver_package.name }}</h2>
+                <h1 class="tokenss">{{ silver_package.tokens }} tokens</h1>
+                <p class="no-story">{{ silver_package.packagetype.name }}</p>
+              </div>
+              {% if silver_package.description %}<p class="box-p">{{ silver_package.description }}</p>{% endif %}
+              <h4 class="price">{% convert_currency silver_package.price selected_currency %}</h4>
+              <button class="btn msc-btn w-100 add_to_cart_package"
+                data-package-id="{{ silver_package.id }}"
+                data-package-price="{{ silver_package.price }}"
+                data-package-tokens="{{ silver_package.tokens }}">ADD TO CART</button>
             </div>
           </div>
           {% endif %}
         </div>
-      </div>
-
-      <div class="d-lg-none d-md-none d-block">
-        <div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
-          <div class="carousel-inner carousel_inner">
-            {% if bronze_package %}
-            <div class="carousel-item active">
-              <div class="box{{ bronze_package.order }}_drag">
-                {% if bronze_package.is_popular %}
-                <button class="btn btn-famous">Most popular</button>
-                {% endif %}
-                {% if bronze_package.image %}
-                <img src="{{ bronze_package.image.url }}" alt="{{ bronze_package.name }}" class="drag_1">
-                {% endif %}
-                <div class="mid_text">
-                  <p class="pack">{{ bronze_package.packagetype.name }}</p>
-                  <h3 class="pack_title">{{ bronze_package.tokens }} tokens</h3>
-                  <p class="pack_sub">{{ bronze_package.name }}</p>
-                </div>
-                {% if bronze_package.description %}
-                <p class="subb_price d-lg-block d-md-block d-none">{{ bronze_package.description }}</p>
-                {% endif %}
-                <div class="btn_box">
-                  <!-- <p class="dollar_price">{{ bronze_package.currency }}{{ bronze_package.price }}</p> -->
-                  <p class="dollar_price">
-                    {% convert_currency bronze_package.price selected_currency %}
-                  </p>
-
-                  <button class="add_to_cart btn btn-add add_to_cart_package" data-package-id="{{ bronze_package.id }}"
-                    data-package-price="{{ bronze_package.price }}" data-package-tokens="{{ bronze_package.tokens }}">Add to
-                    cart</button>
-                </div>
-              </div>
-            </div>
-            {% endif %}
-          
-            {% if popular_package %}
-            <div class="carousel-item {% if not bronze_package %}active{% endif %}">
-              <div class="box{{ popular_package.order }}_drag">
-                {% if popular_package.is_popular %}
-                <button class="btn btn-famous">Most popular</button>
-                {% endif %}
-                {% if popular_package.image %}
-                <img src="{{ popular_package.image.url }}" alt="{{ popular_package.name }}" class="drag_1">
-                {% endif %}
-                <div class="mid_text">
-                  <p class="pack">{{ popular_package.packagetype.name }}</p>
-                  <h3 class="pack_title_gold">{{ popular_package.tokens }} tokens</h3>
-                  <p class="pack_sub">{{ popular_package.name }}</p>
-                </div>
-                {% if popular_package.description %}
-                <p class="subb_price d-lg-block d-md-block d-none">{{ popular_package.description }}</p>
-                {% endif %}
-                <div class="btn_box">
-                  <!-- <p class="dollar_price">{{ popular_package.currency }}{{ popular_package.price }}</p> -->
-                  <p class="dollar_price">
-                    {% convert_currency popular_package.price selected_currency %}
-                  </p>
-
-                  <button class="add_to_cart btn btn-add add_to_cart_package" data-package-id="{{ popular_package.id }}"
-                    data-package-price="{{ popular_package.price }}" data-package-tokens="{{ popular_package.tokens }}">Add to
-                    cart</button>
-                </div>
-              </div>
-            </div>
-            {% endif %}
-          
-            {% if silver_package %}
-            <div class="carousel-item {% if not bronze_package and not popular_package %}active{% endif %}">
-              <div class="box{{ silver_package.order }}_drag">
-                {% if silver_package.is_popular %}
-                <button class="btn btn-famous">Most popular</button>
-                {% endif %}
-                {% if silver_package.image %}
-                <img src="{{ silver_package.image.url }}" alt="{{ silver_package.name }}" class="drag_1">
-                {% endif %}
-                <div class="mid_text">
-                  <p class="pack">{{ silver_package.packagetype.name }}</p>
-                  <h3 class="pack_title_silver">{{ silver_package.tokens }} tokens</h3>
-                  <p class="pack_sub">{{ silver_package.name }}</p>
-                </div>
-                {% if silver_package.description %}
-                <p class="subb_price d-lg-block d-md-block d-none">{{ silver_package.description }}</p>
-                {% endif %}
-                <div class="btn_box">
-                  <!-- <p class="dollar_price">{{ silver_package.currency }}{{ silver_package.price }}</p> -->
-                  <p class="dollar_price">
-                    {% convert_currency silver_package.price selected_currency %}
-                  </p>
-
-                  <button class="add_to_cart btn btn-add add_to_cart_package" data-package-id="{{ silver_package.id }}"
-                    data-package-price="{{ silver_package.price }}" data-package-tokens="{{ silver_package.tokens }}">Add to
-                    cart</button>
-                </div>
-              </div>
-            </div>
-            {% endif %}
-          </div>
-
-          <div class="nav_box">
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide"
-              data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide"
-              data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
+        <div class="msc-carousel-controls">
+          <button type="button" data-bs-target="#pricingCarousel" data-bs-slide="prev">&#9664;</button>
+          <button type="button" data-bs-target="#pricingCarousel" data-bs-slide="next">&#9654;</button>
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
-</section>
 
-<section class="pricing_2">
-  <img src="{% static 'media/rocks.png' %}" alt="" class="rockss d-lg-none d-md-none d-block">
-
-  <div class="container">
-    <div class="price_box_2">
-      <h2 class="price_title">Additional Token Packs</h2>
-      <p class="price_para">
-        Simple, transparent pricing that grows with you.
-      </p>
+  <div class="pricing-s2">
+    <div class="adit-info">
+      <h1>Additional Token Packs</h1>
+      <p>Simple, transparent pricing that grows with you.</p>
     </div>
-    <p class="light_tt d-lg-none d-md-none d-block"> Swipe to see more Packs</p>
-    <div class="pricing_upper_box">
-      <div class="container px-0">
-        <div class="row g-4" style="justify-content: center;">
-          {% for package in packages %}
-          <div class="col-12 col-md-6 col-lg-3  col_wid">
-            <div class="pricing_2_box h-100 d-flex flex-column justify-content-between">
-              <div class="p_text">
-                <h2 class="pricing_2_title">{{ package.packagetype.name }}</h2>
-                <!-- <p class="pricing_2_para">{{ package.currency }}{{ package.price }} for {{ package.tokens }} tokens</p> -->
-                <p class="pricing_2_para">
-                  {% convert_currency package.price selected_currency %} for {{ package.tokens }} tokens
-                </p>
-              </div>
-              <button class="btn btn-add  add_to_cart add_to_cart_package" data-package-id="{{ package.id }}"
-                data-package-price="{{ package.price }}" data-package-tokens="{{ package.tokens }}">Add to cart</button>
-            </div>
+    <div class="items-list">
+      <div class="itemss-box">
+        {% for package in packages %}
+        <div class="p-item">
+          <div class="pr-det">
+            <h1>{{ package.packagetype.name }}</h1>
+            <p>{% convert_currency package.price selected_currency %} for {{ package.tokens }} tokens</p>
           </div>
-          {% endfor %}
+          <button class="add_to_cart_package"
+            data-package-id="{{ package.id }}"
+            data-package-price="{{ package.price }}"
+            data-package-tokens="{{ package.tokens }}">Add To Cart</button>
         </div>
+        {% endfor %}
       </div>
 
       {% for package in custom_package %}
-      <div class="costum_box">
-        <h2 class="pricing_2_title">Custom amount</h2>
-        <div class="input_bxx">
-          <p id="tokenDisplayMobile" class="thous d-lg-none d-md-none d-block">= 0 tokens</p>
-          <div class="ml-input-wrapper">
-            <input type="text" name="amount" placeholder="Enter amount" id="customAmount" class="ml-input" inputmode="decimal" autocomplete="off">
-          </div>
-          <p id="tokenDisplayDesktop" class="thous d-lg-block d-md-block d-none">= 0 tokens</p>
-          <button class="btn btn-add2 add_to_cart" data-package-id="{{ package.id }}"
-            data-package-price="0" data-package-tokens="{{ package.tokens }}" data-custom-tokens="0" id="addCustomToCart">Add to
-            cart</button>
+      <div class="custom-det">
+        <h1>Custom amount</h1>
+        <div class="amt-box">
+          <input type="text" name="amount" placeholder="Enter dollar amount" id="customAmount" class="ml-input" inputmode="decimal" autocomplete="off">
+          <span id="tokenDisplayDesktop">= 0 tokens</span>
+          <span id="tokenDisplayMobile" class="d-lg-none d-md-none d-block">= 0 tokens</span>
+          <button class="btn add_to_cart_package"
+            data-package-id="{{ package.id }}"
+            data-package-price="0"
+            data-package-tokens="{{ package.tokens }}"
+            data-custom-tokens="0"
+            id="addCustomToCart">Add to cart</button>
         </div>
         <script>
-          document.addEventListener("DOMContentLoaded", function () {
-          
-              const conversionRate = Number("{{ selected_currency.exchange_rate|default:1 }}");
-              const input = document.getElementById("customAmount");
-              if (!input) return;
-          
-              const tokenDisplay = document.querySelectorAll(
-                  '#tokenDisplayDesktop, #tokenDisplayMobile'
-              );
-          
-              // 🔹 Restore amount
-              let usdValue = parseFloat(localStorage.getItem("baseUSDValue"));
-              if (!isNaN(usdValue)) {
-                  input.value = (usdValue * conversionRate).toFixed(2);
-              }
-          
-              // 🔹 Restore tokens (force override AFTER everything)
-              setTimeout(() => {
-                  const storedTokens = localStorage.getItem("storedTokens");
-                  if (storedTokens) {
-                      tokenDisplay.forEach(el => {
-                          el.textContent = storedTokens;
-                      });
-                  }
-              }, 300); // slightly higher to beat other script
-          
-              // 🔹 On input change
-              input.addEventListener("input", function () {
-                  let entered = parseFloat(this.value);
-          
-                  if (!isNaN(entered) && entered > 0) {
-          
-                      let usd = entered / conversionRate;
-                      localStorage.setItem("baseUSDValue", usd);
-          
-                      // 🔥 Store tokens from UI AFTER they update
-                      setTimeout(() => {
-                          const currentText = document.getElementById("tokenDisplayDesktop")?.textContent;
-                          if (currentText && currentText !== '= 0 tokens') {
-                              localStorage.setItem("storedTokens", currentText);
-                          }
-                      }, 50);
-          
-                  } else {
-                      localStorage.removeItem("baseUSDValue");
-                      localStorage.removeItem("storedTokens");
-          
-                      tokenDisplay.forEach(el => {
-                          el.textContent = '= 0 tokens';
-                      });
-                  }
-              });
-          
-          });
-          </script>
-        
+        document.addEventListener("DOMContentLoaded", function () {
+            const conversionRate = Number("{{ selected_currency.exchange_rate|default:1 }}");
+            const input = document.getElementById("customAmount");
+            if (!input) return;
+            const tokenDisplays = document.querySelectorAll('#tokenDisplayDesktop, #tokenDisplayMobile');
+            let usdValue = parseFloat(localStorage.getItem("baseUSDValue"));
+            if (!isNaN(usdValue)) {
+                input.value = (usdValue * conversionRate).toFixed(2);
+            }
+            setTimeout(() => {
+                const storedTokens = localStorage.getItem("storedTokens");
+                if (storedTokens) tokenDisplays.forEach(el => { el.textContent = storedTokens; });
+            }, 300);
+            input.addEventListener("input", function () {
+                let entered = parseFloat(this.value);
+                if (!isNaN(entered) && entered > 0) {
+                    let usd = entered / conversionRate;
+                    localStorage.setItem("baseUSDValue", usd);
+                    setTimeout(() => {
+                        const currentText = document.getElementById("tokenDisplayDesktop")?.textContent;
+                        if (currentText && currentText !== '= 0 tokens') {
+                            localStorage.setItem("storedTokens", currentText);
+                        }
+                    }, 50);
+                } else {
+                    localStorage.removeItem("baseUSDValue");
+                    localStorage.removeItem("storedTokens");
+                    tokenDisplays.forEach(el => { el.textContent = '= 0 tokens'; });
+                }
+            });
+        });
+        </script>
       </div>
       {% endfor %}
-
     </div>
   </div>
-
-  <img src="{% static 'media/dragon.png' %}" alt="" class="dragoon d-lg-block d-md-block d-none ">
-  <img src="{% static 'media/soldier.png' %}" alt="" class="soldider d-lg-block d-md-block d-none">
 </section>
 
 {% endblock %}
