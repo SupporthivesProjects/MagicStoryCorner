@@ -1,14 +1,15 @@
 {% extends "includes/layout.html" %}
 {% load static %}
 {% block title %} Privacy Policy | {{ site_name }} {% endblock %}
-
 {% block content %}
-<section class="pp-section">
-    <div class="container">
-        <div class="col pp-content">
-            {{ legal.content|safe }}
-        </div>
+
+<section class="terms-section">
+  <div class="container">
+    <h1 class="terms-title text-center">Privacy Policy</h1>
+    <div class="terms-content mx-auto">
+      {{ legal.content|safe }}
     </div>
+  </div>
 </section>
-<section class="last d-lg-block d-md-block d-none"></section>
+
 {% endblock %}
