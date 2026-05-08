@@ -1,280 +1,247 @@
 {% extends "includes/layout.html" %}
 {% load static %}
-{% block title %} My Library  | {{ site_name }} {% endblock %}
+{% block title %} My Library | {{ site_name }} {% endblock %}
 {% block content %}
-<section class="my_libb">
-    <div class="container position-relative">
-      <img src="{% static 'media/cat.gif' %}" alt="" class="cattt d-lg-block d-md-block d-none">
-      <h4 class="cat_text_ml d-lg-block d-md-block d-none">My Library</h4>
-      <h4 class="cat_text_ml d-block d-lg-none d-md-none">Library</h4>
-      <div class=" d-none d-lg-block d-md-block">
-        <a href="{% url 'user_logout' %}" class="loghu">Logout</a>
-      </div>
-      <img src="{% static 'media/owl.gif' %}" alt="" class="owlll d-lg-block d-md-block d-none">
-    </div>
-  </section>
 
- 
-<section class="products_search">
-    <div class="search_box">
-      <div class="container">
-        <form method="get" id="filterForm">
-          <div class="search-container">
-            <div class="search-box">
-              <input type="text" name="search" value="{{ request.GET.search|default:'' }}" placeholder="Search products">
-              <button class="search-btn" type="submit">
-                <img src="{% static 'media/brand_ico.jpeg' %}" alt="search icon">
-              </button>
+<section style="padding: 0px;">
+
+  <div class="dashboard_1">
+    <h1 class="dashboard_tt">My Library</h1>
+    <a href="{% url 'user_logout' %}" class="btn dash_btn mobile_none">Logout</a>
+  </div>
+
+  <div class="library_2">
+    <div class="container p-0">
+      <div class="in_dashboard2">
+
+        <div class="upper_library">
+          <form method="get" id="filterForm">
+            <div class="search_wrapper">
+              <input type="text" name="search" value="{{ request.GET.search|default:'' }}" placeholder="Search" class="search_tagt">
+              <span class="search_icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M21 21L15.0001 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="#727272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
             </div>
-  
-            <div class="btn_bx">
-              <div class="filter-container">
-                <button class="filter-btn" type="button" onclick="toggleFilter()">Filter</button>
-                <div class="filter-panel" id="filterPanel">
-                  <div class="filter-section">
-                    <div>
-                      <h3>Age</h3>
-                      {% for age in ages %}
-                        <label>
-                          <input type="checkbox" name="age" value="{{ age.name }}" {% if age.name in selected_filters.age %}checked{% endif %}>{{ age.name }} ({{ age.story_count }})
-                        </label>
-                      {% endfor %}
+
+            <div class="right_up_lib">
+              <div class="dropdownt">
+                <div class="yellowdash_btn dropdown-btnt diff_width_for_all" id="filterid" onclick="toggleFilter()">Filter</div>
+                <div class="dropdown-menut" id="filterPanel">
+                  <div class="inside_drop_down">
+
+                    <div class="single_dropdown">
+                      <h1>Age</h1>
+                      <div class="single_dropdown_below">
+                        {% for age in ages %}
+                          <div class="single_single">
+                            <input type="checkbox" class="custom-checkboxt" name="age" value="{{ age.name }}" {% if age.name in selected_filters.age %}checked{% endif %}>
+                            <p class="to_select">{{ age.name }} ({{ age.story_count }})</p>
+                          </div>
+                        {% endfor %}
+                      </div>
                     </div>
-                    <div>
-                      <h3>Story Type</h3>
-                      {% for st in story_types %}
-                        <label>
-                          <input type="checkbox" name="story_type" value="{{ st.name }}" {% if st.name in selected_filters.story_type %}checked{% endif %}>{{ st.name }} ({{ st.story_count }})
-                        </label>
-                      {% endfor %}
+
+                    <div class="single_dropdown">
+                      <h1>Story Type</h1>
+                      <div class="single_dropdown_below">
+                        {% for st in story_types %}
+                          <div class="single_single">
+                            <input type="checkbox" class="custom-checkboxt" name="story_type" value="{{ st.name }}" {% if st.name in selected_filters.story_type %}checked{% endif %}>
+                            <p class="to_select">{{ st.name }} ({{ st.story_count }})</p>
+                          </div>
+                        {% endfor %}
+                      </div>
                     </div>
-                    <div>
-                      <h3>Themes</h3>
-                      {% for theme in themes %}
-                        <label>
-                          <input type="checkbox" name="theme" value="{{ theme.name }}" {% if theme.name in selected_filters.theme %}checked{% endif %}>{{ theme.name }} ({{ theme.story_count }})
-                        </label>
-                      {% endfor %}
+
+                    <div class="single_dropdown">
+                      <h1>Themes</h1>
+                      <div class="single_dropdown_below">
+                        {% for theme in themes %}
+                          <div class="single_single">
+                            <input type="checkbox" class="custom-checkboxt" name="theme" value="{{ theme.name }}" {% if theme.name in selected_filters.theme %}checked{% endif %}>
+                            <p class="to_select">{{ theme.name }} ({{ theme.story_count }})</p>
+                          </div>
+                        {% endfor %}
+                      </div>
                     </div>
-                    <div>
-                      <h3>Narration</h3>
-                      {% for narration in narrations %}
-                        <label>
-                          <input type="checkbox" name="narration" value="{{ narration.name }}" {% if narration.name in selected_filters.narration %}checked{% endif %}>{{ narration.name }} ({{ narration.story_count }})
-                        </label>
-                      {% endfor %}
+
+                    <div class="single_dropdown">
+                      <h1>Narration</h1>
+                      <div class="single_dropdown_below">
+                        {% for narration in narrations %}
+                          <div class="single_single">
+                            <input type="checkbox" class="custom-checkboxt" name="narration" value="{{ narration.name }}" {% if narration.name in selected_filters.narration %}checked{% endif %}>
+                            <p class="to_select">{{ narration.name }} ({{ narration.story_count }})</p>
+                          </div>
+                        {% endfor %}
+                      </div>
                     </div>
-                    <div>
-                      <h3>Style</h3>
-                      {% for style in styles %}
-                        <label>
-                          <input type="checkbox" name="style" value="{{ style.name }}" {% if style.name in selected_filters.style %}checked{% endif %}>{{ style.name }} ({{ style.story_count }})
-                        </label>
-                      {% endfor %}
+
+                    <div class="single_dropdown">
+                      <h1>Style</h1>
+                      <div class="single_dropdown_below">
+                        {% for style in styles %}
+                          <div class="single_single">
+                            <input type="checkbox" class="custom-checkboxt" name="style" value="{{ style.name }}" {% if style.name in selected_filters.style %}checked{% endif %}>
+                            <p class="to_select">{{ style.name }} ({{ style.story_count }})</p>
+                          </div>
+                        {% endfor %}
+                      </div>
                     </div>
-                    <div class="filter-footer">
-                      <button type="button" class="close-filter" onclick="toggleFilter()">Close</button>
-                      <button type="submit" class="apply-btn">Apply</button>
+
+                    <div class="desktop_none w-100">
+                      <button type="button" class="btn yellowdash_btn w-100" onclick="toggleFilter()">Close Filter</button>
+                      <button type="submit" class="btn yellowdash_btn w-100" style="margin-top: 16px;">Apply</button>
                     </div>
+
                   </div>
                 </div>
               </div>
-  
-              <div class="dropdown">
-                <button class="sort-btn" type="button" onclick="toggleDropdown()">
-                  <p>Sort by <span class="bolddy" id="currentSort">{{ request.GET.sort|default:"Date" }}</span></p>
-                  <img src="{% static 'media/drop_dwn.png' %}" class="drop_icoo" alt="">
-                </button>
-                <div class="dropdown-menu" id="dropdownMenu">
-                  <a href="#" data-sort="date_desc">Newest – Oldest</a>
-                  <a href="#" data-sort="date_asc">Oldest – Newest</a>
-                </div>
+
+              <div class="select-wrapper">
+                <select name="sort" class="yellowdash_btn custom-select" id="sortSelect">
+                  <option value="date_desc" {% if request.GET.sort == 'date_desc' or not request.GET.sort %}selected{% endif %}>Newest – Oldest</option>
+                  <option value="date_asc" {% if request.GET.sort == 'date_asc' %}selected{% endif %}>Oldest – Newest</option>
+                </select>
+                <span class="arrow">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <rect x="32" y="32" width="32" height="32" rx="16" transform="rotate(-180 32 32)" fill="white"/>
+                    <path d="M22 13L16 19L10 13" stroke="#030527" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
               </div>
             </div>
-          </div>
-  
-          <h4 class="textt_pup">
-            Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ page_obj.paginator.count }} Results
-          </h4>
-        </form>
-      </div>
-    </div>
-    <div class="container px-0">
-      <div class="main_prod_box position-relative">
-        <div id="story-list" class="container-fluid px-0">
-          {% include "accounts/library/cards.html" %}
+          </form>
         </div>
-        
-        <div id="story-skeleton" class="d-none container-fluid px-0">
-          <div class="container">
-            <div class="row g-4 justify-content-center justify-content-md-start">
-              {% for i in per_page_cards %}
-              <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-                <div class="outer_card"  style="max-width: 100%;">
-                  <div class="card border-0 h-100">
-                    <div class="card-img bg-secondary placeholder placeholder-wave" style="height: 350px;"></div>
-                    <div class="card-content p-4 w-100">
-                      <h3><span class="placeholder placeholder-wave col-8"></span></h3>
-                      <a href="#" class="placeholder placeholder-wave col-6"></a>
-                    </div>
-                  </div>
+
+        <p class="showing_pp textt_pup">Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of <span>{{ page_obj.paginator.count }}</span> Results</p>
+
+        <div class="big_card_section">
+          <div class="each_seection_big_card_section" id="story-list">
+            {% include "accounts/library/cards.html" %}
+          </div>
+          <div class="each_seection_big_card_section d-none" id="story-skeleton">
+            {% for i in per_page_cards %}
+              <div class="full_cardd">
+                <div class="book_covert bg-secondary placeholder placeholder-wave" style="height: 220px;"></div>
+                <div class="bottom_card_div">
+                  <span class="placeholder placeholder-wave col-8 d-block mb-2"></span>
+                  <span class="placeholder placeholder-wave col-5 d-block"></span>
                 </div>
               </div>
-              {% endfor %}
-            </div>
+            {% endfor %}
           </div>
         </div>
-  
+
+        <div class="pagination_divt" id="pagination">
+          {% include "accounts/library/pagination.html" %}
+        </div>
+
       </div>
     </div>
-  
-    <div class="pagination d-flex justify-content-center align-items-center mt-4" id="pagination">
-      {% include "accounts/library/pagination.html" %}
-    </div>
-    <div class="bottom-nav dashbottom_nav d-md-none">
-        <button class="nav-btn dashnav_btn" data-tab="tab-home"><img src="{% static 'media/dash_mobtabbtn1.svg' %}"></button>
-        <a class="dashnav_btn active" href="/users/library/"><img src="{% static 'media/dash_mobtabbtn2.svg' %}"></a>
-        <a class="dashnav_btn" href="/stories/story-book-create/"><img src="{% static 'media/dash_mobtabbtn3.svg' %}"></a>
-        <button class="nav-btn dashnav_btn" data-tab="tab-purchase"><img src="{% static 'media/dash_mobtabbtn4.svg' %}"></button>
-        <button class="nav-btn dashnav_btn" data-tab="tab-setting"><img src="{% static 'media/dash_mobtabbtn5.svg' %}"></button>
-      </div>
-  </section>
-  <section class="last d-lg-block d-md-block d-none"></section>
-  {% endblock %}
-  {% block extra_js %}
-    <script>
-      if(typeof AOS !== 'undefined') {
-        AOS.init({duration: 1000});
-      }
+  </div>
 
-      const tabButtons = document.querySelectorAll(".dashnav_btn");
-      const tabContents = document.querySelectorAll(".dashtab_content");
+  <div class="bottom-nav dashbottom_nav d-md-none">
+    <a class="dashnav_btn" href="{% url 'user_dashboard' %}"><img src="{% static 'media/dash_mobtabbtn1.svg' %}"></a>
+    <a class="dashnav_btn active" href="{% url 'library_list' %}"><img src="{% static 'media/dash_mobtabbtn2.svg' %}"></a>
+    <a class="dashnav_btn" href="{% url 'story_book_create' %}"><img src="{% static 'media/dash_mobtabbtn3.svg' %}"></a>
+    <a class="dashnav_btn" href="{% url 'user_dashboard' %}"><img src="{% static 'media/dash_mobtabbtn4.svg' %}"></a>
+    <a class="dashnav_btn" href="{% url 'user_dashboard' %}"><img src="{% static 'media/dash_mobtabbtn5.svg' %}"></a>
+  </div>
 
-      tabButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          tabButtons.forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
+</section>
+<section class="last d-lg-block d-md-block d-none"></section>
 
-          tabContents.forEach((content) => content.classList.remove("active"));
+{% endblock %}
+{% block extra_js %}
+<script>
+  if(typeof AOS !== 'undefined') { AOS.init({duration: 1000}); }
 
-          const targetTab = btn.getAttribute("data-tab");
-          if(targetTab === "tab-home" ||targetTab === "tab-purchase"||targetTab === "tab-setting" ) {
-              window.location.href = "{% url 'user_dashboard' %}";
-          }
-          document.getElementById(targetTab).classList.add("active");
+  function toggleFilter() {
+    const filterPanel = document.getElementById('filterPanel');
+    if(filterPanel) filterPanel.classList.toggle('show-filter');
+  }
 
-          document.getElementById(targetTab).scrollTo({ top: 0, behavior: "smooth" });
-        });
-      });
-  
-      function toggleDropdown() {
-        const menu = document.getElementById("dropdownMenu");
-        const icon = document.querySelector(".drop_icoo");
-        if(menu) menu.classList.toggle("show");
-        if(icon) icon.classList.toggle("rotate");
-      }
-  
-      window.onclick = function(event) {
-        if (!event.target.closest('.dropdown')) {
-          const menu = document.getElementById("dropdownMenu");
-          const icon = document.querySelector(".drop_icoo");
-          if(menu) menu.classList.remove("show");
-          if(icon) icon.classList.remove("rotate");
-        }
-        if (!event.target.closest('.filter-container')) {
-          const filterPanel = document.getElementById("filterPanel");
-          if(filterPanel) filterPanel.classList.remove("show-filter");
-        }
-      }
-  
-      function toggleFilter() {
-        const filterPanel = document.getElementById("filterPanel");
-        if(filterPanel) filterPanel.classList.toggle("show-filter");
-      }
-  
-      function showSkeleton(show) {
-        const skeleton = document.getElementById('story-skeleton');
+  window.onclick = function(event) {
+    if (!event.target.closest('.dropdownt') && !event.target.closest('#filterid')) {
+      const filterPanel = document.getElementById('filterPanel');
+      if(filterPanel) filterPanel.classList.remove('show-filter');
+    }
+  };
+
+  function showSkeleton(show) {
+    const skeleton = document.getElementById('story-skeleton');
+    const storyList = document.getElementById('story-list');
+    if(!skeleton || !storyList) return;
+    if(show) {
+      storyList.classList.add('d-none');
+      skeleton.classList.remove('d-none');
+    } else {
+      storyList.classList.remove('d-none');
+      skeleton.classList.add('d-none');
+    }
+  }
+
+  function fetchStories() {
+    showSkeleton(true);
+    const filterForm = document.getElementById('filterForm');
+    if(!filterForm) return;
+    let params = new URLSearchParams(new FormData(filterForm));
+    fetch("{% url 'library_list' %}?" + params.toString(), { headers: { "X-Requested-With": "XMLHttpRequest" } })
+      .then(res => res.json())
+      .then(data => {
         const storyList = document.getElementById('story-list');
-        if(!skeleton || !storyList) return;
-        if(show){
-          storyList.classList.add('d-none');
-          skeleton.classList.remove('d-none');
-        } else {
-          storyList.classList.remove('d-none');
-          skeleton.classList.add('d-none');
+        const pagination = document.getElementById('pagination');
+        const textCount = document.querySelector('.textt_pup');
+        if(storyList) storyList.innerHTML = data.html;
+        if(pagination) pagination.innerHTML = data.pagination_html;
+        if(textCount && data.start_index !== undefined) {
+          textCount.innerHTML = 'Showing ' + data.start_index + ' - ' + data.end_index + ' of <span>' + data.total_count + '</span> Results';
         }
+      })
+      .finally(() => showSkeleton(false));
+  }
+
+  const filterForm = document.getElementById('filterForm');
+  if(filterForm) {
+    filterForm.addEventListener('change', function(e) {
+      if(e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') {
+        fetchStories();
       }
-  
-      function fetchStories() {
-        showSkeleton(true);
-        const filterForm = document.getElementById('filterForm');
-        if(!filterForm) return;
-        let params = new URLSearchParams(new FormData(filterForm));
-        fetch("{% url 'library_list' %}?" + params.toString(), { headers: { "X-Requested-With": "XMLHttpRequest" } })
-          .then(res => res.json())
-          .then(data => {
-            const storyList = document.getElementById('story-list');
-            const pagination = document.getElementById('pagination');
-            const textCount = document.querySelector('.textt_pup');
-            if(storyList) storyList.innerHTML = data.html;
-            if(pagination) pagination.innerHTML = data.pagination_html;
-            if(textCount && data.start_index !== undefined){
-              textCount.textContent = `Showing ${data.start_index} - ${data.end_index} of ${data.total_count} Results`;
-            }
-          })
-          .finally(() => showSkeleton(false));
-      }
-  
-      const filterForm = document.getElementById('filterForm');
-      if(filterForm) filterForm.addEventListener('input', fetchStories);
-  
-      document.addEventListener('click', function(e) {
-        const link = e.target.closest('.pagination a');
-        if(link){
-          e.preventDefault();
-          const storyList = document.getElementById('story-list');
-          const pagination = document.getElementById('pagination');
-          showSkeleton(true);
-          if(storyList) storyList.innerHTML = '';
-          const url = new URL(link.href, window.location.origin);
-          fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
-            .then(res => res.json())
-            .then(data => {
-              if(storyList) storyList.innerHTML = data.html;
-              if(pagination) pagination.innerHTML = data.pagination_html;
-              const textCount = document.querySelector('.textt_pup');
-              if(textCount && data.start_index !== undefined){
-                textCount.textContent = `Showing ${data.start_index} - ${data.end_index} of ${data.total_count} Results`;
-              }
-            })
-            .finally(() => showSkeleton(false));
-        }
+    });
+    const searchInput = filterForm.querySelector('input[name="search"]');
+    if(searchInput) {
+      let searchTimer;
+      searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(fetchStories, 400);
       });
-  
-      document.querySelectorAll('#dropdownMenu a').forEach(link => {
-        link.addEventListener('click', function(e){
-          e.preventDefault();
-          const sortValue = this.dataset.sort;
-          const form = document.getElementById('filterForm');
-          if(!form) return;
-          
-          const existingSortInput = form.querySelector('input[name="sort"]');
-          if(existingSortInput){
-            existingSortInput.value = sortValue;
-          } else {
-            const sortInput = document.createElement('input');
-            sortInput.type = 'hidden';
-            sortInput.name = 'sort';
-            sortInput.value = sortValue;
-            form.appendChild(sortInput);
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('#pagination a');
+    if(link) {
+      e.preventDefault();
+      const storyList = document.getElementById('story-list');
+      const pagination = document.getElementById('pagination');
+      showSkeleton(true);
+      if(storyList) storyList.innerHTML = '';
+      const url = new URL(link.href, window.location.origin);
+      fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+        .then(res => res.json())
+        .then(data => {
+          if(storyList) storyList.innerHTML = data.html;
+          if(pagination) pagination.innerHTML = data.pagination_html;
+          const textCount = document.querySelector('.textt_pup');
+          if(textCount && data.start_index !== undefined) {
+            textCount.innerHTML = 'Showing ' + data.start_index + ' - ' + data.end_index + ' of <span>' + data.total_count + '</span> Results';
           }
-          
-          const currentSort = document.getElementById('currentSort');
-          if(currentSort) currentSort.textContent = this.textContent.trim();
-          fetchStories();
-          const dropdownMenu = document.getElementById("dropdownMenu");
-          if(dropdownMenu) dropdownMenu.classList.remove("show");
-        });
-      });
-    </script>
-  {% endblock %}
+        })
+        .finally(() => showSkeleton(false));
+    }
+  });
+</script>
+{% endblock %}
