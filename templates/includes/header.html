@@ -36,21 +36,6 @@
           <li class="nav-item">
             <a class="nav-link {% if request.resolver_match.url_name == 'contactUs' %}active{% endif %}" href="{% url 'contactUs' %}">Contact</a>
           </li>
-          <li class="nav-item">
-            <form method="POST" action="{% url 'set_currency' %}" id="currency-form">
-              {% csrf_token %}
-              <select name="currency" id="currency-select">
-                {% for c in currencies %}
-                  <option value="{{ c.code }}" {% if selected_currency.code == c.code %}selected{% endif %}>{{ c.code }}</option>
-                {% endfor %}
-              </select>
-            </form>
-            <script>
-              document.getElementById("currency-select").addEventListener("change", function() {
-                document.getElementById("currency-form").submit();
-              });
-            </script>
-          </li>
           <li class="nav-item d-none d-lg-block">
             {% include 'includes/desktopAction.html' %}
           </li>
@@ -61,4 +46,15 @@
       </div>
     </div>
   </nav>
+  {# Currency form — hidden, functionality preserved #}
+  <div style="display:none" aria-hidden="true">
+    <form method="POST" action="{% url 'set_currency' %}" id="currency-form">
+      {% csrf_token %}
+      <select name="currency" id="currency-select">
+        {% for c in currencies %}
+          <option value="{{ c.code }}" {% if selected_currency.code == c.code %}selected{% endif %}>{{ c.code }}</option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
 </header>
