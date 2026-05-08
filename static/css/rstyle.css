@@ -13,7 +13,7 @@
 /**********************/
 /* Age Css Start */
 .age_section{
-    background-image: url(../img/age_bg.png);
+    background-image: url(../media/age_bg.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top center;
@@ -775,7 +775,7 @@ background: var(--Base-Off-Black, #0F0F0F);
   padding: 98px 30px 75px 30px !important;
   width: 395px;
   margin: auto;
-  background: url(../img/story_modalbg.png);
+  background: url(../media/story_modalbg.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -923,7 +923,7 @@ background: var(--Base-Off-Black, #0F0F0F);
     margin: 0px;
 }
 .about_s2{
-    background-image: url(../img/about_s2bg.png);
+    background-image: url(../media/about_s2bg.png);
     background-position: top;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -1008,7 +1008,7 @@ background: var(--Base-Off-Black, #0F0F0F);
     font-weight: 700;
     line-height: 150%; /* 21px */
     letter-spacing: 0.84px;
-    background-image: url(../img/about_s2btnbg.svg);
+    background-image: url(../media/about_s2btnbg.svg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center center;
@@ -1068,7 +1068,7 @@ background: var(--Base-Off-Black, #0F0F0F);
   }
   .progress_bar {
     width: 950px;
-    background: url(../img/progress_line.svg);
+    background: url(../media/progress_line.svg);
     background-position: center;
     background-repeat: no-repeat;
     padding-top: 24px;
@@ -1153,7 +1153,7 @@ background: var(--Base-Off-Black, #0F0F0F);
     /* Story Start */
     .progress_bar{
       width: 950px;
-      background: url(../img/progress_line.svg);
+      background: url(../media/progress_line.svg);
       background-position: center;
       background-repeat: no-repeat;
       padding-top: 24px;
@@ -1188,7 +1188,7 @@ background: var(--Base-Off-Black, #0F0F0F);
         padding: 8px;
     }
     .bg-1{
-      background: url(../img/tab1_bgmob.png);
+      background: url(../media/tab1_bgmob.png);
       background-position: center top;
       background-repeat: no-repeat;
       background-size: 100% 100%;
@@ -1220,7 +1220,7 @@ background: var(--Base-Off-Black, #0F0F0F);
       display: none;
     }
     .bg-2{
-      background: url(../img/tab2_bgmob.png);
+      background: url(../media/tab2_bgmob.png);
       background-position: center top;
       background-repeat: no-repeat;
       background-size: 100% 100%;
@@ -1247,7 +1247,7 @@ background: var(--Base-Off-Black, #0F0F0F);
       gap: 16px;
     }
     .bg-3{
-      background: url(../img/tab3_bgmob.png);
+      background: url(../media/tab3_bgmob.png);
       background-position: center top;
       background-repeat: no-repeat;
       background-size: 100% 100%;
@@ -1306,7 +1306,7 @@ background: var(--Base-Off-Black, #0F0F0F);
       border: 2px solid #FFC760;
     }
     .bg-4{
-      background: url(../img/tab4_bgmob.png);
+      background: url(../media/tab4_bgmob.png);
       background-position: center top;
       background-repeat: no-repeat;
       background-size: 100% 100%;

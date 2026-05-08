@@ -1,6 +1,6 @@
 .checkout-page{
     padding: 0px;
-    background: url(../img/user-info.png) no-repeat;
+    background: url(../media/user-info.png) no-repeat;
     background-size: 100% 100%;
     background-color:#F4E2B1;
     padding-top: 156px;
@@ -8,7 +8,7 @@
     justify-content: center;
 }
 .user-info{
-    /* background: url(../img/user-info.png) no-repeat;
+    /* background: url(../media/user-info.png) no-repeat;
     background-size: cover;
     background-color:#EACC9C;
     height: 600px; */
@@ -124,7 +124,7 @@ letter-spacing: 0.84px;
 }
 .order-summary{
     padding: 0px;
-    background: url(../img/order-smr.png) no-repeat;
+    background: url(../media/order-smr.png) no-repeat;
     background-size: 100% 100%;
     background-color:#F4E2B1;
     padding-top: 156px;
@@ -292,7 +292,7 @@ align-self: stretch;
     padding: 0px;
 }
 .pricing-s1{
-    background: url(../img/pricing-s1.png) no-repeat;
+    background: url(../media/pricing-s1.png) no-repeat;
     background-size:100% 100%;
     width: 100%;
     padding: 200px 0px;
@@ -353,7 +353,7 @@ padding: 56px;
 flex-direction: column;
 align-items: center;
 gap: 24px;
-background: url(../img/inactive-bg.png) no-repeat;
+background: url(../media/inactive-bg.png) no-repeat;
 background-size: 100% 100%;
     }
 .package-detail{
@@ -579,7 +579,7 @@ line-height: 150%; /* 30px */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: url(../img/pricing-s2.png) no-repeat;
+    background: url(../media/pricing-s2.png) no-repeat;
     background-size: 100% 100%;
     padding: 84px 0px 180px 0px;
     gap: 72px;
@@ -768,7 +768,7 @@ background-color: #F4E2B1;
         flex-direction: column;
     }
     .pricing-s1{
-        background: url(../img/pricing-s1-mb.png) no-repeat;
+        background: url(../media/pricing-s1-mb.png) no-repeat;
         background-size: 100% 100%;
         padding: 145px 0px 40px 0px;
     }
@@ -776,7 +776,7 @@ background-color: #F4E2B1;
         width: 327px;
     }
     .pricing-s2{
-        background: url(../img/pricing-s2-mb.png) no-repeat;
+        background: url(../media/pricing-s2-mb.png) no-repeat;
         background-size: 100% 100%;
         align-items: center;
     }

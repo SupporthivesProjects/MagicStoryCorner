@@ -3,7 +3,7 @@
     /* Contact US */
     .contact-scroll-section {
         min-height: 1125px;
-        background: #5b0f1a url(../img/mob_diino.png) no-repeat center center;
+        background: #5b0f1a url(../media/mob_diino.png) no-repeat center center;
         background-size: cover;
         display: flex;
         align-items: center;
@@ -12,7 +12,7 @@
     }
 
     .contact-scroll-wrapper {
-        background-image: url(../img/mob_scroll.png);
+        background-image: url(../media/mob_scroll.png);
         height: 1038px;
         padding-top: 100px !important;
 
@@ -225,7 +225,7 @@
     }
 
     .add_to_cart_body {
-        background: url(../img/addtocart.png) no-repeat center;
+        background: url(../media/addtocart.png) no-repeat center;
         background-size: 100% 100%;
         padding: 90px 30px 70px;
         position: relative;
@@ -440,7 +440,7 @@
     }
 
     .home_sec_4_section {
-        background: url(../img/home_sec_4.png) no-repeat center;
+        background: url(../media/home_sec_4.png) no-repeat center;
         background-size: cover;
         padding: 0 0;
         background-color: #FFE6BC;
@@ -516,7 +516,7 @@
         margin: auto;
         left: 0;
         right: 0;
-        background: url(../img/exoloreed.png) no-repeat center;
+        background: url(../media/exoloreed.png) no-repeat center;
     }
 
 
@@ -711,7 +711,7 @@
     .hero_sec_1 {
         padding-top: 235px;
         position: relative;
-        background-image: url(../img/home_sec_tp_1.png);
+        background-image: url(../media/home_sec_tp_1.png);
         background-size: 100% 100%;
         background-position: center;
         background-repeat: no-repeat;

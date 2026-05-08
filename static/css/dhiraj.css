@@ -24,7 +24,7 @@
 .contact-scroll-wrapper {
     width: 100%;
     max-width: 670px;
-    background-image: url(../img/desk_Scroll.png);
+    background-image: url(../media/desk_Scroll.png);
     background-position: center;
     background-repeat: no-repeat;
     display: flex;
@@ -248,7 +248,7 @@
 }
 
 .contact-submit-btn {
-    background: url(../img/btn_con.png) no-repeat;
+    background: url(../media/btn_con.png) no-repeat;
     background-size: contain;
     color: #4A311A;
     font-family: "LEMON MILK";
@@ -1507,7 +1507,7 @@
 
 .hero_sec_1 {
     position: relative;
-    background-image: url(../img/home_sec_bg_1.png);
+    background-image: url(../media/home_sec_bg_1.png);
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;

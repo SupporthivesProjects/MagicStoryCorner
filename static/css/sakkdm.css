@@ -5,7 +5,7 @@
     display: none;
 }
 .login_div {
-    background-image: url(../img/sign_bg.png);
+    background-image: url(../media/sign_bg.png);
         background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -39,7 +39,7 @@ gap: 20px;
 align-self: stretch;
 }
 .btn_login {
-    background-image: url(../img/btn-bg.png);
+    background-image: url(../media/btn-bg.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -235,7 +235,7 @@ text-underline-offset: auto;
 text-underline-position: from-font;
 }
 .check_s {
-    background-image: url(../img/check_suc_bg.png);
+    background-image: url(../media/check_suc_bg.png);
     background-color: #FFE6BC;
     height: 715px;
     width: 100%;
@@ -334,7 +334,7 @@ padding: 16px 20px;
 border-radius: 0%;
 }
 .check_e {
-    background-image: url(../img/check_e_bg.png);
+    background-image: url(../media/check_e_bg.png);
     height: 789px;
     background-position: center;
     background-repeat: no-repeat;
@@ -577,7 +577,7 @@ letter-spacing: 0.84px;
     flex-direction: column;
 }
 .check_e {
-    background-image: url(../img/check_e_mo_bg.png);
+    background-image: url(../media/check_e_mo_bg.png);
     height: 100%;
 }
 .check_e_outer {

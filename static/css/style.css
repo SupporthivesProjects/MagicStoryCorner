@@ -179,7 +179,7 @@ header .nav-link{
   display: none;
 }
 header .navbar{
-  background: url(../img/header-bg.png) no-repeat;
+  background: url(../media/header-bg.png) no-repeat;
   background-position: center center;
   background-size: cover;
   width: 1511px;
@@ -366,7 +366,7 @@ header .navbar{
 .filter-div .form-control{
     border: 1px solid #F2F2F2;
     background: var(--Base-White, #FFF);
-    background: url(../img/search-sm.svg) #fff no-repeat 98% 14px;
+    background: url(../media/search-sm.svg) #fff no-repeat 98% 14px;
     display: flex;
     padding: 16px 24px;
     align-items: center;
@@ -409,7 +409,7 @@ header .navbar{
     gap: 16px;
     flex-shrink: 0;
     background: var(--Core-yellow, #FFC760);
-    background: url(../img/select-icon.svg) #FFC760 no-repeat 95% 12px;
+    background: url(../media/select-icon.svg) #FFC760 no-repeat 95% 12px;
     color: var(--Core-Main-Blue, #030527);
     font-family: "LEMON MILK";
     font-size: 14px;
@@ -437,7 +437,7 @@ header .navbar{
     border: 1px solid #030527;
 }
 .filter-box-product{
-  background: url(../img/Story-catalogue-bg.png) no-repeat;
+  background: url(../media/Story-catalogue-bg.png) no-repeat;
   background-position: center center;
   background-size: cover;
   padding: 64px 0px;
@@ -481,7 +481,7 @@ header .navbar{
   margin-bottom: 8px; 
 }
 .ul-filter-menu .form-check-input:checked[type=checkbox] {
-  background: url(../img/check.svg) no-repeat;
+  background: url(../media/check.svg) no-repeat;
   background-position: center center;
   background-size: cover;
   border: 0px;
@@ -666,7 +666,7 @@ header .navbar{
     gap: 56px;
 }
 .btn-design {
-    background: url(../img/btn-bg.png) no-repeat;
+    background: url(../media/btn-bg.png) no-repeat;
     background-size: contain;
     color: #4A311A;
     font-family: "LEMON MILK";
@@ -695,7 +695,7 @@ header .navbar{
         position: relative;
     }
     header .navbar::after{
-        background: url(../img/header-bg.png) no-repeat;
+        background: url(../media/header-bg.png) no-repeat;
         content: "";
         position: absolute;
         top: 0px;
@@ -728,7 +728,7 @@ header .navbar{
         width: 1.5em;
         height: 1.5em;
         vertical-align: middle;
-        background-image: url(../img/menu.svg);
+        background-image: url(../media/menu.svg);
         background-repeat: no-repeat;
         background-position: center;
         background-size: 100%;
@@ -739,7 +739,7 @@ header .navbar{
         width: 1.5em;
         height: 1.5em;
         vertical-align: middle;
-        background-image: url(../img/close.svg);
+        background-image: url(../media/close.svg);
         background-repeat: no-repeat;
         background-position: center;
         background-size: 100%;
