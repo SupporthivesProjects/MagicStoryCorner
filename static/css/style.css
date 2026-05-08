@@ -1,0 +1,991 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sen:wght@400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@font-face {
+  font-family: 'LEMON MILK';
+  src: url('../fonts/LEMONMILK-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LEMON MILK';
+  src: url('../fonts/LEMONMILK-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LEMON MILK';
+  src: url('../fonts/LEMONMILK-Light.otf') format('opentype');
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LEMON MILK';
+  src: url('../fonts/LEMONMILK-Bold.otf') format('opentype');
+  font-weight: 700; /* better than 800 */
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Quicksand';
+  src: url('../fonts/Quicksand-VariableFont_wght.ttf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Regular'), url('../fonts/Satoshi-Regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'Satoshi Light';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Light'), url('../fonts/Satoshi-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Satoshi Medium';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Medium'), url('../fonts/Satoshi-Medium.woff') format('woff');
+}
+@font-face {
+  font-family: 'Satoshi Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Bold'), url('../fonts/Satoshi-Bold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Satoshi Black';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Black'), url('../fonts/Satoshi-Black.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: local('Quicksand'), url('../fonts/Quicksand-VariableFont_wght.ttf') format('ttf');
+}
+
+body {
+  font-family: 'LEMON MILK', sans-serif;
+}
+
+@media (min-width: 576px){
+  .container, .container-sm {
+      max-width: 540px;
+  }
+}
+@media (min-width: 768px){
+  .container, .container-md, .container-sm {
+      max-width: 750px;
+  }
+}
+@media (min-width: 992px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 970px;
+  }
+}
+@media (min-width: 1080px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 1030px;
+  }
+}
+@media (min-width: 1100px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 1100px;
+  }
+}
+@media (min-width: 1200px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 1200px;
+  }
+}
+@media (min-width: 1400px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+       max-width: 1420px;
+  }
+}
+@media (min-width: 1500px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 1440px;
+  }
+}
+@media only screen and (min-width: 1600px) and (max-width: 1700px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 1440px;
+  }
+}
+@media only screen and (min-width: 1701px) and (max-width: 1800px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 1440px;
+  }
+}
+@media only screen and (min-width: 1801px) and (max-width: 1920px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+     max-width: 1440px;
+  }
+}
+@media only screen and (min-width: 1921px) and (max-width: 2880px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 1440px;
+  } 
+}
+.bg-image {
+  object-fit: cover;
+}
+.bg-image {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.bg-image:not([class*=absolute]) {
+  position: absolute;
+}
+section {
+  padding: 80px  0;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+html {
+  scroll-behavior: smooth;
+}
+html,body{
+  overflow-x:hidden;
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+header .nav-link{
+  color: var(--Core-Secondary-Nav-Brown, #4A311A);
+  text-align: center;
+  font-family: "LEMON MILK";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: 0.96px;
+}
+.btn-menu-balance p{
+  display: none;
+}
+header .navbar{
+  background: url(../img/header-bg.png) no-repeat;
+  background-position: center center;
+  background-size: cover;
+  width: 1511px;
+  margin: auto;
+  max-width: 100%;
+  margin-top: 24px;
+}
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-nav {
+        flex-direction: row;
+        gap: 40px;
+        align-items: center;
+    }
+  }
+
+.navbar-nav  .login-btn{
+    background: var(--Core-Main-Blue, #030527);
+    display: flex;
+    height: 56px;
+    padding: 16px 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: var(--Base-White, #FFF);
+    text-align: center;
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    border-radius: 0px;
+    width: 215px;
+    max-width: 100%;
+
+}
+
+/* --------------------------------core--------------------------------- */
+
+
+.img-detials{
+    display: flex;
+    padding: 16px 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    align-self: stretch;
+    border: 2px solid var(--Base-04, #E9E9E9);
+    background: var(--Base-White, #FFF);
+    width: 234px;
+    max-width: 100%;
+    margin: auto;
+}
+.row-card-book .card{
+    width: 250px;
+    height: 360px;
+    max-width: 100%;
+    margin: auto;
+    position: relative;
+    margin-bottom: 56px;
+    border: 0px;
+}
+.card-img p{
+    color: var(--Base-Info-Blue, #54A8FF);
+    text-align: center;
+    font-family: Sen;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+    margin-bottom: 0px;
+}
+.img-detials h6{
+  color: var(--Charcoal, #242323);
+  text-align: center;
+  font-family: "LEMON MILK";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 21px */
+  letter-spacing: 0.84px;
+  margin-bottom: 4px;
+}
+.row-card-book .img-detials {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: -43px;
+}
+.row-card-book {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    width: 1170px;
+    max-width: 100%;
+    margin: auto;
+}
+.core-main-ing {
+    height: 469px;
+    max-width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.core-main-ing h2{
+    color: var(--Base-Off-White, #FAFAFA);
+    text-align: center;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #000;
+    font-family: "LEMON MILK";
+    font-size: 80px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 110%;
+    letter-spacing: 4.8px;
+
+}
+.pagination-prod .pagination{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+}
+.pagination-prod .pagination .page-item{
+    display: flex;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    align-items: center;
+}
+.pagination-prod .pagination .page-link{
+    display: flex;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--Grayscale-400---Lighter, #E4E4E4);
+    color: var(--Core-Main-Blue, #030527);
+    text-align: center;
+    font-family: Satoshi Black;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+}
+.page-item:first-child .page-link, .page-item:last-child .page-link{
+    border-radius: 8px;
+    background: var(--Core-Main-Blue, #030527);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pagination-prod{
+  margin-top: 32px;
+}
+.filter-div{
+  display: flex;
+  gap: 24px;
+}
+.filter-div{
+  width: 1158px;
+  max-width: 100%;
+  margin: auto;
+}
+.filter-box-menu-category{
+  width: 1190px;
+  max-width: 100%;
+  margin: auto;
+  border: 1px solid #F2F2F2;
+  background: var(--Base-White, #FFF);
+  padding: 32px;
+}
+.filter-div .form-control{
+    border: 1px solid #F2F2F2;
+    background: var(--Base-White, #FFF);
+    background: url(../img/search-sm.svg) #fff no-repeat 98% 14px;
+    display: flex;
+    padding: 16px 24px;
+    align-items: center;
+    flex: 1 0 0;
+    align-self: stretch;
+    color: var(--Base-02, #727272);
+    font-family: Sen;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%;
+    border-radius: 0px;
+    height: 56px;
+    position: relative;
+}
+
+.btn-fliter{
+    display: flex;
+    height: 56px;
+    padding: 16px 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background: var(--Core-Main-Blue, #030527);
+    color: var(--Base-White, #FFF);
+    text-align: center;
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    border-radius: 0px;
+}
+.filter-div select{
+    display: flex;
+    height: 56px;
+    padding: 16px 32px 16px 16px;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+    background: var(--Core-yellow, #FFC760);
+    background: url(../img/select-icon.svg) #FFC760 no-repeat 95% 12px;
+    color: var(--Core-Main-Blue, #030527);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    border-radius: 0px;
+    width: 211px;
+    max-width: 100%;
+}
+.filter-box-main p{
+    color: var(--Base-03, #BDBDBD);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    margin-bottom: 0px;
+    text-align: center;
+    margin: 32px 0px;
+}
+.btn-fliter:hover{
+    border: 1px solid #030527;
+}
+.filter-box-product{
+  background: url(../img/Story-catalogue-bg.png) no-repeat;
+  background-position: center center;
+  background-size: cover;
+  padding: 64px 0px;
+
+}
+.filter-box-main p span{
+    color: var(--Core-Main-Blue, #030527);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+}
+.ul-filter-menu .form-check {
+    display: flex;
+    min-height: 1.5rem;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: center;
+}
+.ul-filter-menu label{
+  color: var(--Base-Off-Black, #0F0F0F);
+  font-family: Sen;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 180%; /* 28.8px */
+}
+.ul-filter-menu .form-check-input{
+    width: 24px;
+    height: 24px;
+    border: 1px solid #BDBDBD;
+    /* background: var(--Base-White, #FFF); */
+}
+.ul-filter-menu ul{
+  list-style: none;
+  padding-left: 0px;
+}
+.ul-filter-menu .form-check{
+  margin-bottom: 8px; 
+}
+.ul-filter-menu .form-check-input:checked[type=checkbox] {
+  background: url(../img/check.svg) no-repeat;
+  background-position: center center;
+  background-size: cover;
+  border: 0px;
+}
+.ul-filter-menu h3{
+    color: var(--Base-Off-Black, #0F0F0F);
+    font-family: "LEMON MILK";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: 0.96px;
+    margin-bottom: 24px;
+}
+.ul-filter-menu input[type="checkbox"]:checked + label {
+  font-weight: bold;
+}
+.filter-box-menu {
+    display: flex;
+    width: 1190px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 24px;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 32px;
+    max-width: 100%;
+}
+.filter-box-menu ul{
+  width: 202px;
+  max-width: 100%;
+}
+.pagination-prod .page-link.active{
+    border-radius: 8px;
+    border: 2px solid var(--Core-Main-Blue, #030527);
+    background: transparent;
+}
+.filter-box-menu-category {
+    display: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    top: 12rem;
+    z-index: 1;
+}
+.btn-close-filter{
+    background: var(--Core-yellow, #FFC760);
+    display: flex;
+    height: 56px;
+    padding: 16px 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    color: var(--Core-Main-Blue, #030527);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    border-radius: 0px;
+    width: 200px;
+    max-width: 100%;
+}
+.filter-close-apply{
+    display: flex;
+    gap: 20px;
+    justify-content: end;
+    align-items: center;
+}
+.btn-apply{
+    background: var(--Core-Main-Blue, #030527);
+    display: flex;
+    height: 56px;
+    padding: 16px 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    color: var(--Core-Main-Blue, #fff);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    border-radius: 0px;
+    width: 200px;
+    max-width: 100%;
+}
+.btn-close-filter:hover{
+    border: 4px solid #E3AA00;
+    background: var(--Core-yellow, #FFC760);
+}
+.btn-apply:hover {
+    border: 1px solid #030527;
+}
+/* --------------------------------footer--------------------------------- */
+.footer{
+  padding: 64px 0px;
+}
+.footer-row {
+    display: flex;
+    gap: 56px;
+    justify-content: flex-end;
+}
+.footer-menu li{
+  margin-bottom: 16px;
+}
+ .footer-menu h6{
+    color: var(--Core-yellow, #FFC760);
+    font-family: "LEMON MILK";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: 0.96px;
+    margin-bottom: 24px;
+}
+.footer-logo p{
+    color: #BDBDBD;
+    font-family: Urbanist;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 160%;
+    letter-spacing: 0.42px;
+    margin: 16px 0px;
+}
+.footer-menu p{
+  color: var(--Grayscale-25, #FCFCFD);
+  font-family: Sen;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 30px */
+}
+.footer-menu li a{
+  color: var(--Grayscale-25, #FCFCFD);
+  font-family: Sen;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 30px */
+  text-decoration: none;
+}
+.footer-menu ul{
+  list-style: none;
+  padding-left: 0px;
+
+}
+.footer-menu-third ul{
+  column-count: 2;
+}
+.footer-bg-top p{
+    color: var(--Base-Off-White, #FAFAFA);
+    text-align: left;
+    font-family: "LEMON MILK";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: 0.96px;
+    margin-bottom: 0px;
+}
+.footer-bg-top{
+    padding: 50px 0px;
+}
+.footer-bg-top.btn{
+    color: #4A311A;
+    font-family: 'LEMON MILK';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+}
+.footer-right-row{
+    display: flex;
+    gap: 56px;
+}
+.btn-design {
+    background: url(../img/btn-bg.png) no-repeat;
+    background-size: contain;
+    color: #4A311A;
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    height: 64px;
+    background-position: center center;
+}
+
+@media only screen and (min-width: 700px)   and (max-width: 890px){
+   header .navbar {
+        background: #F1DCA4;
+        background-position: center center;
+        background-size: 364px;
+        width: 700px;
+        margin: auto;
+        max-width: 100%;
+        padding: 16px 0px;
+        margin-top: 7px;
+        position: relative;
+    }
+    header .navbar::after{
+        background: url(../img/header-bg.png) no-repeat;
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        width: 700px;
+        margin: auto;
+        max-width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-size: cover;
+        background-position: center center;
+    }
+    
+    .navbar-brand img{
+        width: 146px;
+        height: 39px;
+    }
+    header .navbar-toggler{
+        background: var(--Core-Main-Blue, #030527);
+        display: flex;
+        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0px;
+         margin-right: 9px;
+    }
+    .navbar-toggler-icon {
+        display: inline-block;
+        width: 1.5em;
+        height: 1.5em;
+        vertical-align: middle;
+        background-image: url(../img/menu.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%;
+       
+    }
+    .header-is-active .navbar-toggler-icon {
+        display: inline-block;
+        width: 1.5em;
+        height: 1.5em;
+        vertical-align: middle;
+        background-image: url(../img/close.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%;
+       
+    }
+    header{
+        background: var(--Core-Main-Blue, #030527);
+
+    }
+    header .nav-link {
+        color: var(--Base-Off-White, #FAFAFA);
+        -webkit-text-stroke-width: 0.3px;
+        -webkit-text-stroke-color: #000;
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%;
+        letter-spacing: 0.96px;
+        padding: 0px 0px;
+    }
+    .nav-link.active{
+        color: var(--Base-Off-White, #FAFAFA) !important;
+        -webkit-text-stroke-width: 0.3px;
+        -webkit-text-stroke-color: #000;
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%;
+        letter-spacing: 0.96px;
+        padding: 0px 0px;
+    }
+    .navbar-nav{
+        display: flex;
+        gap: 32px;
+    }
+    .navbar .login-btn{
+        background: var(--Core-yellow, #FFC760);
+        display: flex;
+        width: 295px;
+        height: 56px;
+        padding: 16px 40px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        color: var(--Core-Main-Blue, #030527);
+        font-family: "LEMON MILK";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+        letter-spacing: 0.84px;
+        margin: auto;
+    }
+    .navbar-collapse {
+        flex-basis: 100%;
+        flex-grow: 1;
+        align-items: center;
+        margin-top: 13px;
+        padding: 40px 0px;
+    }
+    .btn-menu-balance p{
+    display: none;
+    }
+    .btn-menu-balance p{
+    display: block;
+    }
+    .brand-box-toggle, .btn-menu-balance {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .btn-menu-balance{
+        display: flex;
+        justify-content:space-between;
+        align-items: center;
+        gap: 16px;
+        width: 167px;
+
+    }
+    .btn-menu-balance p{
+        color: var(--Core-Secondary-Nav-Brown, #4A311A);
+        font-family: Sen;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 180%;
+        text-decoration-line: underline;
+        text-decoration-style: solid;
+        text-decoration-skip-ink: none;
+        text-decoration-thickness: auto;
+        text-underline-offset: auto;
+        text-underline-position: from-font;
+        margin-bottom: 0px;
+    }
+    .footer-bg-top p {
+      color: var(--Base-Off-White, #FAFAFA);
+      text-align: left;
+      font-family: "LEMON MILK";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 120%;
+      letter-spacing: 0.96px;
+      margin-bottom: 0px;
+  }
+  .footer-logos{
+    margin-bottom: 44px;
+  }
+
+}
+
+@media only screen and (min-width: 850px)   and (max-width: 999px){
+    .navbar-expand-lg .navbar-nav {
+        flex-direction: row;
+        gap: 9px;
+        align-items: center;
+    }
+    .footer-menu-third ul {
+        column-count: 1;
+    }
+    .footer-row {
+      display: flex;
+      gap: 36px;
+      justify-content: flex-end;
+    }
+    header .nav-link {
+      font-size: 11px;
+    }
+    .navbar-nav .login-btn {
+          width: 163px;
+    }
+    .footer-bg-top p {
+      color: var(--Base-Off-White, #FAFAFA);
+      text-align: left;
+      font-family: "LEMON MILK";
+      font-size: 16px;
+    }
+    .footer-right-row {
+      display: flex;
+      gap: 26px;
+    }
+
+}
+
+@media only screen and (min-width: 1000px)   and (max-width: 1080px){
+    .navbar-expand-lg .navbar-nav {
+        flex-direction: row;
+        gap: 9px;
+        align-items: center;
+    }
+    .footer-menu-third ul {
+        column-count: 2;
+    }
+    .footer-row {
+      display: flex;
+      gap: 36px;
+      justify-content: flex-end;
+  }
+  header .nav-link {
+    font-size: 11px;
+  }
+  .navbar-nav .login-btn {
+        width: 163px;
+  }
+  .footer-bg-top p {
+    color: var(--Base-Off-White, #FAFAFA);
+    text-align: left;
+    font-family: "LEMON MILK";
+    font-size: 16px;
+  }
+  .footer-menu li a {
+    color: var(--Grayscale-25, #FCFCFD);
+    font-family: Sen;
+    font-size: 14px;
+  }
+  .footer-menu p {
+    color: var(--Grayscale-25, #FCFCFD);
+    font-family: Sen;
+    font-size: 16px;
+  }
+}
+@media only screen and (min-width: 1100px)   and (max-width: 1190px){
+    .navbar-expand-lg .navbar-nav {
+        flex-direction: row;
+        gap: 9px;
+        align-items: center;
+    }
+    .footer-menu-third ul {
+        column-count: 2;
+    }
+    .footer-row {
+      display: flex;
+      gap: 36px;
+      justify-content: flex-end;
+  }
+  header .nav-link {
+    font-size: 14px;
+  }
+  .navbar-nav .login-btn {
+        width: 183px;
+  }
+  .footer-bg-top p {
+    color: var(--Base-Off-White, #FAFAFA);
+    text-align: left;
+    font-family: "LEMON MILK";
+    font-size: 16px;
+  }
+  .footer-menu li a {
+    color: var(--Grayscale-25, #FCFCFD);
+    font-family: Sen;
+    font-size: 16px;
+  }
+  .footer-menu p {
+    color: var(--Grayscale-25, #FCFCFD);
+    font-family: Sen;
+    font-size: 16px;
+  }
+
+}
+@media only screen and (min-width: 1200px)   and (max-width: 1290px){
+    .navbar-expand-lg .navbar-nav {
+        flex-direction: row;
+        gap: 9px;
+        align-items: center;
+    }
+    .footer-menu-third ul {
+        column-count: 2;
+    }
+    .footer-row {
+      display: flex;
+      gap: 36px;
+      justify-content: flex-end;
+  }
+  header .nav-link {
+    font-size: 14px;
+  }
+  .navbar-nav .login-btn {
+        width: 183px;
+  }
+  .footer-bg-top p {
+    color: var(--Base-Off-White, #FAFAFA);
+    text-align: left;
+    font-family: "LEMON MILK";
+    font-size: 16px;
+  }
+
+}

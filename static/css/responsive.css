@@ -1,0 +1,396 @@
+@media only screen and (max-width: 600px) {
+    .p-mo{
+        padding: 0px 0px;
+    }
+    section{
+        padding: 40px 0px;
+    }
+    html,body{
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+   
+}
+@media only screen and (max-width: 600px) {
+    header .navbar {
+        background: none;
+        background-position: center center;
+        background-size: 364px;
+        width: 359px;
+        margin: auto;
+        max-width: 100%;
+        padding: 16px 0px;
+        margin-top: 7px;
+        position: relative;
+    }
+    header .navbar::after{
+        background: url(../img/top-nav-bg.png) no-repeat;
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        width: 359px;
+        margin: auto;
+        max-width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+    
+    .navbar-brand img{
+        width: 146px;
+        height: 39px;
+    }
+    header .navbar-toggler{
+        background: var(--Core-Main-Blue, #030527);
+        display: flex;
+        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0px;
+         margin-right: 9px;
+    }
+    .navbar-toggler-icon {
+        display: inline-block;
+        width: 1.5em;
+        height: 1.5em;
+        vertical-align: middle;
+        background-image: url(../img/menu.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%;
+       
+    }
+    .header-is-active .navbar-toggler-icon {
+        display: inline-block;
+        width: 1.5em;
+        height: 1.5em;
+        vertical-align: middle;
+        background-image: url(../img/close.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%;
+       
+    }
+    header{
+        background: var(--Core-Main-Blue, #030527);
+
+    }
+    header .nav-link {
+        color: var(--Base-Off-White, #FAFAFA);
+        -webkit-text-stroke-width: 0.3px;
+        -webkit-text-stroke-color: #000;
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%;
+        letter-spacing: 0.96px;
+        padding: 0px 0px;
+    }
+    .nav-link.active{
+        color: var(--Base-Off-White, #FAFAFA) !important;
+        -webkit-text-stroke-width: 0.3px;
+        -webkit-text-stroke-color: #000;
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%;
+        letter-spacing: 0.96px;
+        padding: 0px 0px;
+    }
+    .navbar-nav{
+        display: flex;
+        gap: 32px;
+    }
+    .navbar .login-btn{
+        background: var(--Core-yellow, #FFC760);
+        display: flex;
+        width: 295px;
+        height: 56px;
+        padding: 16px 40px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        color: var(--Core-Main-Blue, #030527);
+        font-family: "LEMON MILK";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+        letter-spacing: 0.84px;
+        margin: auto;
+    }
+    .navbar-collapse {
+        flex-basis: 100%;
+        flex-grow: 1;
+        align-items: center;
+        margin-top: 13px;
+        padding: 40px 0px;
+    }
+    .btn-menu-balance p{
+    display: none;
+    }
+    .btn-menu-balance p{
+    display: block;
+    }
+    .brand-box-toggle, .btn-menu-balance{
+        display: flex;
+        justify-content: space-between;
+       
+    }
+    .btn-menu-balance{
+        display: flex;
+        justify-content:space-between;
+        align-items: center;
+        gap: 16px;
+
+    }
+    .btn-menu-balance p{
+        color: var(--Core-Secondary-Nav-Brown, #4A311A);
+        font-family: Sen;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 180%;
+        text-decoration-line: underline;
+        text-decoration-style: solid;
+        text-decoration-skip-ink: none;
+        text-decoration-thickness: auto;
+        text-underline-offset: auto;
+        text-underline-position: from-font;
+        margin-bottom: 0px;
+    }
+
+}
+@media only screen and (max-width: 600px) {
+    .core-main-ing h2{
+        color: var(--Base-White, #FFF);
+        text-align: center;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: #000;
+        font-family: "LEMON MILK";
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 1.12px;
+        transform: translate(0px, -16px);
+    }
+    .core-main-ing {
+        height: 365px;
+        max-width: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .row-card-book .card {
+        width: 327px;
+        height: 360px;
+        max-width: 100%;
+        margin-bottom: 40px;
+        margin: auto;
+        margin-bottom: 40px;
+        position: relative;
+        border: 0px;
+    }
+    .card-img img{
+        width: 327px;
+        max-width: 100%;
+        margin: auto;
+        object-fit: cover;
+        height: 360px;
+    }
+    .img-detials {
+        display: flex;
+        padding: 16px 0;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        align-self: stretch;
+        border: 2px solid var(--Base-04, #E9E9E9);
+        background: var(--Base-White, #FFF);
+        width: 311px;
+        max-width: 100%;
+        margin: auto;
+    }
+    .navbar-toggler:focus {
+        text-decoration: none;
+        outline: 0;
+        box-shadow: none;
+    }
+    .filter-div {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+        flex-direction: column;
+        border-radius: 8px;
+        width: 327px;
+        max-width: 100%;
+        margin: auto;
+    }
+    .filter-div select {
+        width: 327px;
+        max-width: 100%;
+    }
+    .filter-box-menu-category {
+        width: 327px;
+        max-width: 100%;
+        margin: auto;
+        border: 1px solid #F2F2F2;
+        background: var(--Base-White, #FFF);
+        padding: 23px;
+    }
+    .filter-box-menu-category {
+        display: none;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        left: 0px;
+        top: 19rem;
+        z-index: 1;
+    }
+    .filter-close-apply {
+        display: flex;
+        gap: 20px;
+        justify-content: end;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .btn-close-filter, .btn-apply{
+        width: 100%;
+    }
+    .filter-box-product {
+        background: url(../img/Story-catalogue-bg.png) no-repeat;
+        background-position: center center;
+        background-size: cover;
+        padding: 29px 0px;
+    }
+    .pagination-prod .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+        margin-bottom: 0px;
+    }
+    .arrow{
+        background: url(../img/down-arrow.svg) no-repeat;
+        background-position: center center;
+        background-size: cover;
+        width: 24px;
+        height: 24px;
+        float: right;
+    }
+    .filter-box-menu ul {
+        width: 238px;
+        max-width: 100%;
+    }
+    .ul-filter-menu h3 {
+        width: 238px;
+    }
+    .ul-filter-menu ul{
+        display: none;
+    }
+    .ul-filter-menu ul.open{
+        display: block;
+    }
+    .ul-filter-menu .active span{
+       transform: rotate(180deg);   
+    }
+    .ul-filter-menu h3 {
+        color: var(--Base-Off-Black, #0F0F0F);
+        font-family: "LEMON MILK";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%;
+        letter-spacing: 0.96px;
+        margin-bottom: 16px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .footer-row {
+        display: flex;
+        gap: 32px;
+        justify-content:center;
+        flex-wrap: wrap;
+    }
+    .footer {
+        padding: 0px 0px;
+    }
+     .footer .container{
+         padding: 40px 24px;
+     }
+    .footer-menu li a {
+        color: var(--Grayscale-25, #FCFCFD);
+        font-family: Sen;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+        text-decoration: none;
+    }
+    .footer-menu-third ul {
+        column-count: 2;
+        column-gap: 1px;
+    }
+    .footer-menu h6{
+        text-align: center;
+        font-family: "LEMON MILK";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 100%;
+        letter-spacing: 0.96px;
+    }
+    .footer-menu p {
+        color: var(--Grayscale-25, #FCFCFD);
+        font-family: Sen;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 123%;
+        letter-spacing: 0.96px;
+        text-align: center;
+    }
+    .footer-logo{
+        text-align: center;
+        margin-bottom: 32px;
+    }
+    .footer-right-row {
+        display: flex;
+        gap: 10px;
+        flex: 1 0 0;
+        width: 100%;
+        gap: 10px;
+    }
+    .footer-menu-third ul{
+        width: fit-content;
+    }
+    .footer-right-row{
+        width: 100%;
+    }
+    .footer-menu-1{
+        width: 54%;
+    }
+    .footer-menu-2{
+        width: 46%;
+        max-width: 100%;
+        float: right;
+    }
+    .f-logo{
+        width: 213px;
+        height: 113px;
+        max-width: 100%;
+    }
+}
+
+

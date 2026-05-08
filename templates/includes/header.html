@@ -1,77 +1,64 @@
 {% load static %}
 {% load humanize %}
-<header class="header fixed-top {% if request.resolver_match.url_name in header_white_pages %}header-white{% endif %}">
-  <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light">
-       <div>
-           <a class="navbar-brand" href="{% url 'home' %}">
-               <img src="{% static 'media/Brand-light.svg' %}" class="img-fluid">
-           </a>
-       </div>
-       <div class="hearbalence-toggle-menu">
-            {% if logged_in_user %}
-            <div class="hearbalence">
-                <p><a href="{% url 'user_dashboard' %}" style="text-decoration:none;color:white;">Balance {{ logged_in_user.profile.wallet|intcomma }}</a></p>
-            </div>
-            {% endif %}
-           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-               <img class="navbar-toggler-icon-mo img-fluid" src="{% static 'media/menu.svg' %}">
-           </button>
-           </div>
-       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-           <ul class="navbar-nav ms-auto">
-               <li class="nav-item active">
-                   <a class="nav-link"  {% if request.resolver_match.url_name == 'product_book_list' %}style="opacity: 0.3;"{% endif %} href="{% url 'product_book_list' %}">Explore</a>
-               </li>
-               <li class="nav-item">
-                <a class="nav-link" {% if request.resolver_match.url_name == 'story_book_create' %}style="opacity: 0.3;"{% endif %}
-                    href="{% url 'story_book_create' %}">
-                    Create
-                </a>
-             
-               </li>
-               <li class="nav-item">
-                   <a class="nav-link "  {% if request.resolver_match.url_name == 'about' %}style="opacity: 0.3;"{% endif %} href="{% url 'about' %}">About us</a>
-               </li>
-               <li class="nav-item">
-                   <a class="nav-link " {% if request.resolver_match.url_name == 'howItWorks' %}style="opacity: 0.3;"{% endif %} href="{% url 'howItWorks' %}">How it works</a>
-               </li>
-               <li class="nav-item">
-                   <a class="nav-link " {% if request.resolver_match.url_name == 'package_pricing' %}style="opacity: 0.3;"{% endif %} href="{% url 'package_pricing' %}">Pricing</a>
-               </li>
-               <li class="nav-item">
-                   <a class="nav-link " {% if request.resolver_match.url_name == 'contactUs' %}style="opacity: 0.3;"{% endif %} href="{% url 'contactUs' %}">Contact</a>
-               </li>
-
-               <li class="nav-item">
-                <form method="POST" action="{% url 'set_currency' %}" id="currency-form">
-                    {% csrf_token %}
-                    <select name="currency" id="currency-select">
-                        {% for c in currencies %}
-                            <option value="{{ c.code }}" {% if selected_currency.code == c.code %}selected{% endif %}>
-                                {{ c.code }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </form>
-                
-                <script>
-                document.getElementById("currency-select").addEventListener("change", function() {
-                    document.getElementById("currency-form").submit();
-                });
-                </script>
-              </li>
-
-
-               <li class="nav-item d-none d-lg-block">
-                {% include 'includes/desktopAction.html' %}
-               </li>
-               <li class="nav-item">
-                {% include 'includes/mobileAction.html' %}
-               </li>
-
-           </ul>
-       </div>
-   </nav>
-  </div>
+<header class="header-top fixed-top" id="header-top">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <div class="brand-box-toggle">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img src="{% static 'media/logo.svg' %}" alt="Magicstorycorner Logo" id="logo" class="img-fluid">
+        </a>
+        <div class="btn-menu-balance">
+          {% if logged_in_user %}
+          <p><a href="{% url 'user_dashboard' %}" style="text-decoration:none;">Balance {{ logged_in_user.profile.wallet|intcomma }}</a></p>
+          {% endif %}
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'product_book_list' %}active{% endif %}" href="{% url 'product_book_list' %}">Stories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'story_book_create' %}active{% endif %}" href="{% url 'story_book_create' %}">Create</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">About us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'howItWorks' %}active{% endif %}" href="{% url 'howItWorks' %}">How it works</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'package_pricing' %}active{% endif %}" href="{% url 'package_pricing' %}">Price</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'contactUs' %}active{% endif %}" href="{% url 'contactUs' %}">Contact</a>
+          </li>
+          <li class="nav-item">
+            <form method="POST" action="{% url 'set_currency' %}" id="currency-form">
+              {% csrf_token %}
+              <select name="currency" id="currency-select">
+                {% for c in currencies %}
+                  <option value="{{ c.code }}" {% if selected_currency.code == c.code %}selected{% endif %}>{{ c.code }}</option>
+                {% endfor %}
+              </select>
+            </form>
+            <script>
+              document.getElementById("currency-select").addEventListener("change", function() {
+                document.getElementById("currency-form").submit();
+              });
+            </script>
+          </li>
+          <li class="nav-item d-none d-lg-block">
+            {% include 'includes/desktopAction.html' %}
+          </li>
+          <li class="nav-item">
+            {% include 'includes/mobileAction.html' %}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </header>
