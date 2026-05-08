@@ -1,0 +1,645 @@
+<?php include 'includes/header.php'; ?>
+        <section style="padding: 0px;">
+     
+        <div class="mobile_none">
+            <div class="dashboard_1">
+                <h1 class="dashboard_tt">Hello Micheal!</h1>
+                <p class="dashboard_pp mobile_none">Logout</p>
+            </div>
+            <div class="dashboard_2">
+                <div class="container p-0">
+                    <div class="in_dashboard">
+                        <div class="section1_dash">
+                            <div class="dash_box">
+                                <img src="./img/svg111.svg" class="img-fluid svg111">
+                                <div class="under_box">
+                                    <h1>Daily rewards</h1>
+                                    <p>Login each day and earn daily
+                                        tokens for keeping your streak!</p>
+                                    <button class="btn dash_btn" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal4">Claim Now</button>
+
+                                </div>
+                            </div>
+                            <div class="dash_box">
+                                <img src="./img/svg123.svg" class="img-fluid svg111">
+                                <div class="under_box">
+                                    <h1>Share and earn</h1>
+                                    <p>Receive 100 referral tokens
+                                        for every friend who joins!</p>
+                                    <button class="btn dash_btn" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal3">Share with friends</button>
+                                </div>
+                            </div>
+                            <div class="dash_box">
+                                <img src="./img/svg1234.svg" class="img-fluid svg111">
+                                <div class="under_box">
+                                    <h1>Get more stories</h1>
+                                    <p>Login each day and earn daily
+                                        tokens for keeping your streak!</p>
+                                    <button class="btn dash_btn">Start creation</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section2_dash">
+                            <div class="left2_dash">
+                                <div class="same_boxes1">
+                                    <div>
+                                        <h1 class="many_tt">Balance:</h1>
+                                        <p class="many_pp">4,862 tokens</p>
+                                    </div>
+                                    <div> <button class="btn dash_btn">Top up</button></div>
+
+                                </div>
+                                <div class="same_boxes">
+                                    <div class="top_top">
+                                        <div>
+                                            <h1 class="many_tt">My details</h1>
+                                        </div>
+                                        <div> <button class="btn dash_btn" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">Update details</button></div>
+                                    </div>
+                                    <div class="for_section">
+                                        <input type="text" placeholder="Full Name" class="input_tagt" />
+                                        <input type="text" placeholder="Email Address" class="input_tagt" />
+                                        <input type="text" placeholder="Address line 1" class="input_tagt" />
+                                        <input type="text" placeholder="Address line 2" class="input_tagt" />
+                                        <div class="bottom_input">
+                                            <input type="text" placeholder="City / town" class="input_tagt" />
+                                            <input type="text" placeholder="Zip / Postal Code" class="input_tagt" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="same_boxes">
+                                    <div class="top_top">
+                                        <div>
+                                            <h1 class="many_tt">Password</h1>
+                                        </div>
+                                        <div> <button class="btn dash_btn" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal2">Update password</button></div>
+                                    </div>
+                                    <div class="for_section">
+                                        <input type="text" placeholder="Current Password" class="input_tagt" />
+                                        <input type="text" placeholder="New Password" class="input_tagt" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="right2_dash">
+                                <div class="top_top">
+                                    <div>
+                                        <h1 class="many_tt">My Library</h1>
+                                    </div>
+                                    <div> <button class="btn dash_btn">View All</button></div>
+                                </div>
+                                <div class="card_sectiont">
+                                    <div class="full_cardd">
+                                        <img src="./img/book_covert.png" class="img-fluid book_covert">
+                                        <div class="bottom_card_div">
+                                            <h1>The Dragon’s Quest</h1>
+                                            <p>Find out more</p>
+                                        </div>
+                                    </div>
+                                    <div class="full_cardd">
+                                        <img src="./img/book_covert.png" class="img-fluid book_covert">
+                                        <div class="bottom_card_div">
+                                            <h1>The Dragon’s Quest</h1>
+                                            <p>Find out more</p>
+                                        </div>
+                                    </div>
+                                    <div class="full_cardd">
+                                        <img src="./img/book_covert.png" class="img-fluid book_covert">
+                                        <div class="bottom_card_div">
+                                            <h1>The Dragon’s Quest</h1>
+                                            <p>Find out more</p>
+                                        </div>
+                                    </div>
+                                    <div class="full_cardd">
+                                        <img src="./img/book_covert.png" class="img-fluid book_covert">
+                                        <div class="bottom_card_div">
+                                            <h1>The Dragon’s Quest</h1>
+                                            <p>Find out more</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section3_dash">
+                            <h1 class="many_tt">Transaction history</h1>
+                            <div class="table_section">
+                                <table class="custom_table_t">
+                                    <thead>
+                                        <tr>
+                                            <th>Receipt <img src="./img/table_arrow.svg" class="img-fluid table_arrow">
+                                            </th>
+                                            <th>Purchase Date<img src="./img/table_arrow.svg"
+                                                    class="img-fluid table_arrow"></th>
+                                            <th>Item name</th>
+                                            <th>Total Amount <img src="./img/table_arrow.svg"
+                                                    class="img-fluid table_arrow"></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>#4001</td>
+                                            <td>Jan 6, 2024</td>
+                                            <td>Top up: Bronze 100</td>
+                                            <td>$100.00</td>
+                                            <td><a href="#">DOWNLOAD INVOICE</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>#4002</td>
+                                            <td>Jan 6, 2024</td>
+                                            <td>Top up: Silver 300</td>
+                                            <td>$100.00</td>
+                                            <td><a href="#">DOWNLOAD RECEIPT</a></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="pagination_divt">
+                                <div class="arrow_t">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12"
+                                        fill="none">
+                                        <path d="M6 11L1 6L6 1" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+                                <div class="eash_pag">
+                                    1
+                                </div>
+                                <div class="eash_pag">
+                                    2
+                                </div>
+                                <div class="eash_pag active_wala">
+                                    3
+                                </div>
+                                <div class="eash_pag">
+                                    4
+                                </div>
+                                <div class="eash_pag">
+                                    5
+                                </div>
+                                <div class="arrow_t">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12"
+                                        fill="none">
+                                        <path d="M1 1L6 6L1 11" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="desktop-none">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active " id="v-pills-home" role="tabpanel"
+                    aria-labelledby="v-pills-home-tab" tabindex="0">
+
+                    <div class="dashboard_1">
+                        <h1 class="dashboard_tt">Hello Tirthak!</h1>
+                    </div>
+                    <div class="home_sectionnn">
+                        <div class="same_boxes1" style="margin-right: 16px;">
+                            <div>
+                                <h1 class="many_tt">Balance:</h1>
+                                <p class="many_pp">4,862 tokens</p>
+                            </div>
+                            <div class="w-100"> <button class="btn dash_btn w-100">Top up</button></div>
+                        </div>
+
+
+
+
+                        <div class="owl-carousel owl-theme" id="owl_car">
+                            <div class="item">
+                                <div class="dash_box diff_width">
+                                    <img src="./img/svg111.svg" class="img-fluid svg111">
+                                    <div class="under_box">
+                                        <h1>Daily rewards</h1>
+                                        <p>Login each day and earn daily
+                                            tokens for keeping your streak!</p>
+                                        <button class="btn dash_btn">Claim Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="dash_box diff_width">
+                                    <img src="./img/svg123.svg" class="img-fluid svg111">
+                                    <div class="under_box">
+                                        <h1>Share and earn</h1>
+                                        <p>Receive 100 referral tokens
+                                          for every friend who joins!</p>
+                                        <button class="btn dash_btn">Share with friends</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="dash_box diff_width">
+                                    <img src="./img/svg1234.svg" class="img-fluid svg111">
+                                    <div class="under_box">
+                                        <h1>Get&nbsp;more&nbsp;stories</h1>
+                                        <p>Login each day and earn daily
+                                            tokens for keeping your streak!</p>
+                                        <button class="btn dash_btn">Start creation</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="dash_box" style="margin-right: 16px;">
+                            <img src="./img/svg111.svg" class="img-fluid svg111">
+                            <div class="under_box">
+                                <h1>Get more stories</h1>
+                                <p>Login each day and earn daily
+                                    tokens for keeping your streak!</p>
+                                <button class="btn yellowdash_btn">Explore catalogue</button>
+                                <button class="btn dash_btn">Claim Now</button>
+                            </div>
+                        </div>
+
+
+                       <div class="under_box_tt" style="margin-right: 16px;">
+                <h1>My library</h1>
+                <div class="owl_Section">
+
+                  <div >
+                    <div class="owl-carousel owl-theme" id="book_card">
+                      <div class="item">
+                        <img src="./img/book_Cover.png" alt="" class="img-fluid">
+                        
+                      </div>
+                      <div class="item">
+                        <img src="./img/book_Cover.png" alt="" class="img-fluid">
+                        
+                      </div>
+                      <div class="item">
+                        <img src="./img/book_Cover.png" alt="" class="img-fluid">
+                        
+                      </div>
+                      <div class="item">
+                        <img src="./img/book_Cover.png" alt="" class="img-fluid">
+                        
+                      </div>
+                      <div class="item">
+                        <img src="./img/book_Cover.png" alt="" class="img-fluid">
+                        
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+                <div style="padding-right: 24px;">
+                  <button class="btn dash_btn w-100">Claim Now</button>
+                </div>
+
+                
+              </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade " id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"
+                    tabindex="0">
+                    <div class="dashboard_1">
+                        <h1 class="dashboard_tt">Library</h1>
+                    </div>
+                </div>
+                <div class="tab-pane fade " id="v-pills-create-tab" role="tabpanel" aria-labelledby="v-pills-create-tab"
+                    tabindex="0">
+                    <div class="dashboard_1">
+                        <h1 class="dashboard_tt">Create</h1>
+                    </div>
+                </div>
+                <div class="tab-pane fade " id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab"
+                    tabindex="0">
+                    <div class="dashboard_1">
+                        <h1 class="dashboard_tt">Purchases</h1>
+                    </div>
+                    <div class="purchase_section">
+                        <div class="purchase_box">
+                            <div>
+                                <h1>Top up: Bronze 100</h1>
+                                <div class="second_box">
+                                    <p>#4001</p>
+                                    <p>Jan 6, 2024</p>
+                                    <p>$100</p>
+                                </div>
+                            </div>
+                            <button class="btn dash_btn">Download Receipt</button>
+
+                        </div>
+                        <div class="purchase_box">
+                            <div>
+                                <h1>Creation: The little brave fox</h1>
+                                <div class="second_box">
+                                    <p>#4001</p>
+                                    <p>Jan 6, 2024</p>
+                                    <p>$100</p>
+                                </div>
+                            </div>
+                            <button class="btn dash_btn">Download Receipt</button>
+
+                        </div>
+                        <div class="pagination_divt">
+                            <div class="arrow_t">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12"
+                                    fill="none">
+                                    <path d="M6 11L1 6L6 1" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="eash_pag">
+                                1
+                            </div>
+                            <div class="eash_pag">
+                                2
+                            </div>
+                            <div class="eash_pag active_wala">
+                                3
+                            </div>
+                            <div class="eash_pag">
+                                4
+                            </div>
+                            <div class="eash_pag">
+                                5
+                            </div>
+                            <div class="arrow_t">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12"
+                                    fill="none">
+                                    <path d="M1 1L6 6L1 11" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade " id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab"
+                    tabindex="0">
+                    <div class="dashboard_1">
+                        <h1 class="dashboard_tt">Settings</h1>
+                    </div>
+                    <div class="settings_section">
+                        <div class="same_boxes">
+                            <div class="top_top">
+                                <div>
+                                    <h1 class="many_tt">My details</h1>
+                                </div>
+
+                            </div>
+                            <div class="for_section">
+                                <input type="text" placeholder="Full Name" class="input_tagt" />
+                                <input type="text" placeholder="Email Address" class="input_tagt" />
+                                <input type="text" placeholder="Address line 1" class="input_tagt" />
+                                <input type="text" placeholder="Address line 2" class="input_tagt" />
+                                <div class="bottom_input">
+                                    <input type="text" placeholder="City / town" class="input_tagt" />
+                                    <input type="text" placeholder="Zip / Postal Code" class="input_tagt" />
+                                </div>
+                            </div>
+                            <div> <button class="btn dash_btn w-100" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">Update
+                                    details</button></div>
+                        </div>
+                        <div class="same_boxes">
+                            <div class="top_top">
+                                <div>
+                                    <h1 class="many_tt">Password</h1>
+                                </div>
+
+                            </div>
+                            <div class="for_section">
+                                <input type="text" placeholder="Current Password" class="input_tagt" />
+                                <input type="text" placeholder="New Password" class="input_tagt" />
+
+                            </div>
+                            <div> <button class="btn dash_btn w-100" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal2">Update
+                                    password</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex align-items-start addtional_div">
+                <div class="nav nav-pills addtional_div2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="for_now  active" id="v-pills-home-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
+                        aria-selected="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M8.12602 14C8.57006 15.7252 10.1362 17 12 17C13.8638 17 15.4299 15.7252 15.874 14M11.0177 2.76403L4.23539 8.03916C3.78202 8.39178 3.55534 8.56809 3.39203 8.78889C3.24737 8.98447 3.1396 9.20481 3.07403 9.43908C3 9.70355 3 9.99073 3 10.5651V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V10.5651C21 9.99073 21 9.70355 20.926 9.43908C20.8604 9.20481 20.7526 8.98447 20.608 8.78889C20.4447 8.56809 20.218 8.39178 19.7646 8.03916L12.9823 2.76403C12.631 2.49078 12.4553 2.35415 12.2613 2.30163C12.0902 2.25529 11.9098 2.25529 11.7387 2.30163C11.5447 2.35415 11.369 2.49078 11.0177 2.76403Z"
+                                stroke="#FFC760" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="gold_btn">Home</p>
+                    </button>
+                    <button class="for_now" id="v-pills-profile-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
+                        aria-selected="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 21L11.8999 20.8499C11.2053 19.808 10.858 19.287 10.3991 18.9098C9.99286 18.5759 9.52476 18.3254 9.02161 18.1726C8.45325 18 7.82711 18 6.57482 18H5.2C4.07989 18 3.51984 18 3.09202 17.782C2.71569 17.5903 2.40973 17.2843 2.21799 16.908C2 16.4802 2 15.9201 2 14.8V6.2C2 5.07989 2 4.51984 2.21799 4.09202C2.40973 3.71569 2.71569 3.40973 3.09202 3.21799C3.51984 3 4.07989 3 5.2 3H5.6C7.84021 3 8.96031 3 9.81596 3.43597C10.5686 3.81947 11.1805 4.43139 11.564 5.18404C12 6.03968 12 7.15979 12 9.4M12 21V9.4M12 21L12.1001 20.8499C12.7947 19.808 13.142 19.287 13.6009 18.9098C14.0071 18.5759 14.4752 18.3254 14.9784 18.1726C15.5467 18 16.1729 18 17.4252 18H18.8C19.9201 18 20.4802 18 20.908 17.782C21.2843 17.5903 21.5903 17.2843 21.782 16.908C22 16.4802 22 15.9201 22 14.8V6.2C22 5.07989 22 4.51984 21.782 4.09202C21.5903 3.71569 21.2843 3.40973 20.908 3.21799C20.4802 3 19.9201 3 18.8 3H18.4C16.1598 3 15.0397 3 14.184 3.43597C13.4314 3.81947 12.8195 4.43139 12.436 5.18404C12 6.03968 12 7.15979 12 9.4"
+                                stroke="#FFC760" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="gold_btn">Library</p>
+                    </button>
+
+                    <button class="for_now for_circlet" id="v-pills-messages-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-create-tab" type="button" role="tab" aria-controls="v-pills-create-tab"
+                        aria-selected="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12.9998 14L9.99985 11M15.0102 3.5V2M18.9495 5.06066L20.0102 4M18.9495 13L20.0102 14.0607M11.0102 5.06066L9.94954 4M20.5102 9H22.0102M6.13122 20.8686L15.3685 11.6314C15.7645 11.2354 15.9625 11.0373 16.0367 10.809C16.1019 10.6082 16.1019 10.3918 16.0367 10.191C15.9625 9.96265 15.7645 9.76465 15.3685 9.36863L14.6312 8.63137C14.2352 8.23535 14.0372 8.03735 13.8089 7.96316C13.608 7.8979 13.3917 7.8979 13.1908 7.96316C12.9625 8.03735 12.7645 8.23535 12.3685 8.63137L3.13122 17.8686C2.7352 18.2646 2.53719 18.4627 2.46301 18.691C2.39775 18.8918 2.39775 19.1082 2.46301 19.309C2.53719 19.5373 2.7352 19.7354 3.13122 20.1314L3.86848 20.8686C4.2645 21.2646 4.4625 21.4627 4.69083 21.5368C4.89168 21.6021 5.10802 21.6021 5.30887 21.5368C5.53719 21.4627 5.7352 21.2646 6.13122 20.8686Z"
+                                stroke="#FFC760" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="gold_btn">Create</p>
+                    </button>
+
+                    <button class="for_now" id="v-pills-messages-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
+                        aria-selected="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M4 7.8C4 6.11984 4 5.27976 4.32698 4.63803C4.6146 4.07354 5.07354 3.6146 5.63803 3.32698C6.27976 3 7.11984 3 8.8 3H15.2C16.8802 3 17.7202 3 18.362 3.32698C18.9265 3.6146 19.3854 4.07354 19.673 4.63803C20 5.27976 20 6.11984 20 7.8V21L17.25 19L14.75 21L12 19L9.25 21L6.75 19L4 21V7.8Z"
+                                stroke="#FFC760" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="gold_btn">Purchases</p>
+                    </button>
+                    <button class="for_now" id="v-pills-settings-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings"
+                        aria-selected="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
+                                stroke="#FFC760" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M18.7273 14.7273C18.6063 15.0015 18.5702 15.3056 18.6236 15.6005C18.6771 15.8954 18.8177 16.1676 19.0273 16.3818L19.0818 16.4364C19.2509 16.6052 19.385 16.8057 19.4765 17.0265C19.568 17.2472 19.6151 17.4838 19.6151 17.7227C19.6151 17.9617 19.568 18.1983 19.4765 18.419C19.385 18.6397 19.2509 18.8402 19.0818 19.0091C18.913 19.1781 18.7124 19.3122 18.4917 19.4037C18.271 19.4952 18.0344 19.5423 17.7955 19.5423C17.5565 19.5423 17.3199 19.4952 17.0992 19.4037C16.8785 19.3122 16.678 19.1781 16.5091 19.0091L16.4545 18.9545C16.2403 18.745 15.9682 18.6044 15.6733 18.5509C15.3784 18.4974 15.0742 18.5335 14.8 18.6545C14.5311 18.7698 14.3018 18.9611 14.1403 19.205C13.9788 19.4489 13.8921 19.7347 13.8909 20.0273V20.1818C13.8909 20.664 13.6994 21.1265 13.3584 21.4675C13.0174 21.8084 12.5549 22 12.0727 22C11.5905 22 11.1281 21.8084 10.7871 21.4675C10.4461 21.1265 10.2545 20.664 10.2545 20.1818V20.1C10.2475 19.7991 10.1501 19.5073 9.97501 19.2625C9.79991 19.0176 9.55521 18.8312 9.27273 18.7273C8.99853 18.6063 8.69437 18.5702 8.39947 18.6236C8.10456 18.6771 7.83244 18.8177 7.61818 19.0273L7.56364 19.0818C7.39478 19.2509 7.19425 19.385 6.97353 19.4765C6.7528 19.568 6.51621 19.6151 6.27727 19.6151C6.03834 19.6151 5.80174 19.568 5.58102 19.4765C5.36029 19.385 5.15977 19.2509 4.99091 19.0818C4.82186 18.913 4.68775 18.7124 4.59626 18.4917C4.50476 18.271 4.45766 18.0344 4.45766 17.7955C4.45766 17.5565 4.50476 17.3199 4.59626 17.0992C4.68775 16.8785 4.82186 16.678 4.99091 16.5091L5.04545 16.4545C5.25503 16.2403 5.39562 15.9682 5.4491 15.6733C5.50257 15.3784 5.46647 15.0742 5.34545 14.8C5.23022 14.5311 5.03887 14.3018 4.79497 14.1403C4.55107 13.9788 4.26526 13.8921 3.97273 13.8909H3.81818C3.33597 13.8909 2.87351 13.6994 2.53253 13.3584C2.19156 13.0174 2 12.5549 2 12.0727C2 11.5905 2.19156 11.1281 2.53253 10.7871C2.87351 10.4461 3.33597 10.2545 3.81818 10.2545H3.9C4.2009 10.2475 4.49273 10.1501 4.73754 9.97501C4.98236 9.79991 5.16883 9.55521 5.27273 9.27273C5.39374 8.99853 5.42984 8.69437 5.37637 8.39947C5.3229 8.10456 5.18231 7.83244 4.97273 7.61818L4.91818 7.56364C4.74913 7.39478 4.61503 7.19425 4.52353 6.97353C4.43203 6.7528 4.38493 6.51621 4.38493 6.27727C4.38493 6.03834 4.43203 5.80174 4.52353 5.58102C4.61503 5.36029 4.74913 5.15977 4.91818 4.99091C5.08704 4.82186 5.28757 4.68775 5.50829 4.59626C5.72901 4.50476 5.96561 4.45766 6.20455 4.45766C6.44348 4.45766 6.68008 4.50476 6.9008 4.59626C7.12152 4.68775 7.32205 4.82186 7.49091 4.99091L7.54545 5.04545C7.75971 5.25503 8.03183 5.39562 8.32674 5.4491C8.62164 5.50257 8.9258 5.46647 9.2 5.34545H9.27273C9.54161 5.23022 9.77093 5.03887 9.93245 4.79497C10.094 4.55107 10.1807 4.26526 10.1818 3.97273V3.81818C10.1818 3.33597 10.3734 2.87351 10.7144 2.53253C11.0553 2.19156 11.5178 2 12 2C12.4822 2 12.9447 2.19156 13.2856 2.53253C13.6266 2.87351 13.8182 3.33597 13.8182 3.81818V3.9C13.8193 4.19253 13.906 4.47834 14.0676 4.72224C14.2291 4.96614 14.4584 5.15749 14.7273 5.27273C15.0015 5.39374 15.3056 5.42984 15.6005 5.37637C15.8954 5.3229 16.1676 5.18231 16.3818 4.97273L16.4364 4.91818C16.6052 4.74913 16.8057 4.61503 17.0265 4.52353C17.2472 4.43203 17.4838 4.38493 17.7227 4.38493C17.9617 4.38493 18.1983 4.43203 18.419 4.52353C18.6397 4.61503 18.8402 4.74913 19.0091 4.91818C19.1781 5.08704 19.3122 5.28757 19.4037 5.50829C19.4952 5.72901 19.5423 5.96561 19.5423 6.20455C19.5423 6.44348 19.4952 6.68008 19.4037 6.9008C19.3122 7.12152 19.1781 7.32205 19.0091 7.49091L18.9545 7.54545C18.745 7.75971 18.6044 8.03183 18.5509 8.32674C18.4974 8.62164 18.5335 8.9258 18.6545 9.2V9.27273C18.7698 9.54161 18.9611 9.77093 19.205 9.93245C19.4489 10.094 19.7347 10.1807 20.0273 10.1818H20.1818C20.664 10.1818 21.1265 10.3734 21.4675 10.7144C21.8084 11.0553 22 11.5178 22 12C22 12.4822 21.8084 12.9447 21.4675 13.2856C21.1265 13.6266 20.664 13.8182 20.1818 13.8182H20.1C19.8075 13.8193 19.5217 13.906 19.2778 14.0676C19.0339 14.2291 18.8425 14.4584 18.7273 14.7273Z"
+                                stroke="#FFC760" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="gold_btn">Settings</p>
+                    </button>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content modal_sign_t">
+          <img src="./img/modal_Sign_up.png" alt="" style="z-index: 1;">
+          <div class="sing_modal_main_t">
+            <div class="modal_sign_inner1_t">
+              <h1 class="modal_tt">Details updated!</h1>
+            </div>
+            <button type="button" class="btn sign_modal_btn_out_t" data-bs-dismiss="modal">
+              <img src="./img/sign_btn_upper.png" alt="">
+              <div class="sign_modal_btn_inn_t">
+                <img src="./img/sign_btn_L.png" alt="">
+                <div class="sing_modal_btn_main_t">Close</div>
+                <img src="./img/sign_btn_R.png" alt="">
+              </div>
+              <img src="./img/sign_btn_lower.png" alt="" style="margin-top: -39px;">
+
+            </button>
+          </div>
+          <img src="./img/modal_sign_down.png" alt="" style="margin-top: -24px;">
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content modal_sign_t">
+          <img src="./img/modal_Sign_up.png" alt="" style="z-index: 1;">
+          <div class="sing_modal_main_t">
+            <div class="modal_sign_inner1_t">
+              <h1 class="modal_tt">Password updated!</h1>
+            </div>
+            <button type="button" class="btn sign_modal_btn_out_t" data-bs-dismiss="modal">
+              <img src="./img/sign_btn_upper.png" alt="">
+              <div class="sign_modal_btn_inn_t">
+                <img src="./img/sign_btn_L.png" alt="">
+                <div class="sing_modal_btn_main_t">Close</div>
+                <img src="./img/sign_btn_R.png" alt="">
+              </div>
+              <img src="./img/sign_btn_lower.png" alt="" style="margin-top: -39px;">
+
+            </button>
+          </div>
+          <img src="./img/modal_sign_down.png" alt="" style="margin-top: -24px;">
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content modal_sign_t">
+          <img src="./img/modal_Sign_up.png" alt="" style="z-index: 1;">
+          <div class="sing_modal_main_t">
+            <div class="modal_sign_inner1_t">
+              <h1 class="modal_tt">Share link copied!</h1>
+              <p class="modal_pp">Paste this to your friends and tell them to use it on checkout for a discount! Upon
+                their purchase, you’ll get extra tokens.</p>
+            </div>
+            <div class="button_wala_div">
+              <button class="btn yellowdash_btn w-100">Close</button>
+              <button class="btn dash_btn w-100">Close</button>
+            </div>
+          </div>
+          <img src="./img/modal_sign_down.png" alt="" style="margin-top: -24px;">
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content modal_sign_t">
+          <img src="./img/modal_Sign_up.png" alt="" style="z-index: 1;">
+          <div class="sing_modal_main_t">
+            <div class="modal_sign_inner1_t">
+              <h1 class="modal_tt">Claim reward</h1>
+              <p class="modal_pp">Welcome back! Click below to get your daily rewards as a loyal customer.</p>
+            </div>
+            <button type="button" class="btn sign_modal_btn_out_t" data-bs-dismiss="modal">
+              <img src="./img/sign_btn_upper.png" alt="">
+              <div class="sign_modal_btn_inn_t">
+                <img src="./img/sign_btn_L.png" alt="">
+                <div class="sing_modal_btn_main_t">Close</div>
+                <img src="./img/sign_btn_R.png" alt="">
+              </div>
+              <img src="./img/sign_btn_lower.png" alt="" style="margin-top: -39px;">
+
+            </button>
+          </div>
+          <img src="./img/modal_sign_down.png" alt="" style="margin-top: -24px;">
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+    <?php include 'includes/footer.php'; ?>
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#owl_car.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 24,
+            nav: false,
+            dotsEach: 1,
+            // staggedpadding: 24,
+            responsive: {
+                0: {
+                    items: 1.18
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 5
+                }
+            }
+        })
+
+        $('#book_card.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 8,
+            nav: false,
+            dots: false,
+            dotsEach: 1,
+            responsive: {
+                0: {
+                    items: 2.77
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 5
+                }
+            }
+        })
+    })
+</script>
