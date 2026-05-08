@@ -160,6 +160,17 @@ html {
 html,body{
   overflow-x:hidden;
 }
+
+/* Image-background CTA buttons — used as <a> tags so need display fix */
+.hero_sec_1_cta,
+.home_sec_2_btn,
+.home_sec_3_btn,
+.home_sec_5_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
 *{
   margin: 0;
   padding: 0;
