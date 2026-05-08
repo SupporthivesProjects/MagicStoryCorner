@@ -195,6 +195,33 @@ header .navbar{
     }
   }
 
+/* Currency select — styled to match nav links */
+#currency-select {
+    background: transparent;
+    border: 1px solid var(--Core-Secondary-Nav-Brown, #4A311A);
+    border-radius: 4px;
+    color: var(--Core-Secondary-Nav-Brown, #4A311A);
+    font-family: "LEMON MILK";
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.78px;
+    padding: 6px 8px;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    min-width: 60px;
+    text-align: center;
+}
+#currency-select:focus {
+    outline: none;
+    border-color: var(--Core-Secondary-Nav-Brown, #4A311A);
+}
+#currency-form {
+    display: flex;
+    align-items: center;
+}
+
 .navbar-nav  .login-btn{
     background: var(--Core-Main-Blue, #030527);
     display: flex;
