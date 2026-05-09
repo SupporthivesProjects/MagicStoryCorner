@@ -452,15 +452,15 @@ background: var(--Base-Off-Black, #0F0F0F);
   padding: 16px 40px;
   justify-content: center;
   align-items: center;
-  border-radius: 100px;
-  font-family: Poppins;
-  font-size: 15px;
-  font-weight: 600;
+  border-radius: 0px;
+  font-family: "LEMON MILK";
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.84px;
   line-height: 150%;
   text-align: center;
   cursor: pointer;
   transition: all 0.4s ease-in-out;
-  border: none;
 }
 .char_ani1{
   display: block;
