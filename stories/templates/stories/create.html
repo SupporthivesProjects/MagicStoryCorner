@@ -46,7 +46,7 @@
         <div class="progressbar_main" id="progressBarMain">
             <div class="progress-bar progress_bar">
                 <div class="step" id="step1">
-                    <img id="diamond1" src="{% static 'media/diamond-glow.svg' %}" alt="">
+                    <img id="diamond1" src="{% static 'media/diamond-yellow.svg' %}" alt="">
                     <p id="title1">Make Your Hero</p>
                 </div>
                 <div class="step" id="step2">
@@ -281,8 +281,8 @@
         window.totalCost = Number("{{ total_tokens }}");
         window.currentTotalTokens = updateTotalTokens();
     
-        const staticDiamondYellow = "{% static 'media/diamond-yellow.svg' %}";
-        const staticDiamondGlow = "{% static 'media/diamond-glow.png' %}";
+        const staticDiamondYellow = "{% static 'media/diamond-glow.svg' %}";
+        const staticDiamondGlow = "{% static 'media/diamond-yellow.svg' %}";
         const staticDiamondNormal = "{% static 'media/diamond-normal.svg' %}";
         const totalTabs = 4;
         let currentTab = 0;
