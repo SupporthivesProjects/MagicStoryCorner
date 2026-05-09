@@ -20,9 +20,6 @@
 </div>
 
 {# Footer #}
-{% with current_page=request.resolver_match.url_name %}
-{% if current_page != "story_book_create" %}
-
 <section class="footer-bg-top d-lg-block d-md-block d-none">
     <img src="{% static 'media/footer-top-bg.png' %}" class="bg-image" alt="">
     <div class="container">
@@ -91,9 +88,6 @@
         </div>
     </div>
 </footer>
-
-{% endif %}
-{% endwith %}
 
 {# JavaScript Libraries #}
 <script src="{% static 'js/jquery.min.js' %}"></script>
