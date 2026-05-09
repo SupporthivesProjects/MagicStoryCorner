@@ -88,8 +88,7 @@
         <div class="tab-content tab_content" id="tab2">
             <div class="tab_c2">
                 <div class="tab_c2inner">
-                <img class="world_ani1" src="{% static 'media/world_ani1.svg' %}">
-                <img class="world_ani2" src="{% static 'media/world_ani2.svg' %}">
+
 
                 <div class="tab2_contbar">
                     <div class="char_textareatop">
@@ -311,11 +310,11 @@
                 diamond.classList.remove("glow-effect");
                 if (i < tabNumber) {
                     diamond.src = staticDiamondYellow;
-                    title.classList.add("completed-title");
+                    title.classList.remove("completed-title");
                 } else if (i === tabNumber) {
                     diamond.src = staticDiamondGlow;
                     diamond.classList.add("glow-effect");
-                    title.classList.remove("completed-title");
+                    title.classList.add("completed-title");
                 } else {
                     diamond.src = staticDiamondNormal;
                     title.classList.remove("completed-title");

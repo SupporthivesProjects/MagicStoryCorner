@@ -3,7 +3,7 @@
   <div class="full_cardd">
     <div class="book_covert">
       {% if story.image %}
-        <img src="{{ story.image.url }}" alt="{{ story.title }}" class="img-fluid">
+        <img src="{{ story.image.url }}" alt="{{ story.title }}" class="img-fluid" onerror="this.onerror=null;this.src='{% static 'media/BookCover.jpeg' %}'">
       {% else %}
         <img src="{% static 'media/BookCover.jpeg' %}" alt="Default Cover" class="img-fluid">
       {% endif %}

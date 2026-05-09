@@ -91,19 +91,21 @@ html, body{
 .btn-yellow{
     border-radius: 100px;
     background: var(--Core-yellow, #FFCE3C);
-    color: var(--Core-Secondary-Purple, #5A3384);
-    font-family: Poppins;
-    font-size: 15px;
+    color: #5A3384;
+    font-family: "LEMON MILK", sans-serif;
+    font-size: 12px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 150%;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     height: 56px;
     padding: 16px 40px;
     justify-content: center;
     align-items: center;
     gap: 8px;
     border: 4px solid #FFCE3C;
-    transition: all .8s;
+    transition: all .3s;
     display: flex;
 }
 .btn-yellow:hover{
@@ -816,40 +818,60 @@ html, body{
     line-height: 150%;
   } 
 
-/* -----------------------create-story------------------- */
+/* -----------------------create-story / story-view------------------- */
 .create-story-main{
-  background: #FAFAFA ;
+  background: #FAFAFA;
 }
 .create-header-section{
     height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 4rem;
+    background: url(../media/create-background-clouds.png) no-repeat top center;
+    background-size: cover;
+    margin-top: 0;
+    position: relative;
 }
 .create-header-title h2{
-    color: var(--Core-purple-titles, #3B2C53);
-    font-family: "Josephine Cosy Bold";
-    font-size: 80px;
+    color: #030527;
+    font-family: "LEMON MILK", sans-serif;
+    font-size: 64px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 100%;
-    letter-spacing: -4px;
+    font-weight: 700;
+    line-height: 110%;
+    letter-spacing: 3px;
     text-align: center;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
 }
-.create-header-title .btn{
-    width: 152px;
-    margin: auto;
-    max-width: 100%;
-    padding: 16px 24px;
+.create-header-title .btn-view-library{
+    display: inline-flex;
+    height: 56px;
+    padding: 6px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 0px;
+    background: #030527;
+    border: 4px solid #030527;
+    color: #FFFFFF;
+    font-family: "LEMON MILK", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.84px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s;
+}
+.create-header-title .btn-view-library:hover{
+    background: #FFCE3C;
+    border-color: #FFCE3C;
+    color: #030527;
 }
 .create-backgrpound-book{
-  background: url(../media/create-background-clouds.png) no-repeat;
+  background: url(../media/dash_bg.png) no-repeat top center;
   background-size: cover;
-  background-position: center center;
   position: relative;
-  /* height: 901px; */
 }
 
 /* ----------------------------sldier-------------------- */
@@ -939,12 +961,12 @@ html, body{
   padding-bottom: 5px;
 }
 .fron-content p{
-  color: var(--Core-purple-titles, #3B2C53);
-  font-family: Poppins;
-  font-size: 20px;
+  color: #1A1033;
+  font-family: "Sen", sans-serif;
+  font-size: 19px;
   font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 30px */
+  font-weight: 400;
+  line-height: 165%;
   text-align: left;
 }
 .fron-content{
@@ -978,15 +1000,13 @@ html, body{
   transition: 0.3s ease-in-out;
 }
 .btn-page-count p {
-    color: rgba(0, 0, 0, 0.7);
-    font-family: calibri;
-    font-size: 24px;
-    color: var(--Core-Secondary-Purple, #5A3384);
-    font-family: Quicksand;
-    font-size: 16px;
+    color: #030527;
+    font-family: "LEMON MILK", sans-serif;
+    font-size: 13px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 180%;
+    letter-spacing: 0.5px;
     margin-bottom: 0px;
 }
 .btn-page-count button{
@@ -1035,20 +1055,29 @@ html, body{
     border-radius: 0 42px 42px 0 !important;
 }
 .book-section .play-btn{
-    border-radius: 100px;
-    background: var(--Core-yellow, #FFCE3C);
-    display: flex;
+    display: inline-flex;
     height: 56px;
-    padding: 8px 24px;
+    padding: 6px 28px;
     justify-content: center;
     align-items: center;
-    gap: 8px;
-    color: var(--Core-Secondary-Purple, #5A3384);
-    font-family: Poppins;
-    font-size: 15px;
+    gap: 10px;
+    border-radius: 0px;
+    background: #FFCE3C;
+    border: 4px solid #FFCE3C;
+    color: #030527;
+    font-family: "LEMON MILK", sans-serif;
+    font-size: 12px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 150%;
+    letter-spacing: 0.84px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+}
+.book-section .play-btn:hover{
+    background: #030527;
+    border-color: #030527;
+    color: #FFCE3C;
 }
 .btn-page-count button {
     border: 0px;
@@ -1065,13 +1094,35 @@ html, body{
     position: absolute;
     right: 80px;
     bottom: 4rem;
-    background: white;
+    background: transparent;
+    gap: 16px;
 }
 .create-backgrpound-book .btn-download{
-    width: 167px;
-    padding: 16px 24px;
+    display: inline-flex;
+    height: 56px;
+    min-width: 180px;
+    padding: 6px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 0px;
+    background: #030527;
+    border: 4px solid #030527;
+    color: #FFFFFF;
+    font-family: "LEMON MILK", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.84px;
+    text-transform: uppercase;
+    text-decoration: none;
     margin: auto;
     margin-top: 40px;
+    transition: all 0.3s;
+}
+.create-backgrpound-book .btn-download:hover{
+    background: #FFCE3C;
+    border-color: #FFCE3C;
+    color: #030527;
 }
 
 /* ---------------------------contactpage---------------- */
@@ -1375,21 +1426,22 @@ html, body{
     padding: 32px 24px 0px;
 }
 .main-book-slider-mo  .card p{
-    color: var(--Core-purple-titles, #3B2C53);
-    font-family: Quicksand;
-    font-size: 16px;
+    color: #1A1033;
+    font-family: "Sen", sans-serif;
+    font-size: 17px;
     font-style: normal;
-    font-weight: 600;
-    line-height: 180%;
+    font-weight: 400;
+    line-height: 165%;
     text-align: left !important;
 }
 .main-book-slider-mo p{
-    color: var(--Core-Secondary-Purple, #5A3384);
-    font-family: Quicksand;
-    font-size: 16px;
+    color: #5A3384;
+    font-family: "LEMON MILK", sans-serif;
+    font-size: 12px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 180%;
+    letter-spacing: 0.5px;
     text-align: center;
 }
 .owl-theme .owl-nav .disabled {
