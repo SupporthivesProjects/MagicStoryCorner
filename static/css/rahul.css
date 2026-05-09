@@ -10,6 +10,45 @@
     display: block !important;
 }
 
+/* Dashboard tab content - show/hide (all screen sizes) */
+.dashtab_content {
+    display: none;
+}
+.dashtab_content.active {
+    display: block;
+}
+/* Dashboard bottom nav bar - visible on all screen sizes */
+.dashbottom_nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #030527;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 48px;
+    z-index: 999;
+}
+.dashnav_btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 4px 8px;
+    color: #FFC760;
+    text-decoration: none;
+}
+.dashnav_btn.active {
+    opacity: 0.5;
+}
+.dashapp_container {
+    padding-bottom: 80px;
+}
+
 /* Global Css End */
 /**********************/
 /* Age Css Start */
