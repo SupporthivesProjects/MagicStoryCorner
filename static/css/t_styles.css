@@ -587,6 +587,9 @@ letter-spacing: 0.84px;
     background-size: cover;
     padding-top: 188.5px;
     padding-bottom: 204.5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .dashboard_tt {
