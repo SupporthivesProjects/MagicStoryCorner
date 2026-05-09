@@ -16,7 +16,7 @@
   <div class="mobile_none">
     <div class="dashboard_1">
       <h1 class="dashboard_tt">Hello, {{ logged_in_user.first_name }} !</h1>
-      <a href="{% url 'user_logout' %}" class="btn dash_btn">Logout</a>
+      <a href="{% url 'user_logout' %}" class="dashboard_pp">Logout</a>
     </div>
     <div class="dashboard_2">
       <div class="container p-0">
@@ -25,7 +25,7 @@
           <!-- Section 1: Three action cards -->
           <div class="section1_dash">
             <div class="dash_box">
-              <img src="{% static 'media/dashboard_card1icon.svg' %}" class="img-fluid svg111">
+              <img src="{% static 'media/svg111.svg' %}" class="img-fluid svg111">
               <div class="under_box">
                 <h1>Daily rewards</h1>
                 <p>Login each day and earn daily tokens for keeping your streak!</p>
@@ -33,7 +33,7 @@
               </div>
             </div>
             <div class="dash_box">
-              <img src="{% static 'media/dashboard_card2icon.svg' %}" class="img-fluid svg111">
+              <img src="{% static 'media/svg123.svg' %}" class="img-fluid svg111">
               <div class="under_box">
                 <h1>Share and earn</h1>
                 <p>Receive 100 referral tokens for every friend who joins!</p>
@@ -41,7 +41,7 @@
               </div>
             </div>
             <div class="dash_box">
-              <img src="{% static 'media/dashboard_card3icon.svg' %}" class="img-fluid svg111">
+              <img src="{% static 'media/svg1234.svg' %}" class="img-fluid svg111">
               <div class="under_box">
                 <h1>Get more stories</h1>
                 <p>Login each day and earn daily tokens for keeping your streak!</p>
@@ -121,18 +121,14 @@
                 {% if stories %}
                   {% for story in stories %}
                     <div class="full_cardd">
-                      <div class="book_covert">
-                        {% if story.image %}
-                          <img class="img-fluid" src="{{ story.image.url }}" alt="{{ story.title }}">
-                        {% else %}
-                          <img class="img-fluid" src="{% static 'media/BookCover.jpeg' %}" alt="Default Cover">
-                        {% endif %}
-                      </div>
+                      {% if story.image %}
+                        <img class="img-fluid book_covert" src="{{ story.image.url }}" alt="{{ story.title }}">
+                      {% else %}
+                        <img class="img-fluid book_covert" src="{% static 'media/BookCover.jpeg' %}" alt="Default Cover">
+                      {% endif %}
                       <div class="bottom_card_div">
-                        <p class="dash_libbtntitle">
-                          {% if story.title|length > 25 %}{{ story.title|slice:":25" }}...{% else %}{{ story.title }}{% endif %}
-                        </p>
-                        <a href="{% url 'library_view' story.slug %}" class="btn dash_btn w-100">Read now</a>
+                        <h1>{% if story.title|length > 25 %}{{ story.title|slice:":25" }}...{% else %}{{ story.title }}{% endif %}</h1>
+                        <p><a href="{% url 'library_view' story.slug %}">Find out more</a></p>
                       </div>
                     </div>
                   {% endfor %}
@@ -150,10 +146,10 @@
               <table class="custom_table_t mb-0">
                 <thead class="account_table_header">
                   <tr class="align-middle">
-                    <th><p class="success_headtext">Receipt</p></th>
-                    <th><p class="success_headtext">Purchase Date</p></th>
+                    <th><p class="success_headtext">Receipt <img src="{% static 'media/table_arrow.svg' %}" class="img-fluid table_arrow"></p></th>
+                    <th><p class="success_headtext">Purchase Date <img src="{% static 'media/table_arrow.svg' %}" class="img-fluid table_arrow"></p></th>
                     <th><p class="success_headtext">Item name</p></th>
-                    <th><p class="success_headtext">Total Amount</p></th>
+                    <th><p class="success_headtext">Total Amount <img src="{% static 'media/table_arrow.svg' %}" class="img-fluid table_arrow"></p></th>
                     <th></th>
                   </tr>
                 </thead>

@@ -825,6 +825,7 @@ letter-spacing: 0.84px;
     border: 4px solid #030527;
     color: var(--Base-White, #FFF);
     text-align: center;
+    text-decoration: none;
 
     /* P/Button */
     font-family: "LEMON MILK";
