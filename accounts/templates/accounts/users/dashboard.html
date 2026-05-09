@@ -121,7 +121,7 @@
                 {% if stories %}
                   {% for story in stories %}
                     <div class="full_cardd">
-                      <img class="img-fluid book_covert" src="{% if story.image %}{{ story.image.url }}{% else %}{% static 'media/BookCover.jpeg' %}{% endif %}" alt="{{ story.title }}" onerror="this.onerror=null;this.src='{% static 'media/BookCover.jpeg' %}'">
+                      <img class="img-fluid book_covert" src="{% if story.image %}{{ story.image.url }}{% else %}{% static 'media/BookCover.jpeg' %}{% endif %}" alt="{{ story.title }}" onerror="this.onerror=null;this.src=defaultCover">
                       <div class="bottom_card_div">
                         <h1>{% if story.title|length > 25 %}{{ story.title|slice:":25" }}...{% else %}{{ story.title }}{% endif %}</h1>
                         <p><a href="{% url 'library_view' story.slug %}">Find out more</a></p>
@@ -295,7 +295,7 @@
                   {% for story in stories %}
                     <div class="item">
                       <a href="{% url 'library_view' story.slug %}">
-                        <img src="{% if story.image %}{{ story.image.url }}{% else %}{% static 'media/BookCover.jpeg' %}{% endif %}" alt="{{ story.title }}" class="img-fluid" onerror="this.onerror=null;this.src='{% static \'media/BookCover.jpeg\' %}'">
+                        <img src="{% if story.image %}{{ story.image.url }}{% else %}{% static 'media/BookCover.jpeg' %}{% endif %}" alt="{{ story.title }}" class="img-fluid" onerror="this.onerror=null;this.src=defaultCover">
                       </a>
                     </div>
                   {% endfor %}
@@ -514,6 +514,7 @@
 <script>
   const csrf_token = "{{ csrf_token }}";
   const downloadInvoiceURL = "{% url 'download_order_invoice' 0 %}";
+  const defaultCover = "{% static 'media/BookCover.jpeg' %}";
 </script>
 
 <script>
