@@ -2,12 +2,18 @@
 {% for story in stories %}
 <div class="full_cardd">
   <div class="book_covert">
-    {% if story.image %}
-      <img src="{{ story.image.url }}" alt="{{ story.title }}">
-    {% elif story.pages.all.0.image %}
-      <img src="{{ story.pages.all.0.image.url }}" alt="{{ story.title }}">
+    {% if story.thumbnail %}
+      <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}" class="img-fluid" onerror="this.onerror=null;this.src='{% static 'media/BookCover.jpeg' %}'">
+    {% elif story.image %}
+      <img src="{{ story.image.url }}" alt="{{ story.title }}" class="img-fluid" onerror="this.onerror=null;this.src='{% static 'media/BookCover.jpeg' %}'">
     {% else %}
-      <img src="{% static 'media/BookCover.jpeg' %}" alt="{{ story.title }}">
+      {% with first_page=story.pages.all|first %}
+        {% if first_page and first_page.image %}
+          <img src="{{ first_page.image.url }}" alt="{{ story.title }}" class="img-fluid" onerror="this.onerror=null;this.src='{% static 'media/BookCover.jpeg' %}'">
+        {% else %}
+          <img src="{% static 'media/BookCover.jpeg' %}" alt="{{ story.title }}" class="img-fluid">
+        {% endif %}
+      {% endwith %}
     {% endif %}
   </div>
   <div class="bottom_card_div">
