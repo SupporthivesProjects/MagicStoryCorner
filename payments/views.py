@@ -573,20 +573,6 @@ def payment_success(request):
 
     try:
         order = Order.objects.get(id=order_id)
-
-        # If CitiPay redirected here with a success response and the order is
-        # still PENDING (callback hasn't fired yet), complete it now directly.
-        if order.status == OrderStatus.PENDING:
-            response_code = request.GET.get('ResponseCode', '')
-            response_desc = request.GET.get('ResponseDescription', '')
-            if response_code == '0' or response_desc.lower() == 'success':
-                try:
-                    OrderService.complete_order(order, request.GET.dict())
-                    send_order_invoice_email(order)
-                    order.refresh_from_db()
-                except Exception as e:
-                    Log.objects.create(title=f'Success-view completion error #{order.id}', type='error', message=str(e))
-
         user = order.user
         token, _ = Token.objects.get_or_create(user=user)
         request.session["auth_token"] = token.key
