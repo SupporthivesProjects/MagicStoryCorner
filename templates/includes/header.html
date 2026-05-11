@@ -36,6 +36,30 @@
           <li class="nav-item">
             <a class="nav-link {% if request.resolver_match.url_name == 'contactUs' %}active{% endif %}" href="{% url 'contactUs' %}">Contact</a>
           </li>
+          <li class="nav-item nav-currency-item">
+            <form method="POST" action="{% url 'set_currency' %}" id="header-currency-form">
+              {% csrf_token %}
+              <div class="nav-currency-dropdown">
+                <button type="button" class="nav-currency-btn" id="currencyDropdownBtn">
+                  <span class="currency-symbol">{{ selected_currency.symbol }}</span>
+                  <span class="currency-code">{{ selected_currency.code }}</span>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="currency-chevron">
+                    <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <ul class="nav-currency-menu" id="currencyMenu">
+                  {% for c in currencies %}
+                  <li>
+                    <button type="submit" name="currency" value="{{ c.code }}" class="nav-currency-option {% if selected_currency.code == c.code %}active{% endif %}">
+                      <span class="currency-option-symbol">{{ c.symbol }}</span>
+                      <span class="currency-option-code">{{ c.code }}</span>
+                    </button>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </form>
+          </li>
           <li class="nav-item d-none d-lg-block">
             {% include 'includes/desktopAction.html' %}
           </li>
@@ -46,15 +70,23 @@
       </div>
     </div>
   </nav>
-  {# Currency form — hidden, functionality preserved #}
-  <div style="display:none" aria-hidden="true">
-    <form method="POST" action="{% url 'set_currency' %}" id="currency-form">
-      {% csrf_token %}
-      <select name="currency" id="currency-select">
-        {% for c in currencies %}
-          <option value="{{ c.code }}" {% if selected_currency.code == c.code %}selected{% endif %}>{{ c.code }}</option>
-        {% endfor %}
-      </select>
-    </form>
-  </div>
+  {# Currency switching handled by nav-currency-item dropdown #}
 </header>
+<script>
+(function() {
+  var btn = document.getElementById('currencyDropdownBtn');
+  var dropdown = btn && btn.closest('.nav-currency-dropdown');
+  if (!btn || !dropdown) return;
+
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    dropdown.classList.toggle('open');
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!dropdown.contains(e.target)) {
+      dropdown.classList.remove('open');
+    }
+  });
+})();
+</script>

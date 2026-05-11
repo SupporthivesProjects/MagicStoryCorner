@@ -1370,14 +1370,14 @@ html, body{
   border: 0px;
 }
 .modal-dialog h2{
-    color: var(--Core-purple-titles, #3B2C53);
+    color: var(--Base-Off-Black, #0F0F0F);
     text-align: center;
-    font-family: "Josephine Cosy Bold";
-    font-size: 40px;
+    font-family: "LEMON MILK";
+    font-size: 24px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 100%;
-    letter-spacing: -2px;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: 0.96px;
 }
 .modal-dialog p{
     color: var(--Core-purple-body, #6A5681);

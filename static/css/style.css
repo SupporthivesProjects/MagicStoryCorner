@@ -1001,3 +1001,128 @@ header .navbar{
   }
 
 }
+
+/* ---- Header Currency Dropdown ---- */
+.nav-currency-item {
+  display: flex;
+  align-items: center;
+}
+
+.nav-currency-dropdown {
+  position: relative;
+}
+
+.nav-currency-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+  color: inherit;
+  font-family: "LEMON MILK";
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.nav-currency-btn:hover {
+  border-color: var(--Core-yellow, #FFCE3C);
+  color: var(--Core-yellow, #FFCE3C);
+}
+
+.currency-chevron {
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.nav-currency-dropdown.open .currency-chevron {
+  transform: rotate(180deg);
+}
+
+.nav-currency-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 1100;
+  min-width: 100px;
+  background: var(--Core-Main-Blue, #030527);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 4px;
+  padding: 4px 0;
+  list-style: none;
+  margin: 0;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.nav-currency-dropdown.open .nav-currency-menu {
+  display: block;
+}
+
+.nav-currency-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: "LEMON MILK";
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.75);
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+  text-align: left;
+}
+
+.nav-currency-option:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.nav-currency-option.active {
+  color: var(--Core-yellow, #FFCE3C);
+}
+
+.currency-option-symbol {
+  width: 14px;
+  text-align: center;
+}
+
+/* On scrolled/white header */
+.header-scroll .nav-currency-btn {
+  border-color: rgba(3,5,39,0.3);
+  color: var(--Core-Main-Blue, #030527);
+}
+
+.header-scroll .nav-currency-btn:hover {
+  border-color: var(--Core-Main-Blue, #030527);
+  color: var(--Core-Main-Blue, #030527);
+}
+
+.header-scroll .nav-currency-menu {
+  background: #fff;
+  border-color: rgba(3,5,39,0.1);
+}
+
+.header-scroll .nav-currency-option {
+  color: rgba(3,5,39,0.7);
+}
+
+.header-scroll .nav-currency-option:hover {
+  background: rgba(3,5,39,0.05);
+  color: var(--Core-Main-Blue, #030527);
+}
+
+.header-scroll .nav-currency-option.active {
+  color: var(--Core-Main-Blue, #030527);
+}

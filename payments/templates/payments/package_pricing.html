@@ -19,7 +19,7 @@
         <div class="col-md-3">
           <div class="msc-card">
             {% if bronze_package.is_popular %}<div class="most-popular"><p>most popular</p></div>{% endif %}
-            {% if bronze_package.image %}<img src="{{ bronze_package.image.url }}" alt="{{ bronze_package.name }}">{% endif %}
+            <img src="{% static 'media/pricing-s1-p1.png' %}" alt="{{ bronze_package.name }}">
             <div class="package-detail">
               <h2 class="package-name">{{ bronze_package.name }}</h2>
               <h1 class="tokenss">{{ bronze_package.tokens }} tokens</h1>
@@ -39,7 +39,7 @@
         <div class="col-md-3">
           <div class="msc-card">
             {% if popular_package.is_popular %}<div class="most-popular"><p>most popular</p></div>{% endif %}
-            {% if popular_package.image %}<img src="{{ popular_package.image.url }}" alt="{{ popular_package.name }}">{% endif %}
+            <img src="{% static 'media/pricing-s1-p2.png' %}" alt="{{ popular_package.name }}">
             <div class="package-detail">
               <h2 class="package-name">{{ popular_package.name }}</h2>
               <h1 class="tokenss">{{ popular_package.tokens }} tokens</h1>
@@ -59,7 +59,7 @@
         <div class="col-md-3">
           <div class="msc-card">
             {% if silver_package.is_popular %}<div class="most-popular"><p>most popular</p></div>{% endif %}
-            {% if silver_package.image %}<img src="{{ silver_package.image.url }}" alt="{{ silver_package.name }}">{% endif %}
+            <img src="{% static 'media/pricing-s1-p3.png' %}" alt="{{ silver_package.name }}">
             <div class="package-detail">
               <h2 class="package-name">{{ silver_package.name }}</h2>
               <h1 class="tokenss">{{ silver_package.tokens }} tokens</h1>
@@ -83,7 +83,7 @@
           <div class="carousel-item active msc-carousel-item">
             <div class="msc-card">
               {% if bronze_package.is_popular %}<div class="most-popular"><p>most popular</p></div>{% endif %}
-              {% if bronze_package.image %}<img src="{{ bronze_package.image.url }}" alt="{{ bronze_package.name }}">{% endif %}
+              <img src="{% static 'media/pricing-s1-p1.png' %}" alt="{{ bronze_package.name }}">
               <div class="package-detail">
                 <h2 class="package-name">{{ bronze_package.name }}</h2>
                 <h1 class="tokenss">{{ bronze_package.tokens }} tokens</h1>
@@ -103,7 +103,7 @@
           <div class="carousel-item {% if not bronze_package %}active{% endif %} msc-carousel-item">
             <div class="msc-card">
               {% if popular_package.is_popular %}<div class="most-popular"><p>most popular</p></div>{% endif %}
-              {% if popular_package.image %}<img src="{{ popular_package.image.url }}" alt="{{ popular_package.name }}">{% endif %}
+              <img src="{% static 'media/pricing-s1-p2.png' %}" alt="{{ popular_package.name }}">
               <div class="package-detail">
                 <h2 class="package-name">{{ popular_package.name }}</h2>
                 <h1 class="tokenss">{{ popular_package.tokens }} tokens</h1>
@@ -123,7 +123,7 @@
           <div class="carousel-item {% if not bronze_package and not popular_package %}active{% endif %} msc-carousel-item">
             <div class="msc-card">
               {% if silver_package.is_popular %}<div class="most-popular"><p>most popular</p></div>{% endif %}
-              {% if silver_package.image %}<img src="{{ silver_package.image.url }}" alt="{{ silver_package.name }}">{% endif %}
+              <img src="{% static 'media/pricing-s1-p3.png' %}" alt="{{ silver_package.name }}">
               <div class="package-detail">
                 <h2 class="package-name">{{ silver_package.name }}</h2>
                 <h1 class="tokenss">{{ silver_package.tokens }} tokens</h1>

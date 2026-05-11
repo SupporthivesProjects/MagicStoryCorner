@@ -653,55 +653,42 @@ margin-bottom: 0px;
   height: auto;
 }
 
-/* .forget_content2 {
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-  max-width: 526px;
-  height: auto;
-} */
-
 .forget_content2 {
-    background: url(../media/odal.png);
+    background: url(../media/modal_bg.png) no-repeat center center;
     background-color: transparent;
     border: none;
     box-shadow: none;
-    max-width: 526px;
-    height: 719px;
-    /* height: auto; */
-    background-repeat: no-repeat;
+    max-width: 400px;
+    height: auto;
+    background-size: cover;
 }
 
 .added_cart_modal {
-  /* background: url(../media/odal.png); */
-  text-align: center;
-  padding: 0px 40px;
-  text-align: center;
     padding: 0px;
     width: 100%;
-    /* max-width: 446px; */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .cart_wrapper {
-  display: flex;
-  flex-direction: column;
-  margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 56px 32px 48px 32px;
+    margin-top: 0px;
 }
 
 .cart_title {
-  color: var(--Core-purple-titles, #3b2c53);
-  text-align: center;
-  font-family: "Josephine Cosy Bold";
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 100%;
-  /* 40px */
-  letter-spacing: -2px;
-  margin-bottom: 16px;
+    color: var(--Base-Off-Black, #0F0F0F);
+    text-align: center;
+    font-family: "LEMON MILK";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: 0.96px;
+    margin-bottom: 0px;
 }
 
 .cart_items {
@@ -715,170 +702,175 @@ margin-bottom: 0px;
 }
 
 .cart_price {
-  margin-left: auto;
-  color: var(--Base-Off-Black, #0f0f0f);
-
-  /* P/Button */
-  font-family: "Poppins";
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
-  /* 22.5px */
+    margin-left: auto;
+    color: var(--Base-Off-Black, #0F0F0F);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    margin-bottom: 0px;
 }
 
 .cart_item {
-  display: flex;
-  padding: 16px 24px;
-  align-items: flex-start;
-  gap: 8px;
-  align-self: stretch;
-  border-radius: 46px;
-  background: var(--Sky-Sky-light, #e5f9ff);
-
-  width: 100;
+    display: flex;
+    padding: 16px 24px;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 0px;
+    background: var(--Base-Off-White, #FAFAFA);
+    border: 1px solid #E9E9E9;
+    width: 100%;
 }
 
 .cart_name {
-  color: var(--Base-Off-Black, #0f0f0f);
-  font-family: "Poppins";
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%;
-  margin-bottom: 0px;
+    color: var(--Base-Off-Black, #0F0F0F);
+    font-family: Sen;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%;
+    margin-bottom: 0px;
 }
 
 .cart_remove {
-  width: 24px;
-  height: 24px;
-  color: #323232;
-  cursor: pointer;
+    width: 20px;
+    height: 20px;
+    color: #030527;
+    cursor: pointer;
+    flex-shrink: 0;
 }
 
 .cart_summary {
-  display: flex;
-  padding: 24px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  align-self: stretch;
-  border-radius: 8px;
-  background: var(--Sky-Sky-light, #e5f9ff);
-  margin-bottom: 32px;
+    display: flex;
+    padding: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+    border-radius: 0px;
+    background: var(--Base-04, #E9E9E9);
+    margin-bottom: 0px;
 }
 
 .summary_row {
-  display: flex;
-  height: 24px;
-  justify-content: space-between;
-  align-items: center;
-  align-self: stretch;
-
-  /* 22.5px */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
 }
 
 .summary_row span {
-  color: var(--Base-Off-Black, #0f0f0f);
-  font-family: "Poppins";
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
+    color: var(--Base-Off-Black, #0F0F0F);
+    font-family: Sen;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%;
 }
 
 .summary_rowsaving {
-  display: flex;
-  height: 24px;
-  justify-content: space-between;
-  align-items: center;
-  align-self: stretch;
-
-  /* 22.5px */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
 }
 
 .summary_rowsaving span {
-  color: var(--Base-Success-Green, #47b147);
-  font-family: "Poppins";
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
-}
-
-.summary_rowtotal span {
-  color: var(--Base-Off-Black, #0f0f0f);
-  font-family: "Poppins";
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
+    color: var(--Base-Success-Green, #47b147);
+    font-family: Sen;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%;
 }
 
 .summary_rowtotal {
-  display: flex;
-  height: 24px;
-  justify-content: space-between;
-  align-items: center;
-  align-self: stretch;
-  color: var(--Base-Off-Black, #0f0f0f);
-  font-family: "Poppins";
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    border-top: 1px solid #D0D0D0;
+    padding-top: 12px;
+}
+
+.summary_rowtotal span {
+    color: var(--Core-Main-Blue, #030527);
+    font-family: "LEMON MILK";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.64px;
 }
 
 .summary_row.total {
-  font-weight: 700;
-  font-size: 15px;
+    font-weight: 700;
 }
 
 .cart_buttons {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
 }
 
 .btn.go_checkout {
-  display: flex;
-  padding: 16px 40px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  flex: 1 0 0;
-  align-self: stretch;
-  border-radius: var(--Sml, 100px);
-  background: var(--Core-purple-titles, #3b2c53);
-  color: var(--Core-yellow, #ffce3c);
-  text-align: center;
-  font-family: "Poppins";
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
-  /* 22.5px */
-  margin-bottom: 0px;
+    display: flex;
+    height: 56px;
+    padding: 6px 22px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    border-radius: 0px;
+    background: var(--Core-Main-Blue, #030527);
+    border: 4px solid #030527;
+    color: var(--Base-White, #FFF);
+    text-align: center;
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    margin-bottom: 0px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn.go_checkout:hover {
+    background: #0F0F0F;
+    border-color: #383838;
+    color: #FFF;
 }
 
 .btn.keep_shop {
-  display: flex;
-  padding: 16px 40px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  flex: 1 0 0;
-  align-self: stretch;
-  border-radius: var(--Sml, 100px);
-  background: var(--Core-yellow, #ffce3c);
-  color: var(--Core-Secondary-Purple, #5a3384);
-  font-family: "Poppins";
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
-  /* 22.5px */
-  margin-bottom: 0px;
+    display: flex;
+    height: 56px;
+    padding: 6px 22px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    border-radius: 0px;
+    background: var(--Core-yellow, #FFCE3C);
+    border: 4px solid #FFCE3C;
+    color: var(--Core-Main-Blue, #030527);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    margin-bottom: 0px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn.keep_shop:hover {
+    background: #E3AA00;
+    border-color: #E3AA00;
+    color: #030527;
 }
 
 /* Catalogue */
