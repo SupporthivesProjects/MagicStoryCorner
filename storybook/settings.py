@@ -47,7 +47,12 @@ CSRF_TRUSTED_ORIGINS = [
     'https://littlestorybox.com',
     'https://www.littlestorybox.com',
     'https://littlestorybox.supporthives.com',
+    'https://magicstorycorner.supporthives.com',
 ]
+
+# Tell Django it's behind an HTTPS-terminating reverse proxy (nginx).
+# This makes request.build_absolute_uri() return https:// URLs.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 PLAYWRIGHT_BROWSERS_PATH = 0
 
