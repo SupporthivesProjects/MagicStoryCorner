@@ -23,8 +23,11 @@ class CitipayGateway:
 
     def __init__(self):
         website = Website.objects.filter(is_active=True).first()
-        base_url = website.website if website else settings.SITE_URL
-        base_url = base_url.rstrip('/')
+        db_url = website.website if website else ''
+
+        # SITE_URL env var takes priority; falls back to DB, then settings.SITE_URL
+        site_url = getattr(settings, 'SITE_URL', '') or db_url
+        base_url = site_url.rstrip('/')
 
         self.merchant_name = getattr(settings, 'CITIPAY_MERCHANT_NAME', None)
         self.secret_key = getattr(settings, 'CITIPAY_SECRET_KEY', None)

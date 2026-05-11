@@ -41,6 +41,10 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = True
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
+# Explicit site URL override — set this in .env to control where CitiPay redirects.
+# e.g. SITE_URL=https://magicstorycorner.supporthives.com
+SITE_URL = os.getenv('SITE_URL', '').rstrip('/')
+
 CSRF_TRUSTED_ORIGINS = [
     'https://gw.cgate.tech',
     'https://gw-test.cgate.tech',
