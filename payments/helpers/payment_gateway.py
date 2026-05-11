@@ -23,11 +23,8 @@ class CitipayGateway:
 
     def __init__(self):
         website = Website.objects.filter(is_active=True).first()
-        db_url = website.website if website else ''
-
-        # SITE_URL env var takes priority; falls back to DB, then settings.SITE_URL
-        site_url = getattr(settings, 'SITE_URL', '') or db_url
-        base_url = site_url.rstrip('/')
+        base_url = website.website if website else settings.SITE_URL
+        base_url = base_url.rstrip('/')
 
         self.merchant_name = getattr(settings, 'CITIPAY_MERCHANT_NAME', None)
         self.secret_key = getattr(settings, 'CITIPAY_SECRET_KEY', None)
@@ -44,7 +41,6 @@ class CitipayGateway:
             Log.objects.create(title='Missing CITIPAY_API_URL', type='error', message='CITIPAY_API_URL not configured')
             raise ValueError("CITIPAY_API_URL is not configured in settings")
 
-        # Fallback URLs from DB (overridden per-request when request is available)
         self.callback_url = f"{base_url}/payments/payment/callback/"
         self.success_url_base = f"{base_url}/payments/payment/success/"
         self.cancel_url_base = f"{base_url}/payments/payment/cancel/"
@@ -52,7 +48,7 @@ class CitipayGateway:
     def _get_currency_code(self, currency_symbol):
         return self.CURRENCY_MAP.get(currency_symbol, 'USD')
 
-    def prepare_payment_request(self, order, user, request=None):
+    def prepare_payment_request(self, order, user):
         customer_name = f"{user.first_name} {user.last_name}".strip()
         if not customer_name:
             customer_name = user.username
@@ -75,25 +71,8 @@ class CitipayGateway:
         state = profile.state if profile and profile.state else ''
         country = profile.country if profile and profile.country else 'US'
 
-        # CitiPay WAF blocks any non-HTTPS URL (including http://127.0.0.1).
-        # On production (HTTPS) use the live request host.
-        # On local dev (HTTP): SuccessURL/CallbackURL point to the public SITE_URL
-        # so CitiPay accepts them, but we append a `next` param containing the
-        # local 127.0.0.1 URL. The staging success view then redirects the browser
-        # back to local after processing the order.
-        from django.urls import reverse
-        if request.is_secure():
-            success_url = request.build_absolute_uri(reverse('payment_success')) + f'?order_id={order.id}'
-            cancel_url = request.build_absolute_uri(reverse('payment_cancel')) + f'?order_id={order.id}'
-            callback_url = request.build_absolute_uri(reverse('payment_callback'))
-        else:
-            from urllib.parse import quote
-            local_base = f"{request.scheme}://{request.get_host()}"
-            local_success = quote(f"{local_base}{reverse('payment_success')}?order_id={order.id}", safe='')
-            local_cancel = quote(f"{local_base}{reverse('payment_cancel')}?order_id={order.id}", safe='')
-            success_url = f"{self.success_url_base}?order_id={order.id}&next={local_success}"
-            cancel_url = f"{self.cancel_url_base}?order_id={order.id}&next={local_cancel}"
-            callback_url = self.callback_url
+        success_url = f"{self.success_url_base}?order_id={order.id}"
+        cancel_url = f"{self.cancel_url_base}?order_id={order.id}"
 
         params = {
             'MerchantName': str(self.merchant_name),
@@ -108,7 +87,7 @@ class CitipayGateway:
             'City': str(city)[:50],
             'SuccessURL': success_url,
             'FailURL': cancel_url,
-            'CallbackURL': str(callback_url),
+            'CallbackURL': str(self.callback_url),
             'Signature': signature,
         }
 
@@ -127,10 +106,10 @@ class CitipayGateway:
     def get_payment_url(self):
         return self.payment_url
 
-    def get_redirect_url(self, order, user, request=None):
+    def get_redirect_url(self, order, user):
         from urllib.parse import urlencode
         try:
-            payment_data = self.prepare_payment_request(order, user, request=request)
+            payment_data = self.prepare_payment_request(order, user)
             query_string = urlencode(payment_data)
             redirect_url = f"{self.payment_url}?{query_string}"
             return redirect_url
@@ -141,7 +120,7 @@ class CitipayGateway:
     def render_payment_form(self, request, order, user):
         from django.http import HttpResponseRedirect
         try:
-            redirect_url = self.get_redirect_url(order, user, request=request)
+            redirect_url = self.get_redirect_url(order, user)
             return HttpResponseRedirect(redirect_url)
         except Exception as e:
             Log.objects.create(title=f'Payment Redirect Failed - Order #{order.id}', type='error', message=str(e))

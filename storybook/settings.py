@@ -41,22 +41,13 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = True
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
-# Explicit site URL override — set this in .env to control where CitiPay redirects.
-# e.g. SITE_URL=https://magicstorycorner.supporthives.com
-SITE_URL = os.getenv('SITE_URL', '').rstrip('/')
-
 CSRF_TRUSTED_ORIGINS = [
     'https://gw.cgate.tech',
     'https://gw-test.cgate.tech',
     'https://littlestorybox.com',
     'https://www.littlestorybox.com',
     'https://littlestorybox.supporthives.com',
-    'https://magicstorycorner.supporthives.com',
 ]
-
-# Tell Django it's behind an HTTPS-terminating reverse proxy (nginx).
-# This makes request.build_absolute_uri() return https:// URLs.
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 PLAYWRIGHT_BROWSERS_PATH = 0
 
