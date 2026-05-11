@@ -3,11 +3,158 @@
 {% block title %} Purchase History | {{ site_name }} {% endblock %}
 {% block content %}
 
-<div class="library_2">
-  <div class="in_dashboard2">
-    <div class="dashboard_1">
-      <h3 class="dash_head">Purchase History</h3>
+<section style="padding: 0px;">
+
+  <div class="dashboard_1">
+    <h1 class="dashboard_tt">Purchase History</h1>
+    <a href="{% url 'user_logout' %}" class="btn dash_btn mobile_none">Logout</a>
+  </div>
+
+  <div class="library_2">
+    <div class="container p-0">
+      <div class="in_dashboard2">
+
+        <form method="get" id="filterForm" class="upper_library">
+          <div class="search_wrapper">
+            <input type="text" name="search" value="{{ request.GET.search|default:'' }}" placeholder="Search purchases" class="search_tagt">
+            <span class="search_icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21L15.0001 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="#727272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+
+          <div class="right_up_lib">
+            <div class="select-wrapper">
+              <select name="sort" class="yellowdash_btn custom-select" id="sortSelect">
+                <option value="date_desc" {% if request.GET.sort == 'date_desc' or not request.GET.sort %}selected{% endif %}>Newest – Oldest</option>
+                <option value="date_asc" {% if request.GET.sort == 'date_asc' %}selected{% endif %}>Oldest – Newest</option>
+              </select>
+              <span class="arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <rect x="32" y="32" width="32" height="32" rx="16" transform="rotate(-180 32 32)" fill="white"/>
+                  <path d="M22 13L16 19L10 13" stroke="#030527" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </form>
+
+        <p class="showing_pp textt_pup">Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of <span>{{ page_obj.paginator.count }}</span> Results</p>
+
+        <div class="big_card_section">
+          <div class="each_seection_big_card_section" id="story-list">
+            {% include "accounts/purchases/cards.html" %}
+          </div>
+          <div class="each_seection_big_card_section d-none" id="story-skeleton">
+            {% for i in per_page_cards %}
+              <div class="full_cardd">
+                <div class="book_covert bg-secondary placeholder placeholder-wave" style="height: 220px;"></div>
+                <div class="bottom_card_div">
+                  <span class="placeholder placeholder-wave col-8 d-block mb-2"></span>
+                  <span class="placeholder placeholder-wave col-5 d-block"></span>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="pagination_divt" id="pagination">
+          {% include "accounts/purchases/pagination.html" %}
+        </div>
+
+      </div>
     </div>
+  </div>
+
+  <div class="bottom-nav dashbottom_nav d-md-none">
+    <a class="dashnav_btn" href="{% url 'user_dashboard' %}"><img src="{% static 'media/dash_mobtabbtn1.svg' %}"></a>
+    <a class="dashnav_btn active" href="{% url 'library_list' %}"><img src="{% static 'media/dash_mobtabbtn2.svg' %}"></a>
+    <a class="dashnav_btn" href="{% url 'story_book_create' %}"><img src="{% static 'media/dash_mobtabbtn3.svg' %}"></a>
+    <a class="dashnav_btn" href="{% url 'user_dashboard' %}"><img src="{% static 'media/dash_mobtabbtn4.svg' %}"></a>
+    <a class="dashnav_btn" href="{% url 'user_dashboard' %}"><img src="{% static 'media/dash_mobtabbtn5.svg' %}"></a>
+  </div>
+
+</section>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+  function showSkeleton(show) {
+    const skeleton = document.getElementById('story-skeleton');
+    const storyList = document.getElementById('story-list');
+    if(!skeleton || !storyList) return;
+    if(show) {
+      storyList.classList.add('d-none');
+      skeleton.classList.remove('d-none');
+    } else {
+      storyList.classList.remove('d-none');
+      skeleton.classList.add('d-none');
+    }
+  }
+
+  function fetchStories() {
+    showSkeleton(true);
+    const filterForm = document.getElementById('filterForm');
+    if(!filterForm) return;
+    let params = new URLSearchParams(new FormData(filterForm));
+    fetch("{% url 'purchase_history' %}?" + params.toString(), { headers: { "X-Requested-With": "XMLHttpRequest" } })
+      .then(res => res.json())
+      .then(data => {
+        const storyList = document.getElementById('story-list');
+        const pagination = document.getElementById('pagination');
+        const textCount = document.querySelector('.textt_pup');
+        if(storyList) storyList.innerHTML = data.html;
+        if(pagination) pagination.innerHTML = data.pagination_html;
+        if(textCount && data.start_index !== undefined) {
+          textCount.innerHTML = 'Showing ' + data.start_index + ' - ' + data.end_index + ' of <span>' + data.total_count + '</span> Results';
+        }
+      })
+      .finally(() => showSkeleton(false));
+  }
+
+  const filterForm = document.getElementById('filterForm');
+  if(filterForm) {
+    filterForm.addEventListener('change', function(e) {
+      if(e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') {
+        fetchStories();
+      }
+    });
+    const searchInput = filterForm.querySelector('input[name="search"]');
+    if(searchInput) {
+      let searchTimer;
+      searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(fetchStories, 400);
+      });
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('#pagination a');
+    if(link) {
+      e.preventDefault();
+      const storyList = document.getElementById('story-list');
+      const pagination = document.getElementById('pagination');
+      showSkeleton(true);
+      if(storyList) storyList.innerHTML = '';
+      const url = new URL(link.href, window.location.origin);
+      fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+        .then(res => res.json())
+        .then(data => {
+          if(storyList) storyList.innerHTML = data.html;
+          if(pagination) pagination.innerHTML = data.pagination_html;
+          const textCount = document.querySelector('.textt_pup');
+          if(textCount && data.start_index !== undefined) {
+            textCount.innerHTML = 'Showing ' + data.start_index + ' - ' + data.end_index + ' of <span>' + data.total_count + '</span> Results';
+          }
+        })
+        .finally(() => showSkeleton(false));
+    }
+  });
+</script>
+{% endblock %}
+
 
     <div class="upper_library">
       <form method="get" id="filterForm" class="d-flex align-items-center gap-2 flex-wrap">
