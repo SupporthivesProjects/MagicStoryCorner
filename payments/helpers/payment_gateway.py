@@ -77,15 +77,22 @@ class CitipayGateway:
 
         # CitiPay WAF blocks any non-HTTPS URL (including http://127.0.0.1).
         # On production (HTTPS) use the live request host.
-        # On local dev (HTTP) all three URLs must use the public SITE_URL.
+        # On local dev (HTTP): SuccessURL/CallbackURL point to the public SITE_URL
+        # so CitiPay accepts them, but we append a `next` param containing the
+        # local 127.0.0.1 URL. The staging success view then redirects the browser
+        # back to local after processing the order.
         from django.urls import reverse
         if request.is_secure():
             success_url = request.build_absolute_uri(reverse('payment_success')) + f'?order_id={order.id}'
             cancel_url = request.build_absolute_uri(reverse('payment_cancel')) + f'?order_id={order.id}'
             callback_url = request.build_absolute_uri(reverse('payment_callback'))
         else:
-            success_url = f"{self.success_url_base}?order_id={order.id}"
-            cancel_url = f"{self.cancel_url_base}?order_id={order.id}"
+            from urllib.parse import quote
+            local_base = f"{request.scheme}://{request.get_host()}"
+            local_success = quote(f"{local_base}{reverse('payment_success')}?order_id={order.id}", safe='')
+            local_cancel = quote(f"{local_base}{reverse('payment_cancel')}?order_id={order.id}", safe='')
+            success_url = f"{self.success_url_base}?order_id={order.id}&next={local_success}"
+            cancel_url = f"{self.cancel_url_base}?order_id={order.id}&next={local_cancel}"
             callback_url = self.callback_url
 
         params = {

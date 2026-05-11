@@ -558,6 +558,7 @@ def payment_callback(request):
 @csrf_exempt
 def payment_success(request):
     order_id = request.GET.get('order_id') or request.GET.get('MerchantRef')
+    next_url = request.GET.get('next', '')
     
     if order_id:
         try:
@@ -598,6 +599,15 @@ def payment_success(request):
                 signer = TimestampSigner()
                 signed = signer.sign(str(order.id))
                 encrypted_order_id = base64.urlsafe_b64encode(signed.encode()).decode()
+
+                # Local dev: redirect browser back to 127.0.0.1:8000 after
+                # staging processes the order (only allowed for localhost).
+                if next_url:
+                    from urllib.parse import urlparse
+                    parsed = urlparse(next_url)
+                    if parsed.hostname in ('127.0.0.1', 'localhost'):
+                        return redirect(next_url)
+
                 return redirect(f"{reverse('payment_success')}?order_id={encrypted_order_id}")
             
             show_modal_flag = request.session.pop('show_payment_modal', False)
