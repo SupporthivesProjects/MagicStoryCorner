@@ -75,17 +75,18 @@ class CitipayGateway:
         state = profile.state if profile and profile.state else ''
         country = profile.country if profile and profile.country else 'US'
 
-        # SuccessURL / FailURL are browser redirects — always use the current
-        # request host so the user lands back on the right server.
+        # CitiPay requires all three URLs (SuccessURL, FailURL, CallbackURL) to
+        # be public HTTPS. On production (HTTPS request) use the live request
+        # host. On local dev (HTTP) use SITE_URL which points to the staging
+        # server that CitiPay can reach.
         from django.urls import reverse
-        success_url = request.build_absolute_uri(reverse('payment_success')) + f'?order_id={order.id}'
-        cancel_url = request.build_absolute_uri(reverse('payment_cancel')) + f'?order_id={order.id}'
-
-        # CallbackURL is a server-to-server webhook from CitiPay — it must be
-        # a public HTTPS URL. Use SITE_URL env var, then DB, for this only.
         if request.is_secure():
+            success_url = request.build_absolute_uri(reverse('payment_success')) + f'?order_id={order.id}'
+            cancel_url = request.build_absolute_uri(reverse('payment_cancel')) + f'?order_id={order.id}'
             callback_url = request.build_absolute_uri(reverse('payment_callback'))
         else:
+            success_url = f"{self.success_url_base}?order_id={order.id}"
+            cancel_url = f"{self.cancel_url_base}?order_id={order.id}"
             callback_url = self.callback_url
 
         params = {
