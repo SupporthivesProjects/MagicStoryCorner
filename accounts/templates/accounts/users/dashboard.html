@@ -5,8 +5,9 @@
 {% block content %}
 <style>
   @media only screen and (max-width: 600px) {
-  .footer{ display: none; }
   .header-white::after{ display: none; }
+  /* Add padding so footer doesn't hide behind fixed bottom tab bar */
+  footer.footer { padding-bottom: 100px; }
 }
 </style>
 
@@ -714,26 +715,26 @@ function loadMobileOrders(page = 1) {
         const orderDate = new Date(order.created_at).toLocaleDateString('en-US', {
           year: 'numeric', month: 'short', day: 'numeric'
         });
-        html += '<div class="dash_t4s2card">'
-          + '<div class="dash_t4s2cardcbar">'
-          + '<h4 class="dash_t4s2cardtitle">' + itemNames + '</h4>'
-          + '<div class="dash_t4s2carddbar">'
-          + '<p class="dash_t4s2cardsubtitle">#' + order.id + '</p>'
-          + '<p class="dash_t4s2cardsubtitle">' + orderDate + '</p>'
-          + '<p class="dash_t4s2cardsubtitle">' + order.currency + ' ' + order.total + '</p>'
+        html += '<div class="purchase_box">'
+          + '<div>'
+          + '<h1>' + itemNames + '</h1>'
+          + '<div class="second_box">'
+          + '<p>#' + order.id + '</p>'
+          + '<p>' + orderDate + '</p>'
+          + '<p>' + order.currency + ' ' + order.total + '</p>'
           + '</div></div>'
-          + '<button onclick="downloadInvoice(' + order.id + ')" type="button" class="btn smodal_btn1">Download Receipt</button>'
+          + '<button onclick="downloadInvoice(' + order.id + ')" type="button" class="btn dash_btn w-100">Download Receipt</button>'
           + '</div>';
       });
-      html += '<div class="pagination">';
-      if(data.has_previous) html += '<a href="#" onclick="loadMobileOrders(' + data.previous_page_number + '); return false;" class="page-btn"><img src="{% static "media/pagination_left.svg" %}"></a>';
-      else html += '<span class="page-btn"><img src="{% static "media/pagination_left.svg" %}"></span>';
+      html += '<div class="pagination_divt">';
+      if(data.has_previous) html += '<a href="#" onclick="loadMobileOrders(' + data.previous_page_number + '); return false;" class="arrow_t"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 11L1 6L6 1" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>';
+      else html += '<span class="arrow_t" style="opacity:0.3;"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 11L1 6L6 1" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
       for(let i = 1; i <= data.total_pages; i++) {
-        if(i === data.current_page) html += '<button class="page-number active">' + i + '</button>';
-        else html += '<a href="#" onclick="loadMobileOrders(' + i + '); return false;" class="page-number">' + i + '</a>';
+        if(i === data.current_page) html += '<div class="eash_pag active_wala">' + i + '</div>';
+        else html += '<a href="#" onclick="loadMobileOrders(' + i + '); return false;" class="eash_pag">' + i + '</a>';
       }
-      if(data.has_next) html += '<a href="#" onclick="loadMobileOrders(' + data.next_page_number + '); return false;" class="page-btn"><img src="{% static "media/pagination_right.svg" %}"></a>';
-      else html += '<span class="page-btn"><img src="{% static "media/pagination_right.svg" %}"></span>';
+      if(data.has_next) html += '<a href="#" onclick="loadMobileOrders(' + data.next_page_number + '); return false;" class="arrow_t"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>';
+      else html += '<span class="arrow_t" style="opacity:0.3;"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
       html += '</div>';
     } else {
       html = '<div style="text-align: center; padding: 20px;"><p class="text-muted">No orders found.</p></div>';

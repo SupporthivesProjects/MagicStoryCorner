@@ -633,6 +633,11 @@ th, td {
       padding: 80px 24px 24px 24px;
       z-index: 999;
     }
+
+    /* Add bottom padding so content doesn't hide behind fixed bottom nav */
+    .library_2 {
+      padding-bottom: 120px !important;
+    }
     
     .dashnav_btn {
       border: none;
@@ -741,14 +746,14 @@ th, td {
       gap: 4px;
     }
     .dash_t4s2cardtitle{
-      color: var(--Core-purple-titles, #3B2C53);
+      color: var(--Core-Main-Blue, #030527);
       text-align: center;
-      font-family: "Josephine Cosy Bold";
-      font-size: 32px;
+      font-family: "LEMON MILK";
+      font-size: 24px;
       font-style: normal;
-      font-weight: 400;
+      font-weight: 500;
       line-height: 120%;
-      letter-spacing: -1.6px;
+      letter-spacing: 0.96px;
       margin: 0px;
     }
     .dash_t4s2carddbar{
@@ -758,11 +763,11 @@ th, td {
       padding: 0px 16px;
     }
     .dash_t4s2cardsubtitle{
-      color: var(--Core-purple-body, #6A5681);
-      font-family: Quicksand;
-      font-size: 16px;
+      color: var(--Base-02, #727272);
+      font-family: Sen;
+      font-size: 14px;
       font-style: normal;
-      font-weight: 600;
+      font-weight: 400;
       line-height: 180%;
       margin: 0px;
     }

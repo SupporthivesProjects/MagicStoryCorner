@@ -14,8 +14,7 @@
     <div class="container p-0">
       <div class="in_dashboard2">
 
-        <div class="upper_library">
-          <form method="get" id="filterForm">
+        <form method="get" id="filterForm" class="upper_library">
             <div class="search_wrapper">
               <input type="text" name="search" value="{{ request.GET.search|default:'' }}" placeholder="Search" class="search_tagt">
               <span class="search_icon">
@@ -113,8 +112,7 @@
                 </span>
               </div>
             </div>
-          </form>
-        </div>
+        </form>
 
         <p class="showing_pp textt_pup">Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of <span>{{ page_obj.paginator.count }}</span> Results</p>
 

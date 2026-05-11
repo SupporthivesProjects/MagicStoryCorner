@@ -1,30 +1,9 @@
 {% load static %}
 {% load humanize %}
-<div class="d-lg-none d-md-none d-block">
-    <div class="mobile-nav-menu">
-     {% if logged_in_user %}
-      <a class="nav-link" href="{% url 'user_logout' %}" style="color: #FFCE3C;">Logout</a>
-      <a href="{% url 'user_dashboard' %}" class="btn btn-yellow">Balance: <span>{{ logged_in_user.profile.wallet|default:0|intcomma }}</span></a>
-      {% else %}
-      <a class="nav-link" href="{% url 'user_login' %}" style="color: #FFCE3C;">Login/Register</a>
+<div class="d-lg-none">
+    {% if logged_in_user %}
+        <a class="nav-link btn login-btn" href="{% url 'user_dashboard' %}">Balance: {{ logged_in_user.profile.wallet|default:0|intcomma }}</a>
+    {% else %}
+        <a class="nav-link btn login-btn" href="{% url 'user_login' %}">Login/Register</a>
     {% endif %}
-      
-      <div>
-           <ul>
-               <li class="nav-item">
-                   <a class="nav-link " href="{% url 'terms_conditions' %}">Terms</a>
-               </li>
-               <!-- <li class="nav-item">
-                   <a class="nav-link" href="{% url 'cookies_policy' %}">Cookie Policy</a>
-               </li> -->
-               <li class="nav-item">
-                   <a class="nav-link " href="{% url 'privacy_policy' %}">Privacy policy</a>
-               </li>
-           </ul>
-           <div class="copy-header">
-               <img src="{% static 'media/Mastercard.svg' %}" alt="" class="img-fluid">
-               <p>© <script>document.write(new Date().getFullYear())</script> Littlestorybox. All rights reserved.</p>
-           </div>
-      </div>
-    </div>
- </div>
+</div>

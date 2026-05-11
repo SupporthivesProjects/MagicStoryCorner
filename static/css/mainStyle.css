@@ -1638,7 +1638,7 @@ html, body{
 
 /* -----------------------------footer---------------------- */
 .footer{
-  background: var(--Core-Purple-dark, #251D32);
+  /* background removed — color comes from Footer-mo.png / footer-bg.png background images */
 }
 .enjoy-bg{
   background: var(--Core-purple-titles, #3B2C53);

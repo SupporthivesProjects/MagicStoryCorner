@@ -1682,6 +1682,11 @@ line-height: 180%; /* 28.8px */
         padding-top: 400px;
     }
 
+    /* Prevent content from hiding behind fixed bottom nav */
+    .tab-content {
+        padding-bottom: 100px;
+    }
+
     .addtional_div {
         background: url(../media/star_bg.png) #030527 no-repeat;
         background-position: top center;
@@ -1692,6 +1697,11 @@ line-height: 180%; /* 28.8px */
         justify-content: space-between;
         align-items: center;
         align-self: stretch;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
     }
 
     .addtional_div2 {
