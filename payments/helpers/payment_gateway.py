@@ -72,9 +72,10 @@ class CitipayGateway:
         state = profile.state if profile and profile.state else ''
         country = profile.country if profile and profile.country else 'US'
 
-        # Build URLs from the live request so they always point to the correct
-        # server, regardless of the website URL stored in the database.
-        if request is not None:
+        # On HTTPS (production), build URLs from the live request so they point
+        # to the correct server. On HTTP (local dev), fall back to the DB URL
+        # so CitiPay still receives a valid HTTPS URL.
+        if request is not None and request.is_secure():
             from django.urls import reverse
             success_url = request.build_absolute_uri(reverse('payment_success')) + f'?order_id={order.id}'
             cancel_url = request.build_absolute_uri(reverse('payment_cancel')) + f'?order_id={order.id}'
