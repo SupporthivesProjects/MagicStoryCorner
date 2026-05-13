@@ -1245,9 +1245,11 @@ margin-bottom: 0px;
 }
 .each_seection_big_card_section {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     align-items: flex-start;
     align-self: stretch;
+    gap: 24px;
 }
 
 .modal_sign_t {
