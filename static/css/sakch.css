@@ -695,6 +695,7 @@ letter-spacing: 1.12px;
 .amt-box input{
     border: 2px solid var(--Base-04, #E9E9E9);
 background: var(--Base-Off-White, #FAFAFA);
+color: var(--Base-Off-Black, #0F0F0F);
 display: flex;
 height: 56px;
 padding: 12px 24px;
