@@ -1904,6 +1904,186 @@ line-height: 180%; /* 28.8px */
     }
 }
 
+/* ========== Product View / Book Detail Page ========== */
+.product_view_section {
+    min-height: 935px;
+    background: #5b0f1a url(../media/prodPview.png) no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    padding: 135px 0px 0px;
+}
+
+.product_view_flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product_view_left_img {
+    padding: 74px 231.846px 74px 0;
+}
+
+.product_view_left_img img {
+    width: 455px;
+    height: 652px;
+}
+
+.img_boxx {
+    width: 455px;
+    height: 652px;
+    box-shadow: 0 100px 80px 0 rgba(0,0,0,0.07), 0 64.815px 46.852px 0 rgba(0,0,0,0.05), 0 38.519px 25.481px 0 rgba(0,0,0,0.04), 0 20px 13px 0 rgba(0,0,0,0.04), 0 8.148px 6.519px 0 rgba(0,0,0,0.03), 0 1.852px 3.148px 0 rgba(0,0,0,0.02);
+}
+
+.product_view_right_box {
+    width: 100%;
+    max-width: 759px;
+}
+
+.product_view_title {
+    color: var(--Base-Off-Black, #0F0F0F);
+    font-family: "LEMON MILK";
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 1.44px;
+    margin-bottom: 8px;
+}
+
+.product_view_redeem {
+    color: var(--Core-Secondary-blue-body, #51648C);
+    font-family: "LEMON MILK";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 1.12px;
+    margin-bottom: 24px;
+}
+
+.product_view_tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.product_view_tags a {
+    text-decoration: none;
+    display: flex;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--Core-yellow, #FFC760);
+    background: var(--Base-Off-White, #FAFAFA);
+    color: var(--Base-Off-Black, #0F0F0F);
+    text-align: center;
+    font-family: "Sen";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%;
+    margin-bottom: 0px;
+    transition: 0.3s;
+}
+
+.product_view_tags a:hover {
+    background: #000;
+    color: #fff;
+}
+
+.product_view_heading {
+    color: var(--Base-Off-Black, #0F0F0F);
+    font-family: "Sen";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    margin-bottom: 24px;
+}
+
+.product_view_text {
+    color: var(--Base-01, #383838);
+    font-family: "Sen";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%;
+    margin-bottom: 0px;
+}
+
+.product_view_btn_group {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+}
+
+.product_view_back_btn {
+    display: flex;
+    padding: 16px 40px;
+    justify-content: center;
+    align-items: center;
+    background: var(--Core-Main-Blue, #030527);
+    color: var(--Base-White, #FFF);
+    text-align: center;
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    margin-bottom: 0px;
+    border-radius: 0px;
+    max-width: 125px;
+}
+
+.product_view_back_btn:hover {
+    border: 3px solid var(--Base-01, #383838);
+    background: var(--Base-Off-Black, #0F0F0F);
+    color: var(--Base-White, #FFF);
+    width: 125px;
+}
+
+.product_view_cart_btn {
+    display: flex;
+    height: 56px;
+    padding: 16px 38px;
+    justify-content: center;
+    align-items: center;
+    background: var(--Core-yellow, #FFC760);
+    color: var(--Core-Main-Blue, #030527);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    margin-bottom: 0px;
+    border-radius: 0px;
+    width: 195px;
+}
+
+.product_view_cart_btn:hover {
+    border: 4px solid #E3AA00;
+    background: var(--Core-yellow, #FFC760);
+    color: var(--Core-Main-Blue, #030527);
+    padding: 16px 30px;
+    width: 195px;
+}
+
+/* Library page: same dark background, block layout (no flex) */
+.product_view_section.lib_wrap {
+    display: block;
+    padding: 0;
+    min-height: auto;
+}
+
+.lib_wrap .library_2 {
+    background: transparent;
+}
+/* ====================================================== */
+
 /* ========== Terms / Privacy / Cookies Pages ========== */
 .terms-section {
     margin-top: 80px;
@@ -2004,6 +2184,66 @@ line-height: 180%; /* 28.8px */
 }
 
 @media only screen and (max-width: 767px) {
+    /* Product View responsive */
+    .product_view_flex {
+        flex-direction: column;
+    }
+    .product_view_left_img {
+        padding: 11.715px 56.017px 11.715px 56.016px;
+    }
+    .product_view_left_img img {
+        width: 263px;
+        height: 376px;
+        margin: auto;
+    }
+    .img_boxx {
+        width: 100%;
+        height: 100%;
+    }
+    .product_view_right_box {
+        width: 100%;
+        max-width: 327px;
+        margin-top: 24px;
+        text-align: center;
+        margin-bottom: 24px;
+    }
+    .product_view_title {
+        text-align: center;
+        font-size: 28px;
+        letter-spacing: 1.12px;
+    }
+    .product_view_redeem {
+        text-align: center;
+        font-size: 16px;
+        letter-spacing: 0.96px;
+    }
+    .product_view_tags {
+        align-items: center;
+        justify-content: center;
+    }
+    .product_view_tags a {
+        padding: 8px 15px;
+    }
+    .product_view_btn_group {
+        flex-direction: column;
+        gap: 16px;
+    }
+    .product_view_back_btn {
+        width: 100% !important;
+        max-width: 100%;
+    }
+    .product_view_cart_btn {
+        width: 100% !important;
+        max-width: 100%;
+    }
+    /* Library: revert dark bg on mobile — no change from before */
+    .product_view_section.lib_wrap {
+        background: none;
+    }
+    .lib_wrap .library_2 {
+        background: url(../media/libraray_bg.png) no-repeat top center;
+        background-size: cover;
+    }
     .terms-section {
         margin-top: 60px;
         padding: 40px 0px 80px 0px;
