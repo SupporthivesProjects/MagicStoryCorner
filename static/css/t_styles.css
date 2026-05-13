@@ -1904,6 +1904,123 @@ line-height: 180%; /* 28.8px */
     }
 }
 
+/* ========== Terms / Privacy / Cookies Pages ========== */
+.terms-section {
+    margin-top: 80px;
+    background: var(--Base-Off-White, #FAFAFA);
+    padding: 64px 0px 100px 0px;
+}
+
+.terms-title {
+    color: var(--Base-Navy, #030527);
+    font-family: "LEMON MILK";
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+}
+
+.terms-content {
+    max-width: 860px;
+}
+
+.terms-content p {
+    color: var(--Base-01, #383838);
+    font-family: Sen;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%;
+    margin-bottom: 20px;
+}
+
+.terms-content h2 {
+    color: var(--Base-Navy, #030527);
+    font-family: "LEMON MILK";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%;
+    margin-top: 40px;
+    margin-bottom: 16px;
+}
+
+.terms-content h3 {
+    color: var(--Base-Navy, #030527);
+    font-family: "LEMON MILK";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%;
+    margin-top: 24px;
+    margin-bottom: 12px;
+}
+
+.terms-content h4 {
+    color: var(--Base-Navy, #030527);
+    font-family: "LEMON MILK";
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 130%;
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+
+.terms-content ul,
+.terms-content ol {
+    color: var(--Base-01, #383838);
+    font-family: Sen;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 180%;
+    margin-bottom: 20px;
+    padding-left: 32px;
+}
+
+.terms-content li {
+    color: var(--Base-01, #383838);
+    font-family: Sen;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 180%;
+    margin-bottom: 8px;
+}
+
+.terms-content strong {
+    color: var(--Base-Navy, #030527);
+    font-weight: 700;
+}
+
+.terms-content a {
+    color: var(--Yellow-01, #FFC760);
+    text-decoration: none;
+}
+
+.terms-content a:hover {
+    text-decoration: underline;
+    color: var(--Yellow-01, #FFCE3C);
+}
+
+@media only screen and (max-width: 767px) {
+    .terms-section {
+        margin-top: 60px;
+        padding: 40px 0px 80px 0px;
+    }
+    .terms-title {
+        font-size: 28px;
+        margin-bottom: 24px;
+    }
+    .terms-content h2 {
+        font-size: 18px;
+    }
+    .terms-content h3 {
+        font-size: 15px;
+    }
+}
+/* ===================================================== */
+
 @media only screen and (min-width: 780px) and (max-width:991px) {}
 
 @media only screen and (min-width: 992px) and (max-width: 1151px) {}
