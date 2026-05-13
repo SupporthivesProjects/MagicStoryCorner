@@ -1307,11 +1307,12 @@ html, body{
 /* .form-check-input:checked[type=radio] {
   background-color:#fff ;
 }  */
-.modal-dialog-scan{
-  border-radius: var(--Edge-bev, 16px) var(--Edge-bev, 16px) 0 0;
-  background: linear-gradient(180deg, #BDEEFC 0%, #E5F9FF 100%);
-  padding: 0px 0px;
+.modal-dialog-scan {
   border-radius: 16px;
+  background: linear-gradient(160deg, #1A1033 0%, #2D1A5C 60%, #1A1033 100%);
+  padding: 0px 0px;
+  border: 1px solid rgba(251, 174, 0, 0.35);
+  box-shadow: 0 0 32px rgba(251, 174, 0, 0.12), 0 0 64px rgba(90, 51, 132, 0.35);
 }
 .modal-dialog-scan-main {
     border: 0px;
@@ -1320,33 +1321,13 @@ html, body{
     margin: auto;
     background: transparent;
     position: relative;
-    padding-top: 1rem;
     padding: 0px 0px;
 }
 .modal-dialog-scan-main::after {
-  background: url(../media/modal-Sky.png) no-repeat;
-  background-size: cover;
-  background-position: center center;
-  content: "";
-  position: absolute;
-  width: 343px;
-  height: 133px;
-  top: -62px;
-  left: 0px;
-  right: 0px;
+  content: none;
 }
 .modal-dialog-scan-main::before {
-    content: "";
-    background: #000;
-    position: absolute;
-    bottom: -9px;
-    left: 0px;
-    right: 0px;
-    width: 20px;
-    height: 20px;
-    z-index: 1;
-    margin: auto;
-    border-radius: 100%;
+  content: none;
 }
 .card-two h5{
   color: #FBAE00 !important;
@@ -1354,7 +1335,7 @@ html, body{
 .card-three h5{
   color: #CDCDCD !important;
 }
-.modal-dialog-scan-main{
+.modal-dialog-scan-main {
   height: 100% !important;
 }
 .modal-dialog-contactus {
@@ -1369,7 +1350,7 @@ html, body{
   align-items: center;
   border: 0px;
 }
-.modal-dialog h2{
+.modal-dialog h2 {
     color: var(--Base-Off-Black, #0F0F0F);
     text-align: center;
     font-family: "LEMON MILK";
@@ -1379,7 +1360,7 @@ html, body{
     line-height: 120%;
     letter-spacing: 0.96px;
 }
-.modal-dialog p{
+.modal-dialog p {
     color: var(--Core-purple-body, #6A5681);
     text-align: center;
     font-family: Poppins;
@@ -1387,6 +1368,27 @@ html, body{
     font-style: normal;
     font-weight: 500;
     line-height: 160%;
+}
+/* QR Scan Modal — new dark theme overrides */
+.modal-dialog-scan h2 {
+    color: #FBAE00;
+    font-weight: 700;
+    text-shadow: 0 0 18px rgba(251, 174, 0, 0.45);
+}
+.modal-dialog-scan p {
+    color: rgba(209, 190, 235, 0.9);
+}
+#scanModal .contactus-modal {
+    margin-top: 0;
+    padding: 28px 8px 8px;
+}
+.qr-code-img {
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    display: inline-block;
+    border: 2px solid rgba(251, 174, 0, 0.5);
+    box-shadow: 0 0 16px rgba(251, 174, 0, 0.2);
 }
 .modal-dialog-contactus .modal-body{
     display: flex;
@@ -1406,11 +1408,12 @@ html, body{
     margin-bottom: 14px;
     padding: 0px 19px;
 }
-.modal-dialog-scan h6{
-  margin-bottom: 16px;
+.modal-dialog-scan h6 {
+    color: #FBAE00;
+    margin-bottom: 16px;
 }
-.modal-dialog-scan-main svg{
-  margin: 32px 0px;
+.modal-dialog-scan-main svg {
+    margin: 32px 0px;
 }
 .main-book-slider-mo .genrate-card{
   padding: 32px 24px;
