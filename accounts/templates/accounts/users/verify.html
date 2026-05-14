@@ -3,101 +3,53 @@
 {% block title %} Verify Your Email | {{ site_name }} {% endblock %}
 
 {% block content %}
-<style>
-    main{
-        background-color: #BDEEFC !important;
-    }
-    .log-reg-sec {
-        margin-top: 110px;
-        background-color: #BDEEFC;
-        background-position: center 50px;
-    }
-    @media (max-width: 700px) {
-        .log-reg-sec{
-            height: 950px !important;
-            margin-top: 50px !important;
-        }
-    }
-</style>
-<br><br>
-<section class="log-reg-sec" style="height: 780px;">
-    <img src="{% static 'media/login-mob.png' %}" alt="" style="width: 100%;" class="d-lg-none d-block d-md-block w-100">
-    
-    <div class="reg-box">
-        <div class="verification-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect width="20" height="16" x="2" y="4" rx="2"/>
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-            </svg>
-        </div>
-        
-        <h1 class="s-text">Verify Your Email</h1>
-        
-        <div class="inp-sec">
-            <p class="verify-msg">
-                We've sent a verification link to<br>
-                <strong>{{ email }}</strong>
-            </p>
-            
-            <p class="verify-instructions">
-                Please check your inbox and click the verification link to activate your account.
-            </p>
-            
-            <form id="resendForm" method="POST" action="{% url 'resend_verification' %}">
-                {% csrf_token %}
-                <button type="submit" class="si-button btn">
-                    Resend Verification Email
-                </button>
-            </form>
-            
-            <p class="fp-txt" style="margin-top: 15px;">
-                Didn't receive the email? Check your spam folder.
-            </p>
-        </div>
-        
-        <p class="fp-txt">
-            Wrong email? <a href="{% url 'user_logout' %}" class="fp-txt">Logout</a> and register again.
-        </p>
-    </div>
-    
-    <img src="{% static 'media/Clouds.png' %}" alt="" style="width: 100%;" class="d-lg-none d-block d-md-block w-100 reg-box-img">
-<br><br><br><br><br><br><br>
-</section>
-<section class="dashboard_last d-lg-block d-md-block d-none"></section>
-{% endblock %}
 
-{% block extra_css %}
-<style>
-    .verification-icon {
-        text-align: center;
-        margin-bottom: 20px;
-        color: #6c63ff;
-    }
-    
-    .verify-msg {
-        text-align: center;
-        font-size: 16px;
-        color: #555;
-        margin-bottom: 15px;
-        line-height: 1.6;
-    }
-    
-    .verify-msg strong {
-        color: #333;
-    }
-    
-    .verify-instructions {
-        text-align: center;
-        font-size: 14px;
-        color: #777;
-        margin-bottom: 25px;
-        line-height: 1.5;
-    }
-</style>
+<section style="padding: 0;">
+    <div class="login_div">
+        <div class="login_outer">
+            <h2 class="head_login">Verify Your Email</h2>
+            <div class="login_inner" style="text-align: center;">
+
+                <p class="para_login2" style="margin: 0;">
+                    We've sent a verification link to<br>
+                    <strong style="color: #FFC760;">{{ email }}</strong>
+                </p>
+
+                <p class="para_login2" style="margin: 0;">
+                    Please check your inbox and click the verification link to activate your account.
+                </p>
+
+                <form id="resendForm" method="POST" action="{% url 'resend_verification' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn_login">
+                        Resend Verification Email
+                    </button>
+                </form>
+
+                <p class="para_login2" style="margin: 0;">
+                    Didn't receive the email? Check your spam folder.
+                </p>
+
+                <p class="para_login2" style="margin: 0;">
+                    Wrong email? <a href="{% url 'user_logout' %}" class="para_login">Logout</a> and register again.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
 
 {% block extra_js %}
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("resendForm").addEventListener("submit", function () {
+            universalLoader("Sending email...", "Please wait while we resend the verification email");
+        });
+    });
+</script>
+{% endblock %}
     document.addEventListener("DOMContentLoaded", function() {
         const form = document.getElementById("resendForm"); 
         form.addEventListener("submit", function() {
