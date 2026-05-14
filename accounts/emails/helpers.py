@@ -3,7 +3,7 @@ import uuid
 
 from django.conf import settings
 from django.urls import reverse
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.db import transaction
@@ -11,6 +11,26 @@ from django.contrib import messages
 
 from logs.models import Log
 from legals.models import Website
+
+
+def _get_smtp_connection(website):
+    """Build an SMTP connection from the Website model's stored settings."""
+    return get_connection(
+        backend="django.core.mail.backends.smtp.EmailBackend",
+        host=website.smtp_host,
+        port=website.smtp_port,
+        username=website.smtp_username,
+        password=website.smtp_password,
+        use_tls=website.smtp_use_tls,
+        fail_silently=False,
+    )
+
+
+def _from_email(website):
+    """Return a From address using the Website SMTP username."""
+    company = getattr(website, "company", None) or "Magic Story Corner"
+    username = website.smtp_username or settings.DEFAULT_FROM_EMAIL
+    return f"{company} <{username}>"
 
 
 def send_verification_email(request, user):
@@ -41,10 +61,11 @@ def send_verification_email(request, user):
             )
 
             subject = "Verify your email address"
-            from_email = settings.DEFAULT_FROM_EMAIL
+            from_email = _from_email(website)
             to_email = [user.email, website.email]
 
-            email = EmailMultiAlternatives(subject, "", from_email, to_email)
+            connection = _get_smtp_connection(website)
+            email = EmailMultiAlternatives(subject, "", from_email, to_email, connection=connection)
             email.attach_alternative(html_content, "text/html")
             email.send()
 
@@ -69,10 +90,11 @@ def send_verified_email(user):
         )
 
         subject = "Your email has been verified"
-        from_email = settings.DEFAULT_FROM_EMAIL
+        from_email = _from_email(website)
         to_email = [user.email, website.email]
 
-        email = EmailMultiAlternatives(subject, "", from_email, to_email)
+        connection = _get_smtp_connection(website)
+        email = EmailMultiAlternatives(subject, "", from_email, to_email, connection=connection)
         email.attach_alternative(html_content, "text/html")
         email.send()
 
@@ -112,10 +134,11 @@ def send_forgot_password_email(request, user):
             )
 
             subject = "Password Reset Request"
-            from_email = settings.DEFAULT_FROM_EMAIL
+            from_email = _from_email(website)
             to_email = [user.email, website.email]
 
-            email = EmailMultiAlternatives(subject, "", from_email, to_email)
+            connection = _get_smtp_connection(website)
+            email = EmailMultiAlternatives(subject, "", from_email, to_email, connection=connection)
             email.attach_alternative(html_content, "text/html")
             email.send()
 
@@ -143,10 +166,11 @@ def send_password_reset_success_email(user):
         )
 
         subject = "Your password has been reset successfully"
-        from_email = settings.DEFAULT_FROM_EMAIL
+        from_email = _from_email(website)
         to_email = [user.email, website.email]
 
-        email = EmailMultiAlternatives(subject, "", from_email, to_email)
+        connection = _get_smtp_connection(website)
+        email = EmailMultiAlternatives(subject, "", from_email, to_email, connection=connection)
         email.attach_alternative(html_content, "text/html")
         email.send()
 
@@ -176,10 +200,11 @@ def send_story_purchase_email(user, story):
         )
 
         subject = f"Purchase Confirmed: {story.title}"
-        from_email = settings.DEFAULT_FROM_EMAIL
+        from_email = _from_email(website)
         to_email = [user.email, website.email]
 
-        email = EmailMultiAlternatives(subject, "", from_email, to_email)
+        connection = _get_smtp_connection(website)
+        email = EmailMultiAlternatives(subject, "", from_email, to_email, connection=connection)
         email.attach_alternative(html_content, "text/html")
         email.send()
 
@@ -209,10 +234,11 @@ def send_referral_reward_email(referrer, referred_user, tokens=100):
         )
 
         subject = f"You Earned {tokens} Tokens from Your Referral"
-        from_email = settings.DEFAULT_FROM_EMAIL
+        from_email = _from_email(website)
         to_email = [referrer.email, website.email]
 
-        email = EmailMultiAlternatives(subject, "", from_email, to_email)
+        connection = _get_smtp_connection(website)
+        email = EmailMultiAlternatives(subject, "", from_email, to_email, connection=connection)
         email.attach_alternative(html_content, "text/html")
         email.send(fail_silently=False)
 
