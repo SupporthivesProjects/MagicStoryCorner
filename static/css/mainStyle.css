@@ -1492,19 +1492,8 @@ html, body{
     flex-shrink: 0;
     aspect-ratio: 200.45 / 352.93;
 }
-.error-content .btn {
-    width: 306px;
-    height: 60px;
-    text-align: justify;
-    transform: translate(0px, -43px);
-    z-index: -1;
-    position: relative;
-    display: inline-block;
-    background: linear-gradient(90deg, #FFCE3C 0%, #C6A234 100%);
-    border: 4px solid #fff;
-}
 .error-content img{
-    transform: translate(66px, 20px);
+    transform: none;
 }
 .error-section::after {
     content: "";
