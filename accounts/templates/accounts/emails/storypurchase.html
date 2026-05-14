@@ -2,12 +2,177 @@
 <html>
 <head>
     <title>Purchase Confirmed</title>
-    <style>
-        * { margin: 0; }
-    </style>
 </head>
 <body>
     {% load static %}
+
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td align="center" bgcolor="#f2f2f2" style="padding:20px 0;">
+                <table width="600" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff" style="border-collapse:collapse; box-shadow:0px 3px 6px rgba(0,0,0,0.1);">
+
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding:0; line-height:0;">
+                            <img src="{{ website.header_url }}" alt="" style="width:100%; display:block;">
+                        </td>
+                    </tr>
+                    <!-- Header End -->
+
+                    <!-- Content -->
+                    <tr bgcolor="#ffffff">
+                        <td style="padding:50px;" align="center">
+                            <h1 style="font-family:Arial; font-size:24px; font-weight:700; text-transform:capitalize; color:#030527; margin:0px;">
+                                Purchase Confirmation
+                            </h1>
+                            <br>
+
+                            <!-- Customer Info -->
+                            <table width="80%" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td align="center">
+                                        <p style="font-family:Arial; font-size:16px; font-weight:400; color:#656565; line-height:160%; margin:0px;">
+                                            {{ user.get_full_name|default:user.username }}
+                                        </p>
+                                    </td>
+                                    <td align="center">
+                                        <p style="font-family:Arial; font-size:16px; font-weight:400; color:#656565; line-height:160%; margin:0px;">
+                                            {{ user.email }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br><br>
+
+                            <!-- Order Items -->
+                            <table width="90%" cellspacing="0" cellpadding="0" border="0">
+
+                                <!-- Story title row -->
+                                <tr bgcolor="#FAFAFA">
+                                    <td style="padding:16px 0px 16px 24px;">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:700; text-transform:capitalize; color:#0F0F0F; line-height:160%; margin:0px;">
+                                            {{ story.title }}
+                                        </p>
+                                    </td>
+                                    <td style="padding:16px 24px 16px 0px;" align="right">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:700; color:#0F0F0F; line-height:160%; margin:0px;">
+                                            {{ story.tokens }} Tokens
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr style="height:8px;"></tr>
+
+                                {% if story.agegroup %}
+                                <tr bgcolor="#FAFAFA">
+                                    <td style="padding:12px 0px 12px 24px;">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:400; color:#656565; line-height:160%; margin:0px;">Age Group</p>
+                                    </td>
+                                    <td style="padding:12px 24px 12px 0px;" align="right">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:400; color:#0F0F0F; line-height:160%; margin:0px;">{{ story.agegroup.name }}</p>
+                                    </td>
+                                </tr>
+                                <tr style="height:4px;"></tr>
+                                {% endif %}
+
+                                {% if story.theme %}
+                                <tr bgcolor="#FAFAFA">
+                                    <td style="padding:12px 0px 12px 24px;">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:400; color:#656565; line-height:160%; margin:0px;">Theme</p>
+                                    </td>
+                                    <td style="padding:12px 24px 12px 0px;" align="right">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:400; color:#0F0F0F; line-height:160%; margin:0px;">{{ story.theme.name }}</p>
+                                    </td>
+                                </tr>
+                                <tr style="height:4px;"></tr>
+                                {% endif %}
+
+                                {% if story.plot %}
+                                <tr bgcolor="#FAFAFA">
+                                    <td style="padding:12px 0px 12px 24px;">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:400; color:#656565; line-height:160%; margin:0px;">Plot</p>
+                                    </td>
+                                    <td style="padding:12px 24px 12px 0px;" align="right">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:400; color:#0F0F0F; line-height:160%; margin:0px;">{{ story.plot.name }}</p>
+                                    </td>
+                                </tr>
+                                <tr style="height:4px;"></tr>
+                                {% endif %}
+
+                                {% if story.imagestyle %}
+                                <tr bgcolor="#FAFAFA">
+                                    <td style="padding:12px 0px 12px 24px;">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:400; color:#656565; line-height:160%; margin:0px;">Image Style</p>
+                                    </td>
+                                    <td style="padding:12px 24px 12px 0px;" align="right">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:400; color:#0F0F0F; line-height:160%; margin:0px;">{{ story.imagestyle.name }}</p>
+                                    </td>
+                                </tr>
+                                <tr style="height:4px;"></tr>
+                                {% endif %}
+
+                                {% if story.language %}
+                                <tr bgcolor="#FAFAFA">
+                                    <td style="padding:12px 0px 12px 24px;">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:400; color:#656565; line-height:160%; margin:0px;">Language</p>
+                                    </td>
+                                    <td style="padding:12px 24px 12px 0px;" align="right">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:400; color:#0F0F0F; line-height:160%; margin:0px;">{{ story.language.name }}</p>
+                                    </td>
+                                </tr>
+                                <tr style="height:8px;"></tr>
+                                {% endif %}
+
+                                <!-- Remaining balance -->
+                                <tr bgcolor="#FAFAFA">
+                                    <td style="padding:16px 0px 16px 24px;">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:900; text-transform:capitalize; color:#0F0F0F; line-height:160%; margin:0px;">
+                                            Remaining Balance
+                                        </p>
+                                    </td>
+                                    <td style="padding:16px 24px 16px 0px;" align="right">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:900; color:#47B147; line-height:160%; margin:0px;">
+                                            {{ user.profile.wallet }} Tokens
+                                        </p>
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <br><br>
+
+                            <a href="{{ website.website }}users/books/view/{{ story.slug }}/" style="border-radius:0px; background:#FFC760; color:#030527; font-size:14px; font-family:Arial; padding:16px 40px; font-weight:700; text-decoration:none;">
+                                View Story
+                            </a>
+
+                        </td>
+                    </tr>
+                    <!-- Content End -->
+
+                    <!-- Footer -->
+                    <tr bgcolor="#030527">
+                        <td>
+                            <table style="width:100%; border-spacing:0px; border-collapse:collapse;" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td style="padding:48px 40px;">
+                                        <img src="{{ website.footer_url }}" alt="" style="width:170px;">
+                                    </td>
+                                    <td style="padding:48px 40px;">
+                                        <p style="font-family:Arial; font-size:16px; font-weight:700; text-transform:capitalize; color:#FAFAFA; line-height:160%; margin:0px; text-align:right;">
+                                            {{ website.email }}<br>
+                                            {{ website.address }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Footer End -->
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
 
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
         <tr>

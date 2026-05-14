@@ -2,13 +2,122 @@
 <html>
 <head>
     <title>Referral Reward - Tokens Earned!</title>
-    <style>
-        * { margin: 0; }
-    </style>
 </head>
 <body>
     {% load static %}
     {% load humanize %}
+
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td align="center" bgcolor="#f2f2f2" style="padding:20px 0;">
+                <table width="600" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff" style="border-collapse:collapse; box-shadow:0px 3px 6px rgba(0,0,0,0.1);">
+
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding:0; line-height:0;">
+                            <img src="{{ website.header_url }}" alt="" style="width:100%; display:block;">
+                        </td>
+                    </tr>
+                    <!-- Header End -->
+
+                    <!-- Content -->
+                    <tr bgcolor="#ffffff">
+                        <td style="padding:50px;" align="center">
+                            <h1 style="font-family:Arial; font-size:24px; font-weight:700; text-transform:capitalize; color:#030527; margin:0px;">
+                                You Earned Tokens!
+                            </h1>
+                            <br>
+                            <p style="font-family:Arial; font-size:16px; font-weight:400; color:#656565; line-height:160%; margin:0px;">
+                                Hi {{ user.first_name|default:user.username }},
+                                <br><br>
+                                Great news! Someone just used your referral code and made a purchase. You've earned bonus tokens!
+                            </p>
+                            <br><br>
+
+                            <!-- Reward table -->
+                            <table width="90%" cellspacing="0" cellpadding="0" border="0">
+
+                                <tr bgcolor="#FAFAFA">
+                                    <td style="padding:16px 0px 16px 24px;">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:700; text-transform:capitalize; color:#0F0F0F; line-height:160%; margin:0px;">
+                                            Referred User
+                                        </p>
+                                    </td>
+                                    <td style="padding:16px 24px 16px 0px;" align="right">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:700; color:#0F0F0F; line-height:160%; margin:0px;">
+                                            {{ referred_user.username }}
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr style="height:8px;"></tr>
+
+                                <tr bgcolor="#FAFAFA">
+                                    <td style="padding:16px 0px 16px 24px;">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:900; text-transform:capitalize; color:#0F0F0F; line-height:160%; margin:0px;">
+                                            Tokens Earned
+                                        </p>
+                                    </td>
+                                    <td style="padding:16px 24px 16px 0px;" align="right">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:900; color:#47B147; line-height:160%; margin:0px;">
+                                            +{{ tokens|intcomma }} Tokens
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr style="height:8px;"></tr>
+
+                                <tr bgcolor="#FAFAFA">
+                                    <td style="padding:16px 0px 16px 24px;">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:900; text-transform:capitalize; color:#0F0F0F; line-height:160%; margin:0px;">
+                                            New Balance
+                                        </p>
+                                    </td>
+                                    <td style="padding:16px 24px 16px 0px;" align="right">
+                                        <p style="font-family:Arial; font-size:14px; font-weight:900; color:#030527; line-height:160%; margin:0px;">
+                                            {{ user.profile.wallet|intcomma }} Tokens
+                                        </p>
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <br><br>
+
+                            <a href="{% url 'user_dashboard' %}" style="border-radius:0px; background:#FFC760; color:#030527; font-size:14px; font-family:Arial; padding:16px 40px; font-weight:700; text-decoration:none;">
+                                Go To Dashboard
+                            </a>
+                            <br><br>
+                            <p style="font-family:Arial; font-size:14px; font-weight:400; color:#999999; line-height:160%; margin:0px;">
+                                Thank you for being a valued member of our community!
+                            </p>
+                        </td>
+                    </tr>
+                    <!-- Content End -->
+
+                    <!-- Footer -->
+                    <tr bgcolor="#030527">
+                        <td>
+                            <table style="width:100%; border-spacing:0px; border-collapse:collapse;" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td style="padding:48px 40px;">
+                                        <img src="{{ website.footer_url }}" alt="" style="width:170px;">
+                                    </td>
+                                    <td style="padding:48px 40px;">
+                                        <p style="font-family:Arial; font-size:16px; font-weight:700; text-transform:capitalize; color:#FAFAFA; line-height:160%; margin:0px; text-align:right;">
+                                            {{ website.email }}<br>
+                                            {{ website.address }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Footer End -->
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
 
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
         <tr>
