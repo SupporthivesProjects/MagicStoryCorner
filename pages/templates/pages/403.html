@@ -5,18 +5,35 @@
 
 {% block content %}
 
-    <section class="error-section">
-        <div class="container">
-            <div class="col">
-                <div class="error-content">
-                    <h2>403 error</h2>
-                    <p>The page you are looking for doesn't exist. Please try again later.</p>
-                    <img src="{% static 'media/error-image.png' %}" alt="" class="img-fluid">
-                    <a href="{% url 'home' %}" class="btn btn-yellow">Back home</a>
-                </div>
+    <section class="error-section d-flex align-items-center">
+      <div class="container-fluid">
+        <div class="row align-items-center text-center text-lg-start pt-5 error-row">
+
+          <!-- LEFT IMAGE -->
+          <div class="col-lg-3">
+            <div class="left-wrapper">
+              <img src="{% static 'media/left-fish.png' %}" class="img-fluid fish-left" alt="">
             </div>
+          </div>
+
+          <!-- CONTENT -->
+          <div class="col-lg-6 text-center">
+            <div class="error-content mx-auto">
+              <h1 class="error-title">403 ERROR</h1>
+              <p class="error-text mb-5">You don't have permission to access this page.</p>
+              <a href="{% url 'home' %}" class="btn error-btn">RETURN HOME</a>
+            </div>
+          </div>
+
+          <!-- RIGHT IMAGE -->
+          <div class="col-lg-3">
+            <div class="right-wrapper text-end">
+              <img src="{% static 'media/right-fish.png' %}" class="img-fluid fish-right" alt="">
+            </div>
+          </div>
+
         </div>
+      </div>
     </section>
-    <section class="last_white d-lg-block d-md-block d-none"></section>
 
 {% endblock %}

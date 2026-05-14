@@ -2084,6 +2084,109 @@ line-height: 180%; /* 28.8px */
 }
 /* ====================================================== */
 
+/* ========== Error Pages (400 / 403 / 404 / 500) ========== */
+.error-section {
+    min-height: 100vh;
+    background: url(../media/error-bg.png) no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    padding: 120px 0px 60px;
+}
+
+.error-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-wrapper,
+.right-wrapper {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
+}
+
+.fish-left {
+    max-width: 260px;
+}
+
+.fish-right {
+    max-width: 260px;
+}
+
+.error-content {
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.error-title {
+    color: var(--Base-Navy, #030527);
+    font-family: "LEMON MILK";
+    font-size: 80px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 110%;
+    letter-spacing: 3.2px;
+    margin-bottom: 24px;
+}
+
+.error-text {
+    color: var(--Base-01, #383838);
+    font-family: "Sen";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%;
+    margin-bottom: 40px;
+}
+
+.error-btn {
+    display: inline-flex;
+    padding: 16px 40px;
+    justify-content: center;
+    align-items: center;
+    background: var(--Core-yellow, #FFC760);
+    color: var(--Core-Main-Blue, #030527);
+    font-family: "LEMON MILK";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: 0.84px;
+    border-radius: 0px;
+    border: none;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.error-btn:hover {
+    background: var(--Core-Main-Blue, #030527);
+    color: #fff;
+}
+
+@media only screen and (max-width: 767px) {
+    .error-section {
+        background: url(../media/error-mobile-bg.png) no-repeat center center;
+        background-size: cover;
+        padding: 100px 0px 60px;
+        min-height: 100vh;
+    }
+    .error-title {
+        font-size: 48px;
+        letter-spacing: 1.92px;
+    }
+    .error-text {
+        font-size: 16px;
+    }
+    .fish-left,
+    .fish-right {
+        display: none;
+    }
+}
+/* ========================================================= */
+
 /* ========== Terms / Privacy / Cookies Pages ========== */
 .terms-section {
     margin-top: 80px;
